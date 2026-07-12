@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VORACODE — Logo Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #0a0a0a; --surface: #111; --border: #222; --text: #f0f0f0; --muted: #666; --blue: #4a9eff; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; padding: 60px 40px; }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 6px; background: linear-gradient(135deg, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .sub { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--muted); margin-bottom: 50px; letter-spacing: 0.12em; }
+    .section { margin-bottom: 60px; }
+    .section h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 6px; }
+    .section p { font-family: 'DM Mono'; font-size: 0.75rem; color: var(--muted); margin-bottom: 24px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 40px; text-align: center; transition: all 0.3s; margin-bottom: 16px; }
+    .card:hover { border-color: #333; transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+    .card.white { background: #ffffff; }
+    .card.white .label { color: #111; }
+    .card.white .desc { color: #666; }
+    .card.white .use { color: #444; }
+    .label { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+    .use { font-family: 'DM Mono'; font-size: 0.7rem; color: var(--blue); margin-bottom: 6px; }
+    .desc { font-size: 0.75rem; color: var(--muted); }
+    .badge { display: inline-block; padding: 3px 10px; background: var(--blue); color: #000; font-family: 'DM Mono'; font-size: 0.6rem; font-weight: 600; border-radius: 4px; margin-top: 10px; }
+    .divider { width: 100%; height: 1px; background: var(--border); margin: 50px 0; }
+    .footer { text-align: center; padding: 40px 0; font-family: 'DM Mono'; font-size: 0.7rem; color: var(--muted); border-top: 1px solid var(--border); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  </style>
+</head>
+<body>
+
+<h1>VORACODE</h1>
+<div class="sub">Logo System — 12 SVG files, 2 core designs</div>
+
+<!-- ═══════ SECTION 1: MAIN LOCKUPS ═══════ -->
+<div class="section">
+  <h2>Main Lockups</h2>
+  <p>V mark + VORACODE text — your chosen designs</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <svg viewBox="0 0 400 80" style="width:100%; height:80px;">
+        <path d="M10 10 L40 70 L70 10" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <text x="82" y="54" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="40" font-weight="700" fill="#ffffff" letter-spacing="-1">VORACODE</text>
+      </svg>
+      <div class="use">→ README, Hero, Dark BG</div>
+      <div class="label">Dark Lockup</div>
+      <div class="desc">White V mark + VORACODE text on dark.</div>
+      <div class="badge">PRIMARY</div>
+    </div>
+
+    <div class="card white">
+      <svg viewBox="0 0 400 80" style="width:100%; height:80px;">
+        <path d="M10 10 L40 70 L70 10" stroke="#111111" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <text x="82" y="54" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="40" font-weight="700" fill="#111111" letter-spacing="-1">VORACODE</text>
+      </svg>
+      <div class="use">→ Docs, Print, Light BG</div>
+      <div class="label">Light Lockup</div>
+      <div class="desc">Black V mark + VORACODE text on white.</div>
+      <div class="badge">PRIMARY</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════ SECTION 2: SIZES ═══════ -->
+<div class="section">
+  <h2>By Size</h2>
+  <p>Large, Medium, Small</p>
+
+  <div class="card" style="padding: 50px;">
+    <svg viewBox="0 0 400 80" style="width:100%; height:80px;">
+      <path d="M10 10 L40 70 L70 10" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <text x="82" y="54" font-family="system-ui, sans-serif" font-size="40" font-weight="700" fill="#ffffff" letter-spacing="-1">VORACODE</text>
+    </svg>
+    <div class="use">Large (40px font)</div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <svg viewBox="0 0 320 60" style="width:100%; height:50px;">
+        <path d="M8 8 L32 52 L56 8" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <text x="66" y="42" font-family="system-ui, sans-serif" font-size="32" font-weight="700" fill="#ffffff" letter-spacing="-0.5">VORACODE</text>
+      </svg>
+      <div class="use">Medium (32px font)</div>
+    </div>
+
+    <div class="card white">
+      <svg viewBox="0 0 320 60" style="width:100%; height:50px;">
+        <path d="M8 8 L32 52 L56 8" stroke="#111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <text x="66" y="42" font-family="system-ui, sans-serif" font-size="32" font-weight="700" fill="#111" letter-spacing="-0.5">VORACODE</text>
+      </svg>
+      <div class="use">Medium — Light BG</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <svg viewBox="0 0 240 44" style="width:100%; height:40px;">
+        <path d="M6 6 L22 38 L38 6" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <text x="46" y="32" font-family="system-ui, sans-serif" font-size="26" font-weight="700" fill="#ffffff" letter-spacing="-0.5">VORACODE</text>
+      </svg>
+      <div class="use">Small (26px font)</div>
+    </div>
+
+    <div class="card white">
+      <svg viewBox="0 0 240 44" style="width:100%; height:40px;">
+        <path d="M6 6 L22 38 L38 6" stroke="#111" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <text x="46" y="32" font-family="system-ui, sans-serif" font-size="26" font-weight="700" fill="#111" letter-spacing="-0.5">VORACODE</text>
+      </svg>
+      <div class="use">Small — Light BG</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════ SECTION 3: V MARK ONLY ═══════ -->
+<div class="section">
+  <h2>V Mark Only</h2>
+  <p>Favicon, badges, small sizes</p>
+
+  <div class="grid-3">
+    <div class="card">
+      <svg viewBox="0 0 60 60" style="width:60px; height:60px;">
+        <path d="M10 10 L30 52 L50 10" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      <div class="use">→ Badge, Avatar</div>
+      <div class="label">V Dark</div>
+    </div>
+
+    <div class="card white">
+      <svg viewBox="0 0 60 60" style="width:60px; height:60px;">
+        <path d="M10 10 L30 52 L50 10" stroke="#111" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      <div class="use">→ Badge, Avatar</div>
+      <div class="label">V Light</div>
+    </div>
+
+    <div class="card">
+      <svg viewBox="0 0 64 64" style="width:64px; height:64px;">
+        <circle cx="32" cy="32" r="30" fill="#0a0a0a" stroke="#222" stroke-width="1"/>
+        <path d="M18 18 L32 48 L46 18" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      <div class="use">→ GitHub, Favicon</div>
+      <div class="label">V Badge Dark</div>
+    </div>
+
+    <div class="card white">
+      <svg viewBox="0 0 64 64" style="width:64px; height:64px;">
+        <circle cx="32" cy="32" r="30" fill="#ffffff" stroke="#eee" stroke-width="1"/>
+        <path d="M18 18 L32 48 L46 18" stroke="#111" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      <div class="use">→ GitHub, Favicon</div>
+      <div class="label">V Badge Light</div>
+    </div>
+
+    <div class="card">
+      <svg viewBox="0 0 32 32" style="width:32px; height:32px;">
+        <path d="M6 6 L16 28 L26 6" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      <div class="use">→ Favicon 16-32px</div>
+      <div class="label">V Favicon Dark</div>
+    </div>
+
+    <div class="card white">
+      <svg viewBox="0 0 32 32" style="width:32px; height:32px;">
+        <path d="M6 6 L16 28 L26 6" stroke="#111" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      <div class="use">→ Favicon 16-32px</div>
+      <div class="label">V Favicon Light</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  VORACODE Logo System — 12 SVG files · 2 core designs (Dark + Light)
+</div>
+
+</body>
+</html>
