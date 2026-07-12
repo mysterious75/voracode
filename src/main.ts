@@ -3,7 +3,7 @@
  * VORACODE — AI Coding Agent
  * One agent, every surface.
  *
- * Main entry point — registers all CLI commands.
+ * Premium CLI experience with Apple-inspired design.
  */
 
 import { Command } from "commander";
@@ -23,32 +23,21 @@ import { liteCommand } from "./cli/lite";
 import { proCommand } from "./cli/pro";
 import { updateCommand } from "./cli/update";
 import { version, description } from "../package.json";
+import { c, printBanner, box, footer } from "./ui/theme";
 
 const VERSION = version || "0.0.1";
 const NAME = "voracode";
-
-function printBanner(): void {
-  console.log(`
-  ╔══════════════════════════════════════════════╗
-  ║              V O R A C O D E                ║
-  ║     Your AI engineering partner.            ║
-  ║     One agent, every surface.               ║
-  ║     v${VERSION.padEnd(20)}║
-  ╚══════════════════════════════════════════════╝
-  `);
-}
 
 async function main(): Promise<void> {
   const program = new Command();
 
   program
     .name(NAME)
-    .description(description || "AI Coding Agent — One agent, every surface.")
+    .description(`${c.brand}${c.bold}${NAME}${c.reset} — ${c.dim}AI Coding Agent${c.reset}`)
     .version(VERSION, "-v, --version", "Show version")
     .helpOption("-h, --help", "Show help")
     .helpCommand(false);
 
-  // Core commands
   program.addCommand(runCommand);
   program.addCommand(initCommand);
   program.addCommand(sessionCommand);
@@ -56,25 +45,31 @@ async function main(): Promise<void> {
   program.addCommand(skillCommand);
   program.addCommand(keyCommand);
   program.addCommand(configCommand);
-
-  // Advanced commands
   program.addCommand(pluginCommand);
   program.addCommand(mcpCommand);
   program.addCommand(auditCommand);
-
-  // Platform commands
   program.addCommand(liteCommand);
   program.addCommand(proCommand);
-
-  // Utility commands
   program.addCommand(statsCommand);
   program.addCommand(doctorCommand);
   program.addCommand(updateCommand);
 
-  // Handle no args — show banner + help
+  // Show banner + help when no args
   if (process.argv.length <= 2) {
     printBanner();
-    program.outputHelp();
+
+    const helpBox = box([
+      `${c.bold}${NAME} run <task>${c.reset}        Execute a task with AI`,
+      `${c.bold}${NAME} init${c.reset}              Initialize project`,
+      `${c.bold}${NAME} session list${c.reset}      Manage sessions`,
+      `${c.bold}${NAME} model list${c.reset}        View providers`,
+      `${c.bold}${NAME} key set <provider>${c.reset} Configure API key`,
+      `${c.bold}${NAME} mcp list${c.reset}          MCP servers`,
+      `${c.bold}${NAME} doctor${c.reset}            Health check`,
+    ], 48);
+
+    console.log(helpBox);
+    footer();
     return;
   }
 
@@ -82,6 +77,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((error) => {
-  console.error("VORACODE error:", error instanceof Error ? error.message : String(error));
+  console.error(`\n  ${c.error}✖ ${c.reset}${c.error}${error instanceof Error ? error.message : String(error)}${c.reset}\n`);
   process.exit(1);
 });
