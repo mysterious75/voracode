@@ -43,9 +43,27 @@ tmp/
 temp/
 *.tmp
 
+# Internal planning docs — not for public
+PLAN.md
+UPDATES.md
+
+# Research / temp directories
+_research-*/
+research/
+_.tmp/
+
 # API keys, secrets — NEVER commit these
 *.key
 *.pem
 *.crt
 credentials.json
 secret*
+
+# Project-level VORACODE config (created by voracode init)
+.voracode/
+
+# Local data (sessions, memory, cache)
+data/
+
+# Scripts
+scripts/*.tmp

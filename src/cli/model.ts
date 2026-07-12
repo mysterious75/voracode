@@ -1,17 +1,11 @@
 /**
  * voracode model — Manage AI providers and models
  *
- * Universal adapter system:
- * - OpenAI protocol: DeepSeek, Groq, Together, Ollama, OpenRouter, etc.
- * - Anthropic protocol: Claude models
- * - Google protocol: Gemini models
- * - Custom: User-defined adapters
- *
- * Free tier requires user's own API key (BYOK).
- * VORACODE does not provide free managed models.
+ * Universal adapter system. BYOK only — no free managed models.
  */
 
 import { Command } from "commander";
+import { ModelRouter } from "../models/router";
 
 export const modelCommand = new Command("model")
   .description("Manage AI providers and models")
@@ -20,33 +14,47 @@ export const modelCommand = new Command("model")
       .description("List available providers and models")
       .option("-p, --provider <name>", "Filter by provider")
       .action(async (options) => {
-        console.log("\n  📡 Available AI Providers:");
+        const router = new ModelRouter();
+
+        console.log("\n  📡 Available AI Providers:\n");
 
         if (options.provider) {
-          console.log(`  Filter: ${options.provider}`);
-          console.log("  (Detailed provider models coming in Phase 1.2)\n");
+          const models = router.getModels(options.provider);
+          const hasKey = router.hasValidKey(options.provider);
+          console.log(`  Provider: ${options.provider}`);
+          console.log(`  Key: ${hasKey ? "✅ configured" : "❌ not configured"}`);
+          console.log(`  Models:`);
+          for (const m of models) {
+            console.log(`    • ${m}`);
+          }
+          console.log();
           return;
         }
 
-        console.log("  ┌──────────────────────┬─────────────────────────────────────┐");
-        console.log("  │ Protocol             │ Providers                           │");
-        console.log("  ├──────────────────────┼─────────────────────────────────────┤");
-        console.log("  │ OpenAI-compatible    │ DeepSeek, Groq, Together, Ollama,   │");
-        console.log("  │                      │ OpenRouter, HuggingFace, Fireworks,  │");
-        console.log("  │                      │ Cerebras, SambaNova, Cloudflare AI  │");
-        console.log("  ├──────────────────────┼─────────────────────────────────────┤");
-        console.log("  │ Anthropic Messages   │ Claude Opus, Sonnet, Haiku          │");
-        console.log("  ├──────────────────────┼─────────────────────────────────────┤");
-        console.log("  │ Google AI            │ Gemini Pro, Flash                    │");
-        console.log("  ├──────────────────────┼─────────────────────────────────────┤");
-        console.log("  │ Custom               │ Any OpenAI-compatible endpoint       │");
-        console.log("  └──────────────────────┴─────────────────────────────────────┘");
-        console.log("\n  ⚠️  VORACODE is BYOK — you must provide your own API key.");
-        console.log("  No free managed models are provided.");
-        console.log("\n  Commands:");
-        console.log("    voracode model set <model>     Set active model");
-        console.log("    voracode model test [provider] Test provider connection");
-        console.log("    voracode key set               Configure API key\n");
+        const providers = [
+          { name: "OpenAI-compatible", protocols: "openai, deepseek, groq, together, ollama, openrouter, huggingface, fireworks, cerebras" },
+          { name: "Anthropic Messages", protocols: "anthropic" },
+          { name: "Google AI", protocols: "google" },
+          { name: "Custom", protocols: "Any OpenAI-compatible endpoint" },
+        ];
+
+        console.log("  ┌──────────────────────┬─────────────────────────────────────────────┐");
+        console.log("  │ Protocol             │ Providers                                    │");
+        console.log("  ├──────────────────────┼─────────────────────────────────────────────┤");
+        for (const p of providers) {
+          console.log(`  │ ${p.name.padEnd(20)} │ ${p.protocols.padEnd(43)} │`);
+        }
+        console.log("  └──────────────────────┴─────────────────────────────────────────────┘");
+
+        console.log("\n  🔑 Key Status:");
+        for (const name of ["openai", "anthropic", "deepseek", "groq", "google", "openrouter"]) {
+          const status = router.hasValidKey(name) ? "✅" : "❌";
+          console.log(`  ${status} ${name}`);
+        }
+
+        console.log("\n  ⚠️  VORACODE is BYOK — no free managed models.");
+        console.log("  Configure: voracode key set <provider> <key>");
+        console.log("  Or set env: PROVIDER_API_KEY=sk-...\n");
       }),
   )
   .addCommand(
@@ -54,10 +62,9 @@ export const modelCommand = new Command("model")
       .description("Set active model for session")
       .argument("<model>", "Model identifier (provider/model-name)")
       .action(async (model) => {
-        const [provider] = model.split("/");
-        if (!provider) {
-          console.error("\n  ✖ Invalid model format. Use: provider/model-name");
-          console.error("  Example: openai/gpt-4o\n");
+        if (!model.includes("/")) {
+          console.error("\n  ✖ Use format: provider/model-name");
+          console.error("  Example: voracode model set deepseek/deepseek-chat\n");
           process.exit(1);
         }
         console.log(`\n  ✅ Active model set to: ${model}\n`);
@@ -68,11 +75,29 @@ export const modelCommand = new Command("model")
       .description("Test connection to a provider")
       .argument("[provider]", "Provider name")
       .action(async (provider) => {
-        const name = provider || "default provider";
-        console.log(`\n  🔌 Testing connection to: ${name}`);
+        const router = new ModelRouter();
+        const name = provider || "deepseek";
 
-        // Check if key is configured
-        console.log("  ℹ️  This will verify your API key works.");
-        console.log("  (Coming in Phase 1.2 — model router with actual API calls)\n");
+        const key = router.getKey(name);
+        if (!key) {
+          console.log(`\n  ❌ No API key for '${name}'`);
+          console.log(`  Configure: voracode key set ${name} <key>\n`);
+          return;
+        }
+
+        console.log(`\n  🔌 Testing: ${name}...`);
+
+        try {
+          const result = await router.chat(`${name}/test`, [
+            { role: "user", content: "Say 'ok' if you receive this." },
+          ], { maxTokens: 10 });
+          console.log(`  ✅ Connection successful!`);
+          console.log(`  Response: ${result.content.slice(0, 100)}`);
+          console.log(`  Model: ${result.model}`);
+          console.log(`  Tokens: ${result.usage.totalTokens}\n`);
+        } catch (error) {
+          console.log(`  ❌ Connection failed:`);
+          console.log(`  ${error instanceof Error ? error.message : String(error)}\n`);
+        }
       }),
   );
