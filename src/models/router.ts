@@ -86,8 +86,41 @@ const PROVIDER_KEY_PATTERNS: Record<string, RegExp> = {
   groq: /^gsk_/,
 };
 
+// ── Rate Limiter ──
+
+class RateLimiter {
+  private calls: Map<string, number[]> = new Map();
+  private readonly windowMs = 60_000; // 1 minute
+  private readonly maxCalls = 10;     // 10 calls per minute
+
+  canCall(provider: string): boolean {
+    const now = Date.now();
+    const timestamps = this.calls.get(provider) || [];
+
+    // Remove entries older than the window
+    const recent = timestamps.filter((t) => now - t < this.windowMs);
+    this.calls.set(provider, recent);
+
+    if (recent.length >= this.maxCalls) {
+      return false; // Rate limited
+    }
+
+    recent.push(now);
+    this.calls.set(provider, recent);
+    return true;
+  }
+
+  retryAfter(provider: string): number {
+    const timestamps = this.calls.get(provider) || [];
+    if (timestamps.length === 0) return 0;
+    const oldest = timestamps[0];
+    return Math.max(0, Math.ceil((this.windowMs - (Date.now() - oldest)) / 1000));
+  }
+}
+
 export class ModelRouter {
   private keychain: Map<string, string> = new Map();
+  private rateLimiter: RateLimiter = new RateLimiter();
 
   constructor() {
     // Keys will be loaded from OS Keychain in Phase 1.3
@@ -213,6 +246,7 @@ export class ModelRouter {
         stream: false,
         ...(options.tools && options.tools.length > 0 ? { tools: options.tools, tool_choice: options.toolChoice || "auto" } : {}),
       }),
+      signal: AbortSignal.timeout(60_000), // 60s timeout
     });
 
     if (!response.ok) {
@@ -267,6 +301,7 @@ export class ModelRouter {
         max_tokens: options.maxTokens || 4096,
         temperature: options.temperature ?? 0.7,
       }),
+      signal: AbortSignal.timeout(60_000), // 60s timeout
     });
 
     if (!response.ok) {
@@ -298,6 +333,12 @@ export class ModelRouter {
   async chat(modelRef: string, messages: ChatMessage[], options: ChatOptions = {}): Promise<ChatResponse> {
     const provider = modelRef.includes("/") ? modelRef.split("/")[0] : this.detectProvider(modelRef);
     const modelName = modelRef.includes("/") ? modelRef.slice(modelRef.indexOf("/") + 1) : modelRef;
+
+    // Rate limit check
+    if (!this.rateLimiter.canCall(provider)) {
+      const retryAfter = this.rateLimiter.retryAfter(provider);
+      throw new Error(`Rate limited on ${provider}. Retry in ${retryAfter}s. Use voracode pro for higher limits.`);
+    }
 
     const fullOptions = { ...options, model: modelName };
 
@@ -336,10 +377,13 @@ export class ModelRouter {
     if (!apiKey) throw new Error("No API key configured for Google. Run: voracode key set google");
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${_options.model}:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/${_options.model}:generateContent`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey,  // Use header instead of URL query param
+        },
         body: JSON.stringify({
           contents: messages
             .filter((m) => m.role !== "system")

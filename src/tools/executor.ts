@@ -17,12 +17,22 @@ export interface ToolDefinition {
   execute: (args: Record<string, unknown>) => Promise<unknown> | unknown;
 }
 
-// Blocked command patterns
+// Blocked command patterns — case-insensitive
 const BLOCKED_COMMANDS = [
   "rm -rf /", "rm -rf /*", "sudo ", "mkfs", "dd if=",
   ":(){", "chmod 777 /", "> /dev/", "format C:",
   "del /f /s", "rd /s /q", "shutdown", "reboot",
+  "curl ", "wget ",  // data exfiltration via download
+  "nc ", "ncat ", "netcat ",  // network connections
+  "bash -c", "sh -c", "powershell -c",  // encoded cmd execution
+  "chmod +x",  // making files executable
+  ">/dev/sda", ">/dev/sdb",  // writing to raw disk
+  "| bash", "| sh", "| zsh",  // pipe to shell
+  "`", "$(",  // command substitution
 ];
+
+// Project root for path validation
+const PROJECT_ROOT = resolve(process.cwd());
 
 export class ToolExecutor {
   private db: VoraDatabase;
@@ -197,23 +207,39 @@ export class ToolExecutor {
 
   // ── Tool implementations ──
 
+  private validatePath(resolved: string): void {
+    const normalized = resolve(resolved);
+    if (!normalized.startsWith(PROJECT_ROOT)) {
+      throw new Error(`Path traversal blocked: '${resolved}' is outside project`);
+    }
+  }
+
   private fileRead(path: string): string {
     if (!path) return "Error: path is required";
-    const resolved = resolve(process.cwd(), path);
+    const resolved = resolve(PROJECT_ROOT, path);
+    try { this.validatePath(resolved); } catch (e) {
+      return `Error: ${e instanceof Error ? e.message : "invalid path"}`;
+    }
     if (!existsSync(resolved)) return `Error: File not found: ${path}`;
     return readFileSync(resolved, "utf-8");
   }
 
   private fileWrite(path: string, content: string): string {
     if (!path || content === undefined) return "Error: path and content are required";
-    const resolved = resolve(process.cwd(), path);
+    const resolved = resolve(PROJECT_ROOT, path);
+    try { this.validatePath(resolved); } catch (e) {
+      return `Error: ${e instanceof Error ? e.message : "invalid path"}`;
+    }
     writeFileSync(resolved, content, "utf-8");
     return `Written ${content.length} bytes to ${path}`;
   }
 
   private fileEdit(path: string, oldString: string, newString: string): string {
     if (!path || !oldString || newString === undefined) return "Error: path, old_string, and new_string are required";
-    const resolved = resolve(process.cwd(), path);
+    const resolved = resolve(PROJECT_ROOT, path);
+    try { this.validatePath(resolved); } catch (e) {
+      return `Error: ${e instanceof Error ? e.message : "invalid path"}`;
+    }
     if (!existsSync(resolved)) return `Error: File not found: ${path}`;
 
     let content = readFileSync(resolved, "utf-8");
@@ -271,13 +297,17 @@ export class ToolExecutor {
 
   private searchCode(pattern: string, path = "."): string {
     if (!pattern) return "Error: pattern is required";
+    const isWin = process.platform === "win32";
+    const searchCmd = isWin
+      ? `findstr /n /i /c:"${pattern}" "${resolve(PROJECT_ROOT, path)}\\*"`
+      : `rg -n "${pattern}" "${resolve(PROJECT_ROOT, path)}" --max-count 20`;
     try {
-      const result = execSync(`rg -n "${pattern}" "${path}" --max-count 20`, {
-        cwd: process.cwd(),
+      const result = execSync(searchCmd, {
+        cwd: PROJECT_ROOT,
         timeout: 10_000,
         maxBuffer: 1_048_576,
         encoding: "utf-8",
-        shell: process.platform === "win32" ? "cmd.exe" : "/bin/bash",
+        shell: isWin ? "cmd.exe" : "/bin/bash",
       });
       return result || "No matches found.";
     } catch {
@@ -309,15 +339,20 @@ export class ToolExecutor {
   }
 
   private listDir(path = "."): string {
-    const resolved = resolve(process.cwd(), path);
+    const resolved = resolve(PROJECT_ROOT, path);
+    try { this.validatePath(resolved); } catch (e) {
+      return `Error: ${e instanceof Error ? e.message : "invalid path"}`;
+    }
     if (!existsSync(resolved)) return `Error: Directory not found: ${path}`;
 
+    const isWin = process.platform === "win32";
+    const cmd = isWin ? `dir /b "${resolved}"` : `ls -la "${resolved}"`;
     try {
-      const result = execSync(`ls -la "${resolved}"`, {
+      const result = execSync(cmd, {
         timeout: 5_000,
         maxBuffer: 10_000,
         encoding: "utf-8",
-        shell: process.platform === "win32" ? "cmd.exe" : "/bin/bash",
+        shell: isWin ? "cmd.exe" : "/bin/bash",
       });
       return result;
     } catch {

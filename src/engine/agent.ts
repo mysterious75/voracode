@@ -71,10 +71,11 @@ When the task is complete, summarize what was done.`;
    */
   async runTurn(sessionId: string, userMessage: string, modelRef: string, options?: { maxTurns?: number }): Promise<AgentResult> {
     const startTime = Date.now();
-    const maxTurns = options?.maxTurns || 25;
+    const maxTurns = options?.maxTurns || 15;
     let totalTokens = 0;
     let turns = 0;
     let steps = 0;
+    let toolOnlyTurns = 0;  // Detection: model only using tools, never summarizing
 
     // Get tool schemas to send with each API call
     const toolSchemas = this.tools.getToolSchemas();
@@ -116,6 +117,18 @@ When the task is complete, summarize what was done.`;
 
         // CASE 1: Model wants to use tools
         if (response.toolCalls && response.toolCalls.length > 0) {
+          // If model keeps using tools without responding, detect infinite loop
+          toolOnlyTurns++;
+          if (toolOnlyTurns > 10) {
+            return {
+              success: true,
+              content: "Task reached maximum tool iterations. Results so far are applied.",
+              sessionId,
+              tokensUsed: totalTokens,
+              turns,
+              steps,
+            };
+          }
           // Add the assistant message with tool_calls to history
           messages.push({
             role: "assistant",
