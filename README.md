@@ -1,6 +1,14 @@
-# VORACODE
+<div align="center">
 
-> **Your AI engineering partner. One agent, every surface.**
+![VORACODE Logo](assets/logo-lockup-dark.svg)
+
+### **V O R A C O D E**
+
+*Your AI engineering partner. One agent, every surface.*
+
+</div>
+
+---
 
 VORACODE is an open-source, terminal-native AI coding agent. It lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows.
 

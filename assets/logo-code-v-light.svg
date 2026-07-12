@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Light mode: dark triangle outline on white -->
+  <polygon points="10,10 110,10 60,110" fill="#111111"/>
+
+  <!-- Code rain characters inside the triangle -->
+  <text font-family="'Courier New', 'DM Mono', monospace" font-size="9" fill="#ffffff" opacity="0.95">
+    <tspan x="35" y="28">1 o l t o l d \ o l l</tspan>
+    <tspan x="30" y="37">H o $ 1 9 : S o o G 1</tspan>
+    <tspan x="33" y="46">u o 3 o o o 1 o 1</tspan>
+    <tspan x="35" y="55">1 o . d 1 t d o 1</tspan>
+    <tspan x="35" y="64">1 o o d $ \ 5 -</tspan>
+    <tspan x="35" y="73">s a e o o 1 1</tspan>
+    <tspan x="35" y="82">a i . 0 : 0</tspan>
+    <tspan x="35" y="91">i o d > 1 0</tspan>
+    <tspan x="42" y="99">i o d ?</tspan>
+  </text>
+</svg>

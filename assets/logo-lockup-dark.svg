@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" fill="none">
+  <!-- Black filled triangle with code rain -->
+  <polygon points="5,5 55,5 30,55" fill="#0a0a0a"/>
+  <text font-family="'Courier New', 'DM Mono', monospace" font-size="4" fill="#ffffff" opacity="0.9">
+    <tspan x="16" y="14">1o ltd</tspan>
+    <tspan x="15" y="18">Ho$S</tspan>
+    <tspan x="17" y="22">uo3o1</tspan>
+    <tspan x="17" y="26">1o.d</tspan>
+    <tspan x="17" y="30">1ood$</tspan>
+    <tspan x="17" y="34">saeo</tspan>
+    <tspan x="17" y="38">ai.0:</tspan>
+    <tspan x="19" y="42">iod></tspan>
+    <tspan x="21" y="46">io?</tspan>
+  </text>
+
+  <!-- VORACODE text -->
+  <text x="64" y="72" font-family="system-ui, -apple-system, 'Segoe UI', 'Inter', 'Space Grotesk', sans-serif" font-size="40" font-weight="700" fill="#ffffff" letter-spacing="-1">VORACODE</text>
+</svg>

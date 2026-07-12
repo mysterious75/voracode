@@ -17,9 +17,8 @@
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 40px; text-align: center; transition: all 0.3s; margin-bottom: 16px; }
     .card:hover { border-color: #333; transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
     .card.white { background: #ffffff; }
-    .card.white .label { color: #111; }
-    .card.white .desc { color: #666; }
-    .card.white .use { color: #444; }
+    .card.white .label, .card.white .desc { color: #111; }
+    .card.white .use { color: #666; }
     .label { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
     .use { font-family: 'DM Mono'; font-size: 0.7rem; color: var(--blue); margin-bottom: 6px; }
     .desc { font-size: 0.75rem; color: var(--muted); }
@@ -33,152 +32,173 @@
 <body>
 
 <h1>VORACODE</h1>
-<div class="sub">Logo System — 12 SVG files, 2 core designs</div>
+<div class="sub">Logo System — Code Rain Triangle + Lockup</div>
 
-<!-- ═══════ SECTION 1: MAIN LOCKUPS ═══════ -->
+<!-- ═══════ SECTION 1: V MARK ═══════ -->
 <div class="section">
-  <h2>Main Lockups</h2>
-  <p>V mark + VORACODE text — your chosen designs</p>
+  <h2>V Mark — Code Rain</h2>
+  <p>The inverted triangle filled with terminal code characters</p>
 
   <div class="grid-2">
     <div class="card">
-      <svg viewBox="0 0 400 80" style="width:100%; height:80px;">
-        <path d="M10 10 L40 70 L70 10" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <text x="82" y="54" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="40" font-weight="700" fill="#ffffff" letter-spacing="-1">VORACODE</text>
+      <svg viewBox="0 0 120 120" style="width:120px; height:120px;">
+        <polygon points="10,10 110,10 60,110" fill="#0a0a0a"/>
+        <text font-family="'Courier New', monospace" font-size="9" fill="#ffffff" opacity="0.95">
+          <tspan x="35" y="28">1 o l t o l d \ o l l</tspan>
+          <tspan x="30" y="37">H o $ 1 9 : S o o G 1</tspan>
+          <tspan x="33" y="46">u o 3 o o o 1 o 1</tspan>
+          <tspan x="35" y="55">1 o . d 1 t d o 1</tspan>
+          <tspan x="35" y="64">1 o o d $ \ 5 -</tspan>
+          <tspan x="35" y="73">s a e o o 1 1</tspan>
+          <tspan x="35" y="82">a i . 0 : 0</tspan>
+          <tspan x="35" y="91">i o d > 1 0</tspan>
+          <tspan x="42" y="99">i o d ?</tspan>
+        </text>
       </svg>
-      <div class="use">→ README, Hero, Dark BG</div>
-      <div class="label">Dark Lockup</div>
-      <div class="desc">White V mark + VORACODE text on dark.</div>
-      <div class="badge">PRIMARY</div>
+      <div class="use">→ Badge, Avatar, Small sizes</div>
+      <div class="label">Code Rain V — Dark</div>
+      <div class="desc">Black inverted triangle with code characters inside.</div>
+      <div class="badge">★ PRIMARY MARK</div>
     </div>
 
     <div class="card white">
-      <svg viewBox="0 0 400 80" style="width:100%; height:80px;">
-        <path d="M10 10 L40 70 L70 10" stroke="#111111" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <text x="82" y="54" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="40" font-weight="700" fill="#111111" letter-spacing="-1">VORACODE</text>
+      <svg viewBox="0 0 120 120" style="width:120px; height:120px;">
+        <polygon points="10,10 110,10 60,110" fill="#111111"/>
+        <text font-family="'Courier New', monospace" font-size="9" fill="#ffffff" opacity="0.95">
+          <tspan x="35" y="28">1 o l t o l d \ o l l</tspan>
+          <tspan x="30" y="37">H o $ 1 9 : S o o G 1</tspan>
+          <tspan x="33" y="46">u o 3 o o o 1 o 1</tspan>
+          <tspan x="35" y="55">1 o . d 1 t d o 1</tspan>
+          <tspan x="35" y="64">1 o o d $ \ 5 -</tspan>
+          <tspan x="35" y="73">s a e o o 1 1</tspan>
+          <tspan x="35" y="82">a i . 0 : 0</tspan>
+          <tspan x="35" y="91">i o d > 1 0</tspan>
+          <tspan x="42" y="99">i o d ?</tspan>
+        </text>
       </svg>
-      <div class="use">→ Docs, Print, Light BG</div>
-      <div class="label">Light Lockup</div>
-      <div class="desc">Black V mark + VORACODE text on white.</div>
-      <div class="badge">PRIMARY</div>
+      <div class="use">→ Print, Light BG</div>
+      <div class="label">Code Rain V — Light</div>
+      <div class="desc">Black V on white background.</div>
     </div>
   </div>
 </div>
 
 <div class="divider"></div>
 
-<!-- ═══════ SECTION 2: SIZES ═══════ -->
+<!-- ═══════ SECTION 2: LOCKUPS ═══════ -->
 <div class="section">
-  <h2>By Size</h2>
-  <p>Large, Medium, Small</p>
+  <h2>Brand Lockups</h2>
+  <p>Code Rain V + VORACODE text</p>
 
-  <div class="card" style="padding: 50px;">
-    <svg viewBox="0 0 400 80" style="width:100%; height:80px;">
-      <path d="M10 10 L40 70 L70 10" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      <text x="82" y="54" font-family="system-ui, sans-serif" font-size="40" font-weight="700" fill="#ffffff" letter-spacing="-1">VORACODE</text>
+  <div class="card">
+    <svg viewBox="0 0 400 120" style="width:100%; height:80px;">
+      <polygon points="5,5 55,5 30,55" fill="#0a0a0a"/>
+      <text font-family="'Courier New', monospace" font-size="4" fill="#ffffff" opacity="0.9">
+        <tspan x="16" y="14">1o ltd</tspan>
+        <tspan x="15" y="18">Ho$S</tspan>
+        <tspan x="17" y="22">uo3o1</tspan>
+        <tspan x="17" y="26">1o.d</tspan>
+        <tspan x="17" y="30">1ood$</tspan>
+        <tspan x="17" y="34">saeo</tspan>
+        <tspan x="17" y="38">ai.0:</tspan>
+        <tspan x="19" y="42">iod></tspan>
+        <tspan x="21" y="46">io?</tspan>
+      </text>
+      <text x="64" y="72" font-family="system-ui, sans-serif" font-size="40" font-weight="700" fill="#ffffff" letter-spacing="-1">VORACODE</text>
     </svg>
-    <div class="use">Large (40px font)</div>
+    <div class="use">→ README, Hero, Dark BG</div>
+    <div class="label">Lockup Dark (Large)</div>
+    <div class="desc">Code Rain V + VORACODE text. White on dark.</div>
+    <div class="badge">★ PRIMARY</div>
+  </div>
+
+  <div class="card white">
+    <svg viewBox="0 0 400 120" style="width:100%; height:80px;">
+      <polygon points="5,5 55,5 30,55" fill="#111111"/>
+      <text font-family="'Courier New', monospace" font-size="4" fill="#ffffff" opacity="0.9">
+        <tspan x="16" y="14">1o ltd</tspan>
+        <tspan x="15" y="18">Ho$S</tspan>
+        <tspan x="17" y="22">uo3o1</tspan>
+        <tspan x="17" y="26">1o.d</tspan>
+        <tspan x="17" y="30">1ood$</tspan>
+        <tspan x="17" y="34">saeo</tspan>
+        <tspan x="17" y="38">ai.0:</tspan>
+        <tspan x="19" y="42">iod></tspan>
+        <tspan x="21" y="46">io?</tspan>
+      </text>
+      <text x="64" y="72" font-family="system-ui, sans-serif" font-size="40" font-weight="700" fill="#111111" letter-spacing="-1">VORACODE</text>
+    </svg>
+    <div class="use">→ Docs, Print, Light BG</div>
+    <div class="label">Lockup Light (Large)</div>
+    <div class="desc">Code Rain V + VORACODE text. Black on white.</div>
+    <div class="badge">★ PRIMARY</div>
   </div>
 
   <div class="grid-2">
     <div class="card">
-      <svg viewBox="0 0 320 60" style="width:100%; height:50px;">
-        <path d="M8 8 L32 52 L56 8" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <text x="66" y="42" font-family="system-ui, sans-serif" font-size="32" font-weight="700" fill="#ffffff" letter-spacing="-0.5">VORACODE</text>
+      <svg viewBox="0 0 320 80" style="width:100%; height:60px;">
+        <polygon points="3,3 40,3 20,38" fill="#0a0a0a"/>
+        <text font-family="'Courier New', monospace" font-size="3" fill="#ffffff" opacity="0.9">
+          <tspan x="12" y="10">1o ltd</tspan>
+          <tspan x="11" y="13">Ho$S</tspan>
+          <tspan x="12" y="16">saeo</tspan>
+          <tspan x="13" y="19">iod></tspan>
+        </text>
+        <text x="48" y="52" font-family="system-ui, sans-serif" font-size="32" font-weight="700" fill="#ffffff" letter-spacing="-0.5">VORACODE</text>
       </svg>
-      <div class="use">Medium (32px font)</div>
+      <div class="use">→ Website, Docs</div>
+      <div class="label">Lockup Dark (Medium)</div>
     </div>
 
     <div class="card white">
-      <svg viewBox="0 0 320 60" style="width:100%; height:50px;">
-        <path d="M8 8 L32 52 L56 8" stroke="#111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <text x="66" y="42" font-family="system-ui, sans-serif" font-size="32" font-weight="700" fill="#111" letter-spacing="-0.5">VORACODE</text>
+      <svg viewBox="0 0 320 80" style="width:100%; height:60px;">
+        <polygon points="3,3 40,3 20,38" fill="#111111"/>
+        <text font-family="'Courier New', monospace" font-size="3" fill="#ffffff" opacity="0.9">
+          <tspan x="12" y="10">1o ltd</tspan>
+          <tspan x="11" y="13">Ho$S</tspan>
+          <tspan x="12" y="16">saeo</tspan>
+          <tspan x="13" y="19">iod></tspan>
+        </text>
+        <text x="48" y="52" font-family="system-ui, sans-serif" font-size="32" font-weight="700" fill="#111111" letter-spacing="-0.5">VORACODE</text>
       </svg>
-      <div class="use">Medium — Light BG</div>
+      <div class="use">→ Docs, Print</div>
+      <div class="label">Lockup Light (Medium)</div>
     </div>
   </div>
 
   <div class="grid-2">
     <div class="card">
-      <svg viewBox="0 0 240 44" style="width:100%; height:40px;">
-        <path d="M6 6 L22 38 L38 6" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <text x="46" y="32" font-family="system-ui, sans-serif" font-size="26" font-weight="700" fill="#ffffff" letter-spacing="-0.5">VORACODE</text>
+      <svg viewBox="0 0 240 50" style="width:100%; height:40px;">
+        <polygon points="2,2 30,2 15,32" fill="#0a0a0a"/>
+        <text font-family="'Courier New', monospace" font-size="2.5" fill="#ffffff" opacity="0.9">
+          <tspan x="10" y="8">1o ltd</tspan>
+          <tspan x="9" y="11">Ho$S</tspan>
+          <tspan x="10" y="14">saeo</tspan>
+        </text>
+        <text x="36" y="35" font-family="system-ui, sans-serif" font-size="24" font-weight="700" fill="#ffffff" letter-spacing="-0.5">VORACODE</text>
       </svg>
-      <div class="use">Small (26px font)</div>
+      <div class="use">→ Sidebar, Footer</div>
+      <div class="label">Lockup Dark (Small)</div>
     </div>
 
     <div class="card white">
-      <svg viewBox="0 0 240 44" style="width:100%; height:40px;">
-        <path d="M6 6 L22 38 L38 6" stroke="#111" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <text x="46" y="32" font-family="system-ui, sans-serif" font-size="26" font-weight="700" fill="#111" letter-spacing="-0.5">VORACODE</text>
+      <svg viewBox="0 0 240 50" style="width:100%; height:40px;">
+        <polygon points="2,2 30,2 15,32" fill="#111111"/>
+        <text font-family="'Courier New', monospace" font-size="2.5" fill="#ffffff" opacity="0.9">
+          <tspan x="10" y="8">1o ltd</tspan>
+          <tspan x="9" y="11">Ho$S</tspan>
+          <tspan x="10" y="14">saeo</tspan>
+        </text>
+        <text x="36" y="35" font-family="system-ui, sans-serif" font-size="24" font-weight="700" fill="#111111" letter-spacing="-0.5">VORACODE</text>
       </svg>
-      <div class="use">Small — Light BG</div>
-    </div>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- ═══════ SECTION 3: V MARK ONLY ═══════ -->
-<div class="section">
-  <h2>V Mark Only</h2>
-  <p>Favicon, badges, small sizes</p>
-
-  <div class="grid-3">
-    <div class="card">
-      <svg viewBox="0 0 60 60" style="width:60px; height:60px;">
-        <path d="M10 10 L30 52 L50 10" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-      <div class="use">→ Badge, Avatar</div>
-      <div class="label">V Dark</div>
-    </div>
-
-    <div class="card white">
-      <svg viewBox="0 0 60 60" style="width:60px; height:60px;">
-        <path d="M10 10 L30 52 L50 10" stroke="#111" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-      <div class="use">→ Badge, Avatar</div>
-      <div class="label">V Light</div>
-    </div>
-
-    <div class="card">
-      <svg viewBox="0 0 64 64" style="width:64px; height:64px;">
-        <circle cx="32" cy="32" r="30" fill="#0a0a0a" stroke="#222" stroke-width="1"/>
-        <path d="M18 18 L32 48 L46 18" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-      <div class="use">→ GitHub, Favicon</div>
-      <div class="label">V Badge Dark</div>
-    </div>
-
-    <div class="card white">
-      <svg viewBox="0 0 64 64" style="width:64px; height:64px;">
-        <circle cx="32" cy="32" r="30" fill="#ffffff" stroke="#eee" stroke-width="1"/>
-        <path d="M18 18 L32 48 L46 18" stroke="#111" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-      <div class="use">→ GitHub, Favicon</div>
-      <div class="label">V Badge Light</div>
-    </div>
-
-    <div class="card">
-      <svg viewBox="0 0 32 32" style="width:32px; height:32px;">
-        <path d="M6 6 L16 28 L26 6" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-      <div class="use">→ Favicon 16-32px</div>
-      <div class="label">V Favicon Dark</div>
-    </div>
-
-    <div class="card white">
-      <svg viewBox="0 0 32 32" style="width:32px; height:32px;">
-        <path d="M6 6 L16 28 L26 6" stroke="#111" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-      <div class="use">→ Favicon 16-32px</div>
-      <div class="label">V Favicon Light</div>
+      <div class="use">→ Docs, Print</div>
+      <div class="label">Lockup Light (Small)</div>
     </div>
   </div>
 </div>
 
 <div class="footer">
-  VORACODE Logo System — 12 SVG files · 2 core designs (Dark + Light)
+  VORACODE Logo System — Code Rain Triangle + VORACODE Lockup
 </div>
 
 </body>
