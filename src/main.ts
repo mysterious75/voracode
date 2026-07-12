@@ -3,101 +3,76 @@
  * VORACODE — AI Coding Agent
  * One agent, every surface.
  *
- * Entry point for the VORACODE CLI.
+ * Main entry point — registers all CLI commands.
  */
 
-const VERSION = "0.0.1";
-const NAME = "voracode";
-const TAGLINE = "Your AI engineering partner. One agent, every surface.";
+import { Command } from "commander";
+import { runCommand } from "./cli/run";
+import { initCommand } from "./cli/init";
+import { sessionCommand } from "./cli/session";
+import { modelCommand } from "./cli/model";
+import { skillCommand } from "./cli/skill";
+import { keyCommand } from "./cli/key";
+import { configCommand } from "./cli/config";
+import { pluginCommand } from "./cli/plugin";
+import { statsCommand } from "./cli/stats";
+import { doctorCommand } from "./cli/doctor";
+import { mcpCommand } from "./cli/mcp";
+import { version, name, description } from "../package.json";
+
+const VERSION = version || "0.0.1";
+const NAME = name || "voracode";
 
 function printBanner(): void {
   console.log(`
   ╔══════════════════════════════════════════════╗
   ║              V O R A C O D E                ║
-  ║        ${TAGLINE}         ║
-  ║              v${VERSION}                       ║
+  ║     Your AI engineering partner.            ║
+  ║     One agent, every surface.               ║
+  ║              v${VERSION.padEnd(20)}║
   ╚══════════════════════════════════════════════╝
   `);
 }
 
 async function main(): Promise<void> {
-  const args = process.argv.slice(2);
-  const command = args[0] || "help";
+  const program = new Command();
 
-  switch (command) {
-    case "run":
-      console.log("VORACODE run: executing task...");
-      // TODO: implement agent execution
-      break;
+  program
+    .name(NAME)
+    .description(description || "AI Coding Agent")
+    .version(VERSION, "-v, --version", "Show version")
+    .helpOption("-h, --help", "Show help")
+    .addHelpCommand(false);
 
-    case "init":
-      console.log("VORACODE init: initializing project...");
-      // TODO: implement project initialization
-      break;
+  // Register all commands
+  program.addCommand(runCommand);
+  program.addCommand(initCommand);
+  program.addCommand(sessionCommand);
+  program.addCommand(modelCommand);
+  program.addCommand(skillCommand);
+  program.addCommand(keyCommand);
+  program.addCommand(configCommand);
+  program.addCommand(pluginCommand);
+  program.addCommand(statsCommand);
+  program.addCommand(doctorCommand);
+  program.addCommand(mcpCommand);
 
-    case "session":
-      console.log("VORACODE session: managing sessions...");
-      // TODO: implement session management
-      break;
-
-    case "model":
-      console.log("VORACODE model: managing AI models...");
-      // TODO: implement model management
-      break;
-
-    case "skill":
-      console.log("VORACODE skill: managing skills...");
-      // TODO: implement skill management
-      break;
-
-    case "key":
-      console.log("VORACODE key: managing API keys...");
-      // TODO: implement key management
-      break;
-
-    case "version":
-    case "--version":
-    case "-v":
-      console.log(`${NAME} v${VERSION}`);
-      break;
-
-    case "help":
-    case "--help":
-    case "-h":
-    default:
-      printBanner();
-      console.log(`
-  Usage:
-    voracode <command> [options]
-
-  Commands:
-    run              Execute a task with AI
-    init             Initialize VORACODE in project
-    session          Manage sessions
-    model            Manage AI providers and models
-    skill            Manage skills
-    key              Manage API keys
-    config           View or edit configuration
-    plugin           Manage plugins
-    stats            Usage statistics
-    doctor           System health check
-    update           Update VORACODE
-    version          Show version
-    help             Show this help
-
-  Examples:
-    voracode run "create a login page"
-    voracode init
-    voracode model list
-    voracode key set --provider openai
-
-  Documentation: https://voracode.dev
-      `);
-      break;
+  // Handle no args — show banner + help
+  if (process.argv.length <= 2) {
+    printBanner();
+    program.outputHelp();
+    return;
   }
+
+  // Handle --banner flag for clean startup
+  if (process.argv.includes("--banner")) {
+    printBanner();
+  }
+
+  await program.parseAsync(process.argv);
 }
 
 main().catch((error) => {
-  console.error("VORACODE error:", error);
+  console.error("VORACODE error:", error instanceof Error ? error.message : error);
   process.exit(1);
 });

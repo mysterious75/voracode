@@ -1,0 +1,12 @@
+{
+  "$schema": "https://voracode.dev/schemas/config.json",
+  "version": "1.0",
+  "project": {
+    "name": "voracode",
+    "path": "D:\\vora\\New folder\\mycli\\voracode"
+  },
+  "model": {
+    "provider": "auto",
+    "name": "auto"
+  }
+}
