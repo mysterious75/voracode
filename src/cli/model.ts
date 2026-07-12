@@ -1,11 +1,14 @@
 /**
  * voracode model — Manage AI providers and models
  *
- * Supports any AI provider through the universal adapter system:
+ * Universal adapter system:
  * - OpenAI protocol: DeepSeek, Groq, Together, Ollama, OpenRouter, etc.
  * - Anthropic protocol: Claude models
  * - Google protocol: Gemini models
  * - Custom: User-defined adapters
+ *
+ * Free tier requires user's own API key (BYOK).
+ * VORACODE does not provide free managed models.
  */
 
 import { Command } from "commander";
@@ -18,20 +21,32 @@ export const modelCommand = new Command("model")
       .option("-p, --provider <name>", "Filter by provider")
       .action(async (options) => {
         console.log("\n  📡 Available AI Providers:");
-        console.log("  ┌──────────────────────┬─────────────────────────────┐");
-        console.log("  │ Provider             │ Models                      │");
-        console.log("  ├──────────────────────┼─────────────────────────────┤");
-        console.log("  │ OpenAI (API)         │ GPT-4o, o3, o3-mini        │");
-        console.log("  │ Anthropic (API)      │ Claude Opus 4, Sonnet 4     │");
-        console.log("  │ Google (API)         │ Gemini 2.5 Pro, Flash       │");
-        console.log("  │ DeepSeek (API)       │ deepseek-chat, deepseek-v4  │");
-        console.log("  │ Groq (API)           │ Llama 3.1, Qwen, Mixtral   │");
-        console.log("  │ Ollama (Local)       │ Llama, Mistral, DeepSeek    │");
-        console.log("  │ OpenRouter (API)     │ 300+ models (aggregator)    │");
-        console.log("  │ HuggingFace (API)    │ 500K+ models                │");
-        console.log("  │ Together (API)       │ 200+ open models            │");
-        console.log("  └──────────────────────┴─────────────────────────────┘");
-        console.log("  (Full list coming in Phase 1.2 — model router)\n");
+
+        if (options.provider) {
+          console.log(`  Filter: ${options.provider}`);
+          console.log("  (Detailed provider models coming in Phase 1.2)\n");
+          return;
+        }
+
+        console.log("  ┌──────────────────────┬─────────────────────────────────────┐");
+        console.log("  │ Protocol             │ Providers                           │");
+        console.log("  ├──────────────────────┼─────────────────────────────────────┤");
+        console.log("  │ OpenAI-compatible    │ DeepSeek, Groq, Together, Ollama,   │");
+        console.log("  │                      │ OpenRouter, HuggingFace, Fireworks,  │");
+        console.log("  │                      │ Cerebras, SambaNova, Cloudflare AI  │");
+        console.log("  ├──────────────────────┼─────────────────────────────────────┤");
+        console.log("  │ Anthropic Messages   │ Claude Opus, Sonnet, Haiku          │");
+        console.log("  ├──────────────────────┼─────────────────────────────────────┤");
+        console.log("  │ Google AI            │ Gemini Pro, Flash                    │");
+        console.log("  ├──────────────────────┼─────────────────────────────────────┤");
+        console.log("  │ Custom               │ Any OpenAI-compatible endpoint       │");
+        console.log("  └──────────────────────┴─────────────────────────────────────┘");
+        console.log("\n  ⚠️  VORACODE is BYOK — you must provide your own API key.");
+        console.log("  No free managed models are provided.");
+        console.log("\n  Commands:");
+        console.log("    voracode model set <model>     Set active model");
+        console.log("    voracode model test [provider] Test provider connection");
+        console.log("    voracode key set               Configure API key\n");
       }),
   )
   .addCommand(
@@ -39,6 +54,12 @@ export const modelCommand = new Command("model")
       .description("Set active model for session")
       .argument("<model>", "Model identifier (provider/model-name)")
       .action(async (model) => {
+        const [provider] = model.split("/");
+        if (!provider) {
+          console.error("\n  ✖ Invalid model format. Use: provider/model-name");
+          console.error("  Example: openai/gpt-4o\n");
+          process.exit(1);
+        }
         console.log(`\n  ✅ Active model set to: ${model}\n`);
       }),
   )
@@ -47,9 +68,11 @@ export const modelCommand = new Command("model")
       .description("Test connection to a provider")
       .argument("[provider]", "Provider name")
       .action(async (provider) => {
-        const name = provider || "current provider";
+        const name = provider || "default provider";
         console.log(`\n  🔌 Testing connection to: ${name}`);
-        // TODO: Phase 1.2 — actual API test
-        console.log("  (Coming in Phase 1.2 — model router)\n");
+
+        // Check if key is configured
+        console.log("  ℹ️  This will verify your API key works.");
+        console.log("  (Coming in Phase 1.2 — model router with actual API calls)\n");
       }),
   );
