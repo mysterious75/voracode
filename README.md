@@ -1,11 +1,8 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: light)" srcset="assets/logo-lockup-light.svg">
-    <img src="assets/logo-lockup-dark.svg" alt="VORACODE" width="420">
-  </picture>
+<div align="center">
+  <img src="assets/logo-lockup-light.svg" alt="VORACODE" width="380">
   <br>
-  <em>Terminal-native AI coding agent — fast, private, BYOK.</em>
-</p>
+  <sub><em>Terminal-native AI coding agent — fast, private, BYOK.</em></sub>
+</div>
 
 ---
 
