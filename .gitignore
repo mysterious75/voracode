@@ -65,5 +65,10 @@ secret*
 # Local data (sessions, memory, cache)
 data/
 
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
 # Scripts
 scripts/*.tmp

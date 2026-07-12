@@ -25,12 +25,23 @@ export interface ChatMessage {
   tool_call_id?: string;
 }
 
+export interface ToolDefinition {
+  type: "function";
+  function: {
+    name: string;
+    description: string;
+    parameters: Record<string, unknown>;
+  };
+}
+
 export interface ChatOptions {
   model: string;
   maxTokens?: number;
   temperature?: number;
   systemPrompt?: string;
   stream?: boolean;
+  tools?: ToolDefinition[];
+  toolChoice?: "auto" | "required" | "none";
 }
 
 export interface ChatResponse {
@@ -194,10 +205,13 @@ export class ModelRouter {
           role: m.role,
           content: m.content,
           ...(m.name ? { name: m.name } : {}),
+          ...(m.tool_calls ? { tool_calls: m.tool_calls } : {}),
+          ...(m.tool_call_id ? { tool_call_id: m.tool_call_id } : {}),
         })),
         max_tokens: options.maxTokens || 4096,
         temperature: options.temperature ?? 0.7,
         stream: false,
+        ...(options.tools && options.tools.length > 0 ? { tools: options.tools, tool_choice: options.toolChoice || "auto" } : {}),
       }),
     });
 
@@ -283,7 +297,7 @@ export class ModelRouter {
    */
   async chat(modelRef: string, messages: ChatMessage[], options: ChatOptions = {}): Promise<ChatResponse> {
     const provider = modelRef.includes("/") ? modelRef.split("/")[0] : this.detectProvider(modelRef);
-    const modelName = modelRef.includes("/") ? modelRef.split("/")[1] : modelRef;
+    const modelName = modelRef.includes("/") ? modelRef.slice(modelRef.indexOf("/") + 1) : modelRef;
 
     const fullOptions = { ...options, model: modelName };
 

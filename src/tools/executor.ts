@@ -9,6 +9,7 @@ import { VoraDatabase } from "../storage/database";
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { execSync } from "child_process";
 import { resolve } from "path";
+import type { ToolDefinition as RouterToolDef } from "../models/router";
 
 export interface ToolDefinition {
   name: string;
@@ -142,6 +143,56 @@ export class ToolExecutor {
    */
   registerTool(tool: ToolDefinition): void {
     this.tools.set(tool.name, tool);
+  }
+
+  /**
+   * Get tool definitions in OpenAI function-calling format
+   */
+  getToolSchemas(): RouterToolDef[] {
+    const schemas: RouterToolDef[] = [];
+    const paramSchemas: Record<string, { path: { type: string; description: string }; content: { type: string; description: string }; old_string: { type: string; description: string }; new_string: { type: string; description: string }; command: { type: string; description: string }; message: { type: string; description: string }; pattern: { type: string; description: string }; url: { type: string; description: string }; reasoning: { type: string; description: string } }> = {
+      file_read: { path: { type: "string", description: "File path" }, content: { type: "string", description: "" }, old_string: { type: "string", description: "" }, new_string: { type: "string", description: "" }, command: { type: "string", description: "" }, message: { type: "string", description: "" }, pattern: { type: "string", description: "" }, url: { type: "string", description: "" }, reasoning: { type: "string", description: "" } },
+      file_write: { path: { type: "string", description: "File path" }, content: { type: "string", description: "Content to write" }, old_string: { type: "string", description: "" }, new_string: { type: "string", description: "" }, command: { type: "string", description: "" }, message: { type: "string", description: "" }, pattern: { type: "string", description: "" }, url: { type: "string", description: "" }, reasoning: { type: "string", description: "" } },
+      file_edit: { path: { type: "string", description: "File path" }, content: { type: "string", description: "" }, old_string: { type: "string", description: "Text to replace" }, new_string: { type: "string", description: "Replacement text" }, command: { type: "string", description: "" }, message: { type: "string", description: "" }, pattern: { type: "string", description: "" }, url: { type: "string", description: "" }, reasoning: { type: "string", description: "" } },
+      bash: { path: { type: "string", description: "" }, content: { type: "string", description: "" }, old_string: { type: "string", description: "" }, new_string: { type: "string", description: "" }, command: { type: "string", description: "Shell command to execute" }, message: { type: "string", description: "" }, pattern: { type: "string", description: "" }, url: { type: "string", description: "" }, reasoning: { type: "string", description: "" } },
+      git_status: { path: { type: "string", description: "" }, content: { type: "string", description: "" }, old_string: { type: "string", description: "" }, new_string: { type: "string", description: "" }, command: { type: "string", description: "" }, message: { type: "string", description: "" }, pattern: { type: "string", description: "" }, url: { type: "string", description: "" }, reasoning: { type: "string", description: "" } },
+      git_diff: { path: { type: "string", description: "" }, content: { type: "string", description: "" }, old_string: { type: "string", description: "" }, new_string: { type: "string", description: "" }, command: { type: "string", description: "" }, message: { type: "string", description: "" }, pattern: { type: "string", description: "" }, url: { type: "string", description: "" }, reasoning: { type: "string", description: "" } },
+      git_commit: { path: { type: "string", description: "" }, content: { type: "string", description: "" }, old_string: { type: "string", description: "" }, new_string: { type: "string", description: "" }, command: { type: "string", description: "" }, message: { type: "string", description: "Commit message" }, pattern: { type: "string", description: "" }, url: { type: "string", description: "" }, reasoning: { type: "string", description: "" } },
+      code_search: { path: { type: "string", description: "Search path" }, content: { type: "string", description: "" }, old_string: { type: "string", description: "" }, new_string: { type: "string", description: "" }, command: { type: "string", description: "" }, message: { type: "string", description: "" }, pattern: { type: "string", description: "Search pattern (regex)" }, url: { type: "string", description: "" }, reasoning: { type: "string", description: "" } },
+      web_fetch: { path: { type: "string", description: "" }, content: { type: "string", description: "" }, old_string: { type: "string", description: "" }, new_string: { type: "string", description: "" }, command: { type: "string", description: "" }, message: { type: "string", description: "" }, pattern: { type: "string", description: "" }, url: { type: "string", description: "URL to fetch" }, reasoning: { type: "string", description: "" } },
+      think: { path: { type: "string", description: "" }, content: { type: "string", description: "" }, old_string: { type: "string", description: "" }, new_string: { type: "string", description: "" }, command: { type: "string", description: "" }, message: { type: "string", description: "" }, pattern: { type: "string", description: "" }, url: { type: "string", description: "" }, reasoning: { type: "string", description: "Step-by-step reasoning" } },
+      list_files: { path: { type: "string", description: "Directory path" }, content: { type: "string", description: "" }, old_string: { type: "string", description: "" }, new_string: { type: "string", description: "" }, command: { type: "string", description: "" }, message: { type: "string", description: "" }, pattern: { type: "string", description: "" }, url: { type: "string", description: "" }, reasoning: { type: "string", description: "" } },
+    };
+
+    for (const [, tool] of this.tools) {
+      const props: Record<string, { type: string; description: string }> = {};
+      const required: string[] = [];
+      const params = paramSchemas[tool.name];
+
+      if (params) {
+        for (const [key, val] of Object.entries(params)) {
+          if (val.description) {
+            props[key] = val;
+            required.push(key);
+          }
+        }
+      }
+
+      schemas.push({
+        type: "function",
+        function: {
+          name: tool.name,
+          description: tool.description,
+          parameters: {
+            type: "object",
+            properties: props,
+            required: required.length > 0 ? required : undefined,
+          },
+        },
+      });
+    }
+
+    return schemas;
   }
 
   // ── Tool implementations ──

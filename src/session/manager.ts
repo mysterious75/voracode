@@ -87,8 +87,8 @@ export class SessionManager {
   /**
    * Run a task in a session
    */
-  async run(sessionId: string, message: string, modelRef: string) {
-    return this.agent.runTurn(sessionId, message, modelRef);
+  async run(sessionId: string, message: string, modelRef: string, options?: { maxTurns?: number }) {
+    return this.agent.runTurn(sessionId, message, modelRef, options);
   }
 
   /**

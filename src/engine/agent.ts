@@ -1,21 +1,15 @@
 /**
- * VORACODE Agent — Main agent loop
+ * VORACODE Agent — Tool-calling agent loop
  *
- * The core intelligence: plan → execute → reflect loop.
- * Each turn processes user input through the model router
- * and executes tool calls until the task is complete.
+ * The core intelligence: model suggests tool calls → tools execute →
+ * results fed back → model continues → repeat until done.
+ *
+ * Uses OpenAI function calling to give the model real tool access.
  */
 
-import { ModelRouter, type ChatMessage } from "../models/router";
+import { ModelRouter, type ChatMessage, type ChatOptions } from "../models/router";
 import { VoraDatabase } from "../storage/database";
 import { ToolExecutor } from "../tools/executor";
-
-export interface AgentContext {
-  sessionId: string;
-  projectPath: string;
-  modelProvider: string;
-  modelName: string;
-}
 
 export interface AgentResult {
   success: boolean;
@@ -23,6 +17,7 @@ export interface AgentResult {
   sessionId: string;
   tokensUsed: number;
   turns: number;
+  steps: number;
   error?: string;
 }
 
@@ -42,102 +37,123 @@ export class Agent {
   private buildSystemPrompt(): string {
     return `You are VORACODE, an AI engineering partner that lives in the terminal.
 
-You help users with coding tasks by:
-1. Understanding their codebase
-2. Planning changes before executing
-3. Writing clean, correct code
-4. Running commands safely
-5. Committing changes with clear messages
+You help users with coding tasks. You have access to real tools that let you read, write, and execute code.
 
-RULES:
-- You MUST NOT execute dangerous commands (rm -rf /, sudo, etc.)
-- You MUST NOT output API keys or secrets
-- You MUST show diffs before making changes
-- You MUST ask for confirmation before destructive operations
-- You MUST explain your reasoning before acting
+## How you work
+1. Understand what the user wants
+2. Use tools to explore the project when needed
+3. Plan the changes
+4. Execute step by step using the tools available to you
+5. Tell the user when you're done
 
-Available tools:
-- file_read: Read file contents
-- file_write: Write content to file
-- file_edit: Edit a file with diff
-- bash: Execute a shell command (sandboxed)
-- git_status: Check git status
-- git_diff: Show git diff
-- git_commit: Commit changes
-- code_search: Search codebase for patterns
-- web_fetch: Fetch URL content
-- think: Reason through a problem step by step
+## Rules
+- NEVER execute dangerous commands (rm -rf /, sudo, mkfs, dd, fork bombs)
+- NEVER output API keys, passwords, or secrets
+- Show what you're doing before doing it
+- Ask the user before destructive operations
+- Use the think tool to reason through complex problems before acting
+- When the task is complete, summarize what you did
 
-Always start by understanding the task, then plan, then execute step by step.`;
+## Available Tools
+You have file_read, file_write, file_edit, bash, git_status, git_diff, git_commit,
+code_search, web_fetch, think, and list_files at your disposal.
+Use them to accomplish the task. Do NOT just describe what to do — USE the tools.
+
+When the task is complete, summarize what was done.`;
   }
 
   /**
-   * Run a single turn of the agent loop
+   * Run the agent loop with full tool-calling
    */
-  async runTurn(sessionId: string, userMessage: string, modelRef: string): Promise<AgentResult> {
+  async runTurn(sessionId: string, userMessage: string, modelRef: string, options?: { maxTurns?: number }): Promise<AgentResult> {
     const startTime = Date.now();
-    let turns = 0;
+    const maxTurns = options?.maxTurns || 25;
     let totalTokens = 0;
-    const maxTurns = 25;
+    let turns = 0;
+    let steps = 0;
+
+    // Get tool schemas to send with each API call
+    const toolSchemas = this.tools.getToolSchemas();
+
+    // Build message history
     const messages: ChatMessage[] = [
       { role: "system", content: this.systemPrompt },
       { role: "user", content: userMessage },
     ];
 
+    // Store the initial user message
+    this.db.addMessage(sessionId, "user", userMessage);
+
     try {
-      // Main agent loop
       while (turns < maxTurns) {
         turns++;
 
-        // Get model response
-        const response = await this.router.chat(modelRef, messages);
+        const chatOptions: ChatOptions = {
+          model: modelRef,
+          maxTokens: 2048,
+          temperature: 0.3,
+          tools: toolSchemas,
+          toolChoice: "auto",
+        };
 
+        // Call the model
+        const response = await this.router.chat(modelRef, messages, chatOptions);
         totalTokens += response.usage.totalTokens;
-
-        // Store messages
-        const userMsgId = this.db.addMessage(sessionId, "user", userMessage);
-        const asstMsgId = this.db.addMessage(sessionId, "assistant", response.content, response.usage.totalTokens);
-
-        // Record API call in stats
         this.db.recordApiCall(response.usage.inputTokens, response.usage.outputTokens);
 
-        // Check for tool calls
+        // Store assistant response
+        if (response.content) {
+          this.db.addMessage(sessionId, "assistant", response.content, response.usage.totalTokens);
+        }
+
+        // CASE 1: Model wants to use tools
         if (response.toolCalls && response.toolCalls.length > 0) {
+          // Add the assistant message with tool_calls to history
+          messages.push({
+            role: "assistant",
+            content: response.content || "",
+            tool_calls: response.toolCalls,
+          });
+
+          // Execute each tool call
           for (const toolCall of response.toolCalls) {
-            const result = await this.tools.execute(toolCall.function.name, toolCall.function.arguments);
-            messages.push({
-              role: "assistant",
-              content: "",
-              tool_calls: [toolCall],
-            });
+            steps++;
+
+            let result: unknown;
+            let error = false;
+
+            try {
+              result = await this.tools.execute(toolCall.function.name, toolCall.function.arguments);
+            } catch (e) {
+              result = `Error: ${e instanceof Error ? e.message : String(e)}`;
+              error = true;
+            }
+
+            const resultStr = typeof result === "string" ? result : JSON.stringify(result, null, 2);
+
+            // Truncate very long results
+            const truncated = resultStr.length > 5000 ? resultStr.slice(0, 5000) + "\n... (truncated)" : resultStr;
+
+            // Audit log
+            this.db.logAudit(
+              error ? "tool_error" : "tool_execute",
+              JSON.stringify({ tool: toolCall.function.name }),
+              !error,
+            );
+
+            // Add tool result to conversation history
             messages.push({
               role: "tool",
-              content: typeof result === "string" ? result : JSON.stringify(result),
+              content: truncated,
               tool_call_id: toolCall.id,
             });
           }
-          continue; // Continue loop for tool results
+
+          // Continue the loop — model will see tool results and decide next step
+          continue;
         }
 
-        // Check if task is complete (tool use finished or explicit completion)
-        if (response.content.includes("TASK COMPLETE") || turns >= maxTurns - 1) {
-          this.db.updateSession(sessionId, {
-            total_tokens: totalTokens,
-            total_turns: turns,
-            status: "completed",
-          });
-
-          const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-          return {
-            success: true,
-            content: response.content,
-            sessionId,
-            tokensUsed: totalTokens,
-            turns,
-          };
-        }
-
-        // Normal response — task is complete
+        // CASE 2: Model responded with text (no tool calls) — task is complete
         this.db.updateSession(sessionId, {
           total_tokens: totalTokens,
           total_turns: turns,
@@ -150,20 +166,27 @@ Always start by understanding the task, then plan, then execute step by step.`;
           sessionId,
           tokensUsed: totalTokens,
           turns,
+          steps,
         };
       }
 
-      // Max turns reached
+      // MAX TURNS REACHED
+      this.db.updateSession(sessionId, {
+        total_tokens: totalTokens,
+        total_turns: turns,
+        status: "completed",
+      });
+
       return {
         success: true,
         content: "Task reached maximum turns. You can continue with more instructions.",
         sessionId,
         tokensUsed: totalTokens,
         turns,
+        steps,
       };
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : String(error);
-
       this.db.logAudit("agent_error", errorMsg, false);
       this.db.updateSession(sessionId, { status: "error" });
 
@@ -173,6 +196,7 @@ Always start by understanding the task, then plan, then execute step by step.`;
         sessionId,
         tokensUsed: totalTokens,
         turns,
+        steps,
         error: errorMsg,
       };
     }

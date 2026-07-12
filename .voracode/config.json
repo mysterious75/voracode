@@ -7,6 +7,47 @@
   },
   "model": {
     "provider": "auto",
-    "name": "auto"
+    "name": "auto",
+    "fallback": []
+  },
+  "context": {
+    "maxTokens": 128000,
+    "compression": "auto",
+    "smartLoading": true
+  },
+  "security": {
+    "sandbox": {
+      "enabled": true,
+      "timeout": 30000,
+      "maxOutput": 1048576
+    },
+    "network": {
+      "blocked": false,
+      "allowedDomains": [
+        "api.openai.com",
+        "api.anthropic.com",
+        "api.deepseek.com",
+        "api.groq.com"
+      ]
+    },
+    "rateLimit": {
+      "callsPerMinute": 10
+    },
+    "auditLog": {
+      "enabled": true,
+      "retentionDays": 30
+    }
+  },
+  "skills": {
+    "dirs": [
+      "~/.config/voracode/skills",
+      ".voracode/skills"
+    ],
+    "autoLearn": false
+  },
+  "plugins": [],
+  "telemetry": {
+    "enabled": false,
+    "localOnly": true
   }
 }
