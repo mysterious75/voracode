@@ -1,0 +1,47 @@
+{
+  "name": "voracode",
+  "version": "0.0.1",
+  "description": "VORACODE AI Coding Agent — One agent, every surface",
+  "bin": {
+    "voracode": "dist/main.js"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "bun run src/main.ts",
+    "build": "bun build --compile --target=bun-linux-x64-modern ./src/main.ts --outfile dist/voracode-linux-x64",
+    "build:mac": "bun build --compile --target=bun-darwin-arm64 ./src/main.ts --outfile dist/voracode-darwin-arm64",
+    "build:mac-intel": "bun build --compile --target=bun-darwin-x64 ./src/main.ts --outfile dist/voracode-darwin-x64",
+    "build:win": "bun build --compile --target=bun-windows-x64 ./src/main.ts --outfile dist/voracode-windows-x64",
+    "build:all": "bun run build && bun run build:mac && bun run build:mac-intel && bun run build:win",
+    "start": "bun run dist/main.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "oxlint src/",
+    "format": "prettier --write src/",
+    "doctor": "bun run src/doctor.ts"
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "ai",
+    "coding",
+    "cli",
+    "agent",
+    "terminal",
+    "developer-tools",
+    "voracode"
+  ],
+  "license": "MIT",
+  "homepage": "https://voracode.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mysterious75/voracode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mysterious75/voracode/issues"
+  }
+}
