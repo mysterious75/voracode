@@ -1,7 +1,7 @@
 <div align="center">
   <img src="assets/logo-lockup-light.svg" alt="VORACODE" width="380">
   <br>
-  <sub><em>Terminal-native AI coding agent — fast, private, BYOK.</em></sub>
+  <em>Terminal-native AI coding agent — fast, private, BYOK.</em>
 </div>
 
 ---
