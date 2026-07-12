@@ -99,10 +99,16 @@ export const runCommand = new Command("run")
         console.log(result.content);
       } else {
         if (result.success) {
-          console.log(`\n  ✅ Task completed in ${result.turns} turns (${result.tokensUsed} tokens)\n`);
+          console.log(`\n  ✅ Task completed in ${result.turns} turns, ${result.steps} steps (${result.tokensUsed} tokens)\n`);
           console.log(result.content);
           console.log(`\n  ℹ️  Session: ${result.sessionId}`);
-          console.log(`  📁 Data: ${sessions.getDbPath()}\n`);
+          console.log(`  📁 Data: ${sessions.getDbPath()}`);
+
+          // Show self-improvement suggestion if detected
+          if (result.patternSuggestion) {
+            console.log(result.patternSuggestion);
+          }
+          console.log();
         } else {
           console.log(`\n  ❌ Task failed after ${result.turns} turns`);
           console.log(`  Error: ${result.error}\n`);

@@ -236,4 +236,18 @@ export class VoraDatabase {
   getDbPath(): string {
     return join(this.dataDir, "voracode.db");
   }
+
+  // ── Generic database access (used by SelfImprovementEngine) ──
+
+  exec(sql: string): void {
+    this.db.exec(sql);
+  }
+
+  query(sql: string) {
+    return this.db.query(sql);
+  }
+
+  run(sql: string, params: unknown[] = []): void {
+    this.db.run(sql, params);
+  }
 }

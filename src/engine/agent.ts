@@ -10,6 +10,7 @@
 import { ModelRouter, type ChatMessage, type ChatOptions } from "../models/router";
 import { VoraDatabase } from "../storage/database";
 import { ToolExecutor } from "../tools/executor";
+import { SelfImprovementEngine } from "../skills/self-improve/engine";
 
 export interface AgentResult {
   success: boolean;
@@ -19,18 +20,21 @@ export interface AgentResult {
   turns: number;
   steps: number;
   error?: string;
+  patternSuggestion?: string;
 }
 
 export class Agent {
   private router: ModelRouter;
   private db: VoraDatabase;
   private tools: ToolExecutor;
+  private sie: SelfImprovementEngine;
   private systemPrompt: string;
 
   constructor() {
     this.router = new ModelRouter();
     this.db = new VoraDatabase();
     this.tools = new ToolExecutor(this.db);
+    this.sie = new SelfImprovementEngine(this.db);
     this.systemPrompt = this.buildSystemPrompt();
   }
 
@@ -84,6 +88,10 @@ When the task is complete, summarize what was done.`;
     // Store the initial user message
     this.db.addMessage(sessionId, "user", userMessage);
 
+    const toolsUsed: string[] = [];
+    const filesChanged: string[] = [];
+    const commandsRun: string[] = [];
+
     try {
       while (turns < maxTurns) {
         turns++;
@@ -115,9 +123,23 @@ When the task is complete, summarize what was done.`;
             tool_calls: response.toolCalls,
           });
 
+          // Track tools used for self-improvement
+
           // Execute each tool call
           for (const toolCall of response.toolCalls) {
             steps++;
+            toolsUsed.push(toolCall.function.name);
+
+            // Track file changes and commands for self-improvement
+            try {
+              const args = JSON.parse(toolCall.function.arguments);
+              if ((toolCall.function.name === "file_write" || toolCall.function.name === "file_edit") && args.path) {
+                filesChanged.push(args.path);
+              }
+              if (toolCall.function.name === "bash" && args.command) {
+                commandsRun.push(args.command);
+              }
+            } catch {}
 
             let result: unknown;
             let error = false;
@@ -160,13 +182,30 @@ When the task is complete, summarize what was done.`;
           status: "completed",
         });
 
+        // Self-improvement: record task pattern and check for suggestions
+        let patternSuggestion: string | undefined;
+        if (toolsUsed.length > 0) {
+          const pattern = this.sie.recordTask(
+            userMessage,
+            toolsUsed,
+            filesChanged,
+            commandsRun,
+            true, // success
+          );
+
+          if (pattern) {
+            patternSuggestion = `\n\n💡 VORACODE noticed you've done this ${pattern.successCount + 1} times with ${(pattern.successCount / (pattern.successCount + pattern.failureCount) * 100).toFixed(0)}% success.\n   Would you like me to create a reusable skill for this?\n   Run: voracode skill create ${pattern.description.toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 30)}`;
+          }
+        }
+
         return {
           success: true,
-          content: response.content,
+          content: response.content + (patternSuggestion || ""),
           sessionId,
           tokensUsed: totalTokens,
           turns,
           steps,
+          patternSuggestion,
         };
       }
 
