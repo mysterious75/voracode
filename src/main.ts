@@ -3,7 +3,7 @@
  * VORACODE — AI Coding Agent
  * One agent, every surface.
  *
- * Premium CLI experience with Apple-inspired design.
+ * Premium CLI with ALL features integrated.
  */
 
 import { Command } from "commander";
@@ -22,8 +22,9 @@ import { auditCommand } from "./cli/audit";
 import { liteCommand } from "./cli/lite";
 import { proCommand } from "./cli/pro";
 import { updateCommand } from "./cli/update";
-import { version, description } from "../package.json";
+import { version } from "../package.json";
 import { c, printBanner, box, footer } from "./ui/theme";
+import { ALL_PROVIDERS, BUILTIN_MCP_SERVERS } from "./models/adapters/all-providers";
 
 const VERSION = version || "0.0.1";
 const NAME = "voracode";
@@ -54,21 +55,15 @@ async function main(): Promise<void> {
   program.addCommand(doctorCommand);
   program.addCommand(updateCommand);
 
-  // Show banner + help when no args
   if (process.argv.length <= 2) {
     printBanner();
-
-    const helpBox = box([
-      `${c.bold}${NAME} run <task>${c.reset}        Execute a task with AI`,
-      `${c.bold}${NAME} init${c.reset}              Initialize project`,
-      `${c.bold}${NAME} session list${c.reset}      Manage sessions`,
-      `${c.bold}${NAME} model list${c.reset}        View providers`,
-      `${c.bold}${NAME} key set <provider>${c.reset} Configure API key`,
-      `${c.bold}${NAME} mcp list${c.reset}          MCP servers`,
-      `${c.bold}${NAME} doctor${c.reset}            Health check`,
-    ], 48);
-
-    console.log(helpBox);
+    console.log(`  ${c.dim}${c.bold}${NAME}${c.reset} ${c.dim}run <task>${c.reset}   Execute a task`);
+    console.log(`  ${c.dim}${c.bold}${NAME}${c.reset} ${c.dim}init${c.reset}           Initialize project`);
+    console.log(`  ${c.dim}${c.bold}${NAME}${c.reset} ${c.dim}session list${c.reset}   Manage sessions`);
+    console.log(`  ${c.dim}${c.bold}${NAME}${c.reset} ${c.dim}model list${c.reset}     ${ALL_PROVIDERS.length} providers ready`);
+    console.log(`  ${c.dim}${c.bold}${NAME}${c.reset} ${c.dim}mcp list${c.reset}        ${BUILTIN_MCP_SERVERS.length} MCP servers`);
+    console.log(`  ${c.dim}${c.bold}${NAME}${c.reset} ${c.dim}doctor${c.reset}          Health check`);
+    console.log(`  ${c.dim}${c.bold}${NAME}${c.reset} ${c.dim}--help${c.reset}          All commands`);
     footer();
     return;
   }
