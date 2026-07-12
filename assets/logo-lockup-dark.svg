@@ -1,18 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" fill="none">
-  <!-- Black filled triangle with code rain -->
-  <polygon points="5,5 55,5 30,55" fill="#0a0a0a"/>
-  <text font-family="'Courier New', 'DM Mono', monospace" font-size="4" fill="#ffffff" opacity="0.9">
-    <tspan x="16" y="14">1o ltd</tspan>
-    <tspan x="15" y="18">Ho$S</tspan>
-    <tspan x="17" y="22">uo3o1</tspan>
-    <tspan x="17" y="26">1o.d</tspan>
-    <tspan x="17" y="30">1ood$</tspan>
-    <tspan x="17" y="34">saeo</tspan>
-    <tspan x="17" y="38">ai.0:</tspan>
-    <tspan x="19" y="42">iod></tspan>
-    <tspan x="21" y="46">io?</tspan>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 120" fill="none">
+  <!-- Code Rain V — small dense characters -->
+  <polygon points="5,5 75,5 40,75" fill="#0a0a0a"/>
+  <text font-family="'Courier New', 'DM Mono', monospace" font-size="5" fill="#ffffff" opacity="0.9" text-anchor="middle">
+    <tspan x="40" y="20">1o ltd</tspan>
+    <tspan x="40" y="26">Ho$19</tspan>
+    <tspan x="40" y="32">uo3o1</tspan>
+    <tspan x="40" y="38">1o.d</tspan>
+    <tspan x="40" y="44">saeo</tspan>
+    <tspan x="40" y="50">iod></tspan>
+    <tspan x="40" y="56">io?</tspan>
+    <tspan x="40" y="62">:d</tspan>
+    <tspan x="40" y="68">o</tspan>
   </text>
 
-  <!-- VORACODE text -->
-  <text x="64" y="72" font-family="system-ui, -apple-system, 'Segoe UI', 'Inter', 'Space Grotesk', sans-serif" font-size="40" font-weight="700" fill="#ffffff" letter-spacing="-1">VORACODE</text>
+  <!-- VORACODE text — straight, not tilted -->
+  <text x="90" y="82" font-family="system-ui, -apple-system, 'Segoe UI', 'Inter', 'Space Grotesk', sans-serif" font-size="46" font-weight="700" fill="#ffffff" letter-spacing="-1">VORACODE</text>
 </svg>
