@@ -4,6 +4,7 @@
 
 import { Command } from "commander";
 import { SessionManager } from "../session/manager";
+import { writeFileSync } from "fs";
 
 // Shared manager instance
 const getManager = () => new SessionManager();
@@ -120,7 +121,7 @@ export const sessionCommand = new Command("session")
         const data = JSON.stringify({ session, messages }, null, 2);
 
         if (file) {
-          await Bun.write(file, data);
+          writeFileSync(file, data);
           console.log(`\n  💾 Session exported to ${file}\n`);
         } else {
           console.log(data);

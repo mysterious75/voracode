@@ -5,7 +5,7 @@
  * All data is LOCAL by default — zero telemetry.
  */
 
-import { Database } from "bun:sqlite";
+import Database from "better-sqlite3";
 import { existsSync, mkdirSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
@@ -135,7 +135,7 @@ export class VoraDatabase {
   }
 
   getSession(id: string) {
-    return this.db.query("SELECT * FROM sessions WHERE id = ?").get(id);
+    return this.db.prepare("SELECT * FROM sessions WHERE id = ?").get(id);
   }
 
   listSessions(limit = 10) {
@@ -153,7 +153,7 @@ export class VoraDatabase {
   }
 
   deleteSession(id: string): void {
-    this.db.run("DELETE FROM sessions WHERE id = ?", [id]);
+    this.db.prepare("DELETE FROM sessions WHERE id = ?").run([id]);
   }
 
   // ── Message operations ──
@@ -244,7 +244,7 @@ export class VoraDatabase {
   }
 
   query(sql: string) {
-    return this.db.query(sql);
+    return this.db.prepare(sql);
   }
 
   run(sql: string, params: unknown[] = []): void {

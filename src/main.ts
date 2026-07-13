@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * VORACODE — AI Coding Agent
  * One agent, every surface.
@@ -25,6 +25,7 @@ import { updateCommand } from "./cli/update";
 import { version } from "../package.json";
 import { c, printBanner, box, footer } from "./ui/theme";
 import { ALL_PROVIDERS, BUILTIN_MCP_SERVERS } from "./models/adapters/all-providers";
+import { startInteractiveSession } from "./cli/interactive";
 
 const VERSION = version || "0.0.1";
 const NAME = "voracode";
@@ -56,15 +57,7 @@ async function main(): Promise<void> {
   program.addCommand(updateCommand);
 
   if (process.argv.length <= 2) {
-    printBanner();
-    console.log(`  ${c.dim}${c.bold}${NAME}${c.reset} ${c.dim}run <task>${c.reset}   Execute a task`);
-    console.log(`  ${c.dim}${c.bold}${NAME}${c.reset} ${c.dim}init${c.reset}           Initialize project`);
-    console.log(`  ${c.dim}${c.bold}${NAME}${c.reset} ${c.dim}session list${c.reset}   Manage sessions`);
-    console.log(`  ${c.dim}${c.bold}${NAME}${c.reset} ${c.dim}model list${c.reset}     ${ALL_PROVIDERS.length} providers ready`);
-    console.log(`  ${c.dim}${c.bold}${NAME}${c.reset} ${c.dim}mcp list${c.reset}        ${BUILTIN_MCP_SERVERS.length} MCP servers`);
-    console.log(`  ${c.dim}${c.bold}${NAME}${c.reset} ${c.dim}doctor${c.reset}          Health check`);
-    console.log(`  ${c.dim}${c.bold}${NAME}${c.reset} ${c.dim}--help${c.reset}          All commands`);
-    footer();
+    await startInteractiveSession();
     return;
   }
 
