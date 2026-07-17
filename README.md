@@ -1,18 +1,17 @@
-﻿<p align="center">
-  <a href="https://github.com/mysterious75/voracode">
-    <picture>
-      <source srcset="packages/console/app/src/asset/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
-      <source srcset="packages/console/app/src/asset/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
-      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="Voracode" height="100">
-    </picture>
-  </a>
-</p>
+﻿<pre align="center">
 
-<h3 align="center">AI-Native Development Environment</h3>
+██╗   ██╗ ██████╗ ██████╗  █████╗   ██████╗ ██████╗ ██████╗ ███████╗
+██║   ██║██╔═══██╗██╔══██╗██╔══██╗ ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+██║   ██║██║   ██║██████╔╝███████║ ██║     ██║   ██║██║  ██║█████╗  
+██║   ██║██║   ██║██╔══██╗██╔══██║ ██║     ██║   ██║██║  ██║██╔══╝  
+╚██╗ ██╔╝██║   ██║██╔══██╗██║  ██║ ╚██████╗╚██████╔╝██████╔╝███████╗
+ ╚████╔╝ ╚██████╔╝██║  ██║██║  ██║  ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
+  ╚═══╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝                            
 
-<p align="center">
-  Build. Think. Automate.
-</p>
+              AI-Native Development Environment
+                    Build. Think. Automate.
+
+</pre>
 
 <p align="center">
   <a href="https://github.com/mysterious75/voracode/actions/workflows/publish.yml"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/mysterious75/voracode/publish.yml?style=flat-square&branch=dev&label=build" /></a>
@@ -20,10 +19,6 @@
   <a href="https://github.com/mysterious75/voracode/blob/dev/LICENSE"><img alt="License" src="https://img.shields.io/github/license/mysterious75/voracode?style=flat-square" /></a>
   <a href="https://discord.gg/voracode"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
 </p>
-
----
-
-[![Voracode TUI](packages/web/src/assets/lander/screenshot.png)](https://github.com/mysterious75/voracode)
 
 ---
 
@@ -39,20 +34,14 @@
 ## Quick Start
 
 ```bash
-# Install
 npm i -g voracode@latest
-
-# Or use other package managers
-bun i -g voracode@latest
-pnpm i -g voracode@latest
-yarn global add voracode@latest
 ```
 
 <details>
 <summary><strong>More install options</strong></summary>
 
 ```bash
-# macOS / Linux (Homebrew — recommended)
+# macOS / Linux (Homebrew)
 brew install mysterious75/tap/voracode
 
 # Windows (Scoop)
@@ -73,17 +62,10 @@ nix run nixpkgs#voracode
 ## Usage
 
 ```bash
-# Start interactive TUI
-voracode
-
-# Run in specific directory
-voracode /path/to/project
-
-# Non-interactive mode
-voracode -p "explain this codebase"
-
-# Headless API server
-voracode serve
+voracode                    # Start interactive TUI
+voracode /path/to/project   # Run in specific directory
+voracode -p "explain this"  # Non-interactive mode
+voracode serve              # Headless API server
 ```
 
 ## Agents
@@ -113,8 +95,6 @@ bun run --cwd packages/desktop dev
 
 ## Configuration
 
-Voracode uses `~/.config/voracode/voracode.json` for configuration.
-
 ```json
 {
   "$schema": "https://voracode.ai/config.json",
@@ -126,19 +106,18 @@ Voracode uses `~/.config/voracode/voracode.json` for configuration.
 }
 ```
 
-See the [documentation](https://voracode.ai/docs) for full configuration reference.
+See the [documentation](https://voracode.ai/docs) for full reference.
 
 ## Contributing
 
-We welcome contributions! Please read our [contributing guide](./CONTRIBUTING.md) before submitting a PR.
-
 ```bash
-# Clone and setup
 git clone https://github.com/mysterious75/voracode.git
 cd voracode
 bun install
 bun dev
 ```
+
+Read our [contributing guide](./CONTRIBUTING.md) before submitting a PR.
 
 ## License
 
