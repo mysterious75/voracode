@@ -1,146 +1,153 @@
-# VORACODE
+﻿<p align="center">
+  <a href="https://github.com/mysterious75/voracode">
+    <picture>
+      <source srcset="packages/console/app/src/asset/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
+      <source srcset="packages/console/app/src/asset/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
+      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="Voracode" height="100">
+    </picture>
+  </a>
+</p>
 
-> Terminal-native AI coding agent — fast, private, BYOK.
+<h3 align="center">AI-Native Development Environment</h3>
+
+<p align="center">
+  Build. Think. Automate.
+</p>
+
+<p align="center">
+  <a href="https://github.com/mysterious75/voracode/actions/workflows/publish.yml"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/mysterious75/voracode/publish.yml?style=flat-square&branch=dev&label=build" /></a>
+  <a href="https://www.npmjs.com/package/voracode"><img alt="npm" src="https://img.shields.io/npm/v/voracode?style=flat-square" /></a>
+  <a href="https://github.com/mysterious75/voracode/blob/dev/LICENSE"><img alt="License" src="https://img.shields.io/github/license/mysterious75/voracode?style=flat-square" /></a>
+  <a href="https://discord.gg/voracode"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
+</p>
 
 ---
 
-## Quick Start
-
-```bash
-npm install -g voracode
-voracode init
-voracode run "create a login page with React and Tailwind"
-```
+[![Voracode TUI](packages/web/src/assets/lander/screenshot.png)](https://github.com/mysterious75/voracode)
 
 ---
 
 ## Features
 
-- **75+ AI providers** — OpenAI, Anthropic, DeepSeek, Groq, Ollama, and more
-- **Zero telemetry** — No data collected, fully private
-- **Local models** — 100% offline via Ollama
-- **BYOK** — Use your own API keys, no vendor lock-in
-- **Self-improving** — Learns from your patterns over time
-- **MCP support** — Connect external tools via Model Context Protocol
-- **Security** — 7-layer defense with command sandbox + key vault
-- **Cross-platform** — macOS, Linux, Windows
+- **Terminal-native AI assistant** — chat with your codebase directly from the terminal
+- **Multi-provider support** — Claude, GPT, Gemini, DeepSeek, and 75+ providers
+- **Built-in agents** — specialized agents for building, planning, and research
+- **Tool integration** — file editing, bash execution, LSP, MCP servers
+- **Session management** — persistent sessions with history and resume
+- **Desktop app** — native Electron app for a richer experience
 
----
-
-## Installation
+## Quick Start
 
 ```bash
-npm install -g voracode                              # npm
-bun install -g voracode                               # Bun (recommended)
-brew install voracode                                 # macOS/Linux
-scoop install voracode                                # Windows
-curl -fsSL https://voracode.dev/install | bash        # One-liner
+# Install
+npm i -g voracode@latest
+
+# Or use other package managers
+bun i -g voracode@latest
+pnpm i -g voracode@latest
+yarn global add voracode@latest
 ```
 
----
-
-## API Key Setup
-
-VORACODE is **BYOK** — you bring the key, we provide the tool.
+<details>
+<summary><strong>More install options</strong></summary>
 
 ```bash
-voracode key set openai sk-xxxxxxxxxxxx
-voracode key set deepseek sk-xxxxxxxxxxxx
-voracode key set openrouter sk-or-v1-xxxxxxxxxxxx
+# macOS / Linux (Homebrew — recommended)
+brew install mysterious75/tap/voracode
+
+# Windows (Scoop)
+scoop install voracode
+
+# Windows (Chocolatey)
+choco install voracode
+
+# Arch Linux
+sudo pacman -S voracode
+
+# Nix
+nix run nixpkgs#voracode
 ```
 
-| Provider | Free Tier | Protocol |
-|----------|-----------|----------|
-| OpenAI | — | OpenAI-compatible |
-| Anthropic | — | Anthropic Messages |
-| Google Gemini | 60 req/min | Google AI |
-| DeepSeek | $0.14/M tokens | OpenAI-compatible |
-| Groq | 500K tokens/day | OpenAI-compatible |
-| Ollama (Local) | Unlimited | OpenAI-compatible |
-| OpenRouter | 25+ free models | OpenAI-compatible |
-| HuggingFace | Generous free tier | OpenAI-compatible |
-
----
+</details>
 
 ## Usage
 
 ```bash
-voracode run "create a REST API with Express"
-voracode run "fix the bug in auth.ts" -m anthropic/claude-sonnet-4
-voracode run "add tests" --session abc123 --fork
-voracode run "explain this codebase" --dry-run
+# Start interactive TUI
+voracode
+
+# Run in specific directory
+voracode /path/to/project
+
+# Non-interactive mode
+voracode -p "explain this codebase"
+
+# Headless API server
+voracode serve
 ```
+
+## Agents
+
+Switch between agents with the `Tab` key:
+
+| Agent | Description |
+|-------|-------------|
+| **build** | Default full-access agent for development |
+| **plan** | Read-only agent for analysis and exploration |
+| **general** | Subagent for complex searches (use `@general`) |
+
+## Desktop App
+
+Download from [releases](https://github.com/mysterious75/voracode/releases) or build from source:
 
 ```bash
-voracode session list          # Manage sessions
-voracode model list            # View providers
-voracode skill list            # View skills
-voracode mcp list              # View MCP servers
-voracode audit .               # Security audit
-voracode doctor                # Health check
+bun run --cwd packages/desktop dev
 ```
 
----
+| Platform | Download |
+|----------|----------|
+| macOS (Apple Silicon) | `voracode-desktop-mac-arm64.dmg` |
+| macOS (Intel) | `voracode-desktop-mac-x64.dmg` |
+| Windows | `voracode-desktop-windows-x64.exe` |
+| Linux | `.deb`, `.rpm`, or `.AppImage` |
 
 ## Configuration
 
+Voracode uses `~/.config/voracode/voracode.json` for configuration.
+
 ```json
-// ~/.config/voracode/config.json
 {
-  "model": { "provider": "auto", "fallback": ["deepseek", "groq"] },
-  "context": { "maxTokens": 128000, "compression": "auto" },
-  "security": { "sandbox": { "enabled": true, "timeout": 30000 } },
-  "telemetry": { "enabled": false }
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "anthropic": {
+      "apiKey": "sk-ant-..."
+    }
+  }
 }
 ```
 
----
+See the [documentation](https://voracode.ai/docs) for full configuration reference.
 
-## Security
+## Contributing
 
-- **OS Keychain** — API keys encrypted at rest, never plain text
-- **Rate limiter** — 10 calls/min per provider, circuit breaker on failures
-- **Command sandbox** — 20+ dangerous patterns blocked, 30s timeout
-- **Path traversal guard** — All file operations validated against project root
-- **Network egress** — Domain allowlist for all outbound requests
-- **Fetch timeout** — 60s API timeout, no hanging requests
-- **Audit log** — All actions logged locally, tamper-evident
-- **Key protection** — Keys never in logs, crash reports, or generated code
-
----
-
-## Self-Improvement
-
-VORACODE learns from your patterns to become smarter over time — all locally.
-
-1. You perform similar tasks → patterns detected
-2. After 3+ matches → suggests a reusable skill
-3. You confirm → skill is created, future tasks get faster
-
-All learning is **local** in `~/.local/share/voracode/`. Zero data sent anywhere.
-
----
-
-## Development
+We welcome contributions! Please read our [contributing guide](./CONTRIBUTING.md) before submitting a PR.
 
 ```bash
+# Clone and setup
 git clone https://github.com/mysterious75/voracode.git
-cd voracode && bun install
-bun run dev        # development
-bun run test       # tests
-bun run build:all  # cross-platform binaries
+cd voracode
+bun install
+bun dev
 ```
-
----
 
 ## License
 
-MIT — See [LICENSE](LICENSE)
+MIT © [mysterious75](https://github.com/mysterious75)
 
 ---
 
 <p align="center">
-  <a href="https://github.com/mysterious75/voracode">GitHub</a> ·
-  <a href="https://npmjs.com/package/voracode">npm</a> ·
-  <a href="https://github.com/mysterious75/voracode/issues">Issues</a>
+  <a href="https://github.com/mysterious75/voracode">GitHub</a> · 
+  <a href="https://discord.gg/voracode">Discord</a> · 
+  <a href="https://x.com/voracode">X</a>
 </p>
