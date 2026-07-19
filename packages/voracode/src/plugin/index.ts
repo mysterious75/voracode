@@ -13,14 +13,24 @@ import { CodexAuthPlugin } from "./openai/codex"
 import { Session } from "@/session/session"
 import { NamedError } from "@voracode-ai/core/util/error"
 import { CopilotAuthPlugin } from "./github-copilot/copilot"
-import { gitlabAuthPlugin as GitlabAuthPluginRaw } from "voracode-gitlab-auth"
-import { PoeAuthPlugin as PoeAuthPluginRaw } from "voracode-poe-auth"
+import { CopilotAuthPlugin } from "./github-copilot/copilot"
 
-// Auth plugin packages depend on @voracode-ai/plugin types which are
-// structurally compatible but nominally different from @voracode-ai/plugin.
-// Cast once at import boundary to avoid type errors downstream.
-const GitlabAuthPlugin = GitlabAuthPluginRaw as unknown as PluginInstance
-const PoeAuthPlugin = PoeAuthPluginRaw as unknown as PluginInstance
+// Forked auth plugins use dynamic imports to avoid build-time resolution issues
+let _gitlabAuthPlugin: PluginInstance | undefined
+let _poeAuthPlugin: PluginInstance | undefined
+
+async function loadForkedPlugins() {
+  try {
+    const [{ gitlabAuthPlugin }, { PoeAuthPlugin }] = await Promise.all([
+      import("voracode-gitlab-auth"),
+      import("voracode-poe-auth"),
+    ])
+    _gitlabAuthPlugin = gitlabAuthPlugin as unknown as PluginInstance
+    _poeAuthPlugin = PoeAuthPlugin as unknown as PluginInstance
+  } catch {
+    // Forked plugins may not be available in all builds
+  }
+}
 import { CloudflareAIGatewayAuthPlugin, CloudflareWorkersAuthPlugin } from "./cloudflare"
 import { AzureAuthPlugin } from "./azure"
 import { DigitalOceanAuthPlugin } from "./digitalocean"
@@ -68,7 +78,8 @@ export function experimentalWebSocketsEnabled(input: { enabled: boolean; channel
 }
 
 // Built-in plugins that are directly imported (not installed from npm)
-function internalPlugins(flags: RuntimeFlags.Info): PluginInstance[] {
+async function internalPlugins(flags: RuntimeFlags.Info): Promise<PluginInstance[]> {
+  await loadForkedPlugins()
   return [
     // Temporary rollout: pre-release builds use WebSockets by default; releases require explicit opt-in.
     (input) =>
@@ -76,8 +87,8 @@ function internalPlugins(flags: RuntimeFlags.Info): PluginInstance[] {
         experimentalWebSockets: experimentalWebSocketsEnabled({ enabled: flags.experimentalWebSockets }),
       }),
     CopilotAuthPlugin,
-    GitlabAuthPlugin,
-    PoeAuthPlugin,
+    ...(_gitlabAuthPlugin ? [_gitlabAuthPlugin] : []),
+    ...(_poeAuthPlugin ? [_poeAuthPlugin] : []),
     CloudflareWorkersAuthPlugin,
     CloudflareAIGatewayAuthPlugin,
     AzureAuthPlugin,
@@ -169,7 +180,7 @@ const layer = Layer.effect(
           $: typeof Bun === "undefined" ? undefined : Bun.$,
         }
 
-        for (const plugin of flags.disableDefaultPlugins ? [] : internalPlugins(flags)) {
+        for (const plugin of flags.disableDefaultPlugins ? [] : await internalPlugins(flags)) {
           const init = yield* Effect.tryPromise({
             try: () => plugin(input),
             catch: errorMessage,

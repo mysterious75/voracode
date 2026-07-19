@@ -135,7 +135,7 @@ describe("http-recorder", () => {
               method: "POST",
               url: "https://example.test/path?key=sk-123456789012345678901234",
               headers: {},
-              body: JSON.stringify({ nested: "FAKE_KEY_REMOVED" }),
+              body: JSON.stringify({ nested: "FAKE_API_KEY_FOR_TESTING_ONLY" }),
             },
             response: {
               status: 200,
