@@ -1,0 +1,57 @@
+{
+  "name": "voracode-poe-auth",
+  "version": "0.0.2",
+  "description": "Poe OAuth authentication plugin for Voracode",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run --config vitest.config.ts",
+    "test:unit": "vitest run --config vitest.config.ts"
+  },
+  "keywords": [
+    "voracode",
+    "voracode-plugin",
+    "poe",
+    "oauth",
+    "oauth2",
+    "authentication",
+    "auth",
+    "login",
+    "pkce",
+    "plugin",
+    "ai",
+    "typescript"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@voracode-ai/plugin": "*"
+  },
+  "dependencies": {
+    "open": "^10.0.0",
+    "poe-oauth": "*"
+  },
+  "devDependencies": {
+    "@voracode-ai/plugin": "^1.3.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mysterious75/voracode.git",
+    "directory": "packages/forks/voracode-poe-auth"
+  },
+  "homepage": "https://github.com/mysterious75/voracode/tree/main/packages/forks/voracode-poe-auth"
+}
