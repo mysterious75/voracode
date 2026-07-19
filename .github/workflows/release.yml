@@ -31,7 +31,8 @@ jobs:
         run: bun install
 
       - name: Build CLI
-        run: bun run build
+        working-directory: packages/voracode
+        run: bun run script/build.ts --single
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -99,6 +100,7 @@ jobs:
         run: bun install
 
       - name: Publish to npm
+        working-directory: packages/voracode
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
