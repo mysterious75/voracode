@@ -180,7 +180,8 @@ const layer = Layer.effect(
           $: typeof Bun === "undefined" ? undefined : Bun.$,
         }
 
-        for (const plugin of flags.disableDefaultPlugins ? [] : await internalPlugins(flags)) {
+        const defaultPlugins = flags.disableDefaultPlugins ? [] : yield* Effect.promise(() => internalPlugins(flags))
+        for (const plugin of defaultPlugins) {
           const init = yield* Effect.tryPromise({
             try: () => plugin(input),
             catch: errorMessage,
