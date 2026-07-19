@@ -1,6 +1,10 @@
 ﻿<div align="center">
 
-# **VORACODE**
+<a href="https://github.com/mysterious75/voracode">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 80" width="260" height="40">
+    <text x="0" y="62" font-family="'SF Pro Display', 'Inter', 'Segoe UI', system-ui, sans-serif" font-size="68" font-weight="800" fill="#1a1a1a" letter-spacing="-1">vora</text><text x="218" y="62" font-family="'SF Pro Display', 'Inter', 'Segoe UI', system-ui, sans-serif" font-size="68" font-weight="300" fill="#999" letter-spacing="-1">code</text>
+  </svg>
+</a>
 
 ### The AI Operating System for Developers
 
