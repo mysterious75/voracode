@@ -42,7 +42,7 @@
     "poe-oauth": "*"
   },
   "devDependencies": {
-    "@voracode-ai/plugin": "^1.3.0"
+    "@voracode-ai/plugin": "workspace:*"
   },
   "files": [
     "dist",
