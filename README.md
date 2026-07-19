@@ -29,6 +29,12 @@
   <em>Voracode runs natively on Windows, macOS, and Linux.</em>
 </div>
 
+<div align="center">
+  <img src="docs/assets/terminal-startup.png" alt="Voracode Terminal Interface" width="800" />
+  <br>
+  <em>Start coding with AI in seconds — just type your question.</em>
+</div>
+
 ---
 
 ## Why Voracode?
