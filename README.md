@@ -1,7 +1,7 @@
 ﻿<div align="center">
 
 <a href="https://github.com/mysterious75/voracode">
-  <img src="docs/assets/voracode-logo.svg" alt="voracode" width="260" height="40" />
+  <img src="docs/assets/voracode-banner.png" alt="voracode" width="600" />
 </a>
 
 ### The AI Operating System for Developers
