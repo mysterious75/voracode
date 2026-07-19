@@ -1,45 +1,31 @@
-﻿<pre align="center">
+﻿<div align="center">
 
-██╗   ██╗ ██████╗ ██████╗  █████╗  ██████╗ ██████╗ ██████╗ ███████╗
-██║   ██║██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝
-██║   ██║██║   ██║██████╔╝███████║██║     ██║   ██║██║  ██║█████╗  
-██║   ██║██║   ██║██╔══██╗██╔══██║██║     ██║   ██║██║  ██║██╔══╝  
-╚██╗ ██╔╝██║   ██║██╔══██╗██║  ██║╚██████╗╚██████╔╝██████╔╝███████╗
- ╚████╔╝ ╚██████╔╝██║  ██║██║  ██║ ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
-  ╚═══╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝                            
+# **VORACODE**
 
-</pre>
+### The AI Operating System for Developers
 
-<p align="center">
-  <strong>The AI Operating System for Developers</strong><br>
-  One CLI. Any LLM. Unlimited Workflows.
-</p>
-
-<p align="center">
-  <a href="https://github.com/mysterious75/voracode/releases"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/mysterious75/voracode?style=flat-square&color=7c3aed" /></a>
-  <a href="https://www.npmjs.com/package/voracode"><img alt="NPM Version" src="https://img.shields.io/npm/v/voracode?style=flat-square&color=7c3aed" /></a>
-  <a href="https://www.npmjs.com/package/voracode"><img alt="Downloads" src="https://img.shields.io/npm/dm/voracode?style=flat-square&color=7c3aed" /></a>
-  <a href="https://github.com/mysterious75/voracode/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/github/license/mysterious75/voracode?style=flat-square&color=7c3aed" /></a>
-  <a href="https://discord.gg/voracode"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&color=7c3aed" /></a>
-  <a href="https://github.com/mysterious75/voracode"><img alt="Stars" src="https://img.shields.io/github/stars/mysterious75/voracode?style=flat-square&color=7c3aed" /></a>
-</p>
-
-<p align="center">
-  <a href="https://voracode.voraprotocol.com">Website</a> · 
-  <a href="https://github.com/mysterious75/voracode/releases">Download</a> · 
-  <a href="https://discord.gg/voracode">Discord</a> · 
-  <a href="https://x.com/voracode">X/Twitter</a>
-</p>
+**One CLI. Any LLM. Unlimited Workflows.**
 
 ---
 
-## Desktop App
+[![GitHub Release](https://img.shields.io/github/v/release/mysterious75/voracode?style=for-the-badge&color=7c3aed)](https://github.com/mysterious75/voracode/releases)
+[![NPM Version](https://img.shields.io/npm/v/voracode?style=for-the-badge&color=7c3aed)](https://www.npmjs.com/package/voracode)
+[![Downloads](https://img.shields.io/npm/dm/voracode?style=for-the-badge&color=7c3aed)](https://www.npmjs.com/package/voracode)
+[![License](https://img.shields.io/github/license/mysterious75/voracode?style=for-the-badge&color=7c3aed)](https://github.com/mysterious75/voracode/blob/master/LICENSE)
+[![Discord](https://img.shields.io/discord/1391832426048651334?style=for-the-badge&color=7c3aed)](https://discord.gg/voracode)
+[![Stars](https://img.shields.io/github/stars/mysterious75/voracode?style=for-the-badge&color=7c3aed)](https://github.com/mysterious75/voracode)
 
-<p align="center">
+[Website](https://voracode.voraprotocol.com) · [Download](https://github.com/mysterious75/voracode/releases) · [Discord](https://discord.gg/voracode) · [X/Twitter](https://x.com/voracode)
+
+</div>
+
+---
+
+<div align="center">
   <img src="docs/assets/desktop-preview.png" alt="Voracode Desktop App" width="800" />
-</p>
-
-> Voracode runs natively on Windows, macOS, and Linux. Download the standalone installer or build from source.
+  <br>
+  <em>Voracode runs natively on Windows, macOS, and Linux.</em>
+</div>
 
 ---
 
