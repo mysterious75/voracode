@@ -1,0 +1,166 @@
+---
+title: Empresa
+description: Usando o voracode com seguranÃ§a em sua organizaÃ§Ã£o.
+---
+
+import config from "../../../../config.mjs"
+export const email = `mailto:${config.email}`
+
+O voracode Enterprise Ã© para organizaÃ§Ãµes que desejam garantir que seu cÃ³digo e dados nunca deixem sua infraestrutura. Isso pode ser feito usando uma configuraÃ§Ã£o centralizada que se integra ao seu SSO e gateway de IA interno.
+
+:::note
+O voracode nÃ£o armazena nenhum de seus cÃ³digos ou dados de contexto.
+:::
+
+Para comeÃ§ar com o voracode Enterprise:
+
+1. FaÃ§a um teste internamente com sua equipe.
+2. **<a href={email}>Entre em contato conosco</a>** para discutir opÃ§Ãµes de preÃ§os e implementaÃ§Ã£o.
+
+---
+
+## Teste
+
+O voracode Ã© de cÃ³digo aberto e nÃ£o armazena nenhum de seus cÃ³digos ou dados de contexto, entÃ£o seus desenvolvedores podem simplesmente [comeÃ§ar](/docs/) e realizar um teste.
+
+---
+
+### ManipulaÃ§Ã£o de dados
+
+**O voracode nÃ£o armazena seu cÃ³digo ou dados de contexto.** Todo o processamento acontece localmente ou atravÃ©s de chamadas diretas de API para seu provedor de IA.
+
+Isso significa que, enquanto vocÃª estiver usando um provedor em quem confia, ou um gateway de IA interno, vocÃª pode usar o voracode com seguranÃ§a.
+
+A Ãºnica ressalva aqui Ã© o recurso opcional `/share`.
+
+---
+
+#### Compartilhando conversas
+
+Se um usuÃ¡rio habilitar o recurso `/share`, a conversa e os dados associados a ela sÃ£o enviados para o serviÃ§o que usamos para hospedar essas pÃ¡ginas de compartilhamento em voracode.ai.
+
+Os dados sÃ£o atualmente servidos atravÃ©s da rede de borda do nosso CDN e sÃ£o armazenados em cache na borda perto de seus usuÃ¡rios.
+
+Recomendamos que vocÃª desative isso para seu teste.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "disabled"
+}
+```
+
+[Saiba mais sobre compartilhamento](/docs/share).
+
+---
+
+### Propriedade do cÃ³digo
+
+**VocÃª possui todo o cÃ³digo produzido pelo voracode.** NÃ£o hÃ¡ restriÃ§Ãµes de licenciamento ou reivindicaÃ§Ãµes de propriedade.
+
+---
+
+## PreÃ§os
+
+Usamos um modelo por assento para o voracode Enterprise. Se vocÃª tiver seu prÃ³prio gateway LLM, nÃ£o cobramos pelos tokens usados. Para mais detalhes sobre preÃ§os e opÃ§Ãµes de implementaÃ§Ã£o, **<a href={email}>entre em contato conosco</a>**.
+
+---
+
+## ImplantaÃ§Ã£o
+
+Uma vez que vocÃª tenha concluÃ­do seu teste e esteja pronto para usar o voracode em sua organizaÃ§Ã£o, vocÃª pode **<a href={email}>entrar em contato conosco</a>** para discutir preÃ§os e opÃ§Ãµes de implementaÃ§Ã£o.
+
+---
+
+### ConfiguraÃ§Ã£o Central
+
+Podemos configurar o voracode para usar uma Ãºnica configuraÃ§Ã£o central para toda a sua organizaÃ§Ã£o.
+
+Essa configuraÃ§Ã£o centralizada pode se integrar ao seu provedor de SSO e garante que todos os usuÃ¡rios acessem apenas seu gateway de IA interno.
+
+---
+
+### IntegraÃ§Ã£o SSO
+
+AtravÃ©s da configuraÃ§Ã£o central, o voracode pode se integrar ao provedor de SSO de sua organizaÃ§Ã£o para autenticaÃ§Ã£o.
+
+Isso permite que o voracode obtenha credenciais para seu gateway de IA interno atravÃ©s do seu sistema de gerenciamento de identidade existente.
+
+---
+
+### Gateway de IA Interno
+
+Com a configuraÃ§Ã£o central, o voracode tambÃ©m pode ser configurado para usar apenas seu gateway de IA interno.
+
+VocÃª tambÃ©m pode desativar todos os outros provedores de IA, garantindo que todas as solicitaÃ§Ãµes passem pela infraestrutura aprovada de sua organizaÃ§Ã£o.
+
+---
+
+### Auto-hospedagem
+
+Embora recomendemos desativar as pÃ¡ginas de compartilhamento para garantir que seus dados nunca deixem sua organizaÃ§Ã£o, tambÃ©m podemos ajudÃ¡-lo a auto-hospedÃ¡-las em sua infraestrutura.
+
+Isso estÃ¡ atualmente em nosso roadmap. Se vocÃª estiver interessado, **<a href={email}>nos avise</a>**.
+
+---
+
+## FAQ
+
+<details>
+<summary>O que Ã© o voracode Enterprise?</summary>
+
+O voracode Enterprise Ã© para organizaÃ§Ãµes que desejam garantir que seu cÃ³digo e dados nunca deixem sua infraestrutura. Isso pode ser feito usando uma configuraÃ§Ã£o centralizada que se integra ao seu SSO e gateway de IA interno.
+
+</details>
+
+<details>
+<summary>Como posso comeÃ§ar com o voracode Enterprise?</summary>
+
+Basta comeÃ§ar com um teste interno com sua equipe. O voracode, por padrÃ£o, nÃ£o armazena seu cÃ³digo ou dados de contexto, facilitando o inÃ­cio.
+
+Depois, **<a href={email}>entre em contato conosco</a>** para discutir opÃ§Ãµes de preÃ§os e implementaÃ§Ã£o.
+
+</details>
+
+<details>
+<summary>Como funciona a precificaÃ§Ã£o empresarial?</summary>
+
+Oferecemos preÃ§os empresariais por assento. Se vocÃª tiver seu prÃ³prio gateway LLM, nÃ£o cobramos pelos tokens usados. Para mais detalhes, **<a href={email}>entre em contato conosco</a>** para um orÃ§amento personalizado com base nas necessidades de sua organizaÃ§Ã£o.
+
+</details>
+
+<details>
+<summary>Meus dados estÃ£o seguros com o voracode Enterprise?</summary>
+
+Sim. O voracode nÃ£o armazena seu cÃ³digo ou dados de contexto. Todo o processamento acontece localmente ou atravÃ©s de chamadas diretas de API para seu provedor de IA. Com a configuraÃ§Ã£o central e a integraÃ§Ã£o SSO, seus dados permanecem seguros dentro da infraestrutura de sua organizaÃ§Ã£o.
+
+</details>
+
+<details>
+<summary>Podemos usar nosso prÃ³prio registro NPM privado?</summary>
+
+O voracode suporta registros npm privados atravÃ©s do suporte nativo do arquivo `.npmrc` do Bun. Se sua organizaÃ§Ã£o usa um registro privado, como JFrog Artifactory, Nexus ou similar, certifique-se de que os desenvolvedores estejam autenticados antes de executar o voracode.
+
+Para configurar a autenticaÃ§Ã£o com seu registro privado:
+
+```bash
+npm login --registry=https://your-company.jfrog.io/api/npm/npm-virtual/
+```
+
+Isso cria `~/.npmrc` com os detalhes de autenticaÃ§Ã£o. O voracode irÃ¡ automaticamente
+capturar isso.
+
+:::caution
+VocÃª deve estar logado no registro privado antes de executar o voracode.
+:::
+
+Alternativamente, vocÃª pode configurar manualmente um arquivo `.npmrc`:
+
+```bash title="~/.npmrc"
+registry=https://your-company.jfrog.io/api/npm/npm-virtual/
+//your-company.jfrog.io/api/npm/npm-virtual/:_authToken=${NPM_AUTH_TOKEN}
+```
+
+Os desenvolvedores devem estar logados no registro privado antes de executar o voracode para garantir que os pacotes possam ser instalados a partir do seu registro empresarial.
+
+</details>

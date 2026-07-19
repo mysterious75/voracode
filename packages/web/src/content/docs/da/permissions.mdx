@@ -1,0 +1,235 @@
+---
+title: Tilladelser
+description: Kontroller, hvilke handlinger der krÃ¦ver godkendelse for at kÃ¸re.
+---
+
+Voracode bruger `permission`-konfigurationen til at bestemme, om en given handling skal kÃ¸re automatisk, bede dig om eller blokeres.
+
+Fra `v1.1.1` er den Ã¦ldre `tools` booleske konfiguration forÃ¦ldet og er blevet flettet ind i `permission`. Den gamle `tools`-konfiguration er stadig understÃ¸ttet for bagudkompatibilitet.
+
+---
+
+## Handlinger
+
+Hver tilladelsesregel lÃ¸ses til en af:
+
+- `"allow"` â€” kÃ¸re uden godkendelse
+- `"ask"` â€” prompt om godkendelse
+- `"deny"` â€” bloker handlingen
+
+---
+
+## Konfiguration
+
+Du kan indstille tilladelser globalt (med `*`) og tilsidesÃ¦tte specifikke vÃ¦rktÃ¸jer.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "*": "ask",
+    "bash": "allow",
+    "edit": "deny"
+  }
+}
+```
+
+Du kan ogsÃ¥ indstille alle tilladelser pÃ¥ Ã©n gang:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": "allow"
+}
+```
+
+---
+
+## GranulÃ¦re regler (objektsyntaks)
+
+For de fleste tilladelser kan du bruge et objekt til at anvende forskellige handlinger baseret pÃ¥ vÃ¦rktÃ¸jsinputtet.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "git *": "allow",
+      "npm *": "allow",
+      "rm *": "deny",
+      "grep *": "allow"
+    },
+    "edit": {
+      "*": "deny",
+      "packages/web/src/content/docs/*.mdx": "allow"
+    }
+  }
+}
+```
+
+Regler evalueres efter mÃ¸nstermatch, hvor den **sidste matchende regel vinder**. Et almindeligt mÃ¸nster er at sÃ¦tte catch-all `"*"` reglen fÃ¸rst og mere specifikke regler efter den.
+
+### Jokertegn
+
+TilladelsesmÃ¸nstre bruger simpel jokertegn-matchning:
+
+- `*` matcher nul eller flere af et hvilket som helst tegn
+- `?` matcher nÃ¸jagtigt Ã©t tegn
+- Alle andre karakterer matcher bogstaveligt talt
+
+### Udvidelse af hjemmemappe
+
+Du kan bruge `~` eller `$HOME` i starten af â€‹â€‹et mÃ¸nster til at referere til din hjemmemappe. Dette er isÃ¦r nyttigt for [`external_directory`](#external-directories) regler.
+
+- `~/projects/*` -> `/Users/username/projects/*`
+- `$HOME/projects/*` -> `/Users/username/projects/*`
+- `~` -> `/Users/username`
+
+### Eksterne mapper
+
+Brug `external_directory` til at tillade vÃ¦rktÃ¸jsopkald, der berÃ¸rer stier uden for den arbejdsmappe, hvor Voracode blev startet. Dette gÃ¦lder for ethvert vÃ¦rktÃ¸j, der tager en sti som input (for eksempel `read`, `edit`, `glob`, `grep` og mange `bash` kommandoer).
+
+Hjemmeudvidelse (som `~/...`) pÃ¥virker kun, hvordan et mÃ¸nster skrives. Det gÃ¸r ikke en ekstern sti til en del af det aktuelle arbejdsomrÃ¥de, sÃ¥ stier uden for arbejdsbiblioteket skal stadig vÃ¦re tilladt via `external_directory`.
+
+For eksempel giver dette adgang til alt under `~/projects/personal/`:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "external_directory": {
+      "~/projects/personal/**": "allow"
+    }
+  }
+}
+```
+
+Enhver mappe, der er tilladt her, arver de samme standarder som det aktuelle arbejdsomrÃ¥de. Siden [`read` defaults to `allow`](#defaults), er lÃ¦sninger ogsÃ¥ tilladt for poster under `external_directory`, medmindre de tilsidesÃ¦ttes. TilfÃ¸j eksplicitte regler, nÃ¥r et vÃ¦rktÃ¸j skal begrÃ¦nses i disse stier, sÃ¥som blokering af redigeringer, mens lÃ¦sninger bevares:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "external_directory": {
+      "~/projects/personal/**": "allow"
+    },
+    "edit": {
+      "~/projects/personal/**": "deny"
+    }
+  }
+}
+```
+
+Hold listen fokuseret pÃ¥ betroede stier, og lag ekstra tillad eller afvis regler efter behov for andre vÃ¦rktÃ¸jer (for eksempel `bash`).
+
+---
+
+## TilgÃ¦ngelige tilladelser
+
+Voracode tilladelser indtastes efter vÃ¦rktÃ¸jsnavn plus et par sikkerhedsafskÃ¦rmninger:
+
+- `read` â€” lÃ¦ser en fil (matcher filstien)
+- `edit` â€” alle filÃ¦ndringer (dÃ¦kker `edit`, `write`, `patch`)
+- `glob` â€” fil-globing (matcher glob-mÃ¸nsteret)
+- `grep` â€” indholdssÃ¸gning (matcher regex-mÃ¸nsteret)
+- `bash` â€” kÃ¸rer shell-kommandoer (matcher parsede kommandoer som `git status --porcelain`)
+- `task` â€” lancering af underagenter (matcher underagenttypen)
+- `skill` â€” indlÃ¦sning af en fÃ¦rdighed (matcher fÃ¦rdighedsnavnet)
+- `lsp` â€” kÃ¸rer LSP forespÃ¸rgsler (i Ã¸jeblikket ikke-granulÃ¦re)
+- `webfetch` â€” henter en URL (matcher URL)
+- `websearch` â€” websÃ¸gning (matcher forespÃ¸rgslen)
+- `external_directory` â€” udlÃ¸ses, nÃ¥r et vÃ¦rktÃ¸j berÃ¸rer stier uden for projektets arbejdsmappe
+- `doom_loop` â€” udlÃ¸ses, nÃ¥r det samme vÃ¦rktÃ¸jskald gentages 3 gange med identisk input
+
+---
+
+## Standarder
+
+Hvis du ikke angiver noget, starter Voracode fra tilladelige standardindstillinger:
+
+- De fleste tilladelser er som standard `"allow"`.
+- `doom_loop` og `external_directory` er som standard `"ask"`.
+- `read` er `"allow"`, men `.env` filer nÃ¦gtes som standard:
+
+```json title="voracode.json"
+{
+  "permission": {
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow"
+    }
+  }
+}
+```
+
+---
+
+## Hvad "SpÃ¸rg" gÃ¸r
+
+NÃ¥r Voracode beder om godkendelse, tilbyder brugergrÃ¦nsefladen tre resultater:
+
+- `once` â€” godkend netop denne anmodning
+- `always` â€” godkend fremtidige anmodninger, der matcher de foreslÃ¥ede mÃ¸nstre (for resten af â€‹â€‹den nuvÃ¦rende Voracode session)
+- `reject` â€” afvis anmodningen
+
+SÃ¦ttet af mÃ¸nstre, som `always` ville godkende, leveres af vÃ¦rktÃ¸jet (f.eks. hvidlister bash-godkendelser typisk et sikkert kommandoprÃ¦fiks som `git status*`).
+
+---
+
+## Agenter
+
+Du kan tilsidesÃ¦tte tilladelser pr. agent. Agenttilladelser flettes med den globale konfiguration, og agentregler har forrang. [Learn more](/docs/agents#permissions) om agenttilladelser.
+
+:::note
+Se afsnittet [Granular Rules (Object Syntax)](#granular-rules-object-syntax) ovenfor for mere detaljerede mÃ¸nstermatchningseksempler.
+:::
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "git *": "allow",
+      "git commit *": "deny",
+      "git push *": "deny",
+      "grep *": "allow"
+    }
+  },
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "git *": "allow",
+          "git commit *": "ask",
+          "git push *": "deny",
+          "grep *": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+Du kan ogsÃ¥ konfigurere agenttilladelser i Markdown:
+
+```markdown title="~/.config/voracode/agents/review.md"
+---
+description: Code review without edits
+mode: subagent
+permission:
+  edit: deny
+  bash: ask
+  webfetch: deny
+---
+
+Only analyze code and suggest changes.
+```
+
+:::tip
+Brug mÃ¸nstermatchning til kommandoer med argumenter. `"grep *"` tillader `grep pattern file.txt`, mens `"grep"` alene ville blokere det. Kommandoer som `git status` fungerer for standardadfÃ¦rd, men krÃ¦ver eksplicit tilladelse (som `"git status *"`), nÃ¥r argumenter sendes.
+:::

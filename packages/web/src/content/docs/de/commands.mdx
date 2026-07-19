@@ -1,0 +1,323 @@
+---
+title: Befehle
+description: Erstellen Sie benutzerdefinierte Befehle fÃ¼r sich wiederholende Aufgaben.
+---
+
+Mit benutzerdefinierten Befehlen kÃ¶nnen Sie eine Eingabeaufforderung angeben, die ausgefÃ¼hrt werden soll, wenn dieser Befehl im TUI ausgefÃ¼hrt wird.
+
+```bash frame="none"
+/my-command
+```
+
+Benutzerdefinierte Befehle gibt es zusÃ¤tzlich zu den integrierten Befehlen wie `/init`, `/undo`, `/redo`, `/share`, `/help`. [Mehr erfahren](/docs/tui#commands).
+
+---
+
+## Befehlsdateien erstellen
+
+Erstellen Sie Markdown-Dateien im Verzeichnis `commands/`, um benutzerdefinierte Befehle zu definieren.
+
+Erstellen Sie `.voracode/commands/test.md`:
+
+```md title=".voracode/commands/test.md"
+---
+description: Run tests with coverage
+agent: build
+model: anthropic/claude-3-5-sonnet-20241022
+---
+
+Run the full test suite with coverage report and show any failures.
+Focus on the failing tests and suggest fixes.
+```
+
+Der Frontmatter definiert Befehlseigenschaften. Der Inhalt wird zur Vorlage.
+
+Verwenden Sie den Befehl, indem Sie `/` folgen vom Befehlsnamen eingeben.
+
+```bash frame="none"
+"/test"
+```
+
+---
+
+## Konfiguration
+
+Sie kÃ¶nnen benutzerdefinierte Befehle Ã¼ber die Voracode-Konfiguration hinzufÃ¼gen oder indem Sie Markdown-Dateien im Verzeichnis `commands/` erstellen.
+
+---
+
+### JSON
+
+Verwenden Sie die Option `command` in Ihrem Voracode [config](/docs/config):
+
+```json title="voracode.jsonc" {4-12}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "command": {
+    // This becomes the name of the command
+    "test": {
+      // This is the prompt that will be sent to the LLM
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
+      // This is shown as the description in the TUI
+      "description": "Run tests with coverage",
+      "agent": "build",
+      "model": "anthropic/claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+
+Jetzt kÃ¶nnen Sie diesen Befehl im TUI ausfÃ¼hren:
+
+```bash frame="none"
+/test
+```
+
+---
+
+### Markdown
+
+Sie kÃ¶nnen Befehle auch mithilfe von Markdown-Dateien definieren. Platzieren Sie sie in:
+
+- Global: `~/.config/voracode/commands/`
+- Pro Projekt: `.voracode/commands/`
+
+```markdown title="~/.config/voracode/commands/test.md"
+---
+description: Run tests with coverage
+agent: build
+model: anthropic/claude-3-5-sonnet-20241022
+---
+
+Run the full test suite with coverage report and show any failures.
+Focus on the failing tests and suggest fixes.
+```
+
+Der Name der Markdown-Datei wird zum Befehlsnamen. Zum Beispiel `test.md` lÃ¤sst
+Du lÃ¤ufst:
+
+```bash frame="none"
+/test
+```
+
+---
+
+## Prompt-Konfiguration
+
+Die Eingabeaufforderungen fÃ¼r die benutzerdefinierten Befehle unterstÃ¼tzen mehrere spezielle Platzhalter und Syntax.
+
+---
+
+### Argumente
+
+Ãœbergeben Sie Argumente an Befehle mithilfe des Platzhalters `$ARGUMENTS`.
+
+```md title=".voracode/commands/component.md"
+---
+description: Create a new component
+---
+
+Create a new React component named $ARGUMENTS with TypeScript support.
+Include proper typing and basic structure.
+```
+
+FÃ¼hren Sie den Befehl mit Argumenten aus:
+
+```bash frame="none"
+/component Button
+```
+
+Und `$ARGUMENTS` wird durch `Button` ersetzt.
+
+Sie kÃ¶nnen auch Ã¼ber Positionsparameter auf einzelne Argumente zugreifen:
+
+- `$1` â€“ Erstes Argument
+- `$2` â€“ Zweites Argument
+- `$3` â€“ Drittes Argument
+- Und so weiter...
+
+Zum Beispiel:
+
+```md title=".voracode/commands/create-file.md"
+---
+description: Create a new file with content
+---
+
+Create a file named $1 in the directory $2
+with the following content: $3
+```
+
+FÃ¼hren Sie den Befehl aus:
+
+```bash frame="none"
+/create-file config.json src "{ \"key\": \"value\" }"
+```
+
+Dies ersetzt:
+
+- `$1` mit `config.json`
+- `$2` mit `src`
+- `$3` mit `{ "key": "value" }`
+
+---
+
+### Shell-Ausgabe
+
+Verwenden Sie _!`command`_, um die Ausgabe [bash command](/docs/tui#bash-commands) in Ihre Eingabeaufforderung einzufÃ¼gen.
+
+So erstellen Sie beispielsweise einen benutzerdefinierten Befehl, der die Testabdeckung analysiert:
+
+```md title=".voracode/commands/analyze-coverage.md"
+---
+description: Analyze test coverage
+---
+
+Here are the current test results:
+!`npm test`
+
+Based on these results, suggest improvements to increase coverage.
+```
+
+Oder um die letzten Ã„nderungen zu Ã¼berprÃ¼fen:
+
+```md title=".voracode/commands/review-changes.md"
+---
+description: Review recent changes
+---
+
+Recent git commits:
+!`git log --oneline -10`
+
+Review these changes and suggest any improvements.
+```
+
+Befehle werden im Stammverzeichnis Ihres Projekts ausgefÃ¼hrt und ihre Ausgabe wird Teil der Eingabeaufforderung.
+
+---
+
+### Dateiverweise
+
+FÃ¼gen Sie Dateien in Ihren Befehl ein, indem Sie `@` folgend vom Dateinamen verwenden.
+
+```md title=".voracode/commands/review-component.md"
+---
+description: Review component
+---
+
+Review the component in @src/components/Button.tsx.
+Check for performance issues and suggest improvements.
+```
+
+Der Dateiinhalt wird automatisch in die Eingabeaufforderung einbezogen.
+
+---
+
+## Optionen
+
+Schauen wir uns die KonfigurationsmÃ¶glichkeiten im Detail an.
+
+---
+
+### Template
+
+Die Option `template` die Eingabeaufforderung, die an LLM gesendet wird, wenn der Befehl ausgefÃ¼hrt wird.
+
+```json title="voracode.json"
+{
+  "command": {
+    "test": {
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes."
+    }
+  }
+}
+```
+
+Dies ist eine **erforderliche** Konfigurationsoption.
+
+---
+
+### Description
+
+Verwenden Sie die Option `description`, um eine kurze Beschreibung der Funktion des Befehls bereitzustellen.
+
+```json title="voracode.json"
+{
+  "command": {
+    "test": {
+      "description": "Run tests with coverage"
+    }
+  }
+}
+```
+
+Dies wird als Beschreibung im TUI angezeigt, wenn Sie den Befehl eingeben.
+
+---
+
+### Agent
+
+Verwenden Sie die `agent`-Konfiguration, um optional anzugeben, welche [agent](/docs/agents) diesen Befehl ausfÃ¼hren soll.
+Wenn es sich um einen [subagent](/docs/agents/#subagents) handelt, lÃ¶st der Befehl standardmÃ¤ÃŸig einen Subagentenaufruf aus.
+Um dieses Verhalten zu deaktivieren, setzen Sie `subtask` auf `false`.
+
+```json title="voracode.json"
+{
+  "command": {
+    "review": {
+      "agent": "plan"
+    }
+  }
+}
+```
+
+Dies ist eine **optionale** Konfigurationsoption. Wenn nicht angegeben, wird standardmÃ¤ÃŸig Ihr aktueller Agent verwendet.
+
+---
+
+### Subtask
+
+Verwenden Sie den booleschen Wert `subtask`, um zu erzwingen, dass der Befehl einen [subagent](/docs/agents/#subagents)-Aufruf auslÃ¶st.
+Dies ist nÃ¼tzlich, wenn Sie mÃ¶chten, dass der Befehl Ihren primÃ¤ren Kontext nicht verunreinigt und den Agenten dazu zwingt, als Subagent zu fungieren.
+auch wenn `mode` in der [agent](/docs/agents)-Konfiguration auf `primary` gesetzt ist.
+
+```json title="voracode.json"
+{
+  "command": {
+    "analyze": {
+      "subtask": true
+    }
+  }
+}
+```
+
+Dies ist eine **optionale** Konfigurationsoption.
+
+---
+
+### Model
+
+Verwenden Sie die `model`-Konfiguration, um das Standardmodell fÃ¼r diesen Befehl zu Ã¼berschreiben.
+
+```json title="voracode.json"
+{
+  "command": {
+    "analyze": {
+      "model": "anthropic/claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+
+Dies ist eine **optionale** Konfigurationsoption.
+
+---
+
+## Integriert
+
+Voracode enthÃ¤lt mehrere integrierte Befehle wie `/init`, `/undo`, `/redo`, `/share`, `/help`; [mehr erfahren](/docs/tui#commands).
+
+:::note
+Benutzerdefinierte Befehle kÃ¶nnen integrierte Befehle Ã¼berschreiben.
+:::
+
+Wenn Sie einen benutzerdefinierten Befehl mit demselben Namen definieren, Ã¼berschreibt dieser den integrierten Befehl.

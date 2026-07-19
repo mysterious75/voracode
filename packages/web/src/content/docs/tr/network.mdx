@@ -1,0 +1,57 @@
+---
+title: AÄŸ
+description: Proxy'leri ve Ã¶zel sertifikalarÄ± yapÄ±landÄ±rÄ±n.
+---
+
+voracode, kurumsal aÄŸ ortamlarÄ± iÃ§in standart proxy ortam deÄŸiÅŸkenlerini ve Ã¶zel sertifikalarÄ± destekler.
+
+---
+
+## Vekil Sunucu
+
+voracode respects standard proxy environment variables.
+
+```bash
+# HTTPS proxy (recommended)
+export HTTPS_PROXY=https://proxy.example.com:8080
+
+# HTTP proxy (if HTTPS not available)
+export HTTP_PROXY=http://proxy.example.com:8080
+
+# Bypass proxy for local server (required)
+export NO_PROXY=localhost,127.0.0.1
+```
+
+:::caution
+TUI yerel bir HTTP sunucusuyla iletiÅŸim kurar. YÃ¶nlendirme dÃ¶ngÃ¼lerini Ã¶nlemek iÃ§in bu baÄŸlantÄ±nÄ±n proxy'sini atlamanÄ±z gerekir.
+:::
+
+[CLI flags](/docs/cli#run) kullanarak sunucunun baÄŸlantÄ± noktasÄ±nÄ± ve ana bilgisayar adÄ±nÄ± yapÄ±landÄ±rabilirsiniz.
+
+---
+
+### Kimlik doÄŸrulama
+
+Proxy'niz temel kimlik doÄŸrulama gerektiriyorsa, kimlik bilgilerini URL dosyasÄ±na ekleyin.
+
+```bash
+export HTTPS_PROXY=http://username:password@proxy.example.com:8080
+```
+
+:::caution
+Åžifreleri sabit kodlamaktan kaÃ§Ä±nÄ±n. Ortam deÄŸiÅŸkenlerini veya gÃ¼venli kimlik bilgileri deposunu kullanÄ±n.
+:::
+
+NTLM veya Kerberos gibi geliÅŸmiÅŸ kimlik doÄŸrulamasÄ± gerektiren proxy'ler iÃ§in, kimlik doÄŸrulama yÃ¶nteminizi destekleyen bir LLM AÄŸ GeÃ§idi kullanmayÄ± dÃ¼ÅŸÃ¼nÃ¼n.
+
+---
+
+## Ã–zel sertifikalar
+
+KuruluÅŸunuz HTTPS baÄŸlantÄ±larÄ± iÃ§in Ã¶zel CA'lar kullanÄ±yorsa, voracode'u bunlara gÃ¼venecek ÅŸekilde yapÄ±landÄ±rÄ±n.
+
+```bash
+export NODE_EXTRA_CA_CERTS=/path/to/ca-cert.pem
+```
+
+Bu hem proxy baÄŸlantÄ±larÄ± hem de doÄŸrudan API eriÅŸimi iÃ§in iÅŸe yarar.

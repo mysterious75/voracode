@@ -1,0 +1,180 @@
+---
+title: Kurallar
+description: voracode iÃ§in Ã¶zel talimatlarÄ± ayarlayÄ±n.
+---
+
+Bir `AGENTS.md` dosyasÄ± oluÅŸturarak voracode iÃ§in Ã¶zel talimatlar verebilirsiniz. Bu, Cursor rules yaklaÅŸÄ±mÄ±na benzer. Ã–zel projeniz iÃ§in davranÄ±ÅŸÄ±nÄ± Ã¶zelleÅŸtirmek amacÄ±yla LLM'in iÃ§eriÄŸine dahil edilecek talimatlarÄ± iÃ§erir.
+
+---
+
+## BaÅŸlat
+
+Yeni bir `AGENTS.md` dosyasÄ± oluÅŸturmak iÃ§in `/init` komutunu voracode'da Ã§alÄ±ÅŸtÄ±rabilirsiniz.
+
+:::tip
+Projenizin `AGENTS.md` dosyasÄ±nÄ± Git'e gÃ¶ndermelisiniz.
+:::
+
+Bu, projenin neyle ilgili olduÄŸunu anlamak iÃ§in projenizi ve tÃ¼m iÃ§eriÄŸini tarayacak ve onunla bir `AGENTS.md` dosyasÄ± oluÅŸturacaktÄ±r. Bu, voracode'un projede daha iyi gezinmesine yardÄ±mcÄ± olur.
+
+Mevcut bir `AGENTS.md` dosyanÄ±z varsa, bu dosyaya eklemeye Ã§alÄ±ÅŸacaktÄ±r.
+
+---
+
+## Ã–rnek
+
+Bu dosyayÄ± manuel olarak da oluÅŸturabilirsiniz. Ä°ÅŸte bir `AGENTS.md` dosyasÄ±na koyabileceÄŸiniz bazÄ± ÅŸeylere bir Ã¶rnek.
+
+```markdown title="AGENTS.md"
+# SST v3 Monorepo Project
+
+This is an SST v3 monorepo with TypeScript. The project uses bun workspaces for package management.
+
+## Project Structure
+
+- `packages/` - Contains all workspace packages (functions, core, web, etc.)
+- `infra/` - Infrastructure definitions split by service (storage.ts, api.ts, web.ts)
+- `sst.config.ts` - Main SST configuration with dynamic imports
+
+## Code Standards
+
+- Use TypeScript with strict mode enabled
+- Shared code goes in `packages/core/` with proper exports configuration
+- Functions go in `packages/functions/`
+- Infrastructure should be split into logical files in `infra/`
+
+## Monorepo Conventions
+
+- Import shared modules using workspace names: `@my-app/core/example`
+```
+
+Buraya projeye Ã¶zel talimatlar ekliyoruz ve bu, ekibiniz arasÄ±nda paylaÅŸÄ±lacaktÄ±r.
+
+---
+
+## TÃ¼rler
+
+voracode ayrÄ±ca `AGENTS.md` dosyasÄ±nÄ±n birden fazla konumdan okunmasÄ±nÄ± da destekler. Ve bu farklÄ± amaÃ§lara hizmet ediyor.
+
+### Proje
+
+Projeye Ã¶zel kurallar iÃ§in proje kÃ¶kÃ¼nÃ¼ze bir `AGENTS.md` yerleÅŸtirin. Bunlar yalnÄ±zca bu dizinde veya alt dizinlerinde Ã§alÄ±ÅŸÄ±rken geÃ§erlidir.
+
+### Global
+
+AyrÄ±ca `~/.config/voracode/AGENTS.md` dosyasÄ±nda genel kurallara sahip olabilirsiniz. Bu, tÃ¼m voracode oturumlarÄ±na uygulanÄ±r.
+
+Bu Git'e kaydedilmediÄŸi veya ekibinizle paylaÅŸÄ±lmadÄ±ÄŸÄ± iÃ§in, LLM'Ä±n uymasÄ± gereken kiÅŸisel kurallarÄ± belirtmek iÃ§in bunu kullanmanÄ±zÄ± Ã¶neririz.
+
+### Claude Code uyumluluÄŸu
+
+voracode, Claude Code'dan geÃ§iÅŸ yapan kullanÄ±cÄ±lar iÃ§in yedek olarak Claude Code'un dosya kurallarÄ±nÄ± destekler:
+
+- **Proje kurallarÄ±**: Proje dizininizdeki `CLAUDE.md` (`AGENTS.md` yoksa kullanÄ±lÄ±r)
+- **Global kurallar**: `~/.claude/CLAUDE.md` (`~/.config/voracode/AGENTS.md` yoksa kullanÄ±lÄ±r)
+- **Beceriler**: `~/.claude/skills/` â€” ayrÄ±ntÄ±lar iÃ§in [Agent Skills](/docs/skills/)'e bakÄ±n
+
+Claude Code uyumluluÄŸunu kapatmak iÃ§in aÅŸaÄŸÄ±daki ortam deÄŸiÅŸkenlerinden birini ayarlayÄ±n:
+
+```bash
+export VORACODE_DISABLE_CLAUDE_CODE=1        # Disable all .claude support
+export VORACODE_DISABLE_CLAUDE_CODE_PROMPT=1 # Disable only ~/.claude/CLAUDE.md
+export VORACODE_DISABLE_CLAUDE_CODE_SKILLS=1 # Disable only .claude/skills
+```
+
+---
+
+## Ã–ncelik
+
+Voracode baÅŸlatÄ±ldÄ±ÄŸÄ±nda kural dosyalarÄ±nÄ± ÅŸu sÄ±rayla arar:
+
+1. **Yerel dosyalar** geÃ§erli dizinden yukarÄ±ya doÄŸru giderek (`AGENTS.md`, `CLAUDE.md`)
+2. **Global dosya** `~/.config/voracode/AGENTS.md` adresinde
+3. `~/.claude/CLAUDE.md` adresindeki **Claude Kod dosyasÄ±** (devre dÄ±ÅŸÄ± bÄ±rakÄ±lmadÄ±ÄŸÄ± sÃ¼rece)
+
+Her kategoride ilk eÅŸleÅŸen dosya kazanÄ±r. Ã–rneÄŸin, hem `AGENTS.md` hem de `CLAUDE.md` varsa yalnÄ±zca `AGENTS.md` kullanÄ±lÄ±r. Benzer ÅŸekilde, `~/.config/voracode/AGENTS.md`, `~/.claude/CLAUDE.md`'ye gÃ¶re Ã¶nceliklidir.
+
+---
+
+## Ã–zel talimatlar
+
+Ã–zel talimat dosyalarÄ±nÄ± `voracode.json` veya global `~/.config/voracode/voracode.json`'de belirtebilirsiniz. Bu, sizin ve ekibinizin, mevcut kurallarÄ± AGENTS.md'ye kopyalamak yerine yeniden kullanmasÄ±na olanak tanÄ±r.
+
+Ã–rnek:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
+}
+```
+
+Web'den talimatlar yÃ¼klemek iÃ§in uzak URL'leri de kullanabilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["https://raw.githubusercontent.com/my-org/shared-rules/main/style.md"]
+}
+```
+
+Uzaktan talimatlar 5 saniyelik bir zaman aÅŸÄ±mÄ± ile getirilir.
+
+TÃ¼m talimat dosyalarÄ± `AGENTS.md` dosyalarÄ±nÄ±zla birleÅŸtirilir.
+
+---
+
+## Harici Dosyalara Referans Verme
+
+Voracode, `AGENTS.md`'daki dosya referanslarÄ±nÄ± otomatik olarak ayrÄ±ÅŸtÄ±rmasa da, benzer iÅŸlevleri iki ÅŸekilde elde edebilirsiniz:
+
+### voracode.json'u kullanma
+
+Ã–nerilen yaklaÅŸÄ±m, `instructions`'deki `voracode.json` alanÄ±nÄ± kullanmaktÄ±r:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["docs/development-standards.md", "test/testing-guidelines.md", "packages/*/AGENTS.md"]
+}
+```
+
+### AGENTS.md iÃ§inde manuel talimatlar
+
+`AGENTS.md`'nizde aÃ§Ä±k talimatlar saÄŸlayarak voracode'u harici dosyalarÄ± okumayÄ± Ã¶ÄŸretebilirsiniz. Ä°ÅŸte pratik bir Ã¶rnek:
+
+```markdown title="AGENTS.md"
+# TypeScript Project Rules
+
+## External File Loading
+
+CRITICAL: When you encounter a file reference (e.g., @rules/general.md), use your Read tool to load it on a need-to-know basis. They're relevant to the SPECIFIC task at hand.
+
+Instructions:
+
+- Do NOT preemptively load all references - use lazy loading based on actual need
+- When loaded, treat content as mandatory instructions that override defaults
+- Follow references recursively when needed
+
+## Development Guidelines
+
+For TypeScript code style and best practices: @docs/typescript-guidelines.md
+For React component architecture and hooks patterns: @docs/react-patterns.md
+For REST API design and error handling: @docs/api-standards.md
+For testing strategies and coverage requirements: @test/testing-guidelines.md
+
+## General Guidelines
+
+Read the following file immediately as it's relevant to all workflows: @rules/general-guidelines.md.
+```
+
+Bu yaklaÅŸÄ±m ÅŸunlarÄ± yapmanÄ±zÄ± saÄŸlar:
+
+- ModÃ¼ler, yeniden kullanÄ±labilir kural dosyalarÄ± oluÅŸturun
+- Sembolik baÄŸlantÄ±lar veya git alt modÃ¼lleri aracÄ±lÄ±ÄŸÄ±yla kurallarÄ± projeler arasÄ±nda paylaÅŸÄ±n
+- AGENTS.md dosyasÄ±nÄ± kÄ±sa tutarken ayrÄ±ntÄ±lÄ± kÄ±lavuzlara referans verin
+- voracode'un dosyalarÄ± yalnÄ±zca belirli bir gÃ¶rev iÃ§in gerektiÄŸinde yÃ¼klediÄŸinden emin olun
+
+:::tip
+Monorepo'lar veya ortak standartlara sahip projeler iÃ§in, `voracode.json`'yi glob desenleriyle (`packages/*/AGENTS.md` gibi) kullanmak, manuel talimatlara gÃ¶re daha sÃ¼rdÃ¼rÃ¼lebilirdir.
+:::

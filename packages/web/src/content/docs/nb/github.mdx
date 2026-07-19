@@ -1,0 +1,325 @@
+﻿---
+title: GitHub
+description: Bruk voracode i GitHub-problemer og pull-forespÃ¸rsler.
+---
+
+Voracode integreres med GitHub-arbeidsflyten din. Nevn `/voracode` eller `/oc` i kommentaren din, og Voracode vil utfÃ¸re oppgaver i din GitHub Actions-lÃ¸per.
+
+---
+
+## Funksjoner
+
+- **Triage saker**: Be Voracode se pÃ¥ en sak og forklare den for deg.
+- **Fiks og implementer**: Be Voracode om Ã¥ fikse en sak eller implementere en funksjon. Den vil jobbe i en ny gren og sende inn en PR med alle endringene.
+- **Sikkert**: Voracode kjÃ¸rer i GitHub-runners.
+
+---
+
+## Installasjon
+
+KjÃ¸r fÃ¸lgende kommando i et prosjekt som er et GitHub-repo:
+
+```bash
+voracode github install
+```
+
+Dette vil lede deg gjennom Ã¥ installere GitHub-appen, lage arbeidsflyten og sette opp secrets (hemmeligheter).
+
+---
+
+### Manuelt oppsett
+
+Eller du kan sette den opp manuelt.
+
+1. **Installer GitHub-appen**
+
+   GÃ¥ over til [**github.com/apps/voracode-agent**](https://github.com/apps/voracode-agent). SÃ¸rg for at den er installert pÃ¥ mÃ¥llageret.
+
+2. **Legg til arbeidsflyten**
+
+   Legg til fÃ¸lgende arbeidsflytfil til `.github/workflows/voracode.yml` i repoen. SÃ¸rg for Ã¥ sette riktig `model` og nÃ¸dvendige API-nÃ¸kler i `env`.
+
+   ```yml title=".github/workflows/voracode.yml" {24,26}
+   name: voracode
+
+   on:
+     issue_comment:
+       types: [created]
+     pull_request_review_comment:
+       types: [created]
+
+   jobs:
+     voracode:
+       if: |
+         contains(github.event.comment.body, '/oc') ||
+         contains(github.event.comment.body, '/voracode')
+       runs-on: ubuntu-latest
+       permissions:
+         id-token: write
+       steps:
+          - name: Checkout repository
+            uses: actions/checkout@v6
+            with:
+              fetch-depth: 1
+              persist-credentials: false
+
+          - name: Run Voracode
+           uses: mysterious75/voracode/github@latest
+           env:
+             ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+           with:
+             model: anthropic/claude-sonnet-4-20250514
+             # share: true
+             # github_token: xxxx
+   ```
+
+3. **Lagre API-nÃ¸klene i hemmeligheter**
+
+   Utvid **Hemmeligheter og variabler** til venstre i **innstillingene** for organisasjonen eller prosjektet og velg **Actions**. Og legg til de nÃ¸dvendige API-nÃ¸klene.
+
+---
+
+## Konfigurasjon
+
+- `model`: Modellen som skal brukes med Voracode. Tar formatet `provider/model`. Dette er **obligatorisk**.
+- `agent`: Agenten som skal brukes. MÃ¥ vÃ¦re en primÃ¦r agent. Faller tilbake til `default_agent` fra config eller `"build"` hvis ikke funnet.
+- `share`: Om Voracode-Ã¸kten skal deles. Standard er **true** for offentlige depoter.
+- `prompt`: Valgfri egendefinert melding for Ã¥ overstyre standard oppfÃ¸rsel. Bruk dette til Ã¥ tilpasse hvordan Voracode behandler forespÃ¸rsler.
+- `token`: Valgfritt GitHub-tilgangstoken for Ã¥ utfÃ¸re operasjoner som Ã¥ lage kommentarer, foreta endringer og Ã¥pne pull-forespÃ¸rsler. Som standard bruker Voracode installasjonstilgangstokenet fra Voracode GitHub-appen, sÃ¥ commits, kommentarer og pull-forespÃ¸rsler ser ut til Ã¥ komme fra appen.
+
+  Alternativt kan du bruke GitHub Action-lÃ¸perens [innebygde `GITHUB_TOKEN`](https://docs.github.com/en/actions/tutorials/authenticate-with-github_token) uten Ã¥ installere Voracode GitHub-appen. Bare sÃ¸rg for Ã¥ gi de nÃ¸dvendige tillatelsene i arbeidsflyten din:
+
+  ```yaml
+  permissions:
+    id-token: write
+    contents: write
+    pull-requests: write
+    issues: write
+  ```
+
+  Du kan ogsÃ¥ bruke en [personlig tilgangstoken](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)(PAT) hvis foretrukket.
+
+---
+
+## StÃ¸ttede hendelser
+
+Voracode kan utlÃ¸ses av fÃ¸lgende GitHub-hendelser:
+
+| Hendelsestype                 | UtlÃ¸st av                               | Detaljer                                                                                                                |
+| ----------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `issue_comment`               | Kommentar pÃ¥ sak eller PR               | Nevn `/voracode` eller `/oc` i kommentaren din. Voracode leser kontekst og kan opprette grener, Ã¥pne PR-er eller svare. |
+| `pull_request_review_comment` | Kommenter spesifikke kodelinjer i en PR | Nevn `/voracode` eller `/oc` mens du ser gjennom koden. Voracode mottar filbane, linjenummer og diff-kontekst.          |
+| `issues`                      | Sak Ã¥pnet eller redigert                | UtlÃ¸s Voracode automatisk nÃ¥r saker opprettes eller endres. Krever `prompt` inngang.                                    |
+| `pull_request`                | PR Ã¥pnet eller oppdatert                | UtlÃ¸s Voracode automatisk nÃ¥r PR-er Ã¥pnes, synkroniseres eller gjenÃ¥pnes. Nyttig for automatiserte anmeldelser.         |
+| `schedule`                    | Cron-basert tidsplan                    | KjÃ¸r Voracode etter en tidsplan. Krever `prompt` inngang. Utdata gÃ¥r til logger og PR (ingen sak Ã¥ kommentere).         |
+| `workflow_dispatch`           | Manuell utlÃ¸ser fra GitHub UI           | UtlÃ¸s Voracode pÃ¥ forespÃ¸rsel via fanen Handlinger. Krever `prompt` inngang. Utdata gÃ¥r til logger og PR-er.            |
+
+### Eksempel pÃ¥ tidsplan
+
+KjÃ¸r Voracode pÃ¥ en tidsplan for Ã¥ utfÃ¸re automatiserte oppgaver:
+
+```yaml title=".github/workflows/voracode-scheduled.yml"
+name: Scheduled Voracode Task
+
+on:
+  schedule:
+    - cron: "0 9 * * 1" # Every Monday at 9am UTC
+
+jobs:
+  voracode:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Run Voracode
+        uses: mysterious75/voracode/github@latest
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        with:
+          model: anthropic/claude-sonnet-4-20250514
+          prompt: |
+            Review the codebase for any TODO comments and create a summary.
+            If you find issues worth addressing, open an issue to track them.
+```
+
+For planlagte arrangementer er `prompt`-inngangen **pÃ¥krevd** siden det ikke er noen kommentarer Ã¥ trekke ut instruksjoner fra. Planlagte workflows kjÃ¸rer uten brukerkontekst for tillatelsessjekking, sÃ¥ arbeidsflyten mÃ¥ gi `contents: write` og `pull-requests: write` hvis du forventer at Voracode oppretter grener eller PR-er.
+
+---
+
+### Eksempel pÃ¥ Pull Request
+
+GjennomgÃ¥ PR-er automatisk nÃ¥r de Ã¥pnes eller oppdateres:
+
+```yaml title=".github/workflows/voracode-review.yml"
+name: voracode-review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: read
+      issues: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: mysterious75/voracode/github@latest
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          model: anthropic/claude-sonnet-4-20250514
+          use_github_token: true
+          prompt: |
+            Review this pull request:
+            - Check for code quality issues
+            - Look for potential bugs
+            - Suggest improvements
+```
+
+For `pull_request`-hendelser, hvis ingen `prompt` er oppgitt, gÃ¥r Voracode som standard gjennom PR-en.
+
+---
+
+### Eksempel pÃ¥ triage av saker
+
+Automatisk triage av nye saker. Dette eksemplet filtrerer til kontoer eldre enn 30 dager for Ã¥ redusere spam:
+
+```yaml title=".github/workflows/voracode-triage.yml"
+name: Issue Triage
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Check account age
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const user = await github.rest.users.getByUsername({
+              username: context.payload.issue.user.login
+            });
+            const created = new Date(user.data.created_at);
+            const days = (Date.now() - created) / (1000 * 60 * 60 * 24);
+            return days >= 30;
+          result-encoding: string
+
+      - uses: actions/checkout@v6
+        if: steps.check.outputs.result == 'true'
+        with:
+          persist-credentials: false
+
+      - uses: mysterious75/voracode/github@latest
+        if: steps.check.outputs.result == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        with:
+          model: anthropic/claude-sonnet-4-20250514
+          prompt: |
+            Review this issue. If there's a clear fix or relevant docs:
+            - Provide documentation links
+            - Add error handling guidance for code examples
+            Otherwise, do not comment.
+```
+
+For `issues`-hendelser er `prompt`-inngangen **pÃ¥krevd** siden det ikke er noen kommentarer Ã¥ trekke ut instruksjoner fra.
+
+---
+
+## Egendefinerte prompter
+
+Overstyr standardprompten for Ã¥ tilpasse oppfÃ¸rselen til Voracode for arbeidsflyten din.
+
+```yaml title=".github/workflows/voracode.yml"
+- uses: mysterious75/voracode/github@latest
+  with:
+    model: anthropic/claude-sonnet-4-5
+    prompt: |
+      Review this pull request:
+      - Check for code quality issues
+      - Look for potential bugs
+      - Suggest improvements
+```
+
+Dette er nyttig for Ã¥ hÃ¥ndheve spesifikke vurderingskriterier, kodestandarder eller fokusomrÃ¥der som er relevante for prosjektet ditt.
+
+---
+
+## Eksempler
+
+Her er noen eksempler pÃ¥ hvordan du kan bruke Voracode i GitHub.
+
+:::tip
+Du kan konfigurere til Ã¥ bruke en annen triggerfrase enn `@voracode`.
+:::
+
+- **Forklar en sak (issue)**
+
+  Legg til denne kommentaren i en GitHub-sak.
+
+  ```
+  /voracode explain this issue
+  ```
+
+  Voracode vil lese hele trÃ¥den, inkludert alle kommentarer, og svare med en tydelig forklaring.
+
+- **Fiks en sak**
+
+  I en GitHub-sak, si:
+
+  ```
+  /voracode fix this
+  ```
+
+  Og Voracode vil opprette en ny gren, implementere endringene og Ã¥pne en PR med endringene.
+
+- **Se gjennom PR-er og gjÃ¸r endringer**
+
+  Legg igjen fÃ¸lgende kommentar pÃ¥ en GitHub PR.
+
+  ```
+  Delete the attachment from S3 when the note is removed /oc
+  ```
+
+  Voracode vil implementere den forespurte endringen og committe den til samme PR.
+
+- **Review av spesifikke kodelinjer**
+
+  Legg igjen en kommentar direkte pÃ¥ kodelinjer i PRs "Filer"-fane. Voracode oppdager automatisk filen, linjenumrene og diff-konteksten for Ã¥ gi presise svar.
+
+  ```
+  [Comment on specific lines in Files tab]
+  /oc add error handling here
+  ```
+
+  NÃ¥r du kommenterer spesifikke linjer, mottar Voracode:
+  - Den nÃ¸yaktige filen blir gjennomgÃ¥tt
+  - De spesifikke kodelinjene
+  - Den omkringliggende diff-konteksten
+  - Linjenummerinformasjon
+
+  Dette gir mulighet for mer mÃ¥lrettede forespÃ¸rsler uten Ã¥ mÃ¥tte spesifisere filstier eller linjenumre manuelt.

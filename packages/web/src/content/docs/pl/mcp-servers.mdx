@@ -1,0 +1,511 @@
+---
+title: Serwery MCP
+description: Dodaj lokalne i zdalne narzÄ™dzie MCP.
+---
+
+MoÅ¼esz dodaÄ‡ dodatkowe informacje do voracode za pomocÄ… _Model Context Protocol_, w skrÃ³cie MCP. voracode obsÅ‚uguje zarÃ³wno serwery lokalne, jak i zdalne.
+
+Po dodaniu narzÄ™dzi MCP sÄ… automatycznie dostÄ™pne dla LLM wraz z narzÄ™dziami narzÄ™dziowymi.
+
+---
+
+#### ZastrzeÅ¼enia
+
+Kiedy uÅ¼ywasz serwera MCP, zmieniajÄ…c kontekst. MoÅ¼e szybko siÄ™ sumowaÄ‡, jeÅ›li masz duÅ¼o narzÄ™dzia. Zalecamy ostroÅ¼noÅ›Ä‡, z jakich serwerÃ³w MCP korzystasz.
+
+:::tip
+Serwery MCP dodajÄ… do twojego kontekstu, dlatego naleÅ¼y zachowaÄ‡ ostroÅ¼noÅ›Ä‡ przy wyÅ‚Ä…czaniu tych serwerÃ³w.
+:::
+
+NiektÃ³re serwery MCP, takie jak serwer MCP GitHub, majÄ… szerokie moÅ¼liwoÅ›ci dodawania wielu tokenÃ³w i mogÄ… Å‚atwo przekraczaÄ‡ limit kontekstu.
+
+---
+
+## WÅ‚Ä…czaÄ‡
+
+DostÄ™pny serwery MCP w [voracode Config](https://voracode.ai/docs/config/) w `mcp`. Dodaj kaÅ¼dy MCP z unikalnÄ… nazwÄ…. MoÅ¼esz zgÅ‚osiÄ‡ siÄ™ do tego MCP po nazwie, pytajÄ…c LLM.
+
+```jsonc title="voracode.jsonc" {6}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "name-of-mcp-server": {
+      // ...
+      "enabled": true,
+    },
+    "name-of-other-mcp-server": {
+      // ...
+    },
+  },
+}
+```
+
+MoÅ¼esz takÅ¼e wyÅ‚Ä…czyÄ‡ serwer, ustawiajÄ…c `enabled` na `false`. Jest to urzÄ…dzenie, ktÃ³re jest urzÄ…dzeniem biologicznym, bez usuwania z urzÄ…dzenia.
+
+---
+
+### ZastÄ™powanie zdalnych ustawieÅ„ domyÅ›lnych
+
+Organizacje mogÄ… udostÄ™pniaÄ‡ serwery MCP za poÅ›rednictwem punktu koÅ„cowego `.well-known/voracode`. Serwer moÅ¼e byÄ‡ podÅ‚Ä…czony, dziÄ™ki czemu uÅ¼ytkownicy mogÄ… wybraÄ‡ te, ktÃ³rych.
+
+Aby wÅ‚Ä…czyÄ‡ serwer ze zdalnej konfiguracji organizacji, dodaj go do wyÅ‚Ä…czenia za pomocÄ… `enabled: true`:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://jira.example.com/mcp",
+      "enabled": true
+    }
+  }
+}
+```
+
+Lokalne wartoÅ›ci konfiguracyjne za wystÄ™pujÄ…ce zdalne wartoÅ›ci. Aby uzyskaÄ‡ wiÄ™cej informacji, zobacz [pierwszeÅ„stwo konfiguracji](/docs/config#precedence-order).
+
+---
+
+## Lokalny
+
+Dodaj lokalne serwery MCP za pomocÄ… `type` do `"local"` w obiekcie MCP.
+
+```jsonc title="voracode.jsonc" {15}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-local-mcp-server": {
+      "type": "local",
+      // Or ["bun", "x", "my-mcp-command"]
+      "command": ["npx", "-y", "my-mcp-command"],
+      "enabled": true,
+      "environment": {
+        "MY_ENV_VAR": "my_env_var_value",
+      },
+    },
+  },
+}
+```
+
+Polecenie sposobu uruchamiania lokalnego serwera MCP. MoÅ¼na takÅ¼e zainstalowaÄ‡ listÄ™ konfiguracyjnÄ….
+
+Oto przykÅ‚adowy sposÃ³b dodania testowego serwera MCP [`@modelcontextprotocol/server-everything`](https://www.npmjs.com/package/@modelcontextprotocol/server-everything).
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "mcp_everything": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-everything"],
+    },
+  },
+}
+```
+
+Aby z niego skorzystaÄ‡, moÅ¼na dodaÄ‡ `use the mcp_everything tool` do moich podpowiedzi.
+
+```txt "mcp_everything"
+use the mcp_everything tool to add the number 3 and 4
+```
+
+---
+
+#### Opcje
+
+Oto wszystkie opcje lokalnego serwera MCP.
+
+| Opcja         | Wpisz   | Wymagane | Opis                                                                                         |
+| ------------- | ------- | -------- | -------------------------------------------------------------------------------------------- |
+| `type`        | String  | Y        | Typ poÅ‚Ä…czenia z serwerem MCP musi byÄ‡ `"local"`.                                            |
+| `command`     | Array   | Y        | Polecenie i argumenty uruchamiajÄ…ce serwer MCP.                                              |
+| `environment` | Object  |          | Zmienne ustawienia podczas uruchamiania serwera.                                             |
+| `enabled`     | Boolean |          | WÅ‚Ä…cz lub wyÅ‚Ä…cz serwer MCP podczas uruchamiania.                                            |
+| `timeout`     | Number  |          | Limit czasu w ms na pobieranie narzÄ™dzia z serwera MCP. WartoÅ›Ä‡ domyÅ›lna do 5000 (5 sekund). |
+
+---
+
+## Zdalny
+
+Dodaj zdalne serwery MCP, ustawiajÄ…c `type` na `"remote"`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-remote-mcp": {
+      "type": "remote",
+      "url": "https://my-mcp-server.com",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer MY_API_KEY"
+      }
+    }
+  }
+}
+```
+
+`url` na adres URL zdalnego serwera MCP i za pomocÄ… opcji `headers` moÅ¼na znaleÅºÄ‡ listÄ™ nagÅ‚Ã³wkÃ³w.
+
+---
+
+#### Opcje
+
+| Opcja     | Wpisz   | Wymagane | Opis                                                                                         |
+| --------- | ------- | -------- | -------------------------------------------------------------------------------------------- |
+| `type`    | String  | Y        | Typ poÅ‚Ä…czenia z serwerem MCP musi byÄ‡ `"remote"`.                                           |
+| `url`     | String  | Y        | Adres URL zdalnego serwera MCP.                                                              |
+| `enabled` | Boolean |          | WÅ‚Ä…cz lub wyÅ‚Ä…cz serwer MCP podczas uruchamiania.                                            |
+| `headers` | Object  |          | NagÅ‚Ã³wki do wysÅ‚ania z wprowadzenia.                                                         |
+| `oauth`   | Object  |          | Konfiguracja uwierzytelniania OAuth. Zobacz sekcjÄ™ [OAuth](#oauth) poniÅ¼ej.                  |
+| `timeout` | Number  |          | Limit czasu w ms na pobieranie narzÄ™dzia z serwera MCP. WartoÅ›Ä‡ domyÅ›lna do 5000 (5 sekund). |
+
+---
+
+## OAuth
+
+voracode automatyczne uwierzytelnianie OAuth dla zdalnych serwerÃ³w MCP. Gdy serwer wymaga uwierzytelnienia, voracode:
+
+1. Wykryj odpowiedÅº 401 i zainijuj przepÅ‚yw OAuth
+2. uÅ¼ywa **Dynamicznej rejestracji klienta (RFC 7591)**, jeÅ›li jest obsÅ‚ugiwana przez serwer
+3. Bezpiecznie przechowuj tokeny na wypadek ewentualnego zastosowania
+
+---
+
+### Automatyczny
+
+W innym serwerze MCP z wÅ‚Ä…czonÄ… funkcjÄ… OAuth nie jest wymagana specjalna funkcja. DostÄ™pny serwer bezprzewodowy:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-oauth-server": {
+      "type": "remote",
+      "url": "https://mcp.example.com/mcp"
+    }
+  }
+}
+```
+
+JeÅ›li serwer wymaga uwierzytelnienia, voracode poprosi CiÄ™ o uwierzytelnienie przy prÃ³bie jego uÅ¼ycia. JeÅ›li nie, moÅ¼esz [rÄ™cznie podÅ‚Ä…czyÄ‡ przepÅ‚yw] (#authenticating) za pomocÄ… `voracode mcp auth <server-name>`.
+
+---
+
+### WstÄ™pnie zarejestrowany
+
+JeÅ›li posiadasz dostÄ™p do klienta od dostawcy serwera MCP, moÅ¼esz je udostÄ™pniÄ‡:
+
+```json title="voracode.json" {7-11}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-oauth-server": {
+      "type": "remote",
+      "url": "https://mcp.example.com/mcp",
+      "oauth": {
+        "clientId": "{env:MY_MCP_CLIENT_ID}",
+        "clientSecret": "{env:MY_MCP_CLIENT_SECRET}",
+        "scope": "tools:read tools:execute"
+      }
+    }
+  }
+}
+```
+
+---
+
+### Uwierzytelnianie
+
+MoÅ¼esz podaÄ‡ potwierdzenie lub potwierdzenie poÅ›wiadczenia.
+
+Uwierzytelnij siÄ™ za pomocÄ… standardowego serwera MCP:
+
+```bash
+voracode mcp auth my-oauth-server
+```
+
+Lista wszystkich serwerÃ³w MCP i ich status uwierzytelnienia:
+
+```bash
+voracode mcp list
+```
+
+UsuÅ„ zapisane dane uwierzytelniajÄ…ce:
+
+```bash
+voracode mcp logout my-oauth-server
+```
+
+Komenda `mcp auth` zostaÅ‚a udostÄ™pniona w celu autoryzacji. Po autoryzacji voracode bezpieczne przechowa tokeny w `~/.local/share/voracode/mcp-auth.json`.
+
+---
+
+#### WyÅ‚Ä…czanie OAuth
+
+JeÅ›li chcesz wÅ‚Ä…czyÄ‡ automatyczne OAuth dla serwera (np. dla serwerÃ³w, ktÃ³re zamiast tego uÅ¼ywaÄ‡ kluczy API), ustaw `oauth` na `false`:
+
+```json title="voracode.json" {7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-api-key-server": {
+      "type": "remote",
+      "url": "https://mcp.example.com/mcp",
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {env:MY_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+---
+
+#### Opcje OAuth
+
+| Opcja          | Wpisz           | Opis                                                                                                             |
+| -------------- | --------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `oauth`        | Object \| false | Obiekt konfiguracyjny OAuth lub `false`, aby wyÅ‚Ä…czyÄ‡ automatyczne wykrywanie OAuth.                             |
+| `clientId`     | String          | Identyfikator klienta OAuth. JeÅ¼eli nie zostanie podany, zostanie podjÄ™ta prÃ³ba dynamicznej rejestracji klienta. |
+| `clientSecret` | String          | Sekret klienta OAuth, plik jest wymagany przez serwer autoryzacji.                                               |
+| `scope`        | String          | Zakresy protokoÅ‚u OAuth, ktÃ³rych naleÅ¼y Å¼Ä…daÄ‡ podczas autoryzacji.                                               |
+
+#### Debugowanie
+
+JeÅ›li serwer MCP nie moÅ¼e zostaÄ‡ uwierzytelniony, moÅ¼esz zdiagnozowaÄ‡ problemy z:
+
+```bash
+# View auth status for all OAuth-capable servers
+voracode mcp auth list
+
+# Debug connection and OAuth flow for a specific server
+voracode mcp debug my-oauth-server
+```
+
+Komenda `mcp debug` wyÅ›wietlanie stanu uwierzytelniania, testuje sprawdzanie protokoÅ‚u HTTP i sprawdzenie sprawdzenia procesu OAuth.
+
+---
+
+## ZarzÄ…dzaÄ‡
+
+Twoje MCP sÄ… dostÄ™pne jako narzÄ™dzie w voracode, obok narzÄ™dzi dodatkowych. MoÅ¼na to zrobiÄ‡ poprzez podÅ‚Ä…czenie voracode, jak rÃ³wnieÅ¼ w innym przypadku.
+
+---
+
+### Åšwiatowy
+
+MoÅ¼esz to wÅ‚Ä…czyÄ‡ lub wyÅ‚Ä…czyÄ‡ globalnie.
+
+```json title="voracode.json" {14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-mcp-foo": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-foo"]
+    },
+    "my-mcp-bar": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-bar"]
+    }
+  },
+  "tools": {
+    "my-mcp-foo": false
+  }
+}
+```
+
+DostÄ™pne sÄ… rÃ³wnieÅ¼ wzorca globu, aby wyÅ‚Ä…czyÄ‡ wszystkie dyski MCP.
+
+```json title="voracode.json" {14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-mcp-foo": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-foo"]
+    },
+    "my-mcp-bar": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-bar"]
+    }
+  },
+  "tools": {
+    "my-mcp*": false
+  }
+}
+```
+
+Tutaj znajdziesz wzorca globalnego `my-mcp*`, aby wyÅ‚Ä…czyÄ‡ wszystkie MCP.
+
+---
+
+### Na agenta
+
+JeÅ›li masz najwiÄ™ksze serwery MCP, moÅ¼esz wÅ‚Ä…czyÄ‡ je tylko dla poszczegÃ³lnych agentÃ³w i byÄ‡ globalnie. Aby to zrobiÄ‡:
+
+1. WyÅ‚Ä…cz go jako narzÄ™dzie globalnie.
+2. W [konfiguracji agenta](/docs/agents#tools) wÅ‚Ä…cz serwer MCP jako narzÄ™dzie.
+
+```json title="voracode.json" {11, 14-18}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-mcp": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command"],
+      "enabled": true
+    }
+  },
+  "tools": {
+    "my-mcp*": false
+  },
+  "agent": {
+    "my-agent": {
+      "tools": {
+        "my-mcp*": true
+      }
+    }
+  }
+}
+```
+
+---
+
+#### Wzory globusÃ³w
+
+Wzorzec glob wykorzystuje proste wzorce globowania regularnych:
+
+- `*` dopasowuje zero lub wiÄ™cej dowolnego znaku (np. `"my-mcp*"` dopasowuje `my-mcp_search`, `my-mcp_list` itd.)
+- `?` odpowiada dokÅ‚adnie jednemu znakowi
+- Wszystkie pozostaÅ‚e znaki pasujÄ… dosÅ‚ownie
+
+:::note
+NarzÄ™dzia serwera MCP sÄ… rejestrowane z nazwÄ… serwera jako prefiksem, wiÄ™c aby uzyskaÄ‡ dostÄ™p do wszystkich narzÄ™dzi dla serwera, po prostu dostÄ™p do:
+
+```
+"mymcpservername_*": false
+```
+
+:::
+
+---
+
+## PrzykÅ‚ady
+
+PoniÅ¼ej znajdujÄ… siÄ™ przykÅ‚ady niektÃ³rych serwerÃ³w MCP. TwÃ³j prywatny PR, udostÄ™pniany przez inne serwery.
+
+---
+
+### Sentry
+
+Dodaj [serwer Sentry MCP](https://mcp.sentry.dev), aby mÃ³c wejÅ›Ä‡ w interakcjÄ™ z projektem i udostÄ™pniÄ‡ Sentry.
+
+```json title="voracode.json" {4-8}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "sentry": {
+      "type": "remote",
+      "url": "https://mcp.sentry.dev/mcp",
+      "oauth": {}
+    }
+  }
+}
+```
+
+Po dodaniu konfiguracji uwierzytelnij siÄ™ za pomocÄ… Sentry:
+
+```bash
+voracode mcp auth sentry
+```
+
+Spowoduje otwarcie okna konfiguracji, w ktÃ³rym moÅ¼na zakoÅ„czyÄ‡ proces OAuth i poÅ‚Ä…czyÄ‡ voracode z kontem Sentry.
+
+Po uwierzytelnieniu oprogramowania Sentry w swoich monitach, aby rozprzestrzeniaÄ‡ zagroÅ¼enia, dane i bÅ‚Ä™dy.
+
+```txt "use sentry"
+Show me the latest unresolved issues in my project. use sentry
+```
+
+---
+
+### Context7
+
+Dodaj [serwer Context7 MCP](https://github.com/upstash/context7), aby przeszukaÄ‡ dokumenty.
+
+```json title="voracode.json" {4-7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp"
+    }
+  }
+}
+```
+
+JeÅ›li zaÅ‚oÅ¼yÅ‚eÅ› darmowe konto, moÅ¼esz uÅ¼yÄ‡ klucza API i uzyskaÄ‡ wyÅ¼szy limit stawek.
+
+```json title="voracode.json" {7-9}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+ZaÅ‚Ã³Å¼ tutaj, Å¼e masz ustawionÄ… zmiennÄ… Å›rodowiskowÄ… `CONTEXT7_API_KEY`.
+
+Dodaj `use context7` do swoich podpowiedzi, aby skorzystaÄ‡ z serwera Context7 MCP.
+
+```txt "use context7"
+Configure a Cloudflare Worker script to cache JSON API responses for five minutes. use context7
+```
+
+Alternatywnie moÅ¼esz zadaÄ‡ coÅ› takiego do pliku [AGENTS.md](/docs/rules/).
+
+```md title="AGENTS.md"
+When you need to search docs, use `context7` tools.
+```
+
+---
+
+### Grep by Vercel
+
+Dodaj serwer MCP [Grep by Vercel](https://grep.app), aby przeszukaÄ‡ fragmenty kodu w serwisie GitHub.
+
+```json title="voracode.json" {4-7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app"
+    }
+  }
+}
+```
+
+NazwaliÅ›my nasz serwer MCP `gh_grep`, moÅ¼esz dodaÄ‡ `use the gh_grep tool` do swoich podpowiedzi, aby agent mÃ³gÅ‚ z niego korzystaÄ‡.
+
+```txt "use the gh_grep tool"
+What's the right way to set a custom domain in an SST Astro component? use the gh_grep tool
+```
+
+Alternatywnie moÅ¼esz zadaÄ‡ coÅ› takiego do pliku [AGENTS.md](/docs/rules/).
+
+```md title="AGENTS.md"
+If you are unsure how to do something, use `gh_grep` to search code examples from GitHub.
+```

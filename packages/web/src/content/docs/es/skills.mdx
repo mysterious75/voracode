@@ -1,0 +1,222 @@
+---
+title: "Habilidades del agente"
+description: "Defina el comportamiento reutilizable mediante definiciones de SKILL.md"
+---
+
+Las habilidades del agente permiten a Voracode descubrir instrucciones reutilizables de su repositorio o directorio de inicio.
+Las habilidades se cargan bajo demanda a travÃ©s de la herramienta nativa `skill`: los agentes ven las habilidades disponibles y pueden cargar el contenido completo cuando sea necesario.
+
+---
+
+## Colocar archivos
+
+Cree una carpeta por nombre de habilidad y coloque un `SKILL.md` dentro de ella.
+Voracode busca estas ubicaciones:
+
+- ConfiguraciÃ³n del proyecto: `.voracode/skills/<name>/SKILL.md`
+- ConfiguraciÃ³n global: `~/.config/voracode/skills/<name>/SKILL.md`
+- Compatible con Proyecto Claude: `.claude/skills/<name>/SKILL.md`
+- Compatible con Claude global: `~/.claude/skills/<name>/SKILL.md`
+- Compatible con agente de proyecto: `.agents/skills/<name>/SKILL.md`
+- Compatible con agentes globales: `~/.agents/skills/<name>/SKILL.md`
+
+---
+
+## Entender el descubrimiento
+
+Para las rutas locales del proyecto, Voracode sube desde su directorio de trabajo actual hasta llegar al Ã¡rbol de trabajo de git.
+Carga cualquier `skills/*/SKILL.md` coincidente en `.voracode/` y cualquier `.claude/skills/*/SKILL.md` o `.agents/skills/*/SKILL.md` coincidente a lo largo del camino.
+
+Las definiciones globales tambiÃ©n se cargan desde `~/.config/voracode/skills/*/SKILL.md`, `~/.claude/skills/*/SKILL.md` y `~/.agents/skills/*/SKILL.md`.
+
+---
+
+## Escribir la introducciÃ³n
+
+Cada `SKILL.md` debe comenzar con el frontmatter de YAML.
+SÃ³lo se reconocen estos campos:
+
+- `name` (obligatorio)
+- `description` (obligatorio)
+- `license` (opcional)
+- `compatibility` (opcional)
+- `metadata` (opcional, mapa de cadena a cadena)
+
+Los campos desconocidos se ignoran.
+
+---
+
+## Validar nombres
+
+`name` debe:
+
+- Tener entre 1 y 64 caracteres.
+- Ser alfanumÃ©ricos en minÃºsculas con separadores de guiÃ³n simple
+- No comienza ni termina con `-`
+- No contener `--` consecutivos
+- Coincide con el nombre del directorio que contiene `SKILL.md`
+
+expresiÃ³n regular equivalente:
+
+```text
+^[a-z0-9]+(-[a-z0-9]+)*$
+```
+
+---
+
+## Seguir las reglas de longitud
+
+`description` debe tener entre 1 y 1024 caracteres.
+MantÃ©ngalo lo suficientemente especÃ­fico para que el agente elija correctamente.
+
+---
+
+## Usar un ejemplo
+
+Crea `.voracode/skills/git-release/SKILL.md` asÃ­:
+
+```markdown
+---
+name: git-release
+description: Create consistent releases and changelogs
+license: MIT
+compatibility: voracode
+metadata:
+  audience: maintainers
+  workflow: github
+---
+
+## What I do
+
+- Draft release notes from merged PRs
+- Propose a version bump
+- Provide a copy-pasteable `gh release create` command
+
+## When to use me
+
+Use this when you are preparing a tagged release.
+Ask clarifying questions if the target versioning scheme is unclear.
+```
+
+---
+
+## Reconocer la descripciÃ³n de la herramienta
+
+Voracode enumera las habilidades disponibles en la descripciÃ³n de la herramienta `skill`.
+Cada entrada incluye el nombre y la descripciÃ³n de la habilidad:
+
+```xml
+<available_skills>
+  <skill>
+    <name>git-release</name>
+    <description>Create consistent releases and changelogs</description>
+  </skill>
+</available_skills>
+```
+
+El agente carga una habilidad llamando a la herramienta:
+
+```
+skill({ name: "git-release" })
+```
+
+---
+
+## Configurar permisos
+
+Controle a quÃ© agentes de habilidades pueden acceder utilizando permisos basados â€‹â€‹en patrones en `voracode.json`:
+
+```json
+{
+  "permission": {
+    "skill": {
+      "*": "allow",
+      "pr-review": "allow",
+      "internal-*": "deny",
+      "experimental-*": "ask"
+    }
+  }
+}
+```
+
+| Permiso | Comportamiento                                    |
+| ------- | ------------------------------------------------- |
+| `allow` | La habilidad se carga inmediatamente              |
+| `deny`  | Habilidad oculta al agente, acceso rechazado      |
+| `ask`   | Se solicita al usuario aprobaciÃ³n antes de cargar |
+
+Los patrones admiten comodines: `internal-*` coincide con `internal-docs`, `internal-tools`, etc.
+
+---
+
+## AnulaciÃ³n por agente
+
+Otorgue a agentes especÃ­ficos permisos diferentes a los predeterminados globales.
+
+**Para agentes personalizados** (en el frente del agente):
+
+```yaml
+---
+permission:
+  skill:
+    "documents-*": "allow"
+---
+```
+
+**Para agentes integrados** (en `voracode.json`):
+
+```json
+{
+  "agent": {
+    "plan": {
+      "permission": {
+        "skill": {
+          "internal-*": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+## Deshabilitar la herramienta de habilidades
+
+Deshabilite completamente las habilidades para los agentes que no deberÃ­an usarlas:
+
+**Para agentes personalizados**:
+
+```yaml
+---
+tools:
+  skill: false
+---
+```
+
+**Para agentes integrados**:
+
+```json
+{
+  "agent": {
+    "plan": {
+      "tools": {
+        "skill": false
+      }
+    }
+  }
+}
+```
+
+Cuando estÃ¡ deshabilitada, la secciÃ³n `<available_skills>` se omite por completo.
+
+---
+
+## Solucionar problemas de carga
+
+Si una habilidad no aparece:
+
+1. Verifique que `SKILL.md` estÃ© escrito en mayÃºsculas.
+2. Verifique que el frontmatter incluya `name` y `description`
+3. AsegÃºrese de que los nombres de las habilidades sean Ãºnicos en todas las ubicaciones
+4. Verifique los permisos: las habilidades con `deny` estÃ¡n ocultas para los agentes

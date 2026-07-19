@@ -1,0 +1,685 @@
+---
+title: Config
+description: Using the Voracode JSON config.
+---
+
+JSON config íŒŒì¼ë¡œ Voracodeë¥¼ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+---
+
+## í˜•ì‹
+
+VoracodeëŠ” **JSON**ê³¼ **JSONC**(ì£¼ì„ì´ í¬í•¨ëœ JSON) í˜•ì‹ì„ ëª¨ë‘ ì§€ì›í•©ë‹ˆë‹¤.
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "model": "anthropic/claude-sonnet-4-5",
+  "autoupdate": true,
+  "server": {
+    "port": 4096,
+  },
+}
+```
+
+---
+
+## ìœ„ì¹˜
+
+config íŒŒì¼ì€ ì—¬ëŸ¬ ìœ„ì¹˜ì— ë‘˜ ìˆ˜ ìžˆìœ¼ë©°, ê° ìœ„ì¹˜ì—ëŠ” ìš°ì„ ìˆœìœ„ê°€ ìžˆìŠµë‹ˆë‹¤.
+
+:::note
+config íŒŒì¼ì€ **êµì²´ë˜ì§€ ì•Šê³  ë³‘í•©**ë©ë‹ˆë‹¤.
+:::
+
+config íŒŒì¼ì€ ì„œë¡œ ëŒ€ì²´ë˜ëŠ” ë°©ì‹ì´ ì•„ë‹ˆë¼ ë³‘í•©ë©ë‹ˆë‹¤. ì•„ëž˜ config ìœ„ì¹˜ì˜ ì„¤ì •ì´ ê²°í•©ë˜ë©°, ì¶©ëŒí•˜ëŠ” keyì— ëŒ€í•´ì„œë§Œ ë‚˜ì¤‘ì— ë¡œë“œëœ configê°€ ì•žì„  ê°’ì„ overrideí•©ë‹ˆë‹¤. ì¶©ëŒí•˜ì§€ ì•ŠëŠ” ì„¤ì •ì€ ëª¨ë‘ ìœ ì§€ë©ë‹ˆë‹¤.
+
+ì˜ˆë¥¼ ë“¤ì–´, ì „ì—­ configì— `autoupdate: true`ê°€ ìžˆê³  í”„ë¡œì íŠ¸ configì— `model: "anthropic/claude-sonnet-4-5"`ê°€ ìžˆìœ¼ë©´ ìµœì¢… configì—ëŠ” ì´ ì„¤ì •ì´ ëª¨ë‘ í¬í•¨ë©ë‹ˆë‹¤.
+
+---
+
+### ìš°ì„ ìˆœìœ„
+
+config sourceëŠ” ë‹¤ìŒ ìˆœì„œë¡œ ë¡œë“œë©ë‹ˆë‹¤(ë‚˜ì¤‘ sourceê°€ ì•žì„  sourceë¥¼ override).
+
+1. **Remote config**(`.well-known/voracode`) - ì¡°ì§ ê¸°ë³¸ê°’
+2. **Global config**(`~/.config/voracode/voracode.json`) - ì‚¬ìš©ìž ê¸°ë³¸ ì„¤ì •
+3. **Custom config**(`VORACODE_CONFIG` env var) - custom override
+4. **Project config**(í”„ë¡œì íŠ¸ì˜ `voracode.json`) - í”„ë¡œì íŠ¸ë³„ ì„¤ì •
+5. **`.voracode` directories** - agents, commands, plugins
+6. **Inline config**(`VORACODE_CONFIG_CONTENT` env var) - ëŸ°íƒ€ìž„ override
+
+ì¦‰, í”„ë¡œì íŠ¸ configëŠ” ì „ì—­ ê¸°ë³¸ê°’ì„ overrideí•  ìˆ˜ ìžˆê³ , ì „ì—­ configëŠ” ì¡°ì§ì˜ Remote ê¸°ë³¸ê°’ì„ overrideí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+:::note
+`.voracode` ë° `~/.config/voracode` ë””ë ‰í† ë¦¬ëŠ” í•˜ìœ„ ë””ë ‰í† ë¦¬ì— **ë³µìˆ˜í˜• ì´ë¦„**ì„ ì‚¬ìš©í•©ë‹ˆë‹¤: `agents/`, `commands/`, `modes/`, `plugins/`, `skills/`, `tools/`, `themes/`. ë‹¨ìˆ˜í˜• ì´ë¦„(ì˜ˆ: `agent/`)ë„ í•˜ìœ„ í˜¸í™˜ì„±ì„ ìœ„í•´ ì§€ì›í•©ë‹ˆë‹¤.
+:::
+
+---
+
+### Remote
+
+ì¡°ì§ì€ `.well-known/voracode` endpointë¡œ ê¸°ë³¸ configë¥¼ ì œê³µí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì´ë¥¼ ì§€ì›í•˜ëŠ” providerë¡œ ì¸ì¦í•˜ë©´ ìžë™ìœ¼ë¡œ ê°€ì ¸ì˜µë‹ˆë‹¤.
+
+Remote configëŠ” ê°€ìž¥ ë¨¼ì € ë¡œë“œë˜ì–´ ê¸°ë³¸ ë ˆì´ì–´ ì—­í• ì„ í•©ë‹ˆë‹¤. ì´í›„ì˜ ëª¨ë“  config source(ì „ì—­, í”„ë¡œì íŠ¸)ëŠ” ì´ ê¸°ë³¸ê°’ì„ overrideí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+ì˜ˆë¥¼ ë“¤ì–´, ì¡°ì§ì—ì„œ ê¸°ë³¸ ë¹„í™œì„±í™”ëœ MCP ì„œë²„ë¥¼ ì œê³µí•˜ëŠ” ê²½ìš°:
+
+```json title="Remote config from .well-known/voracode"
+{
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://jira.example.com/mcp",
+      "enabled": false
+    }
+  }
+}
+```
+
+ë¡œì»¬ configì—ì„œ íŠ¹ì • ì„œë²„ë¥¼ í™œì„±í™”í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://jira.example.com/mcp",
+      "enabled": true
+    }
+  }
+}
+```
+
+---
+
+### Global
+
+ì „ì—­ Voracode configëŠ” `~/.config/voracode/voracode.json`ì— ë‘ì„¸ìš”. provider, model, permissions ê°™ì€ ì‚¬ìš©ìž ì „ì²´ ê¸°ë³¸ ì„¤ì •ì€ ì „ì—­ configë¡œ ê´€ë¦¬í•˜ì„¸ìš”.
+
+TUI ê´€ë ¨ ì„¤ì •ì€ `~/.config/voracode/tui.json`ì„ ì‚¬ìš©í•˜ì„¸ìš”.
+
+ì „ì—­ configëŠ” ì¡°ì§ì˜ Remote ê¸°ë³¸ê°’ì„ overrideí•©ë‹ˆë‹¤.
+
+---
+
+### Per project
+
+í”„ë¡œì íŠ¸ ë£¨íŠ¸ì— `voracode.json`ì„ ì¶”ê°€í•˜ì„¸ìš”. í”„ë¡œì íŠ¸ configëŠ” í‘œì¤€ config íŒŒì¼ ì¤‘ ìš°ì„ ìˆœìœ„ê°€ ê°€ìž¥ ë†’ì•„ ì „ì—­ ë° Remote configë¥¼ ëª¨ë‘ overrideí•©ë‹ˆë‹¤.
+
+í”„ë¡œì íŠ¸ë³„ TUI ì„¤ì •ì€ `tui.json`ì„ í•¨ê»˜ ì¶”ê°€í•˜ì„¸ìš”.
+
+:::tip
+í”„ë¡œì íŠ¸ë³„ configëŠ” í”„ë¡œì íŠ¸ ë£¨íŠ¸ì— ë‘ì„¸ìš”.
+:::
+
+Voracode ì‹œìž‘ ì‹œ í˜„ìž¬ ë””ë ‰í† ë¦¬ì—ì„œ config íŒŒì¼ì„ ì°¾ê³ , ì—†ìœ¼ë©´ ê°€ìž¥ ê°€ê¹Œìš´ Git ë””ë ‰í† ë¦¬ê¹Œì§€ ìƒìœ„ë¡œ íƒìƒ‰í•©ë‹ˆë‹¤.
+
+ì´ íŒŒì¼ì€ Gitì— ì»¤ë°‹í•´ë„ ì•ˆì „í•˜ë©° ì „ì—­ configì™€ ë™ì¼í•œ schemaë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+
+---
+
+### Custom path
+
+`VORACODE_CONFIG` í™˜ê²½ ë³€ìˆ˜ë¡œ custom config íŒŒì¼ ê²½ë¡œë¥¼ ì§€ì •í•˜ì„¸ìš”.
+
+```bash
+export VORACODE_CONFIG=/path/to/my/custom-config.json
+voracode run "Hello world"
+```
+
+Custom configëŠ” ìš°ì„ ìˆœìœ„ìƒ ì „ì—­ configì™€ í”„ë¡œì íŠ¸ config ì‚¬ì´ì—ì„œ ë¡œë“œë©ë‹ˆë‹¤.
+
+---
+
+### Custom directory
+
+`VORACODE_CONFIG_DIR` í™˜ê²½ ë³€ìˆ˜ë¡œ custom config ë””ë ‰í† ë¦¬ë¥¼ ì§€ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì´ ë””ë ‰í† ë¦¬ëŠ” í‘œì¤€ `.voracode` ë””ë ‰í† ë¦¬ì™€ ë™ì¼í•˜ê²Œ agents, commands, modes, pluginsë¥¼ ê²€ìƒ‰í•˜ë©°, ë™ì¼í•œ êµ¬ì¡°ë¥¼ ë”°ë¼ì•¼ í•©ë‹ˆë‹¤.
+
+```bash
+export VORACODE_CONFIG_DIR=/path/to/my/config-directory
+voracode run "Hello world"
+```
+
+custom ë””ë ‰í† ë¦¬ëŠ” ì „ì—­ configì™€ `.voracode` ë””ë ‰í† ë¦¬ ë’¤ì— ë¡œë“œë˜ë¯€ë¡œ í•´ë‹¹ ì„¤ì •ì„ **overrideí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤**.
+
+---
+
+## Schema
+
+server/runtime config schemaëŠ” [**`voracode.ai/config.json`**](https://voracode.ai/config.json)ì— ì •ì˜ë˜ì–´ ìžˆìŠµë‹ˆë‹¤.
+
+TUI configëŠ” [**`voracode.ai/tui.json`**](https://voracode.ai/tui.json)ì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
+
+íŽ¸ì§‘ê¸°ì—ì„œ ì´ schemaë¥¼ ê¸°ë°˜ìœ¼ë¡œ validationê³¼ autocompleteë¥¼ ì‚¬ìš©í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+---
+
+### TUI
+
+TUI ê´€ë ¨ ì„¤ì •ì—ëŠ” ì „ìš© `tui.json` (ë˜ëŠ” `tui.jsonc`) íŒŒì¼ì„ ì‚¬ìš©í•˜ì„¸ìš”.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "scroll_speed": 3,
+  "scroll_acceleration": {
+    "enabled": true
+  },
+  "diff_style": "auto"
+}
+```
+
+`VORACODE_TUI_CONFIG`ë¥¼ ì‚¬ìš©í•˜ì—¬ ì‚¬ìš©ìž ì§€ì • TUI ì„¤ì • íŒŒì¼ì„ ê°€ë¦¬í‚¬ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+`voracode.json`ì˜ ê¸°ì¡´ `theme`, `keybinds`, `tui` í‚¤ëŠ” ë” ì´ìƒ ì‚¬ìš©ë˜ì§€ ì•Šìœ¼ë©°(deprecated) ê°€ëŠ¥í•œ ê²½ìš° ìžë™ìœ¼ë¡œ ë§ˆì´ê·¸ë ˆì´ì…˜ë©ë‹ˆë‹¤.
+
+[TUI êµ¬ì„±ì— ëŒ€í•´ ë” ì•Œì•„ë³´ê¸°](/docs/tui#configure).
+
+---
+
+### Server
+
+`server` ì˜µì…˜ìœ¼ë¡œ `voracode serve`ì™€ `voracode web` ëª…ë ¹ì˜ server ì„¤ì •ì„ êµ¬ì„±í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "mdnsDomain": "myproject.local",
+    "cors": ["http://localhost:5173"]
+  }
+}
+```
+
+ì‚¬ìš© ê°€ëŠ¥í•œ ì˜µì…˜:
+
+- `port` - ìˆ˜ì‹ í•  í¬íŠ¸ìž…ë‹ˆë‹¤.
+- `hostname` - ìˆ˜ì‹ í•  í˜¸ìŠ¤íŠ¸ëª…ìž…ë‹ˆë‹¤. `mdns`ê°€ í™œì„±í™”ë˜ì–´ ìžˆê³  hostnameì´ ì—†ìœ¼ë©´ ê¸°ë³¸ê°’ì€ `0.0.0.0`ìž…ë‹ˆë‹¤.
+- `mdns` - mDNS service discoveryë¥¼ í™œì„±í™”í•©ë‹ˆë‹¤. ë„¤íŠ¸ì›Œí¬ ë‚´ ë‹¤ë¥¸ ê¸°ê¸°ì—ì„œ Voracode serverë¥¼ ì°¾ì„ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+- `mdnsDomain` - mDNS serviceì˜ custom ë„ë©”ì¸ ì´ë¦„ìž…ë‹ˆë‹¤. ê¸°ë³¸ê°’ì€ `voracode.local`ìž…ë‹ˆë‹¤. ê°™ì€ ë„¤íŠ¸ì›Œí¬ì—ì„œ ì—¬ëŸ¬ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ì‹¤í–‰í•  ë•Œ ìœ ìš©í•©ë‹ˆë‹¤.
+- `cors` - ë¸Œë¼ìš°ì € ê¸°ë°˜ clientì—ì„œ HTTP serverë¥¼ ì‚¬ìš©í•  ë•Œ í—ˆìš©í•  ì¶”ê°€ CORS originìž…ë‹ˆë‹¤. ê°’ì€ ì „ì²´ origin(scheme + host + optional port) í˜•ì‹ì´ì–´ì•¼ í•˜ë©°, ì˜ˆ: `https://app.example.com`.
+
+[serverì— ëŒ€í•´ ë” ì•Œì•„ë³´ê¸°](/docs/server).
+
+---
+
+### Tools
+
+`tools` ì˜µì…˜ìœ¼ë¡œ LLMì´ ì‚¬ìš©í•  ìˆ˜ ìžˆëŠ” toolì„ ê´€ë¦¬í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "tools": {
+    "write": false,
+    "bash": false
+  }
+}
+```
+
+[toolì— ëŒ€í•´ ë” ì•Œì•„ë³´ê¸°](/docs/tools).
+
+---
+
+### Models
+
+Voracode configì˜ `provider`, `model`, `small_model` ì˜µì…˜ìœ¼ë¡œ ì‚¬ìš©í•  providerì™€ modelì„ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {},
+  "model": "anthropic/claude-sonnet-4-5",
+  "small_model": "anthropic/claude-haiku-4-5"
+}
+```
+
+`small_model`ì€ ì œëª© ìƒì„± ê°™ì€ ê²½ëŸ‰ ìž‘ì—…ì— ì‚¬ìš©í•  ë³„ë„ modelì„ ì„¤ì •í•©ë‹ˆë‹¤. ê¸°ë³¸ì ìœ¼ë¡œ VoracodeëŠ” providerì—ì„œ ë” ì €ë ´í•œ modelì„ ì‚¬ìš©í•  ìˆ˜ ìžˆìœ¼ë©´ ìš°ì„  ì‚¬ìš©í•˜ê³ , ì—†ìœ¼ë©´ ë©”ì¸ modelë¡œ fallbackí•©ë‹ˆë‹¤.
+
+provider ì˜µì…˜ì—ëŠ” `timeout`, `setCacheKey`ë¥¼ í¬í•¨í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "anthropic": {
+      "options": {
+        "timeout": 600000,
+        "setCacheKey": true
+      }
+    }
+  }
+}
+```
+
+- `timeout` - ìš”ì²­ timeout(ë°€ë¦¬ì´ˆ, ê¸°ë³¸ê°’: 300000). `false`ë¡œ ë¹„í™œì„±í™”í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+- `setCacheKey` - ì§€ì •ëœ providerì— ëŒ€í•´ cache keyê°€ í•­ìƒ ì„¤ì •ë˜ë„ë¡ ë³´ìž¥í•©ë‹ˆë‹¤.
+
+[local model](/docs/models#local)ë„ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. [ë” ì•Œì•„ë³´ê¸°](/docs/models).
+
+---
+
+#### Provider-Specific Options
+
+ì¼ë¶€ providerëŠ” ê³µí†µ ì˜µì…˜ì¸ `timeout`, `apiKey` ì™¸ì— ì¶”ê°€ config ì˜µì…˜ì„ ì§€ì›í•©ë‹ˆë‹¤.
+
+##### Amazon Bedrock
+
+Amazon Bedrockì€ AWS ì „ìš© configë¥¼ ì§€ì›í•©ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "amazon-bedrock": {
+      "options": {
+        "region": "us-east-1",
+        "profile": "my-aws-profile",
+        "endpoint": "https://bedrock-runtime.us-east-1.vpce-xxxxx.amazonaws.com"
+      }
+    }
+  }
+}
+```
+
+- `region` - Bedrockìš© AWS ë¦¬ì „(`AWS_REGION` env var ë˜ëŠ” ê¸°ë³¸ê°’ `us-east-1`)
+- `profile` - `~/.aws/credentials`ì˜ AWS named profile(ê¸°ë³¸ê°’: `AWS_PROFILE` env var)
+- `endpoint` - VPC endpointìš© custom endpoint URLìž…ë‹ˆë‹¤. AWS ìš©ì–´ë¥¼ ì‚¬ìš©í•œ ì¼ë°˜ `baseURL` ì˜µì…˜ì˜ ë³„ì¹­(alias)ìž…ë‹ˆë‹¤. ë‘˜ ë‹¤ ì§€ì •í•˜ë©´ `endpoint`ê°€ ìš°ì„ í•©ë‹ˆë‹¤.
+
+:::note
+Bearer token(`AWS_BEARER_TOKEN_BEDROCK` ë˜ëŠ” `/connect`)ì€ profile ê¸°ë°˜ ì¸ì¦ë³´ë‹¤ ìš°ì„ í•©ë‹ˆë‹¤. ìžì„¸í•œ ë‚´ìš©ì€ [authentication precedence](/docs/providers#authentication-precedence)ë¥¼ ì°¸ê³ í•˜ì„¸ìš”.
+:::
+
+[Amazon Bedrock config ë” ì•Œì•„ë³´ê¸°](/docs/providers#amazon-bedrock).
+
+---
+
+### Themes
+
+`tui.json`ì—ì„œ UI í…Œë§ˆë¥¼ ì„¤ì •í•˜ì„¸ìš”.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "theme": "tokyonight"
+}
+```
+
+[ë” ì•Œì•„ë³´ê¸°](/docs/themes).
+
+---
+
+### Agents
+
+`agent` ì˜µì…˜ìœ¼ë¡œ íŠ¹ì • ìž‘ì—…ìš© ì „ë¬¸ agentë¥¼ êµ¬ì„±í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "code-reviewer": {
+      "description": "Reviews code for best practices and potential issues",
+      "model": "anthropic/claude-sonnet-4-5",
+      "prompt": "You are a code reviewer. Focus on security, performance, and maintainability.",
+      "tools": {
+        // Disable file modification tools for review-only agent
+        "write": false,
+        "edit": false,
+      },
+    },
+  },
+}
+```
+
+`~/.config/voracode/agents/` ë˜ëŠ” `.voracode/agents/`ì˜ Markdown íŒŒì¼ë¡œ agentë¥¼ ì •ì˜í•  ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤. [ë” ì•Œì•„ë³´ê¸°](/docs/agents).
+
+---
+
+### Default agent
+
+`default_agent` ì˜µì…˜ìœ¼ë¡œ ê¸°ë³¸ agentë¥¼ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ë³„ë„ ì§€ì •ì´ ì—†ì„ ë•Œ ì–´ë–¤ agentë¥¼ ì‚¬ìš©í• ì§€ ê²°ì •í•©ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "default_agent": "plan"
+}
+```
+
+ê¸°ë³¸ agentëŠ” primary agentì—¬ì•¼ í•©ë‹ˆë‹¤(subagent ë¶ˆê°€). `"build"`, `"plan"` ê°™ì€ ë‚´ìž¥ agentë‚˜ ì§ì ‘ ì •ì˜í•œ [custom agent](/docs/agents)ë¥¼ ì§€ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì§€ì •í•œ agentê°€ ì—†ê±°ë‚˜ subagentì´ë©´ VoracodeëŠ” ê²½ê³ ì™€ í•¨ê»˜ `"build"`ë¡œ fallbackí•©ë‹ˆë‹¤.
+
+ì´ ì„¤ì •ì€ TUI, CLI(`voracode run`), ë°ìŠ¤í¬í†± ì•±, GitHub Action ë“± ëª¨ë“  ì¸í„°íŽ˜ì´ìŠ¤ì— ì ìš©ë©ë‹ˆë‹¤.
+
+---
+
+### Sharing
+
+`share` ì˜µì…˜ìœ¼ë¡œ [share](/docs/share) ê¸°ëŠ¥ì„ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "manual"
+}
+```
+
+í—ˆìš© ê°’:
+
+- `"manual"` - ëª…ë ¹ìœ¼ë¡œ ìˆ˜ë™ ê³µìœ  í—ˆìš©(ê¸°ë³¸ê°’)
+- `"auto"` - ìƒˆ ëŒ€í™”ë¥¼ ìžë™ ê³µìœ 
+- `"disabled"` - ê³µìœ  ê¸°ëŠ¥ ì™„ì „ ë¹„í™œì„±í™”
+
+ê¸°ë³¸ê°’ì€ manual ëª¨ë“œì´ë©°, `/share` ëª…ë ¹ìœ¼ë¡œ ëª…ì‹œì ìœ¼ë¡œ ê³µìœ í•´ì•¼ í•©ë‹ˆë‹¤.
+
+---
+
+### Commands
+
+`command` ì˜µì…˜ìœ¼ë¡œ ë°˜ë³µ ìž‘ì—…ìš© custom commandë¥¼ êµ¬ì„±í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "command": {
+    "test": {
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
+      "description": "Run tests with coverage",
+      "agent": "build",
+      "model": "anthropic/claude-haiku-4-5",
+    },
+    "component": {
+      "template": "Create a new React component named $ARGUMENTS with TypeScript support.\nInclude proper typing and basic structure.",
+      "description": "Create a new component",
+    },
+  },
+}
+```
+
+`~/.config/voracode/commands/` ë˜ëŠ” `.voracode/commands/`ì˜ Markdown íŒŒì¼ë¡œ commandë¥¼ ì •ì˜í•  ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤. [ë” ì•Œì•„ë³´ê¸°](/docs/commands).
+
+---
+
+### Keybinds
+
+`tui.json`ì—ì„œ ë‹¨ì¶•í‚¤ë¥¼ ì‚¬ìš©ìž ì§€ì •í•˜ì„¸ìš”.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "keybinds": {}
+}
+```
+
+[ë” ì•Œì•„ë³´ê¸°](/docs/keybinds).
+
+---
+
+### Autoupdate
+
+VoracodeëŠ” ì‹œìž‘ ì‹œ ìƒˆ ì—…ë°ì´íŠ¸ë¥¼ ìžë™ìœ¼ë¡œ ë‹¤ìš´ë¡œë“œí•©ë‹ˆë‹¤. `autoupdate` ì˜µì…˜ìœ¼ë¡œ ë¹„í™œì„±í™”í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "autoupdate": false
+}
+```
+
+ì—…ë°ì´íŠ¸ë¥¼ ìžë™ ì ìš©í•˜ì§€ ì•Šê³  ìƒˆ ë²„ì „ ì•Œë¦¼ë§Œ ë°›ê³  ì‹¶ë‹¤ë©´ `autoupdate`ë¥¼ `"notify"`ë¡œ ì„¤ì •í•˜ì„¸ìš”.
+ì´ ì˜µì…˜ì€ Homebrew ê°™ì€ íŒ¨í‚¤ì§€ ë§¤ë‹ˆì €ë¡œ ì„¤ì¹˜í•˜ì§€ ì•Šì€ ê²½ìš°ì—ë§Œ ë™ìž‘í•©ë‹ˆë‹¤.
+
+---
+
+### Formatters
+
+`formatter` ì˜µì…˜ìœ¼ë¡œ ì½”ë“œ formatterë¥¼ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {
+    "prettier": {
+      "disabled": true
+    },
+    "custom-prettier": {
+      "command": ["npx", "prettier", "--write", "$FILE"],
+      "environment": {
+        "NODE_ENV": "development"
+      },
+      "extensions": [".js", ".ts", ".jsx", ".tsx"]
+    }
+  }
+}
+```
+
+[formatterì— ëŒ€í•´ ë” ì•Œì•„ë³´ê¸°](/docs/formatters).
+
+---
+
+### Permissions
+
+ê¸°ë³¸ì ìœ¼ë¡œ VoracodeëŠ” **ëª…ì‹œì  ìŠ¹ì¸ ì—†ì´ ëª¨ë“  ìž‘ì—…ì„ í—ˆìš©**í•©ë‹ˆë‹¤. `permission` ì˜µì…˜ìœ¼ë¡œ ì´ ë™ìž‘ì„ ë°”ê¿€ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+ì˜ˆë¥¼ ë“¤ì–´ `edit`, `bash` toolì´ ì‚¬ìš©ìž ìŠ¹ì¸ì„ ìš”êµ¬í•˜ê²Œ í•˜ë ¤ë©´:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "ask",
+    "bash": "ask"
+  }
+}
+```
+
+[permissionì— ëŒ€í•´ ë” ì•Œì•„ë³´ê¸°](/docs/permissions).
+
+---
+
+### Compaction
+
+`compaction` ì˜µì…˜ìœ¼ë¡œ context compaction ë™ìž‘ì„ ì œì–´í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "compaction": {
+    "auto": true,
+    "prune": false,
+    "reserved": 10000
+  }
+}
+```
+
+- `auto` - contextê°€ ê°€ë“ ì°¼ì„ ë•Œ ì„¸ì…˜ì„ ìžë™ compactí•©ë‹ˆë‹¤(ê¸°ë³¸ê°’: `true`).
+- `prune` - token ì ˆì•½ì„ ìœ„í•´ ì˜¤ëž˜ëœ tool ì¶œë ¥ì„ ì œê±°í•©ë‹ˆë‹¤(ê¸°ë³¸ê°’: `false`).
+- `reserved` - compactionìš© token bufferìž…ë‹ˆë‹¤. compaction ì¤‘ overflowê°€ ë‚˜ì§€ ì•Šë„ë¡ ì¶©ë¶„í•œ windowë¥¼ ë‚¨ê¹ë‹ˆë‹¤.
+
+---
+
+### Watcher
+
+`watcher` ì˜µì…˜ìœ¼ë¡œ íŒŒì¼ watcher ignore íŒ¨í„´ì„ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "watcher": {
+    "ignore": ["node_modules/**", "dist/**", ".git/**"]
+  }
+}
+```
+
+íŒ¨í„´ì€ glob ë¬¸ë²•ì„ ë”°ë¦…ë‹ˆë‹¤. íŒŒì¼ ê°ì‹œì—ì„œ ë…¸ì´ì¦ˆê°€ ë§Žì€ ë””ë ‰í† ë¦¬ë¥¼ ì œì™¸í•  ë•Œ ìœ ìš©í•©ë‹ˆë‹¤.
+
+---
+
+### MCP servers
+
+`mcp` ì˜µì…˜ìœ¼ë¡œ ì‚¬ìš©í•  MCP serverë¥¼ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {}
+}
+```
+
+[ë” ì•Œì•„ë³´ê¸°](/docs/mcp-servers).
+
+---
+
+### Plugins
+
+[Plugins](/docs/plugins)ëŠ” custom tool, hook, integrationìœ¼ë¡œ Voracodeë¥¼ í™•ìž¥í•©ë‹ˆë‹¤.
+
+plugin íŒŒì¼ì€ `.voracode/plugins/` ë˜ëŠ” `~/.config/voracode/plugins/`ì— ë‘ì„¸ìš”. `plugin` ì˜µì…˜ìœ¼ë¡œ npm pluginì„ ë¡œë“œí•  ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "plugin": ["voracode-helicone-session", "@my-org/custom-plugin"]
+}
+```
+
+[ë” ì•Œì•„ë³´ê¸°](/docs/plugins).
+
+---
+
+### Instructions
+
+`instructions` ì˜µì…˜ìœ¼ë¡œ ì‚¬ìš© ì¤‘ì¸ modelì— ì œê³µí•  ì§€ì¹¨ íŒŒì¼ì„ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
+}
+```
+
+ì´ ì˜µì…˜ì€ ì§€ì¹¨ íŒŒì¼ ê²½ë¡œ ë° glob íŒ¨í„´ ë°°ì—´ì„ ë°›ìŠµë‹ˆë‹¤. [rulesì— ëŒ€í•´ ë” ì•Œì•„ë³´ê¸°](/docs/rules).
+
+---
+
+### Disabled providers
+
+`disabled_providers` ì˜µì…˜ìœ¼ë¡œ ìžë™ ë¡œë“œë˜ëŠ” providerë¥¼ ë¹„í™œì„±í™”í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. credentialì´ ìžˆì–´ë„ íŠ¹ì • providerë¥¼ ë¡œë“œí•˜ì§€ ì•Šê²Œ í•˜ê³  ì‹¶ì„ ë•Œ ìœ ìš©í•©ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "disabled_providers": ["openai", "gemini"]
+}
+```
+
+:::note
+`disabled_providers`ëŠ” `enabled_providers`ë³´ë‹¤ ìš°ì„ í•©ë‹ˆë‹¤.
+:::
+
+`disabled_providers`ëŠ” provider ID ë°°ì—´ì„ ë°›ìŠµë‹ˆë‹¤. providerê°€ ë¹„í™œì„±í™”ë˜ë©´:
+
+- í™˜ê²½ ë³€ìˆ˜ê°€ ì„¤ì •ë˜ì–´ ìžˆì–´ë„ ë¡œë“œë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
+- `/connect` ëª…ë ¹ìœ¼ë¡œ API keyë¥¼ ì„¤ì •í•´ë„ ë¡œë“œë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
+- í•´ë‹¹ providerì˜ modelì€ model ì„ íƒ ëª©ë¡ì— í‘œì‹œë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
+
+---
+
+### Enabled providers
+
+`enabled_providers` ì˜µì…˜ìœ¼ë¡œ provider allowlistë¥¼ ì§€ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì´ ê°’ì„ ì„¤ì •í•˜ë©´ ì§€ì •í•œ providerë§Œ í™œì„±í™”ë˜ê³  ë‚˜ë¨¸ì§€ëŠ” ë¬´ì‹œë©ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "enabled_providers": ["anthropic", "openai"]
+}
+```
+
+providerë¥¼ í•˜ë‚˜ì”© ë¹„í™œì„±í™”í•˜ëŠ” ëŒ€ì‹ , Voracodeê°€ íŠ¹ì • providerë§Œ ì‚¬ìš©í•˜ë„ë¡ ì œí•œí•˜ê³  ì‹¶ì„ ë•Œ ìœ ìš©í•©ë‹ˆë‹¤.
+
+:::note
+`disabled_providers`ëŠ” `enabled_providers`ë³´ë‹¤ ìš°ì„ í•©ë‹ˆë‹¤.
+:::
+
+ë™ì¼ providerê°€ `enabled_providers`ì™€ `disabled_providers`ì— ëª¨ë‘ ìžˆìœ¼ë©´ í•˜ìœ„ í˜¸í™˜ì„±ì„ ìœ„í•´ `disabled_providers`ê°€ ìš°ì„ í•©ë‹ˆë‹¤.
+
+---
+
+### Experimental
+
+`experimental` keyì—ëŠ” í˜„ìž¬ í™œë°œížˆ ê°œë°œ ì¤‘ì¸ ì˜µì…˜ì´ í¬í•¨ë©ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "experimental": {}
+}
+```
+
+:::caution
+experimental ì˜µì…˜ì€ ì•ˆì •ì ì´ì§€ ì•ŠìŠµë‹ˆë‹¤. ì˜ˆê³  ì—†ì´ ë³€ê²½ë˜ê±°ë‚˜ ì œê±°ë  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+:::
+
+---
+
+## Variables
+
+config íŒŒì¼ì—ì„œ í™˜ê²½ ë³€ìˆ˜ì™€ íŒŒì¼ ë‚´ìš©ì„ ì°¸ì¡°í•  ìˆ˜ ìžˆë„ë¡ ë³€ìˆ˜ ì¹˜í™˜ì„ ì‚¬ìš©í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+---
+
+### Env vars
+
+`{env:VARIABLE_NAME}` í˜•ì‹ìœ¼ë¡œ í™˜ê²½ ë³€ìˆ˜ë¥¼ ì¹˜í™˜í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "model": "{env:VORACODE_MODEL}",
+  "provider": {
+    "anthropic": {
+      "models": {},
+      "options": {
+        "apiKey": "{env:ANTHROPIC_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+í™˜ê²½ ë³€ìˆ˜ê°€ ì„¤ì •ë˜ì§€ ì•Šì•˜ìœ¼ë©´ ë¹ˆ ë¬¸ìžì—´ë¡œ ì¹˜í™˜ë©ë‹ˆë‹¤.
+
+---
+
+### Files
+
+`{file:path/to/file}` í˜•ì‹ìœ¼ë¡œ íŒŒì¼ ë‚´ìš©ì„ ì¹˜í™˜í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["./custom-instructions.md"],
+  "provider": {
+    "openai": {
+      "options": {
+        "apiKey": "{file:~/.secrets/openai-key}"
+      }
+    }
+  }
+}
+```
+
+íŒŒì¼ ê²½ë¡œëŠ” ë‹¤ìŒì„ ì§€ì›í•©ë‹ˆë‹¤.
+
+- config íŒŒì¼ ë””ë ‰í† ë¦¬ ê¸°ì¤€ ìƒëŒ€ ê²½ë¡œ
+- `/` ë˜ëŠ” `~`ë¡œ ì‹œìž‘í•˜ëŠ” ì ˆëŒ€ ê²½ë¡œ
+
+ì´ ê¸°ëŠ¥ì€ ë‹¤ìŒ ìƒí™©ì— ìœ ìš©í•©ë‹ˆë‹¤.
+
+- API key ê°™ì€ ë¯¼ê° ì •ë³´ë¥¼ ë³„ë„ íŒŒì¼ë¡œ ë¶„ë¦¬
+- í° ì§€ì¹¨ íŒŒì¼ì„ configë¥¼ ë³µìž¡í•˜ê²Œ ë§Œë“¤ì§€ ì•Šê³  í¬í•¨
+- ì—¬ëŸ¬ config íŒŒì¼ì—ì„œ ê³µí†µ ì„¤ì • ìŠ¤ë‹ˆíŽ« ìž¬ì‚¬ìš©

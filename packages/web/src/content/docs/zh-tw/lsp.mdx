@@ -1,0 +1,208 @@
+---
+title: LSP ä¼ºæœå™¨
+description: Voracode èˆ‡æ‚¨çš„ LSP ä¼ºæœå™¨æ•´åˆã€‚
+---
+
+Voracode å¯ä»¥èˆ‡èªžè¨€ä¼ºæœå™¨å”å®šï¼ˆLSPï¼‰ä¼ºæœå™¨æ•´åˆï¼Œå°‡è¨ºæ–·è³‡è¨Šä½œç‚º agent çš„å›žé¥‹ã€‚
+
+---
+
+## å…§å»ºæ”¯æ´
+
+Voracode å…§å»ºäº†å¤šç¨®é©ç”¨æ–¼ä¸»æµèªžè¨€çš„ LSP ä¼ºæœå™¨ï¼š
+
+| LSP ä¼ºæœå™¨         | å‰¯æª”å                                                              | è¦æ±‚                                                  |
+| ------------------ | ------------------------------------------------------------------- | ----------------------------------------------------- |
+| astro              | .astro                                                              | ç‚º Astro å°ˆæ¡ˆè‡ªå‹•å®‰è£                                 |
+| bash               | .sh, .bash, .zsh, .ksh                                              | è‡ªå‹•å®‰è£ bash-language-server                         |
+| clangd             | .c, .cpp, .cc, .cxx, .c++, .h, .hpp, .hh, .hxx, .h++                | ç‚º C/C++ å°ˆæ¡ˆè‡ªå‹•å®‰è£                                 |
+| csharp             | .cs                                                                 | éœ€è¦å·²å®‰è£ `.NET SDK`                                 |
+| clojure-lsp        | .clj, .cljs, .cljc, .edn                                            | éœ€è¦ `clojure-lsp` æŒ‡ä»¤å¯ç”¨                           |
+| dart               | .dart                                                               | éœ€è¦ `dart` æŒ‡ä»¤å¯ç”¨                                  |
+| deno               | .ts, .tsx, .js, .jsx, .mjs                                          | éœ€è¦ `deno` æŒ‡ä»¤å¯ç”¨ï¼ˆè‡ªå‹•åµæ¸¬ deno.json/deno.jsoncï¼‰ |
+| elixir-ls          | .ex, .exs                                                           | éœ€è¦ `elixir` æŒ‡ä»¤å¯ç”¨                                |
+| eslint             | .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, .cts, .vue                  | å°ˆæ¡ˆä¸­éœ€è¦ `eslint` ç›¸ä¾å¥—ä»¶                          |
+| fsharp             | .fs, .fsi, .fsx, .fsscript                                          | éœ€è¦å·²å®‰è£ `.NET SDK`                                 |
+| gleam              | .gleam                                                              | éœ€è¦ `gleam` æŒ‡ä»¤å¯ç”¨                                 |
+| gopls              | .go                                                                 | éœ€è¦ `go` æŒ‡ä»¤å¯ç”¨                                    |
+| hls                | .hs, .lhs                                                           | éœ€è¦ `haskell-language-server-wrapper` æŒ‡ä»¤å¯ç”¨       |
+| jdtls              | .java                                                               | éœ€è¦å·²å®‰è£ `Java SDK (version 21+)`                   |
+| julials            | .jl                                                                 | éœ€è¦å·²å®‰è£ `julia` å’Œ `LanguageServer.jl`             |
+| kotlin-ls          | .kt, .kts                                                           | ç‚º Kotlin å°ˆæ¡ˆè‡ªå‹•å®‰è£                                |
+| lua-ls             | .lua                                                                | ç‚º Lua å°ˆæ¡ˆè‡ªå‹•å®‰è£                                   |
+| nixd               | .nix                                                                | éœ€è¦ `nixd` æŒ‡ä»¤å¯ç”¨                                  |
+| ocaml-lsp          | .ml, .mli                                                           | éœ€è¦ `ocamllsp` æŒ‡ä»¤å¯ç”¨                              |
+| oxlint             | .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, .cts, .vue, .astro, .svelte | å°ˆæ¡ˆä¸­éœ€è¦ `oxlint` ç›¸ä¾å¥—ä»¶                          |
+| php intelephense   | .php                                                                | ç‚º PHP å°ˆæ¡ˆè‡ªå‹•å®‰è£                                   |
+| prisma             | .prisma                                                             | éœ€è¦ `prisma` æŒ‡ä»¤å¯ç”¨                                |
+| pyright            | .py, .pyi                                                           | éœ€è¦å·²å®‰è£ `pyright` ç›¸ä¾å¥—ä»¶                         |
+| ruby-lsp (rubocop) | .rb, .rake, .gemspec, .ru                                           | éœ€è¦ `ruby` å’Œ `gem` æŒ‡ä»¤å¯ç”¨                         |
+| rust               | .rs                                                                 | éœ€è¦ `rust-analyzer` æŒ‡ä»¤å¯ç”¨                         |
+| sourcekit-lsp      | .swift, .objc, .objcpp                                              | éœ€è¦å·²å®‰è£ `swift`ï¼ˆmacOS ä¸Šç‚º `xcode`ï¼‰              |
+| svelte             | .svelte                                                             | ç‚º Svelte å°ˆæ¡ˆè‡ªå‹•å®‰è£                                |
+| terraform          | .tf, .tfvars                                                        | å¾ž GitHub releases è‡ªå‹•å®‰è£                           |
+| tinymist           | .typ, .typc                                                         | å¾ž GitHub releases è‡ªå‹•å®‰è£                           |
+| typescript         | .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, .cts                        | å°ˆæ¡ˆä¸­éœ€è¦ `typescript` ç›¸ä¾å¥—ä»¶                      |
+| vue                | .vue                                                                | ç‚º Vue å°ˆæ¡ˆè‡ªå‹•å®‰è£                                   |
+| yaml-ls            | .yaml, .yml                                                         | è‡ªå‹•å®‰è£ Red Hat yaml-language-server                 |
+| zls                | .zig, .zon                                                          | éœ€è¦ `zig` æŒ‡ä»¤å¯ç”¨                                   |
+
+LSP é è¨­é—œé–‰ã€‚å•Ÿç”¨å¾Œï¼Œç•¶åµæ¸¬åˆ°ä¸Šè¿°æª”æ¡ˆå‰¯æª”åä¸”æ»¿è¶³ç›¸æ‡‰è¦æ±‚æ™‚ï¼Œä¼ºæœå™¨æœƒå•Ÿå‹•ã€‚
+
+:::note
+æ‚¨å¯ä»¥å°‡ `VORACODE_DISABLE_LSP_DOWNLOAD` ç’°å¢ƒè®Šæ•¸è¨­å®šç‚º `true` ä¾†åœç”¨ LSP ä¼ºæœå™¨çš„è‡ªå‹•ä¸‹è¼‰ã€‚
+:::
+
+---
+
+## å·¥ä½œåŽŸç†
+
+å•Ÿç”¨ LSP ä¸” Voracode é–‹å•Ÿæª”æ¡ˆæ™‚ï¼Œå®ƒæœƒï¼š
+
+1. å°‡æª”æ¡ˆå‰¯æª”åèˆ‡æ‰€æœ‰å·²å•Ÿç”¨çš„ LSP ä¼ºæœå™¨é€²è¡Œæ¯”å°ã€‚
+2. å¦‚æžœå°æ‡‰çš„ LSP ä¼ºæœå™¨å°šæœªåŸ·è¡Œï¼Œå‰‡è‡ªå‹•å•Ÿå‹•å®ƒã€‚
+
+---
+
+## æœ€ä½³å¯¦è¸
+
+LSP å¯ä»¥é€éŽèªžè¨€ä¼ºæœå™¨è¨ºæ–·å¹«åŠ© agent ç™¼ç¾ä¸¦ä¿®å¾©å•é¡Œã€‚é€™å°æŸäº›å°ˆæ¡ˆå¾ˆæœ‰ç”¨ï¼Œä½†ä¸ä¸€å®šç¸½æ˜¯å¸¶ä¾†æ·¨æ”¶ç›Šã€‚
+
+èªžè¨€ä¼ºæœå™¨å¯èƒ½èˆ‡å°ˆæ¡ˆä¸åŒæ­¥ã€ä½”ç”¨è¼ƒå¤šè¨˜æ†¶é«”ã€éš¨ç‰ˆæœ¬æˆ–å°ˆæ¡ˆè¡¨ç¾ä¸åŒï¼Œä¸¦æ‹–æ…¢ agent å·¥ä½œæµç¨‹ã€‚åœ¨è¨±å¤šå°ˆæ¡ˆä¸­ï¼Œæ›´å¥½çš„åšæ³•æ˜¯è®“ agent ç›´æŽ¥åŸ·è¡Œ lintã€typecheck æˆ–å…¶ä»–è¨ºæ–·é¡ž CLI å·¥å…·ï¼Œé€™æ¨£éŒ¯èª¤æœƒå›žåˆ° agent å¾ªç’°ï¼ŒåŒæ™‚é¿å…é€™äº›å–æ¨ã€‚å°‡é€™äº›æŒ‡ä»¤è¨˜éŒ„åœ¨ `AGENTS.md` æˆ– skills ç­‰æŒ‡ç¤ºæª”ä¸­ï¼Œè®“ agent çŸ¥é“è©²åŸ·è¡Œä»€éº¼ã€‚ç•¶æ‚¨çš„å°ˆæ¡ˆèƒ½å¾žé¡å¤–çš„èªžè¨€ä¼ºæœå™¨å›žé¥‹ä¸­å—ç›Šæ™‚å†å•Ÿç”¨ LSPã€‚
+
+---
+
+## è¨­å®š
+
+æ‚¨å¯ä»¥é€éŽ Voracode è¨­å®šæª”ä¸­çš„ `lsp` éƒ¨åˆ†ä¾†å•Ÿç”¨ä¸¦è‡ªè¨‚ LSP ä¼ºæœå™¨ã€‚
+
+è¦å•Ÿç”¨æ‰€æœ‰å…§å»º LSP ä¼ºæœå™¨ï¼Œè«‹å°‡ `lsp` è¨­å®šç‚º `true`ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": true
+}
+```
+
+ä½¿ç”¨ç‰©ä»¶å¯ä»¥åœ¨ä¿æŒå…§å»ºä¼ºæœå™¨å•Ÿç”¨çš„åŒæ™‚è¨­å®šè¦†å¯«é …æˆ–è‡ªè¨‚ä¼ºæœå™¨ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {}
+}
+```
+
+æ¯å€‹ LSP ä¼ºæœå™¨æ”¯æ´ä»¥ä¸‹è¨­å®šé …ï¼š
+
+| å±¬æ€§             | é¡žåž‹     | æè¿°                              |
+| ---------------- | -------- | --------------------------------- |
+| `disabled`       | boolean  | è¨­å®šç‚º `true` å¯åœç”¨è©² LSP ä¼ºæœå™¨ |
+| `command`        | string[] | å•Ÿå‹• LSP ä¼ºæœå™¨çš„æŒ‡ä»¤             |
+| `extensions`     | string[] | è©² LSP ä¼ºæœå™¨éœ€è¦è™•ç†çš„æª”æ¡ˆå‰¯æª”å |
+| `env`            | object   | å•Ÿå‹•ä¼ºæœå™¨æ™‚è¨­å®šçš„ç’°å¢ƒè®Šæ•¸        |
+| `initialization` | object   | å‚³é€çµ¦ LSP ä¼ºæœå™¨çš„åˆå§‹åŒ–é¸é …     |
+
+ä¸‹é¢ä¾†çœ‹ä¸€äº›ç¯„ä¾‹ã€‚
+
+---
+
+### ç’°å¢ƒè®Šæ•¸
+
+ä½¿ç”¨ `env` å±¬æ€§åœ¨å•Ÿå‹• LSP ä¼ºæœå™¨æ™‚è¨­å®šç’°å¢ƒè®Šæ•¸ï¼š
+
+```json title="voracode.json" {5-7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {
+    "rust": {
+      "env": {
+        "RUST_LOG": "debug"
+      }
+    }
+  }
+}
+```
+
+---
+
+### åˆå§‹åŒ–é¸é …
+
+ä½¿ç”¨ `initialization` å±¬æ€§å‘ LSP ä¼ºæœå™¨å‚³éžåˆå§‹åŒ–é¸é …ã€‚é€™äº›æ˜¯åœ¨ LSP `initialize` è«‹æ±‚æœŸé–“å‚³é€çš„ä¼ºæœå™¨ç‰¹å®šè¨­å®šï¼š
+
+```json title="voracode.json" {5-9}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {
+    "typescript": {
+      "initialization": {
+        "preferences": {
+          "importModuleSpecifierPreference": "relative"
+        }
+      }
+    }
+  }
+}
+```
+
+:::note
+åˆå§‹åŒ–é¸é …å›  LSP ä¼ºæœå™¨è€Œç•°ã€‚è«‹æŸ¥é–±æ‚¨æ‰€ä½¿ç”¨çš„ LSP ä¼ºæœå™¨çš„æ–‡ä»¶ä»¥äº†è§£å¯ç”¨é¸é …ã€‚
+:::
+
+---
+
+### åœç”¨ LSP ä¼ºæœå™¨
+
+å¦‚æžœçœç•¥ `lsp`ï¼Œæ‰€æœ‰ LSP ä¼ºæœå™¨éƒ½æœƒè¢«åœç”¨ã€‚å¦‚æžœå¦ä¸€å€‹è¨­å®šå•Ÿç”¨äº† LSPï¼Œå¯å°‡ `lsp` è¨­å®šç‚º `false` ä¾†åœç”¨æ‰€æœ‰ LSP ä¼ºæœå™¨ï¼š
+
+```json title="voracode.json" {3}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": false
+}
+```
+
+è¦åœç”¨**ç‰¹å®šçš„** LSP ä¼ºæœå™¨ï¼Œå°‡ `disabled` è¨­å®šç‚º `true`ï¼š
+
+```json title="voracode.json" {5}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {
+    "typescript": {
+      "disabled": true
+    }
+  }
+}
+```
+
+---
+
+### è‡ªè¨‚ LSP ä¼ºæœå™¨
+
+æ‚¨å¯ä»¥é€éŽæŒ‡å®šæŒ‡ä»¤å’Œæª”æ¡ˆå‰¯æª”åä¾†æ–°å¢žè‡ªè¨‚ LSP ä¼ºæœå™¨ï¼š
+
+```json title="voracode.json" {4-7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {
+    "custom-lsp": {
+      "command": ["custom-lsp-server", "--stdio"],
+      "extensions": [".custom"]
+    }
+  }
+}
+```
+
+---
+
+## è£œå……è³‡è¨Š
+
+### PHP Intelephense
+
+PHP Intelephense é€éŽæŽˆæ¬Šé‡‘é‘°æä¾›é€²éšŽåŠŸèƒ½ã€‚æ‚¨å¯ä»¥å°‡æŽˆæ¬Šé‡‘é‘°å–®ç¨æ”¾åœ¨ä»¥ä¸‹è·¯å¾‘çš„æ–‡å­—æª”æ¡ˆä¸­ï¼š
+
+- macOS/Linuxï¼š`$HOME/intelephense/license.txt`
+- Windowsï¼š`%USERPROFILE%/intelephense/license.txt`
+
+è©²æª”æ¡ˆæ‡‰åƒ…åŒ…å«æŽˆæ¬Šé‡‘é‘°ï¼Œä¸è¦æ–°å¢žå…¶ä»–ä»»ä½•å…§å®¹ã€‚

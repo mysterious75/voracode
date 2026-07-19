@@ -1,0 +1,201 @@
+---
+title: Modeli
+description: Konfiguriranje LLM provajdera i modela.
+---
+
+Voracode koristi [AI SDK](https://ai-sdk.dev/) i [Models.dev](https://models.dev) za podrÅ¡ku **75+ LLM providera**, ukljuÄujuÄ‡i lokalne modele.
+
+## Provajderi
+
+VeÄ‡ina popularnih provajdera su unaprijed uÄitani prema zadanim postavkama. Ako ste dodali vjerodajnice za provajdera putem naredbe `/connect`, oni Ä‡e biti dostupni kada pokrenete Voracode.
+Saznajte viÅ¡e o [providers](/docs/providers).
+
+---
+
+## Odabir modela
+
+Nakon Å¡to konfigurirate svog provajdera, moÅ¾ete odabrati model koji Å¾elite upisivanjem:
+
+```bash frame="none"
+/models
+```
+
+---
+
+## PreporuÄeni modeli
+
+Postoji mnogo modela vani, a novi modeli izlaze svake sedmice.
+:::tip
+Razmislite o koriÅ¡tenju jednog od modela koje preporuÄujemo.
+:::
+
+MeÄ‘utim, postoji samo nekoliko njih koji su dobri i u generiranju koda i u pozivanju alata.
+Evo nekoliko modela koji dobro rade sa Voracode, bez posebnog redosleda. (Ovo nije potpuna lista niti je nuÅ¾no aÅ¾urirana):
+
+- GPT 5.2
+- Codex GPT 5.1
+- Claude Opus 4.5
+- Claude Sonnet 4.5
+- Minimax M2.1
+- Gemini 3 Pro
+
+---
+
+## Postavljanje zadanog
+
+Da postavite jedan od ovih kao zadani model, moÅ¾ete postaviti kljuÄ `model` u svom
+Voracode config.
+
+```json title="voracode.json" {3}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "model": "lmstudio/google/gemma-3n-e4b"
+}
+```
+
+Ovdje je puni ID `provider_id/model_id`. Na primjer, ako koristite [Voracode Zen](/docs/zen), koristili biste `voracode/gpt-5.1-codex` za GPT 5.1 Codex.
+Ako ste konfigurirali [prilagoÄ‘enog provajdera](/docs/providers#custom), `provider_id` je kljuÄ iz `provider` dijela vaÅ¡e konfiguracije, a `model_id` je kljuÄ iz `provider.models`.
+
+---
+
+## Konfiguracija modela
+
+MoÅ¾ete globalno konfigurirati opcije modela kroz config.
+
+```jsonc title="voracode.jsonc" {7-12,19-24}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "openai": {
+      "models": {
+        "gpt-5": {
+          "options": {
+            "reasoningEffort": "high",
+            "textVerbosity": "low",
+            "reasoningSummary": "auto",
+            "include": ["reasoning.encrypted_content"],
+          },
+        },
+      },
+    },
+    "anthropic": {
+      "models": {
+        "claude-sonnet-4-5-20250929": {
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 16000,
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+Ovdje konfiguriramo globalne postavke za dva ugraÄ‘ena modela: `gpt-5` kada se pristupa preko `openai` provajdera i `claude-sonnet-4-20250514` kada se pristupa preko `anthropic` provajdera.
+UgraÄ‘eni dobavljaÄ i nazivi modela mogu se naÄ‡i na [Models.dev](https://models.dev).
+TakoÄ‘er moÅ¾ete konfigurirati ove opcije za sve agente koje koristite. Konfiguracija agenta poniÅ¡tava sve globalne opcije ovdje. [Saznajte viÅ¡e](/docs/agents/#additional).
+TakoÄ‘er moÅ¾ete definirati prilagoÄ‘ene varijante koje proÅ¡iruju ugraÄ‘ene. Varijante vam omoguÄ‡avaju da konfigurirate razliÄite postavke za isti model bez stvaranja duplih unosa:
+
+```jsonc title="voracode.jsonc" {6-21}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "voracode": {
+      "models": {
+        "gpt-5": {
+          "variants": {
+            "high": {
+              "reasoningEffort": "high",
+              "textVerbosity": "low",
+              "reasoningSummary": "auto",
+            },
+            "low": {
+              "reasoningEffort": "low",
+              "textVerbosity": "low",
+              "reasoningSummary": "auto",
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+---
+
+## Varijante
+
+Mnogi modeli podrÅ¾avaju viÅ¡e varijanti sa razliÄitim konfiguracijama. Voracode se isporuÄuje sa ugraÄ‘enim podrazumevanim varijantama za popularne provajdere.
+
+### UgraÄ‘ene varijante
+
+Voracode se isporuÄuje sa zadanim varijantama za mnoge provajdere:
+**Anthropic**:
+
+- `high` - Visok budÅ¾et za razmiÅ¡ljanje (zadano)
+- `max` - Maksimalni budÅ¾et za razmiÅ¡ljanje
+  **OpenAI**:
+  Zavisi od modela, ali otprilike:
+- `none` - Bez obrazloÅ¾enja
+- `minimal` - Minimalni napor za rasuÄ‘ivanje
+- `low` - Nizak napor u rasuÄ‘ivanju
+- `medium` - Srednji napor u zakljuÄivanju
+- `high` - Veliki napor u rasuÄ‘ivanju
+- `xhigh` - Ekstra visok napor u rasuÄ‘ivanju
+  **Google**:
+- `low` - Manji trud/budÅ¾et tokena
+- `high` - VeÄ‡i budÅ¾et za trud/token
+  :::tip
+  Ova lista nije sveobuhvatna. Mnogi drugi provajderi takoÄ‘er imaju ugraÄ‘ene zadane postavke.
+  :::
+
+### PrilagoÄ‘ene varijante
+
+MoÅ¾ete nadjaÄati postojeÄ‡e varijante ili dodati svoje:
+
+```jsonc title="voracode.jsonc" {7-18}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "openai": {
+      "models": {
+        "gpt-5": {
+          "variants": {
+            "thinking": {
+              "reasoningEffort": "high",
+              "textVerbosity": "low",
+            },
+            "fast": {
+              "disabled": true,
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+### KruÅ¾enje kroz varijante
+
+Koristite keybind `variant_cycle` za brzo prebacivanje izmeÄ‘u varijanti. [Saznajte viÅ¡e](/docs/keybinds).
+
+## UÄitavanje modela
+
+Kada se Voracode pokrene, on provjerava modele u sljedeÄ‡em prioritetnom redoslijedu:
+
+1. Oznaka komandne linije `--model` ili `-m`. Format je isti kao u konfiguracijskoj datoteci: `provider_id/model_id`.
+2. Lista modela u Voracode konfiguraciji.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "model": "anthropic/claude-sonnet-4-20250514"
+}
+```
+
+Format ovdje je `provider/model`. 3. Posljednji koriÅ¡teni model. 4. Prvi model koji koristi interni prioritet.

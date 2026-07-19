@@ -1,0 +1,156 @@
+---
+title: Support ACP
+description: Utilisez Voracode dans nâ€™importe quel Ã©diteur compatible ACP.
+---
+
+Voracode prend en charge le [Agent Client Protocol](https://agentclientprotocol.com) (ACP), vous permettant de l'utiliser directement dans les Ã©diteurs et IDE compatibles.
+
+:::tip
+Pour obtenir une liste des Ã©diteurs et des outils prenant en charge ACP, consultez le [ACP progress report](https://zed.dev/blog/acp-progress-report#available-now).
+:::
+
+ACP est un protocole ouvert qui standardise la communication entre les Ã©diteurs de code et les agents de codage AI.
+
+---
+
+## Configuration
+
+Pour utiliser Voracode via ACP, configurez votre Ã©diteur pour exÃ©cuter la commande `voracode acp`.
+
+La commande dÃ©marre Voracode en tant que sous-processus compatible ACP qui communique avec votre Ã©diteur via JSON-RPC sur stdio.
+
+Vous trouverez ci-dessous des exemples d'Ã©diteurs populaires prenant en charge ACP.
+
+---
+
+### Zed
+
+Ajoutez Ã  votre configuration [Zed](https://zed.dev) (`~/.config/zed/settings.json`) :
+
+```json title="~/.config/zed/settings.json"
+{
+  "agent_servers": {
+    "Voracode": {
+      "command": "voracode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+Pour l'ouvrir, utilisez l'action `agent: new thread` dans la **Palette de commandes**.
+
+Vous pouvez Ã©galement associer un raccourci clavier en modifiant votre `keymap.json` :
+
+```json title="keymap.json"
+[
+  {
+    "bindings": {
+      "cmd-alt-o": [
+        "agent::NewExternalAgentThread",
+        {
+          "agent": {
+            "custom": {
+              "name": "Voracode",
+              "command": {
+                "command": "voracode",
+                "args": ["acp"]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+]
+```
+
+---
+
+### IDE JetBrains
+
+Ajoutez `acp.json` Ã  votre [IDE JetBrains](https://www.jetbrains.com/) conformÃ©ment Ã  la [documentation](https://www.jetbrains.com/help/ai-assistant/acp.html) :
+
+```json title="acp.json"
+{
+  "agent_servers": {
+    "Voracode": {
+      "command": "/absolute/path/bin/voracode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+Pour l'ouvrir, utilisez le nouvel agent Â« Voracode Â» dans le sÃ©lecteur d'agent AI Chat.
+
+---
+
+### Avante.nvim
+
+Ajoutez Ã  votre configuration [Avante.nvim](https://github.com/yetone/avante.nvim) :
+
+```lua
+{
+  acp_providers = {
+    ["voracode"] = {
+      command = "voracode",
+      args = { "acp" }
+    }
+  }
+}
+```
+
+Si vous devez transmettre des variables d'environnement :
+
+```lua {6-8}
+{
+  acp_providers = {
+    ["voracode"] = {
+      command = "voracode",
+      args = { "acp" },
+      env = {
+        VORACODE_API_KEY = os.getenv("VORACODE_API_KEY")
+      }
+    }
+  }
+}
+```
+
+---
+
+### CodeCompanion.nvim
+
+Pour utiliser Voracode comme agent ACP dans [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim), ajoutez ce qui suit Ã  votre configuration Neovim :
+
+```lua
+require("codecompanion").setup({
+  interactions = {
+    chat = {
+      adapter = {
+        name = "voracode",
+        model = "claude-sonnet-4",
+      },
+    },
+  },
+})
+```
+
+Cette configuration configure CodeCompanion pour utiliser Voracode comme agent ACP pour le chat.
+
+Si vous devez transmettre des variables d'environnement (comme `VORACODE_API_KEY`), reportez-vous Ã  [Configuring Adapters: Environment Variables](https://codecompanion.olimorris.dev/getting-started#setting-an-api-key) dans la documentation CodeCompanion.nvim pour plus de dÃ©tails.
+
+## Prise en charge
+
+Voracode fonctionne de la mÃªme maniÃ¨re via ACP que dans le terminal. Toutes les fonctionnalitÃ©s sont prises en charge :
+
+:::note
+Certaines commandes slash intÃ©grÃ©es telles que `/undo` et `/redo` ne sont actuellement pas prises en charge.
+:::
+
+- Outils intÃ©grÃ©s (opÃ©rations sur les fichiers, commandes de terminal, etc.)
+- Outils personnalisÃ©s et commandes slash
+- Serveurs MCP configurÃ©s dans votre configuration Voracode
+- RÃ¨gles spÃ©cifiques au projet Ã  partir de `AGENTS.md`
+- Formateurs et linters personnalisÃ©s
+- SystÃ¨me d'agents et d'autorisations

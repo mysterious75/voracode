@@ -1,0 +1,211 @@
+---
+title: Go
+description: Povoljna pretplata za otvorene modele za programiranje.
+---
+
+import config from "../../../../config.mjs"
+export const console = config.console
+export const email = `mailto:${config.email}`
+
+Voracode Go je povoljna pretplata â€” **$5 za vaÅ¡ prvi mjesec**, a zatim **$10/mjeseÄno** â€” koja vam pruÅ¾a pouzdan pristup popularnim otvorenim modelima za programiranje.
+
+Go radi kao bilo koji drugi provajder u Voracode-u. Pretplatite se na Voracode Go i
+dobijete svoj API kljuÄ. On je **potpuno opcionalan** i ne morate ga koristiti da
+biste koristili Voracode.
+
+Dizajniran je prvenstveno za meÄ‘unarodne korisnike, sa modelima hostovanim u SAD-u, EU i Singapuru za stabilan globalni pristup.
+
+---
+
+## Pozadina
+
+Otvoreni modeli su postali zaista dobri. Sada dostiÅ¾u performanse bliske
+vlasniÄkim modelima za zadatke programiranja. A poÅ¡to ih mnogi provajderi mogu nuditi
+konkurentno, obiÄno su znatno jeftiniji.
+
+MeÄ‘utim, dobiti pouzdan pristup s niskom latencijom do njih moÅ¾e biti teÅ¡ko. Provajderi
+variraju u pogledu kvaliteta i dostupnosti.
+
+:::tip
+Testirali smo odabranu grupu modela i provajdera koji dobro rade sa Voracode-om.
+:::
+
+Da bismo to popravili, uradili smo nekoliko stvari:
+
+1. Testirali smo odabranu grupu otvorenih modela i razgovarali s njihovim timovima o tome kako da ih
+   najbolje pokrenemo.
+2. Zatim smo saraÄ‘ivali s nekoliko provajdera kako bismo bili sigurni da se oni ispravno
+   posluÅ¾uju.
+3. Na kraju smo benchmarkovali kombinaciju modela/provajdera i osmislili
+   listu koju rado preporuÄujemo.
+
+Voracode Go vam daje pristup ovim modelima za **$5 za vaÅ¡ prvi mjesec**, a zatim **$10/mjeseÄno**.
+
+---
+
+## Kako funkcioniÅ¡e
+
+Voracode Go radi kao bilo koji drugi provajder u Voracode-u.
+
+1. Prijavite se na **<a href={console}>Voracode Zen</a>**, pretplatite se na Go i
+   kopirajte svoj API kljuÄ.
+2. Pokrenite komandu `/connect` u TUI-ju, odaberite `Voracode Go` i zalijepite
+   svoj API kljuÄ.
+3. Pokrenite `/models` u TUI-ju da vidite listu modela dostupnih kroz Go.
+
+:::note
+Samo jedan Älan po radnom prostoru (workspace) moÅ¾e se pretplatiti na Voracode Go.
+:::
+
+Trenutna lista modela ukljuÄuje:
+
+- **GLM-5.2**
+- **GLM-5.1**
+- **Kimi K2.7 Code**
+- **Kimi K2.6**
+- **MiMo-V2.5**
+- **MiMo-V2.5-Pro**
+- **MiniMax M3**
+- **MiniMax M2.7**
+- **Qwen3.7 Max**
+- **Qwen3.7 Plus**
+- **Qwen3.6 Plus**
+- **DeepSeek V4 Pro**
+- **DeepSeek V4 Flash**
+
+Lista modela se moÅ¾e mijenjati dok testiramo i dodajemo nove.
+
+---
+
+## OgraniÄenja upotrebe
+
+Voracode Go ukljuÄuje sljedeÄ‡a ograniÄenja:
+
+- **OgraniÄenje od 5 sati** â€” $12 potroÅ¡nje
+- **SedmiÄno ograniÄenje** â€” $30 potroÅ¡nje
+- **MjeseÄno ograniÄenje** â€” $60 potroÅ¡nje
+
+OgraniÄenja su definisana u dolarskoj vrijednosti. To znaÄi da vaÅ¡ stvarni broj zahtjeva zavisi od modela koji koristite. Jeftiniji modeli poput DeepSeek V4 Flash omoguÄ‡avaju viÅ¡e zahtjeva, dok skuplji modeli poput GLM-5.2 omoguÄ‡avaju manje.
+
+Tabela ispod pruÅ¾a procijenjeni broj zahtjeva na osnovu tipiÄnih obrazaca koriÅ¡tenja Go pretplate:
+
+| Model             | zahtjeva na 5 sati | zahtjeva sedmiÄno | zahtjeva mjeseÄno |
+| ----------------- | ------------------ | ----------------- | ----------------- |
+| GLM-5.2           | 880                | 2,150             | 4,300             |
+| GLM-5.1           | 880                | 2,150             | 4,300             |
+| Kimi K2.6         | 1,150              | 2,880             | 5,750             |
+| Kimi K2.7 Code    | 1,350              | 4,630             | 9,250             |
+| MiMo-V2.5         | 30,100             | 75,200            | 150,400           |
+| MiMo-V2.5-Pro     | 3,250              | 8,150             | 16,300            |
+| MiniMax M3        | 3,200              | 8,000             | 16,000            |
+| MiniMax M2.7      | 3,400              | 8,500             | 17,000            |
+| Qwen3.7 Max       | 950                | 2,390             | 4,770             |
+| Qwen3.7 Plus      | 4,300              | 10,800            | 21,600            |
+| Qwen3.6 Plus      | 3,300              | 8,200             | 16,300            |
+| DeepSeek V4 Pro   | 3,450              | 8,550             | 17,150            |
+| DeepSeek V4 Flash | 31,650             | 79,050            | 158,150           |
+
+Procjene se zasnivaju na zapaÅ¾enim prosjeÄnim obrascima zahtjeva:
+
+- GLM-5.2/5.1 â€” 700 ulaznih (input), 52,000 keÅ¡iranih, 150 izlaznih (output) tokena po zahtjevu
+- Kimi K2.7 Code/K2.6 â€” 870 ulaznih, 55,000 keÅ¡iranih, 200 izlaznih tokena po zahtjevu
+- DeepSeek V4 Pro â€” 750 ulaznih, 82,000 keÅ¡iranih, 290 izlaznih tokena po zahtjevu
+- DeepSeek V4 Flash â€” 790 ulaznih, 68,000 keÅ¡iranih, 280 izlaznih tokena po zahtjevu
+- MiniMax M3 â€” 510 ulaznih, 56,000 keÅ¡iranih, 190 izlaznih tokena po zahtjevu
+- MiniMax M2.7 â€” 300 ulaznih, 55,000 keÅ¡iranih, 125 izlaznih tokena po zahtjevu
+- Qwen3.7 Max â€” 420 ulaznih, 66,000 keÅ¡iranih, 200 izlaznih tokena po zahtjevu
+- Qwen3.7 Plus â€” 500 ulaznih, 57,000 keÅ¡iranih, 190 izlaznih tokena po zahtjevu
+- Qwen3.6 Plus â€” 500 ulaznih, 57,000 keÅ¡iranih, 190 izlaznih tokena po zahtjevu
+- MiMo-V2.5 â€” 830 ulaznih, 71,500 keÅ¡iranih, 295 izlaznih tokena po zahtjevu
+- MiMo-V2.5-Pro â€” 790 ulaznih, 86,000 keÅ¡iranih, 305 izlaznih tokena po zahtjevu
+
+Procjene se takoÄ‘er zasnivaju na sljedeÄ‡im cijenama po 1M tokena:
+
+| Model                        | Input | Output | Cached Read | Cached Write |
+| ---------------------------- | ----- | ------ | ----------- | ------------ |
+| GLM-5.2                      | $1.40 | $4.40  | $0.26       | -            |
+| GLM-5.1                      | $1.40 | $4.40  | $0.26       | -            |
+| Kimi K2.7 Code               | $0.95 | $4.00  | $0.19       | -            |
+| Kimi K2.6                    | $0.95 | $4.00  | $0.16       | -            |
+| MiMo V2.5                    | $0.14 | $0.28  | $0.0028     | -            |
+| MiMo V2.5 Pro                | $1.74 | $3.48  | $0.0145     | -            |
+| MiniMax M3                   | $0.30 | $1.20  | $0.06       | -            |
+| MiniMax M2.7                 | $0.30 | $1.20  | $0.06       | $0.375       |
+| MiniMax M2.5                 | $0.30 | $1.20  | $0.06       | $0.375       |
+| Qwen3.7 Max                  | $2.50 | $7.50  | $0.50       | $3.125       |
+| Qwen3.7 Plus (â‰¤ 256K tokens) | $0.40 | $1.60  | $0.04       | $0.50        |
+| Qwen3.7 Plus (> 256K tokens) | $1.20 | $4.80  | $0.12       | $1.50        |
+| Qwen3.6 Plus (â‰¤ 256K tokens) | $0.50 | $3.00  | $0.05       | $0.625       |
+| Qwen3.6 Plus (> 256K tokens) | $2.00 | $6.00  | $0.20       | $2.50        |
+| DeepSeek V4 Pro              | $1.74 | $3.48  | $0.0145     | -            |
+| DeepSeek V4 Flash            | $0.14 | $0.28  | $0.0028     | -            |
+
+Svoju trenutnu potroÅ¡nju moÅ¾ete pratiti u **<a href={console}>konzoli</a>**.
+
+:::tip
+Ako dostignete ograniÄenje upotrebe, moÅ¾ete nastaviti koristiti besplatne modele.
+:::
+
+OgraniÄenja upotrebe mogu se promijeniti kako budemo uÄili iz rane upotrebe i povratnih informacija.
+
+---
+
+### Upotreba preko ograniÄenja
+
+Ako takoÄ‘er imate kredite na svom Zen balansu, moÅ¾ete omoguÄ‡iti **Use balance**
+opciju u konzoli. Kada je omoguÄ‡eno, Go Ä‡e preÄ‡i na vaÅ¡ Zen balans
+nakon Å¡to dostignete ograniÄenja upotrebe umjesto blokiranja zahtjeva.
+
+---
+
+## Endpointi
+
+TakoÄ‘er moÅ¾ete pristupiti Go modelima putem sljedeÄ‡ih API endpointa.
+
+| Model             | Model ID          | Endpoint                                         | AI SDK Paket                |
+| ----------------- | ----------------- | ------------------------------------------------ | --------------------------- |
+| GLM-5.2           | glm-5.2           | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| GLM-5.1           | glm-5.1           | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| Kimi K2.7 Code    | kimi-k2.7-code    | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| Kimi K2.6         | kimi-k2.6         | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| DeepSeek V4 Pro   | deepseek-v4-pro   | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| DeepSeek V4 Flash | deepseek-v4-flash | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| MiMo-V2.5         | mimo-v2.5         | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| MiMo-V2.5-Pro     | mimo-v2.5-pro     | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| MiniMax M3        | minimax-m3        | `https://voracode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| MiniMax M2.7      | minimax-m2.7      | `https://voracode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| MiniMax M2.5      | minimax-m2.5      | `https://voracode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| Qwen3.7 Max       | qwen3.7-max       | `https://voracode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| Qwen3.7 Plus      | qwen3.7-plus      | `https://voracode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| Qwen3.6 Plus      | qwen3.6-plus      | `https://voracode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+
+[Model id](/docs/config/#models) u vaÅ¡oj Voracode konfiguraciji
+koristi format `voracode-go/<model-id>`. Na primjer, za Kimi K2.7 Code, koristili biste
+`voracode-go/kimi-k2.7-code` u svojoj konfiguraciji.
+
+---
+
+### Modeli
+
+Pun spisak dostupnih modela i njihovih metapodataka moÅ¾ete preuzeti na:
+
+```
+https://voracode.ai/zen/go/v1/models
+```
+
+---
+
+## Privatnost
+
+Plan je prvenstveno namijenjen meÄ‘unarodnim korisnicima, a modeli su smjeÅ¡teni u US, EU i Singaporeu radi stabilnog globalnog pristupa. NaÅ¡i pruÅ¾aoci usluga primjenjuju politiku nultog zadrÅ¾avanja podataka i ne koriste vaÅ¡e podatke za treniranje modela.
+
+---
+
+## Ciljevi
+
+Napravili smo Voracode Go da bismo:
+
+1. UÄinili AI programiranje **dostupnim** veÄ‡em broju ljudi putem povoljne pretplate.
+2. PruÅ¾ili **pouzdan** pristup najboljim otvorenim modelima za programiranje.
+3. Odabrali modele koji su **testirani i benchmarkovani** za upotrebu od strane agenata za programiranje.
+4. Osigurali da **nema zakljuÄavanja (no lock-in)**, omoguÄ‡avajuÄ‡i vam da uz Voracode koristite i bilo kojeg drugog provajdera.

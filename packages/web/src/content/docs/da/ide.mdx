@@ -1,0 +1,48 @@
+---
+title: IDE
+description: Voracode-udvidelsen til VS Code, Cursor og andre IDE'er
+---
+
+Voracode integreres med VS Code, Cursor eller enhver IDE, der understÃ¸tter en terminal. Bare kÃ¸r `voracode` i terminalen for at komme i gang.
+
+---
+
+## Brug
+
+- **Hurtig start**: Brug `Cmd+Esc` (Mac) eller `Ctrl+Esc` (Windows/Linux) til at Ã¥bne Voracode i en delt terminalvisning, eller fokuser en eksisterende terminalsession, hvis en allerede kÃ¸rer.
+- **Ny session**: Brug `Cmd+Shift+Esc` (Mac) eller `Ctrl+Shift+Esc` (Windows/Linux) til at starte en ny Voracode terminalsession, mulighed en allerede er Ã¥ben. Du kan ogsÃ¥ klikke pÃ¥ knappen Voracode i brugergrÃ¦nsefladen.
+- **Kontekstbevidsthed**: Del automatisk dit nuvÃ¦rende valg eller din fane med Voracode.
+- **Filreferencegenveje**: Brug `Cmd+Option+K` (Mac) eller `Alt+Ctrl+K` (Linux/Windows) til at indsÃ¦tte filreferencer. For eksempel `@File#L37-42`.
+
+---
+
+## Installation
+
+SÃ¥dan installeres Voracode pÃ¥ VS Code og populÃ¦re gafler som Cursor, Windsurf, VSCodium:
+
+1. Ã…bn VS Code
+2. Ã…bn den integrerede terminal
+3. KÃ¸r `voracode` - udvidelsen installeres automatisk
+
+Hvis du pÃ¥ den anden side vil bruge din egen IDE, nÃ¥r du kÃ¸rer `/editor` eller `/export` fra TUI, skal du indstille `export EDITOR="code --wait"`. [Learn more](/docs/tui/#editor-setup).
+
+---
+
+### Manuel installation
+
+SÃ¸g efter **Voracode** i Extension Marketplace, og klik pÃ¥ **Installer**.
+
+---
+
+### Fejlfinding
+
+Hvis udvidelsen ikke kan installeres automatisk:
+
+- SÃ¸rg for, at du kÃ¸rer `voracode` i den integrerede terminal.
+- BekrÃ¦ft, at CLI for din IDE er installeret:
+  - For VS Code: `code` kommando
+  - For Cursor: `cursor` kommando
+  - For Windsurf: `windsurf` kommando
+  - For VSCodium: `codium` kommando
+  - Hvis ikke, sÃ¥ kÃ¸r `Cmd+Shift+P` (Mac) eller `Ctrl+Shift+P` (Windows/Linux) og sÃ¸g efter "Shell Command: Install 'code' command in PATH" (eller tilsvarende for din IDE)
+- SÃ¸rg for, at VS Code har tilladelse til at installere udvidelser

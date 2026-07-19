@@ -1,0 +1,112 @@
+---
+title: Windows (WSL)
+description: é€šè¿‡ WSL åœ¨ Windows ä¸Šè¿è¡Œ Voracode ä»¥èŽ·å¾—æœ€ä½³ä½“éªŒã€‚
+---
+
+import { Steps } from "@astrojs/starlight/components"
+
+è™½ç„¶ Voracode å¯ä»¥ç›´æŽ¥åœ¨ Windows ä¸Šè¿è¡Œï¼Œä½†æˆ‘ä»¬æŽ¨èä½¿ç”¨ [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/install) ä»¥èŽ·å¾—æœ€ä½³ä½“éªŒã€‚WSL æä¾›äº†ä¸€ä¸ª Linux çŽ¯å¢ƒï¼Œèƒ½å¤Ÿä¸Ž Voracode çš„å„é¡¹åŠŸèƒ½æ— ç¼é…åˆã€‚
+
+:::tip[ä¸ºä»€ä¹ˆé€‰æ‹© WSLï¼Ÿ]
+WSL æä¾›æ›´å‡ºè‰²çš„æ–‡ä»¶ç³»ç»Ÿæ€§èƒ½ã€å®Œæ•´çš„ç»ˆç«¯æ”¯æŒï¼Œä»¥åŠä¸Ž Voracode æ‰€ä¾èµ–çš„å¼€å‘å·¥å…·çš„è‰¯å¥½å…¼å®¹æ€§ã€‚
+:::
+
+---
+
+## å®‰è£…é…ç½®
+
+<Steps>
+
+1. **å®‰è£… WSL**
+
+   å¦‚æžœå°šæœªå®‰è£…ï¼Œè¯·å‚ç…§ Microsoft å®˜æ–¹æŒ‡å—[å®‰è£… WSL](https://learn.microsoft.com/en-us/windows/wsl/install)ã€‚
+
+2. **åœ¨ WSL ä¸­å®‰è£… Voracode**
+
+   WSL è®¾ç½®å®ŒæˆåŽï¼Œæ‰“å¼€ WSL ç»ˆç«¯ï¼Œä½¿ç”¨ä»»ä¸€[å®‰è£…æ–¹å¼](/docs/)å®‰è£… Voracodeã€‚
+
+   ```bash
+   curl -fsSL https://voracode.ai/install | bash
+   ```
+
+3. **ä»Ž WSL ä¸­ä½¿ç”¨ Voracode**
+
+   å¯¼èˆªåˆ°ä½ çš„é¡¹ç›®ç›®å½•ï¼ˆé€šè¿‡ `/mnt/c/`ã€`/mnt/d/` ç­‰è·¯å¾„è®¿é—® Windows æ–‡ä»¶ï¼‰ï¼Œç„¶åŽè¿è¡Œ Voracodeã€‚
+
+   ```bash
+   cd /mnt/c/Users/YourName/project
+   voracode
+   ```
+
+</Steps>
+
+---
+
+## æ¡Œé¢åº”ç”¨ + WSL æœåŠ¡å™¨
+
+å¦‚æžœä½ å¸Œæœ›ä½¿ç”¨ Voracode æ¡Œé¢åº”ç”¨ï¼ŒåŒæ—¶åœ¨ WSL ä¸­è¿è¡ŒæœåŠ¡å™¨ï¼š
+
+1. **åœ¨ WSL ä¸­å¯åŠ¨æœåŠ¡å™¨**ï¼Œæ·»åŠ  `--hostname 0.0.0.0` ä»¥å…è®¸å¤–éƒ¨è¿žæŽ¥ï¼š
+
+   ```bash
+   voracode serve --hostname 0.0.0.0 --port 4096
+   ```
+
+2. **åœ¨æ¡Œé¢åº”ç”¨ä¸­è¿žæŽ¥åˆ°** `http://localhost:4096`
+
+:::note
+å¦‚æžœ `localhost` åœ¨ä½ çš„çŽ¯å¢ƒä¸­æ— æ³•ä½¿ç”¨ï¼Œè¯·æ”¹ç”¨ WSL çš„ IP åœ°å€è¿›è¡Œè¿žæŽ¥ï¼ˆåœ¨ WSL ä¸­è¿è¡Œï¼š`hostname -I`ï¼‰ï¼Œä½¿ç”¨ `http://<wsl-ip>:4096`ã€‚
+:::
+
+:::caution
+ä½¿ç”¨ `--hostname 0.0.0.0` æ—¶ï¼Œè¯·è®¾ç½® `VORACODE_SERVER_PASSWORD` ä»¥ä¿æŠ¤æœåŠ¡å™¨å®‰å…¨ã€‚
+:::
+
+```bash
+VORACODE_SERVER_PASSWORD=your-password voracode serve --hostname 0.0.0.0
+```
+
+---
+
+## Web å®¢æˆ·ç«¯ + WSL
+
+è¦åœ¨ Windows ä¸ŠèŽ·å¾—æœ€ä½³çš„ Web ä½“éªŒï¼š
+
+1. **åœ¨ WSL ç»ˆç«¯ä¸­è¿è¡Œ `voracode web`**ï¼Œè€Œéžåœ¨ PowerShell ä¸­è¿è¡Œï¼š
+
+   ```bash
+   voracode web --hostname 0.0.0.0
+   ```
+
+2. **åœ¨ Windows æµè§ˆå™¨ä¸­è®¿é—®** `http://localhost:<port>`ï¼ˆVoracode ä¼šè¾“å‡ºè¯¥ URLï¼‰
+
+ä»Ž WSL ä¸­è¿è¡Œ `voracode web` å¯ç¡®ä¿æ­£ç¡®çš„æ–‡ä»¶ç³»ç»Ÿè®¿é—®å’Œç»ˆç«¯é›†æˆï¼ŒåŒæ—¶ä»å¯é€šè¿‡ Windows æµè§ˆå™¨è¿›è¡Œè®¿é—®ã€‚
+
+---
+
+## è®¿é—® Windows æ–‡ä»¶
+
+WSL å¯ä»¥é€šè¿‡ `/mnt/` ç›®å½•è®¿é—®ä½ çš„æ‰€æœ‰ Windows æ–‡ä»¶ï¼š
+
+- `C:` ç›˜ â†’ `/mnt/c/`
+- `D:` ç›˜ â†’ `/mnt/d/`
+- å…¶ä»–ç›˜ç¬¦ä»¥æ­¤ç±»æŽ¨...
+
+ç¤ºä¾‹ï¼š
+
+```bash
+cd /mnt/c/Users/YourName/Documents/project
+voracode
+```
+
+:::tip
+ä¸ºäº†èŽ·å¾—æ›´æµç•…çš„ä½“éªŒï¼Œå»ºè®®å°†ä»“åº“å…‹éš†æˆ–å¤åˆ¶åˆ° WSL æ–‡ä»¶ç³»ç»Ÿä¸­ï¼ˆä¾‹å¦‚ `~/code/` ç›®å½•ä¸‹ï¼‰ï¼Œç„¶åŽåœ¨è¯¥ä½ç½®è¿è¡Œ Voracodeã€‚
+:::
+
+---
+
+## ä½¿ç”¨æŠ€å·§
+
+- å¯¹äºŽå­˜å‚¨åœ¨ Windows é©±åŠ¨å™¨ä¸Šçš„é¡¹ç›®ï¼Œåœ¨ WSL ä¸­è¿è¡Œ Voracode å³å¯æ— ç¼è®¿é—®æ–‡ä»¶
+- æ­é… VS Code çš„ [WSL æ‰©å±•](https://code.visualstudio.com/docs/remote/wsl) ä½¿ç”¨ Voracodeï¼Œæ‰“é€ ä¸€ä½“åŒ–çš„å¼€å‘å·¥ä½œæµ
+- Voracode çš„é…ç½®å’Œä¼šè¯æ•°æ®å­˜å‚¨åœ¨ WSL çŽ¯å¢ƒä¸­çš„ `~/.local/share/voracode/`

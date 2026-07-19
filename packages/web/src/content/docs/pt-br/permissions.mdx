@@ -1,0 +1,235 @@
+---
+title: PermissÃµes
+description: Controle quais aÃ§Ãµes requerem aprovaÃ§Ã£o para serem executadas.
+---
+
+O voracode usa a configuraÃ§Ã£o `permission` para decidir se uma determinada aÃ§Ã£o deve ser executada automaticamente, solicitar sua aprovaÃ§Ã£o ou ser bloqueada.
+
+A partir da versÃ£o `v1.1.1`, a configuraÃ§Ã£o booleana legada `tools` foi descontinuada e mesclada na `permission`. A antiga configuraÃ§Ã£o `tools` ainda Ã© suportada para compatibilidade retroativa.
+
+---
+
+## AÃ§Ãµes
+
+Cada regra de permissÃ£o se resolve em uma das seguintes opÃ§Ãµes:
+
+- `"allow"` â€” executar sem aprovaÃ§Ã£o
+- `"ask"` â€” solicitar aprovaÃ§Ã£o
+- `"deny"` â€” bloquear a aÃ§Ã£o
+
+---
+
+## ConfiguraÃ§Ã£o
+
+VocÃª pode definir permissÃµes globalmente (com `*`), e substituir ferramentas especÃ­ficas.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "*": "ask",
+    "bash": "allow",
+    "edit": "deny"
+  }
+}
+```
+
+VocÃª tambÃ©m pode definir todas as permissÃµes de uma vez:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": "allow"
+}
+```
+
+---
+
+## Regras Granulares (Sintaxe de Objeto)
+
+Para a maioria das permissÃµes, vocÃª pode usar um objeto para aplicar diferentes aÃ§Ãµes com base na entrada da ferramenta.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "git *": "allow",
+      "npm *": "allow",
+      "rm *": "deny",
+      "grep *": "allow"
+    },
+    "edit": {
+      "*": "deny",
+      "packages/web/src/content/docs/*.mdx": "allow"
+    }
+  }
+}
+```
+
+As regras sÃ£o avaliadas por correspondÃªncia de padrÃ£o, com a **Ãºltima regra correspondente vencendo**. Um padrÃ£o comum Ã© colocar a regra de captura `"*"` primeiro, e regras mais especÃ­ficas depois.
+
+### Coringas
+
+Os padrÃµes de permissÃ£o usam correspondÃªncia simples de coringas:
+
+- `*` corresponde a zero ou mais de qualquer caractere
+- `?` corresponde exatamente a um caractere
+- Todos os outros caracteres correspondem literalmente
+
+### ExpansÃ£o do DiretÃ³rio Home
+
+VocÃª pode usar `~` ou `$HOME` no inÃ­cio de um padrÃ£o para referenciar seu diretÃ³rio home. Isso Ã© particularmente Ãºtil para regras de [`external_directory`](#external-directories).
+
+- `~/projects/*` -> `/Users/username/projects/*`
+- `$HOME/projects/*` -> `/Users/username/projects/*`
+- `~` -> `/Users/username`
+
+### DiretÃ³rios Externos
+
+Use `external_directory` para permitir chamadas de ferramentas que tocam em caminhos fora do diretÃ³rio de trabalho onde o voracode foi iniciado. Isso se aplica a qualquer ferramenta que aceite um caminho como entrada (por exemplo, `read`, `edit`, `glob`, `grep` e muitos comandos `bash`).
+
+A expansÃ£o do home (como `~/...`) afeta apenas como um padrÃ£o Ã© escrito. NÃ£o torna um caminho externo parte do espaÃ§o de trabalho atual, entÃ£o caminhos fora do diretÃ³rio de trabalho ainda devem ser permitidos via `external_directory`.
+
+Por exemplo, isso permite acesso a tudo sob `~/projects/personal/`:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "external_directory": {
+      "~/projects/personal/**": "allow"
+    }
+  }
+}
+```
+
+Qualquer diretÃ³rio permitido aqui herda os mesmos padrÃµes do espaÃ§o de trabalho atual. Como [`read` padrÃ£o Ã© `allow`](#defaults), leituras tambÃ©m sÃ£o permitidas para entradas sob `external_directory`, a menos que sejam substituÃ­das. Adicione regras explÃ­citas quando uma ferramenta deve ser restrita nesses caminhos, como bloquear ediÃ§Ãµes enquanto mantÃ©m leituras:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "external_directory": {
+      "~/projects/personal/**": "allow"
+    },
+    "edit": {
+      "~/projects/personal/**": "deny"
+    }
+  }
+}
+```
+
+Mantenha a lista focada em caminhos confiÃ¡veis e adicione regras adicionais de permissÃ£o ou negaÃ§Ã£o conforme necessÃ¡rio para outras ferramentas (por exemplo, `bash`).
+
+---
+
+## PermissÃµes DisponÃ­veis
+
+As permissÃµes do voracode sÃ£o indexadas pelo nome da ferramenta, alÃ©m de alguns guardas de seguranÃ§a:
+
+- `read` â€” leitura de um arquivo (corresponde ao caminho do arquivo)
+- `edit` â€” todas as modificaÃ§Ãµes de arquivo (cobre `edit`, `write`, `patch`)
+- `glob` â€” globbing de arquivos (corresponde ao padrÃ£o glob)
+- `grep` â€” busca de conteÃºdo (corresponde ao padrÃ£o regex)
+- `bash` â€” execuÃ§Ã£o de comandos de shell (corresponde a comandos analisados como `git status --porcelain`)
+- `task` â€” lanÃ§amento de subagentes (corresponde ao tipo de subagente)
+- `skill` â€” carregamento de uma habilidade (corresponde ao nome da habilidade)
+- `lsp` â€” execuÃ§Ã£o de consultas LSP (atualmente nÃ£o granular)
+- `webfetch` â€” busca de uma URL (corresponde Ã  URL)
+- `websearch` â€” busca na web (corresponde Ã  consulta)
+- `external_directory` â€” acionado quando uma ferramenta toca em caminhos fora do diretÃ³rio de trabalho do projeto
+- `doom_loop` â€” acionado quando a mesma chamada de ferramenta se repete 3 vezes com entrada idÃªntica
+
+---
+
+## PadrÃµes
+
+Se vocÃª nÃ£o especificar nada, o voracode comeÃ§a com padrÃµes permissivos:
+
+- A maioria das permissÃµes padrÃ£o Ã© `"allow"`.
+- `doom_loop` e `external_directory` padrÃ£o Ã© `"ask"`.
+- `read` Ã© `"allow"`, mas arquivos `.env` sÃ£o negados por padrÃ£o:
+
+```json title="voracode.json"
+{
+  "permission": {
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow"
+    }
+  }
+}
+```
+
+---
+
+## O que â€œAskâ€ Faz
+
+Quando o voracode solicita aprovaÃ§Ã£o, a interface oferece trÃªs resultados:
+
+- `once` â€” aprovar apenas esta solicitaÃ§Ã£o
+- `always` â€” aprovar futuras solicitaÃ§Ãµes que correspondam aos padrÃµes sugeridos (para o restante da sessÃ£o atual do voracode)
+- `reject` â€” negar a solicitaÃ§Ã£o
+
+O conjunto de padrÃµes que `always` aprovaria Ã© fornecido pela ferramenta (por exemplo, aprovaÃ§Ãµes de bash normalmente incluem um prefixo de comando seguro como `git status*`).
+
+---
+
+## Agentes
+
+VocÃª pode substituir permissÃµes por agente. As permissÃµes do agente sÃ£o mescladas com a configuraÃ§Ã£o global, e as regras do agente tÃªm precedÃªncia. [Saiba mais](/docs/agents#permissions) sobre permissÃµes de agentes.
+
+:::note
+Consulte a seÃ§Ã£o [Regras Granulares (Sintaxe de Objeto)](#granular-rules-object-syntax) acima para exemplos mais detalhados de correspondÃªncia de padrÃµes.
+:::
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "git *": "allow",
+      "git commit *": "deny",
+      "git push *": "deny",
+      "grep *": "allow"
+    }
+  },
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "git *": "allow",
+          "git commit *": "ask",
+          "git push *": "deny",
+          "grep *": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+VocÃª tambÃ©m pode configurar permissÃµes de agentes em Markdown:
+
+```markdown title="~/.config/voracode/agents/review.md"
+---
+description: Code review without edits
+mode: subagent
+permission:
+  edit: deny
+  bash: ask
+  webfetch: deny
+---
+
+Only analyze code and suggest changes.
+```
+
+:::tip
+Use correspondÃªncia de padrÃµes para comandos com argumentos. `"grep *"` permite `grep pattern file.txt`, enquanto `"grep"` sozinho o bloquearia. Comandos como `git status` funcionam para o comportamento padrÃ£o, mas requerem permissÃ£o explÃ­cita (como `"git status *"`) quando argumentos sÃ£o passados.
+:::

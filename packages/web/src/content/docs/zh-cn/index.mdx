@@ -1,0 +1,343 @@
+﻿---
+title: ç®€ä»‹
+description: å¼€å§‹ä½¿ç”¨ Voracodeã€‚
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+import config from "../../../../config.mjs"
+export const console = config.console
+
+[**Voracode**](/) æ˜¯ä¸€ä¸ªå¼€æºçš„ AI ç¼–ç ä»£ç†ã€‚å®ƒæä¾›ç»ˆç«¯ç•Œé¢ã€æ¡Œé¢åº”ç”¨å’Œ IDE æ‰©å±•ç­‰å¤šç§ä½¿ç”¨æ–¹å¼ã€‚
+
+![ä½¿ç”¨ voracode ä¸»é¢˜çš„ Voracode TUI](../../../assets/lander/screenshot.png)
+
+è®©æˆ‘ä»¬å¼€å§‹å§ã€‚
+
+---
+
+#### å‰ææ¡ä»¶
+
+è¦åœ¨ç»ˆç«¯ä¸­ä½¿ç”¨ Voracodeï¼Œä½ éœ€è¦ï¼š
+
+1. ä¸€æ¬¾çŽ°ä»£ç»ˆç«¯æ¨¡æ‹Ÿå™¨ï¼Œä¾‹å¦‚ï¼š
+   - [WezTerm](https://wezterm.org)ï¼Œè·¨å¹³å°
+   - [Alacritty](https://alacritty.org)ï¼Œè·¨å¹³å°
+   - [Ghostty](https://ghostty.org)ï¼ŒLinux å’Œ macOS
+   - [Kitty](https://sw.kovidgoyal.net/kitty/)ï¼ŒLinux å’Œ macOS
+
+2. ä½ æƒ³ä½¿ç”¨çš„ LLM æä¾›å•†çš„ API å¯†é’¥ã€‚
+
+---
+
+## å®‰è£…
+
+å®‰è£… Voracode æœ€ç®€å•çš„æ–¹æ³•æ˜¯é€šè¿‡å®‰è£…è„šæœ¬ã€‚
+
+```bash
+curl -fsSL https://voracode.ai/install | bash
+```
+
+ä½ ä¹Ÿå¯ä»¥ä½¿ç”¨ä»¥ä¸‹æ–¹å¼å®‰è£…ï¼š
+
+- **ä½¿ç”¨ Node.js**
+
+        <Tabs>
+
+      <TabItem label="npm">
+      ```bash
+      npm install -g voracode-ai
+      ```
+
+          </TabItem>
+
+        <TabItem label="Bun">
+        ```bash
+        bun install -g voracode-ai
+        ```
+
+          </TabItem>
+
+        <TabItem label="pnpm">
+        ```bash
+        pnpm install -g voracode-ai
+        ```
+
+          </TabItem>
+
+        <TabItem label="Yarn">
+        ```bash
+        yarn global add voracode-ai
+        ```
+
+      </TabItem>
+
+  </Tabs>
+
+- **åœ¨ macOS å’Œ Linux ä¸Šä½¿ç”¨ Homebrew**
+
+  ```bash
+  brew install mysterious75/tap/voracode
+  ```
+
+  > æˆ‘ä»¬æŽ¨èä½¿ç”¨ Voracode tap ä»¥èŽ·å–æœ€æ–°ç‰ˆæœ¬ã€‚å®˜æ–¹çš„ `brew install voracode` formula ç”± Homebrew å›¢é˜Ÿç»´æŠ¤ï¼Œæ›´æ–°é¢‘çŽ‡è¾ƒä½Žã€‚
+
+- **åœ¨ Arch Linux ä¸Šå®‰è£…**
+
+  ```bash
+  sudo pacman -S voracode           # Arch Linux (Stable)
+  paru -S voracode-bin              # Arch Linux (Latest from AUR)
+  ```
+
+#### Windows
+
+:::tip[æŽ¨èï¼šä½¿ç”¨ WSL]
+ä¸ºäº†åœ¨ Windows ä¸ŠèŽ·å¾—æœ€ä½³ä½“éªŒï¼Œæˆ‘ä»¬æŽ¨èä½¿ç”¨ [Windows Subsystem for Linux (WSL)](/docs/windows-wsl)ã€‚å®ƒæä¾›æ›´å¥½çš„æ€§èƒ½ï¼Œå¹¶å®Œå…¨å…¼å®¹ Voracode çš„æ‰€æœ‰åŠŸèƒ½ã€‚
+:::
+
+- **ä½¿ç”¨ Chocolatey**
+
+  ```bash
+  choco install voracode
+  ```
+
+- **ä½¿ç”¨ Scoop**
+
+  ```bash
+  scoop install voracode
+  ```
+
+- **ä½¿ç”¨ NPM**
+
+  ```bash
+  npm install -g voracode-ai
+  ```
+
+- **ä½¿ç”¨ Mise**
+
+  ```bash
+  mise use -g github:mysterious75/voracode
+  ```
+
+- **ä½¿ç”¨ Docker**
+
+  ```bash
+  docker run -it --rm ghcr.io/mysterious75/voracode
+  ```
+
+åœ¨ Windows ä¸Šé€šè¿‡ Bun å®‰è£… Voracode çš„æ”¯æŒç›®å‰æ­£åœ¨å¼€å‘ä¸­ã€‚
+
+ä½ ä¹Ÿå¯ä»¥ä»Ž [Releases](https://github.com/mysterious75/voracode/releases) é¡µé¢ç›´æŽ¥ä¸‹è½½äºŒè¿›åˆ¶æ–‡ä»¶ã€‚
+
+---
+
+## é…ç½®
+
+é€šè¿‡ Voracodeï¼Œä½ å¯ä»¥é…ç½® API å¯†é’¥æ¥ä½¿ç”¨ä»»æ„ LLM æä¾›å•†ã€‚
+
+å¦‚æžœä½ åˆšå¼€å§‹æŽ¥è§¦ LLM æä¾›å•†ï¼Œæˆ‘ä»¬æŽ¨èä½¿ç”¨ [Voracode Zen](/docs/zen)ã€‚è¿™æ˜¯ä¸€ç»„ç»è¿‡ Voracode å›¢é˜Ÿæµ‹è¯•å’ŒéªŒè¯çš„ç²¾é€‰æ¨¡åž‹ã€‚
+
+1. åœ¨ TUI ä¸­è¿è¡Œ `/connect` å‘½ä»¤ï¼Œé€‰æ‹© voracodeï¼Œç„¶åŽå‰å¾€ [voracode.ai/auth](https://voracode.ai/auth)ã€‚
+
+   ```txt
+   /connect
+   ```
+
+2. ç™»å½•å¹¶æ·»åŠ è´¦å•ä¿¡æ¯ï¼Œç„¶åŽå¤åˆ¶ä½ çš„ API å¯†é’¥ã€‚
+
+3. ç²˜è´´ä½ çš„ API å¯†é’¥ã€‚
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+ä½ ä¹Ÿå¯ä»¥é€‰æ‹©å…¶ä»–æä¾›å•†ã€‚[äº†è§£æ›´å¤š](/docs/providers#directory)ã€‚
+
+---
+
+## åˆå§‹åŒ–
+
+é…ç½®å¥½æä¾›å•†åŽï¼Œå¯¼èˆªåˆ°ä½ æƒ³è¦å¤„ç†çš„é¡¹ç›®ç›®å½•ã€‚
+
+```bash
+cd /path/to/project
+```
+
+ç„¶åŽè¿è¡Œ Voracodeã€‚
+
+```bash
+voracode
+```
+
+æŽ¥ä¸‹æ¥ï¼Œè¿è¡Œä»¥ä¸‹å‘½ä»¤ä¸ºé¡¹ç›®åˆå§‹åŒ– Voracodeã€‚
+
+```bash frame="none"
+/init
+```
+
+Voracode ä¼šåˆ†æžä½ çš„é¡¹ç›®å¹¶åœ¨é¡¹ç›®æ ¹ç›®å½•åˆ›å»ºä¸€ä¸ª `AGENTS.md` æ–‡ä»¶ã€‚
+
+:::tip
+ä½ åº”è¯¥å°†é¡¹ç›®çš„ `AGENTS.md` æ–‡ä»¶æäº¤åˆ° Gitã€‚
+:::
+
+è¿™æœ‰åŠ©äºŽ Voracode ç†è§£é¡¹ç›®ç»“æž„å’Œç¼–ç è§„èŒƒã€‚
+
+---
+
+## ä½¿ç”¨
+
+çŽ°åœ¨ä½ å·²ç»å‡†å¤‡å¥½ä½¿ç”¨ Voracode æ¥å¤„ç†é¡¹ç›®äº†ï¼Œå°½ç®¡æé—®å§ï¼
+
+å¦‚æžœä½ æ˜¯ç¬¬ä¸€æ¬¡ä½¿ç”¨ AI ç¼–ç ä»£ç†ï¼Œä»¥ä¸‹ç¤ºä¾‹å¯èƒ½ä¼šå¯¹ä½ æœ‰æ‰€å¸®åŠ©ã€‚
+
+---
+
+### æé—®
+
+ä½ å¯ä»¥è®© Voracode ä¸ºä½ è®²è§£ä»£ç åº“ã€‚
+
+:::tip
+ä½¿ç”¨ `@` é”®å¯ä»¥æ¨¡ç³Šæœç´¢é¡¹ç›®ä¸­çš„æ–‡ä»¶ã€‚
+:::
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+How is authentication handled in @packages/functions/src/api/index.ts
+```
+
+å½“ä½ é‡åˆ°ä¸ç†Ÿæ‚‰çš„ä»£ç æ—¶ï¼Œè¿™ä¸ªåŠŸèƒ½éžå¸¸æœ‰ç”¨ã€‚
+
+---
+
+### æ·»åŠ åŠŸèƒ½
+
+ä½ å¯ä»¥è®© Voracode ä¸ºé¡¹ç›®æ·»åŠ æ–°åŠŸèƒ½ã€‚ä¸è¿‡æˆ‘ä»¬å»ºè®®å…ˆè®©å®ƒåˆ¶å®šä¸€ä¸ªè®¡åˆ’ã€‚
+
+1. **åˆ¶å®šè®¡åˆ’**
+
+   Voracode æœ‰ä¸€ä¸ª*è®¡åˆ’æ¨¡å¼*ï¼Œè¯¥æ¨¡å¼ä¸‹å®ƒä¸ä¼šè¿›è¡Œä»»ä½•ä¿®æ”¹ï¼Œè€Œæ˜¯å»ºè®®*å¦‚ä½•*å®žçŽ°è¯¥åŠŸèƒ½ã€‚
+
+   ä½¿ç”¨ **Tab** é”®åˆ‡æ¢åˆ°è®¡åˆ’æ¨¡å¼ã€‚ä½ ä¼šåœ¨å³ä¸‹è§’çœ‹åˆ°æ¨¡å¼æŒ‡ç¤ºå™¨ã€‚
+
+   ```bash frame="none" title="Switch to Plan mode"
+   <TAB>
+   ```
+
+   æŽ¥ä¸‹æ¥æè¿°ä½ å¸Œæœ›å®ƒåšä»€ä¹ˆã€‚
+
+   ```txt frame="none"
+   When a user deletes a note, we'd like to flag it as deleted in the database.
+   Then create a screen that shows all the recently deleted notes.
+   From this screen, the user can undelete a note or permanently delete it.
+   ```
+
+   ä½ éœ€è¦æä¾›è¶³å¤Ÿçš„ç»†èŠ‚ï¼Œè®© Voracode ç†è§£ä½ çš„éœ€æ±‚ã€‚å¯ä»¥æŠŠå®ƒå½“ä½œå›¢é˜Ÿä¸­çš„ä¸€ååˆçº§å¼€å‘è€…æ¥æ²Ÿé€šã€‚
+
+   :::tip
+   ä¸º Voracode æä¾›å……è¶³çš„ä¸Šä¸‹æ–‡å’Œç¤ºä¾‹ï¼Œå¸®åŠ©å®ƒç†è§£ä½ çš„éœ€æ±‚ã€‚
+   :::
+
+2. **è¿­ä»£è®¡åˆ’**
+
+   å½“å®ƒç»™å‡ºè®¡åˆ’åŽï¼Œä½ å¯ä»¥æä¾›åé¦ˆæˆ–è¡¥å……æ›´å¤šç»†èŠ‚ã€‚
+
+   ```txt frame="none"
+   We'd like to design this new screen using a design I've used before.
+   [Image #1] Take a look at this image and use it as a reference.
+   ```
+
+   :::tip
+   å°†å›¾ç‰‡æ‹–æ”¾åˆ°ç»ˆç«¯ä¸­å³å¯å°†å…¶æ·»åŠ åˆ°æç¤ºè¯ä¸­ã€‚
+   :::
+
+   Voracode å¯ä»¥æ‰«æä½ æä¾›çš„å›¾ç‰‡å¹¶å°†å…¶æ·»åŠ åˆ°æç¤ºè¯ä¸­ã€‚åªéœ€å°†å›¾ç‰‡æ‹–æ”¾åˆ°ç»ˆç«¯çª—å£å³å¯ã€‚
+
+3. **æž„å»ºåŠŸèƒ½**
+
+   å½“ä½ å¯¹è®¡åˆ’æ»¡æ„åŽï¼Œå†æ¬¡æŒ‰ **Tab** é”®åˆ‡æ¢å›ž*æž„å»ºæ¨¡å¼*ã€‚
+
+   ```bash frame="none"
+   <TAB>
+   ```
+
+   ç„¶åŽè®©å®ƒå¼€å§‹å®žæ–½ã€‚
+
+   ```bash frame="none"
+   Sounds good! Go ahead and make the changes.
+   ```
+
+---
+
+### ç›´æŽ¥ä¿®æ”¹
+
+å¯¹äºŽæ¯”è¾ƒç®€å•çš„ä¿®æ”¹ï¼Œä½ å¯ä»¥ç›´æŽ¥è®© Voracode å®žæ–½ï¼Œæ— éœ€å…ˆå®¡æŸ¥è®¡åˆ’ã€‚
+
+```txt frame="none" "@packages/functions/src/settings.ts" "@packages/functions/src/notes.ts"
+We need to add authentication to the /settings route. Take a look at how this is
+handled in the /notes route in @packages/functions/src/notes.ts and implement
+the same logic in @packages/functions/src/settings.ts
+```
+
+è¯·ç¡®ä¿æä¾›è¶³å¤Ÿçš„ç»†èŠ‚ï¼Œä»¥ä¾¿ Voracode åšå‡ºæ­£ç¡®çš„ä¿®æ”¹ã€‚
+
+---
+
+### æ’¤é”€ä¿®æ”¹
+
+å‡è®¾ä½ è®© Voracode åšäº†ä¸€äº›ä¿®æ”¹ã€‚
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+Can you refactor the function in @packages/functions/src/api/index.ts?
+```
+
+ä½†ä½ å‘çŽ°ç»“æžœä¸æ˜¯ä½ æƒ³è¦çš„ã€‚ä½ **å¯ä»¥ä½¿ç”¨** `/undo` å‘½ä»¤æ¥æ’¤é”€ä¿®æ”¹ã€‚
+
+```bash frame="none"
+/undo
+```
+
+Voracode ä¼šè¿˜åŽŸæ‰€åšçš„ä¿®æ”¹ï¼Œå¹¶é‡æ–°æ˜¾ç¤ºä½ ä¹‹å‰çš„æ¶ˆæ¯ã€‚
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+Can you refactor the function in @packages/functions/src/api/index.ts?
+```
+
+ä½ å¯ä»¥è°ƒæ•´æç¤ºè¯ï¼Œè®© Voracode é‡æ–°å°è¯•ã€‚
+
+:::tip
+ä½ å¯ä»¥å¤šæ¬¡è¿è¡Œ `/undo` æ¥æ’¤é”€å¤šæ¬¡ä¿®æ”¹ã€‚
+:::
+
+ä½ ä¹Ÿ**å¯ä»¥ä½¿ç”¨** `/redo` å‘½ä»¤æ¥é‡åšä¿®æ”¹ã€‚
+
+```bash frame="none"
+/redo
+```
+
+---
+
+## åˆ†äº«
+
+ä½ ä¸Ž Voracode çš„å¯¹è¯å¯ä»¥[ä¸Žå›¢é˜Ÿåˆ†äº«](/docs/share)ã€‚
+
+```bash frame="none"
+/share
+```
+
+è¿™ä¼šç”Ÿæˆå½“å‰å¯¹è¯çš„é“¾æŽ¥å¹¶å¤åˆ¶åˆ°å‰ªè´´æ¿ã€‚
+
+:::note
+å¯¹è¯é»˜è®¤ä¸ä¼šè¢«åˆ†äº«ã€‚
+:::
+
+è¿™æ˜¯ä¸€ä¸ªä¸Ž Voracode çš„[ç¤ºä¾‹å¯¹è¯](https://voracode.ai/s/4XP1fce5)ã€‚
+
+---
+
+## ä¸ªæ€§åŒ–
+
+ä»¥ä¸Šå°±æ˜¯å…¨éƒ¨å†…å®¹ï¼ä½ çŽ°åœ¨å·²ç»æ˜¯ Voracode çš„ä½¿ç”¨é«˜æ‰‹äº†ã€‚
+
+è¦è®©å®ƒæ›´ç¬¦åˆä½ çš„ä¹ æƒ¯ï¼Œæˆ‘ä»¬æŽ¨è[é€‰æ‹©ä¸€ä¸ªä¸»é¢˜](/docs/themes)ã€[è‡ªå®šä¹‰å¿«æ·é”®](/docs/keybinds)ã€[é…ç½®ä»£ç æ ¼å¼åŒ–å·¥å…·](/docs/formatters)ã€[åˆ›å»ºè‡ªå®šä¹‰å‘½ä»¤](/docs/commands)ï¼Œæˆ–è€…æŽ¢ç´¢ [Voracode é…ç½®](/docs/config)ã€‚

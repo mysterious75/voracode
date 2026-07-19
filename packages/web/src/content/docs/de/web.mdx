@@ -1,0 +1,142 @@
+---
+title: Web
+description: Verwenden Sie Voracode in Ihrem Browser.
+---
+
+Voracode kann als Webanwendung in Ihrem Browser ausgefÃ¼hrt werden und bietet das gleiche leistungsstarke KI-Codierungserlebnis, ohne dass ein Terminal erforderlich ist.
+
+![Voracode Web â€“ Neue Sitzung](../../../assets/web/web-homepage-new-session.png)
+
+## Erste Schritte
+
+Starten Sie die WeboberflÃ¤che, indem Sie Folgendes ausfÃ¼hren:
+
+```bash
+voracode web
+```
+
+Dadurch wird ein lokaler Server auf `127.0.0.1` mit einem zufÃ¤llig verfÃ¼gbaren Port gestartet und Voracode automatisch in Ihrem Standardbrowser geÃ¶ffnet.
+
+:::caution
+Wenn `VORACODE_SERVER_PASSWORD` nicht gesetzt ist, ist der Server ungesichert. Dies ist fÃ¼r den lokalen Gebrauch in Ordnung, sollte aber fÃ¼r den Netzwerkzugriff eingestellt werden.
+:::
+
+:::tip[Windows-Nutzer]
+Um die beste Erfahrung zu erzielen, fÃ¼hren Sie `voracode web` Ã¼ber [WSL](/docs/windows-wsl) und nicht Ã¼ber PowerShell aus. Dies gewÃ¤hrleistet den ordnungsgemÃ¤ÃŸen Zugriff auf das Dateisystem und die Terminalintegration.
+:::
+
+---
+
+## Konfiguration
+
+Sie kÃ¶nnen den Webserver mithilfe von Befehlszeilen-Flags oder in Ihrer [Konfigurationsdatei](/docs/config) konfigurieren.
+
+### Port
+
+StandardmÃ¤ÃŸig wÃ¤hlt Voracode einen verfÃ¼gbaren Port aus. Sie kÃ¶nnen einen Port angeben:
+
+```bash
+voracode web --port 4096
+```
+
+### Hostname
+
+StandardmÃ¤ÃŸig bindet der Server an `127.0.0.1` (nur localhost). So machen Sie Voracode in Ihrem Netzwerk zugÃ¤nglich:
+
+```bash
+voracode web --hostname 0.0.0.0
+```
+
+Bei Verwendung von `0.0.0.0` zeigt Voracode sowohl lokale als auch Netzwerkadressen an:
+
+```
+  Local access:       http://localhost:4096
+  Network access:     http://192.168.1.100:4096
+```
+
+### mDNS-Erkennung
+
+Aktivieren Sie mDNS, um Ihren Server im lokalen Netzwerk erkennbar zu machen:
+
+```bash
+voracode web --mdns
+```
+
+Dadurch wird der Hostname automatisch auf `0.0.0.0` gesetzt und der Server als `voracode.local` angekÃ¼ndigt.
+
+Sie kÃ¶nnen den mDNS-DomÃ¤nennamen anpassen, um mehrere Instanzen im selben Netzwerk auszufÃ¼hren:
+
+```bash
+voracode web --mdns --mdns-domain myproject.local
+```
+
+### CORS
+
+So erlauben Sie zusÃ¤tzliche DomÃ¤nen fÃ¼r CORS (nÃ¼tzlich fÃ¼r benutzerdefinierte Frontends):
+
+```bash
+voracode web --cors https://example.com
+```
+
+### Authentifizierung
+
+Um den Zugriff zu schÃ¼tzen, legen Sie mithilfe der Umgebungsvariablen `VORACODE_SERVER_PASSWORD` ein Passwort fest:
+
+```bash
+VORACODE_SERVER_PASSWORD=secret voracode web
+```
+
+Der Benutzername ist standardmÃ¤ÃŸig `voracode`, kann aber mit `VORACODE_SERVER_USERNAME` geÃ¤ndert werden.
+
+---
+
+## Verwenden der WeboberflÃ¤che
+
+Nach dem Start bietet die WeboberflÃ¤che Zugriff auf Ihre Voracode-Sitzungen.
+
+### Sitzungen
+
+Zeigen Sie Ihre Sitzungen auf der Startseite an und verwalten Sie sie. Sie kÃ¶nnen aktive Sitzungen sehen und neue starten.
+
+![Voracode Web â€“ Aktive Sitzung](../../../assets/web/web-homepage-active-session.png)
+
+### Serverstatus
+
+Klicken Sie auf â€žServer anzeigenâ€œ, um verbundene Server und deren Status anzuzeigen.
+
+![Voracode Web â€“ Siehe Server](../../../assets/web/web-homepage-see-servers.png)
+
+---
+
+## AnschlieÃŸen eines Terminals
+
+Sie kÃ¶nnen eine Terminal-TUI an einen laufenden Webserver anschlieÃŸen:
+
+```bash
+# Start the web server
+voracode web --port 4096
+
+# In another terminal, attach the TUI
+voracode attach http://localhost:4096
+```
+
+Dadurch kÃ¶nnen Sie sowohl die WeboberflÃ¤che als auch das Terminal gleichzeitig verwenden und dieselben Sitzungen und denselben Status teilen.
+
+---
+
+## Konfigurationsdatei
+
+Sie kÃ¶nnen Servereinstellungen auch in Ihrer `voracode.json`-Konfigurationsdatei konfigurieren:
+
+```json
+{
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "cors": ["https://example.com"]
+  }
+}
+```
+
+Befehlszeilenflags haben Vorrang vor Konfigurationsdateieinstellungen.

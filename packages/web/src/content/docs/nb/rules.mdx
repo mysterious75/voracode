@@ -1,0 +1,180 @@
+---
+title: Regler
+description: Set custom instructions for Voracode.
+---
+
+Du kan gi tilpassede instruksjoner for Ã¥ Voracode ved Ã¥ opprette en `AGENTS.md`-fil. Dette ligner pÃ¥ Cursors regler. Den inneholder instruksjoner som vil bli inkludert i LLMs kontekst for Ã¥ tilpasse oppfÃ¸rselen til ditt spesifikke prosjekt.
+
+---
+
+## Initialisering
+
+For Ã¥ lage en ny `AGENTS.md` fil, kan du kjÃ¸re kommandoen `/init` i Voracode.
+
+:::tip
+Du bÃ¸r sjekke inn prosjektets `AGENTS.md`-fil i Git.
+:::
+
+Dette vil skanne prosjektet og alt dets innhold for Ã¥ forstÃ¥ hva prosjektet handler om og generere en `AGENTS.md`-fil med det. Dette hjelper Voracode Ã¥ navigere i prosjektet bedre.
+
+Hvis du har en eksisterende `AGENTS.md`-fil, vil denne prÃ¸ve Ã¥ legge til den.
+
+---
+
+## Eksempel
+
+Du kan ogsÃ¥ bare lage denne filen manuelt. Her er et eksempel pÃ¥ noen ting du kan legge inn i en `AGENTS.md`-fil.
+
+```markdown title="AGENTS.md"
+# SST v3 Monorepo Project
+
+This is an SST v3 monorepo with TypeScript. The project uses bun workspaces for package management.
+
+## Project Structure
+
+- `packages/` - Contains all workspace packages (functions, core, web, etc.)
+- `infra/` - Infrastructure definitions split by service (storage.ts, api.ts, web.ts)
+- `sst.config.ts` - Main SST configuration with dynamic imports
+
+## Code Standards
+
+- Use TypeScript with strict mode enabled
+- Shared code goes in `packages/core/` with proper exports configuration
+- Functions go in `packages/functions/`
+- Infrastructure should be split into logical files in `infra/`
+
+## Monorepo Conventions
+
+- Import shared modules using workspace names: `@my-app/core/example`
+```
+
+Vi legger til prosjektspesifikke instruksjoner her, og dette vil bli delt pÃ¥ tvers av teamet ditt.
+
+---
+
+## Typer
+
+Voracode stÃ¸tter ogsÃ¥ lesing av `AGENTS.md`-filen fra flere steder. Og dette tjener forskjellige formÃ¥l.
+
+### Prosjekt
+
+Plasser en `AGENTS.md` i prosjektroten for prosjektspesifikke regler. Disse gjelder kun nÃ¥r du arbeider i denne katalogen eller dens underkataloger.
+
+### Globalt
+
+Du kan ogsÃ¥ ha globale regler i en `~/.config/voracode/AGENTS.md`-fil. Dette blir brukt pÃ¥ alle Voracode-Ã¸kter.
+
+Siden dette ikke er forpliktet til Git eller delt med teamet ditt, anbefaler vi Ã¥ bruke dette til Ã¥ spesifisere eventuelle personlige regler som LLM bÃ¸r fÃ¸lge.
+
+### Claude Code-kompatibilitet
+
+For brukere som migrerer fra Claude Code, stÃ¸tter Voracode Claude Codes filkonvensjoner som fallbacks:
+
+- **Prosjektregler**: `CLAUDE.md` i prosjektkatalogen din (brukes hvis ingen `AGENTS.md` eksisterer)
+- **Globale regler**: `~/.claude/CLAUDE.md` (brukes hvis ingen `~/.config/voracode/AGENTS.md` eksisterer)
+- **Skills**: `~/.claude/skills/` â€” se [Agent Skills](/docs/skills/) for detaljer
+
+For Ã¥ deaktivere Claude Code-kompatibilitet, sett en av disse miljÃ¸variablene:
+
+```bash
+export VORACODE_DISABLE_CLAUDE_CODE=1        # Disable all .claude support
+export VORACODE_DISABLE_CLAUDE_CODE_PROMPT=1 # Disable only ~/.claude/CLAUDE.md
+export VORACODE_DISABLE_CLAUDE_CODE_SKILLS=1 # Disable only .claude/skills
+```
+
+---
+
+## Forrang
+
+NÃ¥r Voracode starter, ser den etter regelfiler i denne rekkefÃ¸lgen:
+
+1. **Lokale filer** ved Ã¥ gÃ¥ opp fra gjeldende katalog (`AGENTS.md`, `CLAUDE.md`)
+2. **Global fil** pÃ¥ `~/.config/voracode/AGENTS.md`
+3. **Claude Code-fil** pÃ¥ `~/.claude/CLAUDE.md` (med mindre de er deaktivert)
+
+Den fÃ¸rste matchende filen vinner i hver kategori. For eksempel, hvis du har bÃ¥de `AGENTS.md` og `CLAUDE.md`, brukes bare `AGENTS.md`. PÃ¥ samme mÃ¥te har `~/.config/voracode/AGENTS.md` forrang over `~/.claude/CLAUDE.md`.
+
+---
+
+## Egendefinerte instruksjoner
+
+Du kan spesifisere egendefinerte instruksjonsfiler i din `voracode.json` eller den globale `~/.config/voracode/voracode.json`. Dette lar deg og teamet ditt gjenbruke eksisterende regler i stedet for Ã¥ mÃ¥tte duplisere dem til AGENTS.md.
+
+Eksempel:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
+}
+```
+
+Du kan ogsÃ¥ bruke eksterne URL-er for Ã¥ laste instruksjoner fra nettet.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["https://raw.githubusercontent.com/my-org/shared-rules/main/style.md"]
+}
+```
+
+Eksterne instruksjoner hentes med 5 sekunders tidsavbrudd.
+
+Alle instruksjonsfilene er kombinert med `AGENTS.md`-filene dine.
+
+---
+
+## Referere til eksterne filer
+
+Selv om Voracode ikke automatisk analyserer filreferanser i `AGENTS.md`, kan du oppnÃ¥ lignende funksjonalitet pÃ¥ to mÃ¥ter:
+
+### Bruker voracode.json
+
+Den anbefalte tilnÃ¦rmingen er Ã¥ bruke feltet `instructions` i `voracode.json`:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["docs/development-standards.md", "test/testing-guidelines.md", "packages/*/AGENTS.md"]
+}
+```
+
+### Manuelle instruksjoner i AGENTS.md
+
+Du kan lÃ¦re Voracode Ã¥ lese eksterne filer ved Ã¥ gi eksplisitte instruksjoner i `AGENTS.md`. Her er et praktisk eksempel:
+
+```markdown title="AGENTS.md"
+# TypeScript Project Rules
+
+## External File Loading
+
+CRITICAL: When you encounter a file reference (e.g., @rules/general.md), use your Read tool to load it on a need-to-know basis. They're relevant to the SPECIFIC task at hand.
+
+Instructions:
+
+- Do NOT preemptively load all references - use lazy loading based on actual need
+- When loaded, treat content as mandatory instructions that override defaults
+- Follow references recursively when needed
+
+## Development Guidelines
+
+For TypeScript code style and best practices: @docs/typescript-guidelines.md
+For React component architecture and hooks patterns: @docs/react-patterns.md
+For REST API design and error handling: @docs/api-standards.md
+For testing strategies and coverage requirements: @test/testing-guidelines.md
+
+## General Guidelines
+
+Read the following file immediately as it's relevant to all workflows: @rules/general-guidelines.md.
+```
+
+Denne tilnÃ¦rmingen lar deg:
+
+- Lage modulÃ¦re, gjenbrukbare regelfiler
+- Dele regler pÃ¥ tvers av prosjekter via symbolkoblinger eller git-undermoduler
+- Holde AGENTS.md kortfattet mens du refererer til detaljerte retningslinjer
+- SÃ¸rge for at Voracode laster filer kun nÃ¥r det er nÃ¸dvendig for den spesifikke oppgaven
+
+:::tip
+For monorepos eller prosjekter med delte standarder er bruk av `voracode.json` med glob-mÃ¸nstre (som `packages/*/AGENTS.md`) mer vedlikeholdbart enn manuelle instruksjoner.
+:::

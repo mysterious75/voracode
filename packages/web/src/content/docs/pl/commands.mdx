@@ -1,0 +1,323 @@
+---
+title: Polecenia
+description: TwÃ³rz polecenia dla powtarzalnych zadaÅ„.
+---
+
+Polecenia to zdefiniowane prompty, ktÃ³re moÅ¼na uruchomiÄ‡ w TUI.
+
+```bash frame="none"
+/my-command
+```
+
+Polecenia sÄ… dodatkiem do wbudowanych, takich jak `/init`, `/undo`, `/redo`, `/share`, `/help`. [Dowiedz siÄ™ wiÄ™cej](/docs/tui#commands).
+
+---
+
+## UtwÃ³rz pliki ÅºrÃ³dÅ‚owe
+
+UtwÃ³rz pliki Markdown w katalogu `commands/`, aby zdefiniowaÄ‡ polecenia.
+
+UtwÃ³rz `.voracode/commands/test.md`:
+
+```md title=".voracode/commands/test.md"
+---
+description: Run tests with coverage
+agent: build
+model: anthropic/claude-3-5-sonnet-20241022
+---
+
+Run the full test suite with coverage report and show any failures.
+Focus on the failing tests and suggest fixes.
+```
+
+Frontmatter definiuje wÅ‚aÅ›ciwoÅ›ci. TreÅ›Ä‡ staje siÄ™ szablonem.
+
+Uruchom polecenie, wpisujÄ…c `/`, a nastÄ™pnie nazwÄ™ polecenia.
+
+```bash frame="none"
+"/test"
+```
+
+---
+
+## Konfiguracja
+
+MoÅ¼esz zdefiniowaÄ‡ polecenia w `voracode.json` lub w plikach w katalogu `commands/`.
+
+---
+
+### JSON
+
+UÅ¼yj opcji `command` w swojej konfiguracji voracode:
+
+```json title="voracode.jsonc" {4-12}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "command": {
+    // This becomes the name of the command
+    "test": {
+      // This is the prompt that will be sent to the LLM
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
+      // This is shown as the description in the TUI
+      "description": "Run tests with coverage",
+      "agent": "build",
+      "model": "anthropic/claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+
+Teraz moÅ¼esz wybraÄ‡ opcjÄ™ w TUI:
+
+```bash frame="none"
+/test
+```
+
+---
+
+### Markdown
+
+MoÅ¼na takÅ¼e definiowaÄ‡ polecenia za pomocÄ… plikÃ³w Markdown. Trzymaj je w:
+
+- Globalnie: `~/.config/voracode/commands/`
+- Na projekt: `.voracode/commands/`
+
+```markdown title="~/.config/voracode/commands/test.md"
+---
+description: Run tests with coverage
+agent: build
+model: anthropic/claude-3-5-sonnet-20241022
+---
+
+Run the full test suite with coverage report and show any failures.
+Focus on the failing tests and suggest fixes.
+```
+
+Nazwa pliku Markdown staje siÄ™ nazwÄ… polecenia. Na przykÅ‚ad `test.md` pozwala
+uruchomiÄ‡:
+
+```bash frame="none"
+/test
+```
+
+---
+
+## SkÅ‚adnia promptu
+
+Prompty niestandardowych poleceÅ„ obsÅ‚ugujÄ… kilka specjalnych symboli zastÄ™pczych.
+
+---
+
+### Argumenty
+
+Przekazuj argumenty do promptu, uÅ¼ywajÄ…c symbolu zastÄ™pczego `$ARGUMENTS`.
+
+```md title=".voracode/commands/component.md"
+---
+description: Create a new component
+---
+
+Create a new React component named $ARGUMENTS with TypeScript support.
+Include proper typing and basic structure.
+```
+
+Uruchomienie polecenia z argumentami:
+
+```bash frame="none"
+/component Button
+```
+
+`$ARGUMENTS` zostanie zastÄ…pione przez `Button`.
+
+DostÄ™p do poszczegÃ³lnych argumentÃ³w moÅ¼na uzyskaÄ‡ za pomocÄ… parametrÃ³w pozycyjnych:
+
+- `$1` - Pierwszy argument
+- `$2` - Drugi argument
+- `$3` - Trzeci argument
+- I tak dalej...
+
+Na przykÅ‚ad:
+
+```md title=".voracode/commands/create-file.md"
+---
+description: Create a new file with content
+---
+
+Create a file named $1 in the directory $2
+with the following content: $3
+```
+
+Uruchomienie polecenia:
+
+```bash frame="none"
+/create-file config.json src "{ \"key\": \"value\" }"
+```
+
+WartoÅ›ci:
+
+- `$1` to `config.json`
+- `$2` to `src`
+- `$3` to `{ "key": "value" }`
+
+---
+
+### Dane wyjÅ›ciowe poleceÅ„
+
+UÅ¼yj `!command`, aby wstawiÄ‡ dane wyjÅ›ciowe [polecenia bash](/docs/tui#bash-commands) do promptu.
+
+Na przykÅ‚ad, aby przeanalizowaÄ‡ pokrycie testami:
+
+```md title=".voracode/commands/analyze-coverage.md"
+---
+description: Analyze test coverage
+---
+
+Here are the current test results:
+!`npm test`
+
+Based on these results, suggest improvements to increase coverage.
+```
+
+Lub aby przejrzeÄ‡ ostatnie zmiany:
+
+```md title=".voracode/commands/review-changes.md"
+---
+description: Review recent changes
+---
+
+Recent git commits:
+!`git log --oneline -10`
+
+Review these changes and suggest any improvements.
+```
+
+Polecenia sÄ… uruchamiane w powÅ‚oce, a ich dane wyjÅ›ciowe sÄ… wstawiane do promptu.
+
+---
+
+### OdwoÅ‚ania do plikÃ³w
+
+DoÅ‚Ä…cz pliki do swojego polecenia, uÅ¼ywajÄ…c `@` i Å›cieÅ¼ki do pliku.
+
+```md title=".voracode/commands/review-component.md"
+---
+description: Review component
+---
+
+Review the component in @src/components/Button.tsx.
+Check for performance issues and suggest improvements.
+```
+
+ZawartoÅ›Ä‡ pliku jest automatycznie wstawiana do promptu.
+
+---
+
+## Opcje
+
+Przyjrzyjmy siÄ™ szczegÃ³Å‚owo opcjom konfiguracji.
+
+---
+
+### Template
+
+Opcja `template` to prompt wysyÅ‚any do LLM po wykonaniu polecenia.
+
+```json title="voracode.json"
+{
+  "command": {
+    "test": {
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes."
+    }
+  }
+}
+```
+
+Jest to **wymagana** opcja konfiguracji.
+
+---
+
+### Description
+
+UÅ¼yj `description`, aby dodaÄ‡ krÃ³tki opis dziaÅ‚ania polecenia.
+
+```json title="voracode.json"
+{
+  "command": {
+    "test": {
+      "description": "Run tests with coverage"
+    }
+  }
+}
+```
+
+Jest wyÅ›wietlany jako opis w TUI po wpisaniu polecenia.
+
+---
+
+### Agent
+
+UÅ¼yj opcji `agent`, aby okreÅ›liÄ‡, ktÃ³ry [agent](/docs/agents) powinien wykonaÄ‡ to polecenie.
+JeÅ›li jest to [subagent](/docs/agents/#subagents), zostanie on uÅ¼yty.
+Aby to zmieniÄ‡, ustaw `subtask` na `false`.
+
+```json title="voracode.json"
+{
+  "command": {
+    "review": {
+      "agent": "plan"
+    }
+  }
+}
+```
+
+Jest to **opcjonalna** opcja konfiguracji. JeÅ›li nie podano, uÅ¼yty zostanie domyÅ›lny agent.
+
+---
+
+### Subtask
+
+UÅ¼yj `subtask`, aby wymusiÄ‡ wywoÅ‚anie polecenia jako subzadania.
+Jest to przydatne, jeÅ›li chcesz, aby polecenie nie zanieczyszczaÅ‚o kontekstu i **zmusiÅ‚o** agenta do dziaÅ‚ania jako subagent,
+nawet jeÅ›li `mode` jest ustawiony na `primary` w konfiguracji [agent](/docs/agents).
+
+```json title="voracode.json"
+{
+  "command": {
+    "analyze": {
+      "subtask": true
+    }
+  }
+}
+```
+
+Jest to **opcjonalna** opcja konfiguracji.
+
+---
+
+### Model
+
+UÅ¼yj `model`, aby okreÅ›liÄ‡ model dla tego polecenia.
+
+```json title="voracode.json"
+{
+  "command": {
+    "analyze": {
+      "model": "anthropic/claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+
+Jest to **opcjonalna** opcja konfiguracji.
+
+---
+
+## Wbudowane
+
+voracode zawiera kilka wbudowanych poleceÅ„, takich jak `/init`, `/undo`, `/redo`, `/share`, `/help`; [dowiedz siÄ™ wiÄ™cej](/docs/tui#commands).
+
+:::note
+Polecenia wbudowane mogÄ… zostaÄ‡ nadpisane.
+:::
+
+JeÅ›li zdefiniujesz tÄ™ samÄ… nazwÄ™, twoje polecenie bÄ™dzie miaÅ‚o pierwszeÅ„stwo.

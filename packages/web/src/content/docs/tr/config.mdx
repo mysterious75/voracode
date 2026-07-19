@@ -1,0 +1,687 @@
+---
+title: YapÄ±landÄ±rma
+description: voracode JSON yapÄ±landÄ±rmasÄ± kullanÄ±r.
+---
+
+voracode'u JSON yapÄ±landÄ±rma dosyasÄ± kullanarak yapÄ±landÄ±rabilirsiniz.
+
+---
+
+## Format
+
+voracode hem **JSON** hem de **JSONC** (JSON Yorumlarla birlikte) formatlarÄ±nÄ± destekler.
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  // Theme configuration
+  "theme": "voracode",
+  "model": "anthropic/claude-sonnet-4-5",
+  "autoupdate": true,
+}
+```
+
+---
+
+## Konumlar
+
+YapÄ±landÄ±rmanÄ±zÄ± birkaÃ§ farklÄ± konuma yerleÅŸtirebilirsiniz ve bunlarÄ±n
+farklÄ± Ã¶ncelik sÄ±rasÄ± vardÄ±r.
+
+:::note
+YapÄ±landÄ±rma dosyalarÄ± **birleÅŸtirilir**, deÄŸiÅŸtirilmez.
+:::
+
+YapÄ±landÄ±rma dosyalarÄ± deÄŸiÅŸtirilmez, birleÅŸtirilir. AÅŸaÄŸÄ±daki yapÄ±landÄ±rma konumlarÄ±ndaki ayarlar birleÅŸtirilir. Daha sonraki yapÄ±landÄ±rmalar, yalnÄ±zca Ã§akÄ±ÅŸan anahtarlar iÃ§in Ã¶nceki yapÄ±landÄ±rmalarÄ± geÃ§ersiz kÄ±lar. TÃ¼m yapÄ±landÄ±rmalardaki Ã§akÄ±ÅŸmayan ayarlar korunur.
+
+Ã–rneÄŸin, genel ayarÄ±nÄ±z `theme: "voracode"` ve `autoupdate: true`'yi ayarlÄ±yorsa ve proje ayarlarÄ±nÄ±z `model: "anthropic/claude-sonnet-4-5"`'yi ayarlÄ±yorsa, nihai yapÄ±landÄ±rma Ã¼Ã§ ayarÄ± da iÃ§erecektir.
+
+---
+
+### Ã–ncelik sÄ±rasÄ±
+
+YapÄ±landÄ±rma kaynaklarÄ± bu sÄ±rayla yÃ¼klenir (sonraki kaynaklar Ã¶ncekileri geÃ§ersiz kÄ±lar):
+
+1. **Uzak yapÄ±landÄ±rma** (`.well-known/voracode`'dan) - kurumsal varsayÄ±lanlar
+2. **Genel yapÄ±landÄ±rma** (`~/.config/voracode/voracode.json`) - kullanÄ±cÄ± tercihleri
+3. **Ã–zel yapÄ±landÄ±rma** (`VORACODE_CONFIG` env var) - Ã¶zel geÃ§ersiz kÄ±lmalar
+4. **Proje yapÄ±landÄ±rmasÄ±** (projedeki `voracode.json`) - projeye Ã¶zgÃ¼ ayarlar
+5. **`.voracode` dizinleri** - agent'lar, komutlar, eklentiler
+6. **SatÄ±r iÃ§i yapÄ±landÄ±rma** (`VORACODE_CONFIG_CONTENT` env var) - Ã§alÄ±ÅŸma zamanÄ± geÃ§ersiz kÄ±lmalarÄ±
+
+Bu, proje yapÄ±landÄ±rmalarÄ±nÄ±n genel varsayÄ±lanlarÄ± geÃ§ersiz kÄ±labileceÄŸi ve genel yapÄ±landÄ±rmalarÄ±n uzak organizasyonel varsayÄ±lanlarÄ± geÃ§ersiz kÄ±labileceÄŸi anlamÄ±na gelir.
+
+:::note
+`.voracode` ve `~/.config/voracode` dizinleri alt dizinler iÃ§in **Ã§oÄŸul adlar** kullanÄ±r: `agents/`, `commands/`, `modes/`, `plugins/`, `skills/`, `tools/` ve `themes/`. Tekil adlar (Ã¶rneÄŸin, `agent/`) da geriye dÃ¶nÃ¼k uyumluluk aÃ§Ä±sÄ±ndan desteklenir.
+:::
+
+---
+
+### Uzak
+
+KuruluÅŸlar, `.well-known/voracode` uÃ§ noktasÄ± aracÄ±lÄ±ÄŸÄ±yla varsayÄ±lan yapÄ±landÄ±rmayÄ± saÄŸlayabilir. Bu, onu destekleyen bir saÄŸlayÄ±cÄ±yla kimlik doÄŸrulamasÄ± yaptÄ±ÄŸÄ±nÄ±zda otomatik olarak alÄ±nÄ±r.
+
+Uzak yapÄ±landÄ±rma ilk olarak yÃ¼klenir ve temel katman gÃ¶revi gÃ¶rÃ¼r. DiÄŸer tÃ¼m yapÄ±landÄ±rma kaynaklarÄ± (genel, proje) bu varsayÄ±lanlarÄ± geÃ§ersiz kÄ±labilir.
+
+Ã–rneÄŸin, kuruluÅŸunuz varsayÄ±lan olarak devre dÄ±ÅŸÄ± bÄ±rakÄ±lan MCP sunucularÄ± saÄŸlÄ±yorsa:
+
+```json title="Remote config from .well-known/voracode"
+{
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://jira.example.com/mcp",
+      "enabled": false
+    }
+  }
+}
+```
+
+Yerel yapÄ±landÄ±rmanÄ±zda belirli sunucularÄ± etkinleÅŸtirebilirsiniz:
+
+```json title="voracode.json"
+{
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://jira.example.com/mcp",
+      "enabled": true
+    }
+  }
+}
+```
+
+---
+
+### Global
+
+Global voracode yapÄ±landÄ±rmanÄ±zÄ± `~/.config/voracode/voracode.json` iÃ§ine yerleÅŸtirin. Temalar, saÄŸlayÄ±cÄ±lar veya tuÅŸ atamalarÄ± gibi kullanÄ±cÄ± Ã§apÄ±ndaki tercihler iÃ§in genel yapÄ±landÄ±rmayÄ± kullanÄ±n.
+
+Genel yapÄ±landÄ±rma, uzak kurumsal varsayÄ±lanlarÄ± geÃ§ersiz kÄ±lar.
+
+---
+
+### Proje baÅŸÄ±na
+
+Proje kÃ¶kÃ¼nÃ¼ze `voracode.json` ekleyin. Proje yapÄ±landÄ±rmasÄ±, standart yapÄ±landÄ±rma dosyalarÄ± arasÄ±nda en yÃ¼ksek Ã¶nceliÄŸe sahiptir; hem genel hem de uzak yapÄ±landÄ±rmalarÄ± geÃ§ersiz kÄ±lar.
+
+:::tip
+Projeye Ã¶zel yapÄ±landÄ±rmayÄ± projenizin kÃ¶kÃ¼ne yerleÅŸtirin.
+:::
+
+voracode baÅŸlatÄ±ldÄ±ÄŸÄ±nda geÃ§erli dizinde bir yapÄ±landÄ±rma dosyasÄ± arar veya en yakÄ±n Git dizinine gider.
+
+Bunun Git'te kontrol edilmesi de gÃ¼venlidir ve global olanla aynÄ± ÅŸemayÄ± kullanÄ±r.
+
+---
+
+### Ã–zel yol
+
+`VORACODE_CONFIG` ortam deÄŸiÅŸkenini kullanarak Ã¶zel bir yapÄ±landÄ±rma dosyasÄ± yolu belirtin.
+
+```bash
+export VORACODE_CONFIG=/path/to/my/custom-config.json
+voracode run "Hello world"
+```
+
+Ã–zel yapÄ±landÄ±rma genel ve proje yapÄ±landÄ±rmalarÄ± arasÄ±nda Ã¶ncelik sÄ±rasÄ±na gÃ¶re yÃ¼klenir.
+
+---
+
+### Ã–zel dizin
+
+`VORACODE_CONFIG_DIR` kullanarak Ã¶zel bir yapÄ±landÄ±rma dizini belirtin
+ortam deÄŸiÅŸkeni. Bu dizin agent'lar, komutlar iÃ§in aranacaktÄ±r.
+modlar ve eklentiler tÄ±pkÄ± standart `.voracode` dizini gibi olmalÄ±dÄ±r ve
+aynÄ± yapÄ±yÄ± takip edin.
+
+```bash
+export VORACODE_CONFIG_DIR=/path/to/my/config-directory
+voracode run "Hello world"
+```
+
+Ã–zel dizin, genel yapÄ±landÄ±rma ve `.voracode` dizinlerinden sonra yÃ¼klenir, bÃ¶ylece bunlarÄ±n ayarlarÄ±nÄ± **geÃ§ersiz kÄ±labilir**.
+
+---
+
+## Åžema
+
+YapÄ±landÄ±rma dosyasÄ± [**`voracode.ai/config.json`**](https://voracode.ai/config.json)'da tanÄ±mlanan bir ÅŸemaya sahiptir.
+
+EditÃ¶rÃ¼nÃ¼z ÅŸemaya gÃ¶re doÄŸrulama ve otomatik tamamlama yapabilmelidir.
+
+---
+
+### TUI
+
+TUI'ye Ã¶zgÃ¼ ayarlarÄ± `tui` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla yapÄ±landÄ±rabilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "tui": {
+    "scroll_speed": 3,
+    "scroll_acceleration": {
+      "enabled": true
+    },
+    "diff_style": "auto"
+  }
+}
+```
+
+Mevcut seÃ§enekler:
+
+- `scroll_acceleration.enabled` - MacOS tarzÄ± kaydÄ±rma hÄ±zlandÄ±rmayÄ± etkinleÅŸtirin. **`scroll_speed`'ye gÃ¶re Ã¶nceliklidir.**
+- `scroll_speed` - Ã–zel kaydÄ±rma hÄ±zÄ± Ã§arpanÄ± (varsayÄ±lan: `3`, minimum: `1`). `scroll_acceleration.enabled` `true` ise dikkate alÄ±nmaz.
+- `diff_style` - Fark oluÅŸturmayÄ± kontrol edin. `"auto"` terminal geniÅŸliÄŸine uyum saÄŸlar, `"stacked"` her zaman tek sÃ¼tunu gÃ¶sterir.
+
+[TUI kullanÄ±mÄ± hakkÄ±nda daha fazla bilgi](/docs/tui).
+
+---
+
+### Sunucu
+
+`voracode serve` ve `voracode web` komutlarÄ± iÃ§in sunucu ayarlarÄ±nÄ± `server` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla yapÄ±landÄ±rabilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "mdnsDomain": "myproject.local",
+    "cors": ["http://localhost:5173"]
+  }
+}
+```
+
+Mevcut seÃ§enekler:
+
+- `port` - Dinlenecek port.
+- `hostname` - Dinlenecek ana bilgisayar adÄ±. `mdns` etkinleÅŸtirildiÄŸinde ve hiÃ§bir ana bilgisayar adÄ± ayarlanmadÄ±ÄŸÄ±nda, varsayÄ±lan deÄŸer `0.0.0.0` olur.
+- `mdns` - mDNS hizmet bulmayÄ± etkinleÅŸtirin. Bu, aÄŸdaki diÄŸer cihazlarÄ±n voracode sunucunuzu keÅŸfetmesine olanak tanÄ±r.
+- `mdnsDomain` - mDNS hizmeti iÃ§in Ã¶zel alan adÄ±. VarsayÄ±lan olarak `voracode.local` ÅŸeklindedir. AynÄ± aÄŸda birden fazla Ã¶rneÄŸi Ã§alÄ±ÅŸtÄ±rmak iÃ§in kullanÄ±ÅŸlÄ±dÄ±r.
+- `cors` - TarayÄ±cÄ± tabanlÄ± bir istemciden HTTP sunucusunu kullanÄ±rken CORS'ye izin verecek ek kaynaklar. DeÄŸerler tam kaynaklar olmalÄ±dÄ±r (ÅŸema + ana bilgisayar + isteÄŸe baÄŸlÄ± baÄŸlantÄ± noktasÄ±), Ã¶rneÄŸin `https://app.example.com`.
+
+[Sunucu hakkÄ±nda daha fazla bilgi](/docs/server).
+
+---
+
+### AraÃ§lar
+
+Bir LLM'nin kullanabileceÄŸi araÃ§larÄ± `tools` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla yÃ¶netebilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "tools": {
+    "write": false,
+    "bash": false
+  }
+}
+```
+
+[AraÃ§lar hakkÄ±nda daha fazla bilgi](/docs/tools).
+
+---
+
+### Modeller
+
+voracode yapÄ±landÄ±rmanÄ±zda kullanmak istediÄŸiniz saÄŸlayÄ±cÄ±larÄ± ve modelleri `provider`, `model` ve `small_model` seÃ§enekleri aracÄ±lÄ±ÄŸÄ±yla yapÄ±landÄ±rabilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {},
+  "model": "anthropic/claude-sonnet-4-5",
+  "small_model": "anthropic/claude-haiku-4-5"
+}
+```
+
+`small_model` seÃ§eneÄŸi, baÅŸlÄ±k oluÅŸturma gibi hafif gÃ¶revler iÃ§in ayrÄ± bir model yapÄ±landÄ±rÄ±r. VarsayÄ±lan olarak voracode, saÄŸlayÄ±cÄ±nÄ±zda mevcutsa daha ucuz bir model kullanmaya Ã§alÄ±ÅŸÄ±r, aksi takdirde ana modelinize geri dÃ¶ner.
+
+SaÄŸlayÄ±cÄ± seÃ§enekleri `timeout` ve `setCacheKey` iÃ§erebilir:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "anthropic": {
+      "options": {
+        "timeout": 600000,
+        "setCacheKey": true
+      }
+    }
+  }
+}
+```
+
+- `timeout` - Milisaniye cinsinden istek zaman aÅŸÄ±mÄ± (varsayÄ±lan: 300000). Devre dÄ±ÅŸÄ± bÄ±rakmak iÃ§in `false` olarak ayarlayÄ±n.
+- `setCacheKey` - Belirlenen saÄŸlayÄ±cÄ± iÃ§in her zaman bir Ã¶nbellek anahtarÄ±nÄ±n ayarlandÄ±ÄŸÄ±ndan emin olun.
+
+AyrÄ±ca [local models](/docs/models#local) ayarlayabilirsiniz. [Daha fazla bilgi](/docs/models).
+
+---
+
+#### SaÄŸlayÄ±cÄ±ya Ã–zel SeÃ§enekler
+
+BazÄ± saÄŸlayÄ±cÄ±lar genel `timeout` ve `apiKey` ayarlarÄ±nÄ±n Ã¶tesinde ek yapÄ±landÄ±rma seÃ§eneklerini destekler.
+
+##### Amazon Bedrock
+
+Amazon Bedrock, AWS'a Ã¶zgÃ¼ yapÄ±landÄ±rmayÄ± destekler:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "amazon-bedrock": {
+      "options": {
+        "region": "us-east-1",
+        "profile": "my-aws-profile",
+        "endpoint": "https://bedrock-runtime.us-east-1.vpce-xxxxx.amazonaws.com"
+      }
+    }
+  }
+}
+```
+
+- `region` - Bedrock iÃ§in AWS bÃ¶lgesi (varsayÄ±lanÄ± `AWS_REGION` env var veya `us-east-1`'dir)
+- `profile` - `~/.aws/credentials`'den AWS adlÄ± profil (varsayÄ±lanÄ± `AWS_PROFILE` env var'dÄ±r)
+- `endpoint` - VPC uÃ§ noktalarÄ± iÃ§in Ã¶zel uÃ§ nokta URL. Bu, AWS'e Ã¶zgÃ¼ terminolojiyi kullanan genel `baseURL` seÃ§eneÄŸinin takma adÄ±dÄ±r. Her ikisi de belirtilirse `endpoint` Ã¶ncelikli olur.
+
+:::note
+TaÅŸÄ±yÄ±cÄ± belirteÃ§leri (`AWS_BEARER_TOKEN_BEDROCK` veya `/connect`) profil tabanlÄ± kimlik doÄŸrulamaya gÃ¶re Ã¶nceliklidir. AyrÄ±ntÄ±lar iÃ§in [authentication precedence](/docs/providers#authentication-precedence)'ye bakÄ±n.
+:::
+
+[Amazon Bedrock yapÄ±landÄ±rmasÄ± hakkÄ±nda daha fazla bilgi](/docs/providers#amazon-bedrock).
+
+---
+
+### Temalar
+
+voracode yapÄ±landÄ±rmanÄ±zda kullanmak istediÄŸiniz temayÄ± `theme` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla yapÄ±landÄ±rabilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "theme": ""
+}
+```
+
+[Daha fazla bilgi](/docs/themes).
+
+---
+
+### Agent'lar
+
+`agent` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla Ã¶zel gÃ¶revlere yÃ¶nelik Ã¶zel agent'larÄ± yapÄ±landÄ±rabilirsiniz.
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "code-reviewer": {
+      "description": "Reviews code for best practices and potential issues",
+      "model": "anthropic/claude-sonnet-4-5",
+      "prompt": "You are a code reviewer. Focus on security, performance, and maintainability.",
+      "tools": {
+        // Disable file modification tools for review-only agent
+        "write": false,
+        "edit": false,
+        "bash": true,
+      },
+    },
+  },
+}
+```
+
+Agent'larÄ± `~/.config/voracode/agents/` veya `.voracode/agents/` iÃ§indeki Markdown dosyalarÄ±yla da tanÄ±mlayabilirsiniz. [Daha fazla bilgi](/docs/agents).
+
+---
+
+### VarsayÄ±lan agent
+
+`default_agent` seÃ§eneÄŸini kullanarak varsayÄ±lan agent'Ä± ayarlayabilirsiniz. Bu, hiÃ§biri aÃ§Ä±kÃ§a belirtilmediÄŸinde hangi agent'Ä±n kullanÄ±lacaÄŸÄ±nÄ± belirler.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "default_agent": "plan"
+}
+```
+
+VarsayÄ±lan agent, birincil agent olmalÄ±dÄ±r (alt agent deÄŸil). Bu, `"build"` veya `"plan"` gibi yerleÅŸik bir agent ya da tanÄ±mladÄ±ÄŸÄ±nÄ±z bir [Ã¶zel agent](/docs/agents) olabilir. Belirtilen agent mevcut deÄŸilse veya bir alt agent ise, voracode bir uyarÄ±yla birlikte `"build"`'ye geri dÃ¶ner.
+
+Bu ayar tÃ¼m arayÃ¼zler iÃ§in geÃ§erlidir: TUI, CLI (`voracode run`), masaÃ¼stÃ¼ uygulamasÄ± ve GitHub Action.
+
+---
+
+### PaylaÅŸma
+
+[share](/docs/share) Ã¶zelliÄŸini `share` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla yapÄ±landÄ±rabilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "manual"
+}
+```
+
+Bu ÅŸunlarÄ± gerektirir:
+
+- `"manual"` - Komutlar aracÄ±lÄ±ÄŸÄ±yla manuel paylaÅŸÄ±ma izin ver (varsayÄ±lan)
+- `"auto"` - Yeni konuÅŸmalarÄ± otomatik olarak paylaÅŸ
+- `"disabled"` - PaylaÅŸÄ±mÄ± tamamen devre dÄ±ÅŸÄ± bÄ±rak
+
+VarsayÄ±lan olarak paylaÅŸÄ±m, `/share` komutunu kullanarak konuÅŸmalarÄ± aÃ§Ä±kÃ§a paylaÅŸmanÄ±z gereken manuel moda ayarlanmÄ±ÅŸtÄ±r.
+
+---
+
+### Komutlar
+
+`command` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla tekrarlanan gÃ¶revler iÃ§in Ã¶zel komutlar yapÄ±landÄ±rabilirsiniz.
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "command": {
+    "test": {
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
+      "description": "Run tests with coverage",
+      "agent": "build",
+      "model": "anthropic/claude-haiku-4-5",
+    },
+    "component": {
+      "template": "Create a new React component named $ARGUMENTS with TypeScript support.\nInclude proper typing and basic structure.",
+      "description": "Create a new component",
+    },
+  },
+}
+```
+
+KomutlarÄ± `~/.config/voracode/commands/` veya `.voracode/commands/` iÃ§indeki Markdown dosyalarÄ±yla da tanÄ±mlayabilirsiniz. [Daha fazla bilgi](/docs/commands).
+
+---
+
+### TuÅŸ atamalarÄ±
+
+TuÅŸ atamalarÄ±nÄ±zÄ± `keybinds` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla Ã¶zelleÅŸtirebilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "keybinds": {}
+}
+```
+
+[Daha fazla bilgi](/docs/keybinds).
+
+---
+
+### Otomatik GÃ¼ncelleme
+
+voracode baÅŸlatÄ±ldÄ±ÄŸÄ±nda yeni gÃ¼ncellemeleri otomatik olarak indirecektir. Bunu `autoupdate` seÃ§eneÄŸiyle devre dÄ±ÅŸÄ± bÄ±rakabilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "autoupdate": false
+}
+```
+
+GÃ¼ncelleme istemiyor ancak yeni bir sÃ¼rÃ¼m mevcut olduÄŸunda bilgilendirilmek istiyorsanÄ±z `autoupdate` Ã¶ÄŸesini `"notify"` olarak ayarlayÄ±n.
+Bunun yalnÄ±zca Homebrew gibi bir paket yÃ¶neticisi kullanÄ±larak yÃ¼klenmemiÅŸse iÅŸe yaradÄ±ÄŸÄ±na dikkat edin.
+
+---
+
+### BiÃ§imlendiriciler
+
+Kod formatlayÄ±cÄ±larÄ±nÄ± `formatter` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla yapÄ±landÄ±rabilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {
+    "prettier": {
+      "disabled": true
+    },
+    "custom-prettier": {
+      "command": ["npx", "prettier", "--write", "$FILE"],
+      "environment": {
+        "NODE_ENV": "development"
+      },
+      "extensions": [".js", ".ts", ".jsx", ".tsx"]
+    }
+  }
+}
+```
+
+[Formatter'lar hakkÄ±nda daha fazla bilgi](/docs/formatters).
+
+---
+
+### Ä°zinler
+
+VarsayÄ±lan olarak, voracode aÃ§Ä±k bir onay gerektirmeden **tÃ¼m iÅŸlemlere izin verir**. `permission` seÃ§eneÄŸini kullanarak bunu deÄŸiÅŸtirebilirsiniz.
+
+Ã–rneÄŸin, `edit` ve `bash` araÃ§larÄ±nÄ±n kullanÄ±cÄ± onayÄ± gerektirdiÄŸinden emin olmak iÃ§in:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "ask",
+    "bash": "ask"
+  }
+}
+```
+
+[Ä°zinler hakkÄ±nda daha fazla bilgi](/docs/permissions).
+
+---
+
+### SÄ±kÄ±ÅŸtÄ±rma
+
+BaÄŸlam sÄ±kÄ±ÅŸtÄ±rma davranÄ±ÅŸÄ±nÄ± `compaction` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla kontrol edebilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "compaction": {
+    "auto": true,
+    "prune": false,
+    "reserved": 10000
+  }
+}
+```
+
+- `auto` - BaÄŸlam dolduÄŸunda oturumu otomatik olarak sÄ±kÄ±ÅŸtÄ±rÄ±r (varsayÄ±lan: `true`).
+- `prune` - BelirteÃ§leri kaydetmek iÃ§in eski araÃ§ Ã§Ä±ktÄ±larÄ±nÄ± kaldÄ±rÄ±n (varsayÄ±lan: `false`).
+- `reserved` - SÄ±kÄ±ÅŸtÄ±rma iÃ§in belirteÃ§ tamponu. SÄ±kÄ±ÅŸtÄ±rma sÄ±rasÄ±nda taÅŸmayÄ± Ã¶nlemek iÃ§in yeterli pencere bÄ±rakÄ±r.
+
+---
+
+### Ä°zleyici
+
+Dosya izleyicinin yok sayma kalÄ±plarÄ±nÄ± `watcher` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla yapÄ±landÄ±rabilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "watcher": {
+    "ignore": ["node_modules/**", "dist/**", ".git/**"]
+  }
+}
+```
+
+Desenler glob sÃ¶zdizimini takip eder. GÃ¼rÃ¼ltÃ¼lÃ¼ dizinleri dosya izlemenin dÄ±ÅŸÄ±nda bÄ±rakmak iÃ§in bunu kullanÄ±n.
+
+---
+
+### MCP sunucularÄ±
+
+Kullanmak istediÄŸiniz MCP sunucularÄ±nÄ± `mcp` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla yapÄ±landÄ±rabilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {}
+}
+```
+
+[Daha fazla bilgi](/docs/mcp-servers).
+
+---
+
+### Eklentiler
+
+[Eklentiler](/docs/plugins) voracode'u Ã¶zel araÃ§lar, kancalar ve entegrasyonlarla geniÅŸletin.
+
+Eklenti dosyalarÄ±nÄ± `.voracode/plugins/` veya `~/.config/voracode/plugins/` iÃ§ine yerleÅŸtirin. AyrÄ±ca eklentileri `plugin` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla npm'den de yÃ¼kleyebilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "plugin": ["voracode-helicone-session", "@my-org/custom-plugin"]
+}
+```
+
+[Daha fazla bilgi](/docs/plugins).
+
+---
+
+### Talimatlar
+
+KullandÄ±ÄŸÄ±nÄ±z modele iliÅŸkin talimatlarÄ± `instructions` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla yapÄ±landÄ±rabilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
+}
+```
+
+Bu, talimat dosyalarÄ±na giden bir dizi yolu ve glob desenini alÄ±r. [Kurallar hakkÄ±nda daha fazla bilgiyi buradan edinin](/docs/rules).
+
+---
+
+### Devre dÄ±ÅŸÄ± bÄ±rakÄ±lan saÄŸlayÄ±cÄ±lar
+
+`disabled_providers` seÃ§eneÄŸi aracÄ±lÄ±ÄŸÄ±yla otomatik olarak yÃ¼klenen saÄŸlayÄ±cÄ±larÄ± devre dÄ±ÅŸÄ± bÄ±rakabilirsiniz. Bu, belirli saÄŸlayÄ±cÄ±larÄ±n kimlik bilgileri mevcut olsa bile yÃ¼klenmesini engellemek istediÄŸinizde kullanÄ±ÅŸlÄ±dÄ±r.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "disabled_providers": ["openai", "gemini"]
+}
+```
+
+:::note
+`disabled_providers`, `enabled_providers`'ye gÃ¶re Ã¶nceliklidir.
+:::
+
+`disabled_providers` seÃ§eneÄŸi bir dizi saÄŸlayÄ±cÄ± kimliÄŸini kabul eder. Bir saÄŸlayÄ±cÄ± devre dÄ±ÅŸÄ± bÄ±rakÄ±ldÄ±ÄŸÄ±nda:
+
+- Ortam deÄŸiÅŸkenleri ayarlanmÄ±ÅŸ olsa bile yÃ¼klenmez.
+- API anahtarlarÄ± `/connect` komutu aracÄ±lÄ±ÄŸÄ±yla yapÄ±landÄ±rÄ±lsa bile yÃ¼klenmeyecektir.
+- SaÄŸlayÄ±cÄ±nÄ±n modelleri, model seÃ§im listesinde gÃ¶rÃ¼nmez.
+
+---
+
+### Etkin saÄŸlayÄ±cÄ±lar
+
+`enabled_providers` seÃ§eneÄŸini kullanarak saÄŸlayÄ±cÄ±larÄ±n izin verilenler listesini belirtebilirsiniz. AyarlandÄ±ÄŸÄ±nda yalnÄ±zca belirtilen saÄŸlayÄ±cÄ±lar etkinleÅŸtirilecek ve diÄŸerleri gÃ¶z ardÄ± edilecektir.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "enabled_providers": ["anthropic", "openai"]
+}
+```
+
+Bu, voracode'u tek tek devre dÄ±ÅŸÄ± bÄ±rakmak yerine yalnÄ±zca belirli saÄŸlayÄ±cÄ±larÄ± kullanacak ÅŸekilde kÄ±sÄ±tlamak istediÄŸinizde kullanÄ±ÅŸlÄ±dÄ±r.
+
+:::note
+`disabled_providers`, `enabled_providers`'ye gÃ¶re Ã¶nceliklidir.
+:::
+
+Bir saÄŸlayÄ±cÄ± hem `enabled_providers` hem de `disabled_providers`'de gÃ¶rÃ¼nÃ¼yorsa, geriye dÃ¶nÃ¼k uyumluluk iÃ§in `disabled_providers` Ã¶nceliÄŸe sahiptir.
+
+---
+
+### Deneysel
+
+`experimental` anahtarÄ± aktif olarak geliÅŸtirilmekte olan seÃ§enekleri iÃ§erir.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "experimental": {}
+}
+```
+
+:::caution
+Deneysel seÃ§enekler kararlÄ± deÄŸildir. Bildirim yapÄ±lmaksÄ±zÄ±n deÄŸiÅŸebilir veya kaldÄ±rÄ±labilirler.
+:::
+
+---
+
+## DeÄŸiÅŸkenler
+
+Ortam deÄŸiÅŸkenlerine ve dosya iÃ§eriklerine referans vermek iÃ§in yapÄ±landÄ±rma dosyalarÄ±nÄ±zda deÄŸiÅŸken deÄŸiÅŸtirmeyi kullanabilirsiniz.
+
+---
+
+### Ortam deÄŸiÅŸkenleri
+
+Ortam deÄŸiÅŸkenlerini deÄŸiÅŸtirmek iÃ§in `{env:VARIABLE_NAME}` kullanÄ±n:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "model": "{env:VORACODE_MODEL}",
+  "provider": {
+    "anthropic": {
+      "models": {},
+      "options": {
+        "apiKey": "{env:ANTHROPIC_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+Ortam deÄŸiÅŸkeni ayarlanmamÄ±ÅŸsa boÅŸ bir dizeyle deÄŸiÅŸtirilecektir.
+
+---
+
+### Dosyalar
+
+Bir dosyanÄ±n biÃ§imini deÄŸiÅŸtirmek iÃ§in `{file:path/to/file}` kullanÄ±n:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["./custom-instructions.md"],
+  "provider": {
+    "openai": {
+      "options": {
+        "apiKey": "{file:~/.secrets/openai-key}"
+      }
+    }
+  }
+}
+```
+
+Dosya yollarÄ± ÅŸunlar olabilir:
+
+- YapÄ±landÄ±rma dosyasÄ± dizinine gÃ¶re
+- Veya `/` veya `~` ile baÅŸlayan mutlak yollar
+
+Bunlar aÅŸaÄŸÄ±dakiler iÃ§in faydalÄ±dÄ±r:
+
+- API anahtarlarÄ± gibi hassas verileri ayrÄ± dosyalarda tutmak.
+- YapÄ±landÄ±rmanÄ±zÄ± karmaÅŸÄ±klaÅŸtÄ±rmadan bÃ¼yÃ¼k talimat dosyalarÄ± iÃ§erir.
+- Birden fazla yapÄ±landÄ±rma dosyasÄ±nda ortak yapÄ±landÄ±rma parÃ§acÄ±klarÄ±nÄ±n paylaÅŸÄ±lmasÄ±.

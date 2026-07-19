@@ -1,0 +1,195 @@
+---
+title: GitLab
+description: GitLab ì´ìŠˆì™€ merge requestì—ì„œ Voracodeë¥¼ ì‚¬ìš©í•˜ì„¸ìš”.
+---
+
+VoracodeëŠ” GitLab CI/CD íŒŒì´í”„ë¼ì¸ ë˜ëŠ” GitLab Duoë¥¼ í†µí•´ GitLab ì›Œí¬í”Œë¡œì— í†µí•©ë©ë‹ˆë‹¤.
+
+ë‘ ê²½ìš° ëª¨ë‘ VoracodeëŠ” GitLab runnerì—ì„œ ì‹¤í–‰ë©ë‹ˆë‹¤.
+
+---
+
+## GitLab CI
+
+VoracodeëŠ” ì¼ë°˜ GitLab íŒŒì´í”„ë¼ì¸ì—ì„œ ìž‘ë™í•©ë‹ˆë‹¤. [CI component](https://docs.gitlab.com/ee/ci/components/)ë¡œ íŒŒì´í”„ë¼ì¸ì— í†µí•©í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+ì—¬ê¸°ì„œëŠ” Voracodeìš© ì»¤ë®¤ë‹ˆí‹° ì œìž‘ CI/CD componentì¸ [nagyv/gitlab-voracode](https://gitlab.com/nagyv/gitlab-voracode)ë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+
+---
+
+### ê¸°ëŠ¥
+
+- **jobë³„ custom config ì‚¬ìš©**: custom config ë””ë ‰í„°ë¦¬(ì˜ˆ: `./config/#custom-directory`)ë¥¼ ì‚¬ìš©í•´ Voracodeë¥¼ ê° ì‹¤í–‰ ë‹¨ìœ„ë¡œ ì„¤ì •í•˜ê³  ê¸°ëŠ¥ì„ ì¼œê±°ë‚˜ ëŒ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+- **ìµœì†Œ ì„¤ì •**: CI componentê°€ ë°±ê·¸ë¼ìš´ë“œì—ì„œ Voracodeë¥¼ ì„¤ì •í•˜ë¯€ë¡œ Voracode configì™€ ì´ˆê¸° promptë§Œ ë§Œë“¤ë©´ ë©ë‹ˆë‹¤.
+- **ìœ ì—°í•¨**: CI componentëŠ” ë™ìž‘ì„ ì‚¬ìš©ìží™”í•  ìˆ˜ ìžˆë„ë¡ ì—¬ëŸ¬ ìž…ë ¥ê°’ì„ ì§€ì›í•©ë‹ˆë‹¤.
+
+---
+
+### Setup
+
+1. Voracode ì¸ì¦ JSONì„ **Settings** > **CI/CD** > **Variables** ì•„ëž˜ì˜ File íƒ€ìž… CI í™˜ê²½ ë³€ìˆ˜ë¡œ ì €ìž¥í•˜ì„¸ìš”. ë°˜ë“œì‹œ "Masked and hidden"ìœ¼ë¡œ í‘œì‹œí•˜ì„¸ìš”.
+2. ì•„ëž˜ ë‚´ìš©ì„ `.gitlab-ci.yml` íŒŒì¼ì— ì¶”ê°€í•˜ì„¸ìš”.
+
+   ```yaml title=".gitlab-ci.yml"
+   include:
+     - component: $CI_SERVER_FQDN/nagyv/gitlab-voracode/voracode@2
+       inputs:
+         config_dir: ${CI_PROJECT_DIR}/voracode-config
+         auth_json: $VORACODE_AUTH_JSON # The variable name for your Voracode authentication JSON
+         command: optional-custom-command
+         message: "Your prompt here"
+   ```
+
+ë” ë§Žì€ ìž…ë ¥ê°’ê³¼ ì‚¬ìš© ì‚¬ë¡€ëŠ” ì´ componentì˜ [docs](https://gitlab.com/explore/catalog/nagyv/gitlab-voracode)ì—ì„œ í™•ì¸í•˜ì„¸ìš”.
+
+---
+
+## GitLab Duo
+
+VoracodeëŠ” GitLab ì›Œí¬í”Œë¡œì— í†µí•©ë©ë‹ˆë‹¤.
+ëŒ“ê¸€ì—ì„œ `@voracode`ë¥¼ ë©˜ì…˜í•˜ë©´ Voracodeê°€ GitLab CI íŒŒì´í”„ë¼ì¸ ì•ˆì—ì„œ ìž‘ì—…ì„ ì‹¤í–‰í•©ë‹ˆë‹¤.
+
+---
+
+### ê¸°ëŠ¥
+
+- **ì´ìŠˆ ë¶„ë¥˜**: Voracodeì— ì´ìŠˆë¥¼ ì‚´íŽ´ë³´ê³  ì„¤ëª…í•´ ë‹¬ë¼ê³  ìš”ì²­í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+- **ìˆ˜ì • ë° êµ¬í˜„**: Voracodeì— ì´ìŠˆë¥¼ ìˆ˜ì •í•˜ê±°ë‚˜ ê¸°ëŠ¥ì„ êµ¬í˜„í•´ ë‹¬ë¼ê³  ìš”ì²­í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+  VoracodeëŠ” ìƒˆ ë¸Œëžœì¹˜ë¥¼ ë§Œë“¤ê³  ë³€ê²½ ì‚¬í•­ì´ ë‹´ê¸´ merge requestë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
+- **ë³´ì•ˆ**: VoracodeëŠ” GitLab runnerì—ì„œ ì‹¤í–‰ë©ë‹ˆë‹¤.
+
+---
+
+### Setup
+
+VoracodeëŠ” GitLab CI/CD íŒŒì´í”„ë¼ì¸ì—ì„œ ì‹¤í–‰ë˜ë©°, ì„¤ì •ì— í•„ìš”í•œ í•­ëª©ì€ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.
+
+:::tip
+[ìµœì‹  ì•ˆë‚´ëŠ” **GitLab docs**](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/)ë¥¼ í™•ì¸í•˜ì„¸ìš”.
+:::
+
+1.  GitLab í™˜ê²½ì„ ì„¤ì •í•©ë‹ˆë‹¤.
+2.  CI/CDë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
+3.  AI model provider API í‚¤ë¥¼ ì¤€ë¹„í•©ë‹ˆë‹¤.
+4.  ì„œë¹„ìŠ¤ ê³„ì •ì„ ìƒì„±í•©ë‹ˆë‹¤.
+5.  CI/CD ë³€ìˆ˜ë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
+6.  flow config íŒŒì¼ì„ ìƒì„±í•©ë‹ˆë‹¤. ì˜ˆì‹œëŠ” ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.
+
+        <details>
+
+    <summary>Flow configuration</summary>
+
+    ```yaml
+    image: node:22-slim
+    commands:
+      - echo "Installing voracode"
+      - npm install --global voracode-ai
+      - echo "Installing glab"
+      - export GITLAB_TOKEN=$GITLAB_TOKEN_VORACODE
+      - apt-get update --quiet && apt-get install --yes curl wget gpg git && rm --recursive --force /var/lib/apt/lists/*
+      - curl --silent --show-error --location "https://raw.githubusercontent.com/upciti/wakemeops/main/assets/install_repository" | bash
+      - apt-get install --yes glab
+      - echo "Configuring glab"
+      - echo $GITLAB_HOST
+      - echo "Creating Voracode auth configuration"
+      - mkdir --parents ~/.local/share/voracode
+      - |
+        cat > ~/.local/share/voracode/auth.json << EOF
+        {
+          "anthropic": {
+            "type": "api",
+            "key": "$ANTHROPIC_API_KEY"
+          }
+        }
+        EOF
+      - echo "Configuring git"
+      - git config --global user.email "voracode@gitlab.com"
+      - git config --global user.name "Voracode"
+      - echo "Testing glab"
+      - glab issue list
+      - echo "Running Voracode"
+      - |
+        voracode run "
+        You are an AI assistant helping with GitLab operations.
+
+        Context: $AI_FLOW_CONTEXT
+        Task: $AI_FLOW_INPUT
+        Event: $AI_FLOW_EVENT
+
+        Please execute the requested task using the available GitLab tools.
+        Be thorough in your analysis and provide clear explanations.
+
+        <important>
+        Please use the glab CLI to access data from GitLab. The glab CLI has already been authenticated. You can run the corresponding commands.
+
+        If you are asked to summarize an MR or issue or asked to provide more information then please post back a note to the MR/Issue so that the user can see it.
+        You don't need to commit or push up changes, those will be done automatically based on the file changes you make.
+        </important>
+        "
+      - git checkout --branch $CI_WORKLOAD_REF origin/$CI_WORKLOAD_REF
+      - echo "Checking for git changes and pushing if any exist"
+      - |
+        if ! git diff --quiet || ! git diff --cached --quiet || [ --not --zero "$(git ls-files --others --exclude-standard)" ]; then
+          echo "Git changes detected, adding and pushing..."
+          git add .
+          if git diff --cached --quiet; then
+            echo "No staged changes to commit"
+          else
+            echo "Committing changes to branch: $CI_WORKLOAD_REF"
+            git commit --message "Codex changes"
+            echo "Pushing changes up to $CI_WORKLOAD_REF"
+            git push https://gitlab-ci-token:$GITLAB_TOKEN@$GITLAB_HOST/gl-demo-ultimate-dev-ai-epic-17570/test-java-project.git $CI_WORKLOAD_REF
+            echo "Changes successfully pushed"
+          fi
+        else
+          echo "No git changes detected, skipping push"
+        fi
+    variables:
+      - ANTHROPIC_API_KEY
+      - GITLAB_TOKEN_VORACODE
+      - GITLAB_HOST
+    ```
+
+        </details>
+
+[GitLab CLI agents docs](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/)ì—ì„œ ìžì„¸í•œ ì•ˆë‚´ë¥¼ í™•ì¸í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+---
+
+### ì˜ˆì œ
+
+ë‹¤ìŒì€ GitLabì—ì„œ Voracodeë¥¼ ì‚¬ìš©í•˜ëŠ” ëª‡ ê°€ì§€ ì˜ˆì‹œìž…ë‹ˆë‹¤.
+
+:::tip
+`@voracode` ëŒ€ì‹  ë‹¤ë¥¸ trigger phraseë¥¼ ì‚¬ìš©í•˜ë„ë¡ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+:::
+
+- **ì´ìŠˆ ì„¤ëª…**
+
+GitLab ì´ìŠˆì— ì•„ëž˜ ëŒ“ê¸€ì„ ë‚¨ê¸°ì„¸ìš”.
+
+```
+  @voracode explain this issue
+```
+
+Voracodeê°€ ì´ìŠˆë¥¼ ì½ê³  ëª…í™•í•œ ì„¤ëª…ìœ¼ë¡œ ë‹µë³€í•©ë‹ˆë‹¤.
+
+- **ì´ìŠˆ í•´ê²°**
+
+GitLab ì´ìŠˆì—ì„œ ë‹¤ìŒê³¼ ê°™ì´ ìš”ì²­í•˜ì„¸ìš”.
+
+```
+  @voracode fix this
+```
+
+Voracodeê°€ ìƒˆ ë¸Œëžœì¹˜ë¥¼ ë§Œë“¤ê³  ë³€ê²½ ì‚¬í•­ì„ êµ¬í˜„í•œ ë’¤, í•´ë‹¹ ë³€ê²½ ì‚¬í•­ìœ¼ë¡œ merge requestë¥¼ ì—½ë‹ˆë‹¤.
+
+- **ë¨¸ì§€ ë¦¬í€˜ìŠ¤íŠ¸ ê²€í† **
+
+GitLab merge requestì— ì•„ëž˜ ëŒ“ê¸€ì„ ë‚¨ê¸°ì„¸ìš”.
+
+```
+  @voracode review this merge request
+```
+
+Voracodeê°€ merge requestë¥¼ ê²€í† í•˜ê³  í”¼ë“œë°±ì„ ì œê³µí•©ë‹ˆë‹¤.

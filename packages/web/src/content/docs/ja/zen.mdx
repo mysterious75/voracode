@@ -1,0 +1,313 @@
+---
+title: Voracode Zen
+description: Voracode ã«ã‚ˆã£ã¦æä¾›ã•ã‚Œã‚‹ãƒ¢ãƒ‡ãƒ«ã®åŽ³é¸ã•ã‚ŒãŸãƒªã‚¹ãƒˆã€‚
+---
+
+import config from "../../../../config.mjs"
+export const console = config.console
+export const email = `mailto:${config.email}`
+
+Voracode Zen ã¯ã€Voracode ãƒãƒ¼ãƒ ãŒæä¾›ã™ã‚‹ã€ãƒ†ã‚¹ãƒˆæ¸ˆã¿ã‹ã¤æ¤œè¨¼æ¸ˆã¿ã®ãƒ¢ãƒ‡ãƒ«ã®ä¸€è¦§ã§ã™ã€‚
+
+Zen ã¯ Voracode ã®ã»ã‹ã®ãƒ—ãƒ­ãƒã‚¤ãƒ€ãƒ¼ã¨åŒã˜ã‚ˆã†ã«å‹•ä½œã—ã¾ã™ã€‚Voracode Zen ã«ãƒ­ã‚°ã‚¤ãƒ³ã—ã¦ API ã‚­ãƒ¼ã‚’å–å¾—ã§ãã¾ã™ã€‚ã“ã‚Œã¯ **å®Œå…¨ã«ã‚ªãƒ—ã‚·ãƒ§ãƒ³** ã§ã‚ã‚Šã€Voracode ã‚’ä½¿ã†ãŸã‚ã«å¿…é ˆã§ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚
+
+---
+
+## èƒŒæ™¯
+
+ä¸–ã®ä¸­ã«ã¯éžå¸¸ã«å¤šãã®ãƒ¢ãƒ‡ãƒ«ãŒã‚ã‚Šã¾ã™ãŒã€ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã¨ã—ã¦ååˆ†ã«æ©Ÿèƒ½ã™ã‚‹ã‚‚ã®ã¯ã”ãä¸€éƒ¨ã§ã™ã€‚ã•ã‚‰ã«ã€ã»ã¨ã‚“ã©ã®ãƒ—ãƒ­ãƒã‚¤ãƒ€ãƒ¼ã¯è¨­å®šãŒå¤§ããç•°ãªã‚‹ãŸã‚ã€å¾—ã‚‰ã‚Œã‚‹ãƒ‘ãƒ•ã‚©ãƒ¼ãƒžãƒ³ã‚¹ã‚„å“è³ªã«ã‚‚å¤§ããªå·®ãŒå‡ºã¾ã™ã€‚
+
+:::tip
+Voracode ã§ã†ã¾ãå‹•ä½œã™ã‚‹ã€åŽ³é¸ã—ãŸãƒ¢ãƒ‡ãƒ«ã¨ãƒ—ãƒ­ãƒã‚¤ãƒ€ãƒ¼ã®çµ„ã¿åˆã‚ã›ã‚’ãƒ†ã‚¹ãƒˆã—ã¾ã—ãŸã€‚
+:::
+
+ãã®ãŸã‚ã€OpenRouter ã®ã‚ˆã†ãªã‚‚ã®ã‚’é€šã˜ã¦ãƒ¢ãƒ‡ãƒ«ã‚’ä½¿ã£ã¦ã„ã‚‹å ´åˆã€æ¬²ã—ã„ãƒ¢ãƒ‡ãƒ«ã®æœ€é©ãªãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’æœ¬å½“ã«ä½¿ãˆã¦ã„ã‚‹ã‹ã‚’åˆ¤æ–­ã™ã‚‹ã®ã¯å›°é›£ã§ã™ã€‚
+
+ã“ã‚Œã‚’è§£æ±ºã™ã‚‹ãŸã‚ã«ã€ç§ãŸã¡ã¯ã„ãã¤ã‹ã®ã“ã¨ã‚’è¡Œã„ã¾ã—ãŸã€‚
+
+1. åŽ³é¸ã—ãŸãƒ¢ãƒ‡ãƒ«ç¾¤ã‚’ãƒ†ã‚¹ãƒˆã—ã€ãã‚Œãžã‚Œã®ãƒãƒ¼ãƒ ã¨ã€æœ€é©ãªå‹•ã‹ã—æ–¹ã«ã¤ã„ã¦è©±ã—åˆã„ã¾ã—ãŸã€‚
+2. ãã®ã†ãˆã§ã€ã„ãã¤ã‹ã®ãƒ—ãƒ­ãƒã‚¤ãƒ€ãƒ¼ã¨é€£æºã—ã€ãã‚Œã‚‰ãŒæ­£ã—ãæä¾›ã•ã‚Œã‚‹ã‚ˆã†ã«ã—ã¾ã—ãŸã€‚
+3. æœ€å¾Œã«ã€ãƒ¢ãƒ‡ãƒ«ã¨ãƒ—ãƒ­ãƒã‚¤ãƒ€ãƒ¼ã®çµ„ã¿åˆã‚ã›ã‚’ãƒ™ãƒ³ãƒãƒžãƒ¼ã‚¯ã—ã€è‡ªä¿¡ã‚’æŒã£ã¦ãŠã™ã™ã‚ã§ãã‚‹ä¸€è¦§ã‚’ä½œæˆã—ã¾ã—ãŸã€‚
+
+Voracode Zen ã¯ã€ã“ã‚Œã‚‰ã®ãƒ¢ãƒ‡ãƒ«ã«ã‚¢ã‚¯ã‚»ã‚¹ã§ãã‚‹ AI ã‚²ãƒ¼ãƒˆã‚¦ã‚§ã‚¤ã§ã™ã€‚
+
+---
+
+## ä»•çµ„ã¿
+
+Voracode Zen ã¯ã€Voracode ã®ã»ã‹ã®ãƒ—ãƒ­ãƒã‚¤ãƒ€ãƒ¼ã¨åŒã˜ã‚ˆã†ã«å‹•ä½œã—ã¾ã™ã€‚
+
+1. **<a href={console}>Voracode Zen</a>** ã«ã‚µã‚¤ãƒ³ã‚¤ãƒ³ã—ã€è«‹æ±‚æƒ…å ±ã‚’è¿½åŠ ã—ã¦ã€API ã‚­ãƒ¼ã‚’ã‚³ãƒ”ãƒ¼ã—ã¾ã™ã€‚
+2. TUI ã§ `/connect` ã‚³ãƒžãƒ³ãƒ‰ã‚’å®Ÿè¡Œã—ã€Voracode Zen ã‚’é¸ã‚“ã§ API ã‚­ãƒ¼ã‚’è²¼ã‚Šä»˜ã‘ã¾ã™ã€‚
+3. TUI ã§ `/models` ã‚’å®Ÿè¡Œã™ã‚‹ã¨ã€ç§ãŸã¡ãŒãŠã™ã™ã‚ã™ã‚‹ãƒ¢ãƒ‡ãƒ«ã®ä¸€è¦§ã‚’ç¢ºèªã§ãã¾ã™ã€‚
+
+æ–™é‡‘ã¯ãƒªã‚¯ã‚¨ã‚¹ãƒˆã”ã¨ã«ç™ºç”Ÿã—ã€ã‚¢ã‚«ã‚¦ãƒ³ãƒˆã«ã‚¯ãƒ¬ã‚¸ãƒƒãƒˆã‚’è¿½åŠ ã§ãã¾ã™ã€‚
+
+---
+
+## ã‚¨ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆ
+
+ä»¥ä¸‹ã® API ã‚¨ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆã‚’é€šã˜ã¦ã€ç§ãŸã¡ã®ãƒ¢ãƒ‡ãƒ«ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹ã“ã¨ã‚‚ã§ãã¾ã™ã€‚
+
+| Model                  | Model ID               | Endpoint                                             | AI SDK Package              |
+| ---------------------- | ---------------------- | ---------------------------------------------------- | --------------------------- |
+| GPT 5.6 Sol            | gpt-5.6-sol            | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.6 Terra          | gpt-5.6-terra          | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.6 Luna           | gpt-5.6-luna           | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.5                | gpt-5.5                | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.5 Pro            | gpt-5.5-pro            | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4                | gpt-5.4                | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4 Pro            | gpt-5.4-pro            | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4 Mini           | gpt-5.4-mini           | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4 Nano           | gpt-5.4-nano           | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.3 Codex          | gpt-5.3-codex          | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.3 Codex Spark    | gpt-5.3-codex-spark    | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.2                | gpt-5.2                | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.2 Codex          | gpt-5.2-codex          | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1                | gpt-5.1                | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1 Codex          | gpt-5.1-codex          | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1 Codex Max      | gpt-5.1-codex-max      | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1 Codex Mini     | gpt-5.1-codex-mini     | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5                  | gpt-5                  | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5 Codex            | gpt-5-codex            | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5 Nano             | gpt-5-nano             | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| Claude Fable 5         | claude-fable-5         | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.8        | claude-opus-4-8        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.7        | claude-opus-4-7        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.6        | claude-opus-4-6        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.5        | claude-opus-4-5        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Sonnet 5        | claude-sonnet-5        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Sonnet 4.6      | claude-sonnet-4-6      | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Sonnet 4.5      | claude-sonnet-4-5      | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Haiku 4.5       | claude-haiku-4-5       | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Gemini 3.5 Flash       | gemini-3.5-flash       | `https://voracode.ai/zen/v1/models/gemini-3.5-flash` | `@ai-sdk/google`            |
+| Gemini 3.1 Pro         | gemini-3.1-pro         | `https://voracode.ai/zen/v1/models/gemini-3.1-pro`   | `@ai-sdk/google`            |
+| Gemini 3 Flash         | gemini-3-flash         | `https://voracode.ai/zen/v1/models/gemini-3-flash`   | `@ai-sdk/google`            |
+| Qwen3.7 Max            | qwen3.7-max            | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Qwen3.7 Plus           | qwen3.7-plus           | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Qwen3.6 Plus           | qwen3.6-plus           | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Qwen3.5 Plus           | qwen3.5-plus           | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| DeepSeek V4 Pro        | deepseek-v4-pro        | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| DeepSeek V4 Flash      | deepseek-v4-flash      | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| MiniMax M3             | minimax-m3             | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| MiniMax M2.7           | minimax-m2.7           | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| MiniMax M2.5           | minimax-m2.5           | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| GLM 5.2                | glm-5.2                | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| GLM 5.1                | glm-5.1                | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| GLM 5                  | glm-5                  | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Kimi K2.5              | kimi-k2.5              | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Kimi K2.6              | kimi-k2.6              | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Kimi K2.7 Code         | kimi-k2.7-code         | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Grok 4.5               | grok-4.5               | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Grok Build 0.1         | grok-build-0.1         | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Big Pickle             | big-pickle             | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| MiMo-V2.5 Free         | mimo-v2.5-free         | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| North Mini Code Free   | north-mini-code-free   | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Nemotron 3 Ultra Free  | nemotron-3-ultra-free  | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| DeepSeek V4 Flash Free | deepseek-v4-flash-free | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+
+Voracode è¨­å®šã§ä½¿ã† [model id](/docs/config/#models) ã¯ `voracode/<model-id>` å½¢å¼ã§ã™ã€‚ãŸã¨ãˆã°ã€GPT 5.5 ã§ã¯è¨­å®šã« `voracode/gpt-5.5` ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
+
+---
+
+### ãƒ¢ãƒ‡ãƒ«
+
+åˆ©ç”¨å¯èƒ½ãªãƒ¢ãƒ‡ãƒ«ã¨ãã®ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿ã®å®Œå…¨ãªä¸€è¦§ã¯ã€æ¬¡ã‹ã‚‰å–å¾—ã§ãã¾ã™ã€‚
+
+```
+https://voracode.ai/zen/v1/models
+```
+
+---
+
+## ä¾¡æ ¼
+
+å¾“é‡èª²é‡‘åˆ¶ã‚’ã‚µãƒãƒ¼ãƒˆã—ã¦ã„ã¾ã™ã€‚ä»¥ä¸‹ã¯ **100ä¸‡ãƒˆãƒ¼ã‚¯ãƒ³ã‚ãŸã‚Š** ã®ä¾¡æ ¼ã§ã™ã€‚
+
+| Model                             | Input  | Output  | Cached Read | Cached Write |
+| --------------------------------- | ------ | ------- | ----------- | ------------ |
+| Big Pickle                        | Free   | Free    | Free        | -            |
+| DeepSeek V4 Flash Free            | Free   | Free    | Free        | -            |
+| MiMo-V2.5 Free                    | Free   | Free    | Free        | -            |
+| North Mini Code Free              | Free   | Free    | Free        | -            |
+| Nemotron 3 Ultra Free             | Free   | Free    | Free        | -            |
+| MiniMax M3                        | $0.30  | $1.20   | $0.06       | -            |
+| MiniMax M2.7                      | $0.30  | $1.20   | $0.06       | -            |
+| MiniMax M2.5                      | $0.30  | $1.20   | $0.06       | -            |
+| GLM 5.2                           | $1.40  | $4.40   | $0.26       | -            |
+| GLM 5.1                           | $1.40  | $4.40   | $0.26       | -            |
+| GLM 5                             | $1.00  | $3.20   | $0.20       | -            |
+| Kimi K2.7 Code                    | $0.95  | $4.00   | $0.19       | -            |
+| Kimi K2.6                         | $0.95  | $4.00   | $0.16       | -            |
+| Kimi K2.5                         | $0.60  | $3.00   | $0.10       | -            |
+| Qwen3.7 Max                       | $2.50  | $7.50   | $0.50       | $3.125       |
+| Qwen3.7 Plus                      | $0.40  | $1.60   | $0.04       | $0.50        |
+| Qwen3.6 Plus                      | $0.50  | $3.00   | $0.05       | $0.625       |
+| Qwen3.5 Plus                      | $0.20  | $1.20   | $0.02       | $0.25        |
+| DeepSeek V4 Pro                   | $1.74  | $3.48   | $0.145      | -            |
+| DeepSeek V4 Flash                 | $0.14  | $0.28   | $0.028      | -            |
+| Grok 4.5 (â‰¤ 200K tokens)          | $2.00  | $6.00   | $0.50       | -            |
+| Grok 4.5 (> 200K tokens)          | $4.00  | $12.00  | $1.00       | -            |
+| Grok Build 0.1                    | $1.00  | $2.00   | $0.20       | -            |
+| Claude Fable 5                    | $10.00 | $50.00  | $1.00       | $12.50       |
+| Claude Opus 4.8                   | $5.00  | $25.00  | $0.50       | $6.25        |
+| Claude Opus 4.7                   | $5.00  | $25.00  | $0.50       | $6.25        |
+| Claude Opus 4.6                   | $5.00  | $25.00  | $0.50       | $6.25        |
+| Claude Opus 4.5                   | $5.00  | $25.00  | $0.50       | $6.25        |
+| Claude Sonnet 5                   | $2.00  | $10.00  | $0.20       | $2.50        |
+| Claude Sonnet 4.6                 | $3.00  | $15.00  | $0.30       | $3.75        |
+| Claude Sonnet 4.5 (â‰¤ 200K tokens) | $3.00  | $15.00  | $0.30       | $3.75        |
+| Claude Sonnet 4.5 (> 200K tokens) | $6.00  | $22.50  | $0.60       | $7.50        |
+| Claude Haiku 4.5                  | $1.00  | $5.00   | $0.10       | $1.25        |
+| Gemini 3.5 Flash                  | $1.50  | $9.00   | $0.15       | -            |
+| Gemini 3.1 Pro (â‰¤ 200K tokens)    | $2.00  | $12.00  | $0.20       | -            |
+| Gemini 3.1 Pro (> 200K tokens)    | $4.00  | $18.00  | $0.40       | -            |
+| Gemini 3 Flash                    | $0.50  | $3.00   | $0.05       | -            |
+| GPT 5.6 Sol (â‰¤ 272K tokens)       | $5.00  | $30.00  | $0.50       | $6.25        |
+| GPT 5.6 Sol (> 272K tokens)       | $10.00 | $45.00  | $1.00       | $12.50       |
+| GPT 5.6 Terra (â‰¤ 272K tokens)     | $2.50  | $15.00  | $0.25       | $3.125       |
+| GPT 5.6 Terra (> 272K tokens)     | $5.00  | $22.50  | $0.50       | $6.25        |
+| GPT 5.6 Luna (â‰¤ 272K tokens)      | $1.00  | $6.00   | $0.10       | $1.25        |
+| GPT 5.6 Luna (> 272K tokens)      | $2.00  | $9.00   | $0.20       | $2.50        |
+| GPT 5.5 (â‰¤ 272K tokens)           | $5.00  | $30.00  | $0.50       | -            |
+| GPT 5.5 (> 272K tokens)           | $10.00 | $45.00  | $1.00       | -            |
+| GPT 5.5 Pro                       | $30.00 | $180.00 | $30.00      | -            |
+| GPT 5.4 (â‰¤ 272K tokens)           | $2.50  | $15.00  | $0.25       | -            |
+| GPT 5.4 (> 272K tokens)           | $5.00  | $22.50  | $0.50       | -            |
+| GPT 5.4 Pro                       | $30.00 | $180.00 | $30.00      | -            |
+| GPT 5.4 Mini                      | $0.75  | $4.50   | $0.075      | -            |
+| GPT 5.4 Nano                      | $0.20  | $1.25   | $0.02       | -            |
+| GPT 5.3 Codex Spark               | $1.75  | $14.00  | $0.175      | -            |
+| GPT 5.3 Codex                     | $1.75  | $14.00  | $0.175      | -            |
+| GPT 5.2                           | $1.75  | $14.00  | $0.175      | -            |
+| GPT 5.2 Codex                     | $1.75  | $14.00  | $0.175      | -            |
+| GPT 5.1                           | $1.07  | $8.50   | $0.107      | -            |
+| GPT 5.1 Codex                     | $1.07  | $8.50   | $0.107      | -            |
+| GPT 5.1 Codex Max                 | $1.25  | $10.00  | $0.125      | -            |
+| GPT 5.1 Codex Mini                | $0.25  | $2.00   | $0.025      | -            |
+| GPT 5                             | $1.07  | $8.50   | $0.107      | -            |
+| GPT 5 Codex                       | $1.07  | $8.50   | $0.107      | -            |
+| GPT 5 Nano                        | $0.05  | $0.40   | $0.005      | -            |
+
+ä½¿ç”¨å±¥æ­´ã« _Claude Haiku 3.5_ ãŒè¡¨ç¤ºã•ã‚Œã‚‹ã“ã¨ãŒã‚ã‚Šã¾ã™ã€‚ã“ã‚Œã¯ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®ã‚¿ã‚¤ãƒˆãƒ«ç”Ÿæˆã«ä½¿ã‚ã‚Œã‚‹ [low cost model](/docs/config/#models) ã§ã™ã€‚
+
+:::note
+ã‚¯ãƒ¬ã‚¸ãƒƒãƒˆã‚«ãƒ¼ãƒ‰æ‰‹æ•°æ–™ã¯å®Ÿè²»ã§è»¢å«ã•ã‚Œã¾ã™ï¼ˆå„å–å¼•ã«ã¤ã 4.4% + $0.30ï¼‰ã€‚ãã‚Œä»¥å¤–ã®ä¸Šä¹—ã›ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚
+:::
+
+ç„¡æ–™ãƒ¢ãƒ‡ãƒ«:
+
+- DeepSeek V4 Flash Free ã¯æœŸé–“é™å®šã§ Voracode ã§åˆ©ç”¨ã§ãã¾ã™ã€‚ãƒãƒ¼ãƒ ã¯ã“ã®æœŸé–“ä¸­ã«ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯ã‚’é›†ã‚ã€ãƒ¢ãƒ‡ãƒ«ã‚’æ”¹å–„ã—ã¦ã„ã¾ã™ã€‚
+- MiMo-V2.5 Free ã¯æœŸé–“é™å®šã§ Voracode ã§åˆ©ç”¨ã§ãã¾ã™ã€‚ãƒãƒ¼ãƒ ã¯ã“ã®æœŸé–“ä¸­ã«ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯ã‚’é›†ã‚ã€ãƒ¢ãƒ‡ãƒ«ã‚’æ”¹å–„ã—ã¦ã„ã¾ã™ã€‚
+- North Mini Code Free ã¯æœŸé–“é™å®šã§ Voracode ã§åˆ©ç”¨ã§ãã¾ã™ã€‚ãƒãƒ¼ãƒ ã¯ã“ã®æœŸé–“ä¸­ã«ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯ã‚’é›†ã‚ã€ãƒ¢ãƒ‡ãƒ«ã‚’æ”¹å–„ã—ã¦ã„ã¾ã™ã€‚
+- Nemotron 3 Ultra Free ã¯æœŸé–“é™å®šã§ Voracode ã§åˆ©ç”¨ã§ãã¾ã™ã€‚ãƒãƒ¼ãƒ ã¯ã“ã®æœŸé–“ä¸­ã«ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯ã‚’é›†ã‚ã€ãƒ¢ãƒ‡ãƒ«ã‚’æ”¹å–„ã—ã¦ã„ã¾ã™ã€‚
+- Big Pickle ã¯ã‚¹ãƒ†ãƒ«ã‚¹ãƒ¢ãƒ‡ãƒ«ã§ã€æœŸé–“é™å®šã§ Voracode ã§ç„¡æ–™æä¾›ã•ã‚Œã¦ã„ã¾ã™ã€‚ãƒãƒ¼ãƒ ã¯ã“ã®æœŸé–“ä¸­ã«ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯ã‚’é›†ã‚ã€ãƒ¢ãƒ‡ãƒ«ã‚’æ”¹å–„ã—ã¦ã„ã¾ã™ã€‚
+
+ã”ä¸æ˜Žãªç‚¹ãŒã‚ã‚Œã°ã€<a href={email}>ãŠå•ã„åˆã‚ã›ãã ã•ã„</a>ã€‚
+
+---
+
+### è‡ªå‹•ãƒªãƒ­ãƒ¼ãƒ‰
+
+æ®‹é«˜ãŒ $5 ã‚’ä¸‹å›žã‚‹ã¨ã€Zen ã¯è‡ªå‹•çš„ã« $20 ã‚’ãƒªãƒ­ãƒ¼ãƒ‰ã—ã¾ã™ã€‚
+
+è‡ªå‹•ãƒªãƒ­ãƒ¼ãƒ‰é¡ã¯å¤‰æ›´ã§ãã¾ã™ã€‚ã¾ãŸã€è‡ªå‹•ãƒªãƒ­ãƒ¼ãƒ‰è‡ªä½“ã‚’å®Œå…¨ã«ç„¡åŠ¹åŒ–ã™ã‚‹ã“ã¨ã‚‚ã§ãã¾ã™ã€‚
+
+---
+
+### æœˆæ¬¡ä¸Šé™
+
+ãƒ¯ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹å…¨ä½“ã¨ãƒãƒ¼ãƒ ã®å„ãƒ¡ãƒ³ãƒãƒ¼ã«å¯¾ã—ã¦ã€æœˆã”ã¨ã®åˆ©ç”¨ä¸Šé™ã‚’è¨­å®šã™ã‚‹ã“ã¨ã‚‚ã§ãã¾ã™ã€‚
+
+ãŸã¨ãˆã°ã€æœˆæ¬¡åˆ©ç”¨ä¸Šé™ã‚’ $20 ã«è¨­å®šã—ãŸå ´åˆã€Zen ã¯ 1 ã‹æœˆã§ $20 ã‚’è¶…ãˆã¦ä½¿ã‚ã‚Œã‚‹ã“ã¨ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚ãŸã ã—ã€è‡ªå‹•ãƒªãƒ­ãƒ¼ãƒ‰ãŒæœ‰åŠ¹ã«ãªã£ã¦ã„ã‚‹ã¨ã€æ®‹é«˜ãŒ $5 ã‚’ä¸‹å›žã£ãŸæ™‚ç‚¹ã§ Zen ãŒ $20 ã‚’è‡ªå‹•ãƒãƒ£ãƒ¼ã‚¸ã™ã‚‹ãŸã‚ã€çµæžœã¨ã—ã¦ $20 ã‚’è¶…ãˆã¦è«‹æ±‚ã•ã‚Œã‚‹å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚
+
+---
+
+### éžæŽ¨å¥¨ãƒ¢ãƒ‡ãƒ«
+
+| Model              | Deprecation date  |
+| ------------------ | ----------------- |
+| GPT 5.2 Codex      | July 23, 2026     |
+| GPT 5.1 Codex      | July 23, 2026     |
+| GPT 5.1 Codex Max  | July 23, 2026     |
+| GPT 5.1 Codex Mini | July 23, 2026     |
+| GPT 5 Codex        | July 23, 2026     |
+| Claude Opus 4.1    | August 5, 2026    |
+| Claude Sonnet 4    | June 15, 2026     |
+| Claude Haiku 3.5   | February 16, 2026 |
+| Gemini 3 Pro       | March 9, 2026     |
+| MiniMax M2.5       | August 5, 2026    |
+| MiniMax M2.1       | March 15, 2026    |
+| GLM 5              | May 14, 2026      |
+| GLM 4.7            | March 15, 2026    |
+| GLM 4.6            | March 15, 2026    |
+| Kimi K2.5          | August 5, 2026    |
+| Kimi K2 Thinking   | March 6, 2026     |
+| Kimi K2            | March 6, 2026     |
+| Qwen3 Coder 480B   | February 6, 2026  |
+
+---
+
+## ãƒ—ãƒ©ã‚¤ãƒã‚·ãƒ¼
+
+ã™ã¹ã¦ã®ãƒ¢ãƒ‡ãƒ«ã¯ç±³å›½ã§ãƒ›ã‚¹ãƒˆã•ã‚Œã¦ã„ã¾ã™ã€‚ç§ãŸã¡ã®ãƒ—ãƒ­ãƒã‚¤ãƒ€ãƒ¼ã¯ã‚¼ãƒ­ä¿æŒãƒãƒªã‚·ãƒ¼ã«å¾“ã£ã¦ãŠã‚Šã€ä»¥ä¸‹ã®ä¾‹å¤–ã‚’é™¤ãã€ãƒ¢ãƒ‡ãƒ«å­¦ç¿’ã«ã‚ãªãŸã®ãƒ‡ãƒ¼ã‚¿ã‚’ä½¿ç”¨ã—ã¾ã›ã‚“ã€‚
+
+- Big Pickle: ç„¡æ–™æä¾›æœŸé–“ä¸­ã€åŽé›†ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãŒãƒ¢ãƒ‡ãƒ«æ”¹å–„ã«ä½¿ã‚ã‚Œã‚‹å ´åˆãŒã‚ã‚Šã¾ã™ã€‚
+- DeepSeek V4 Flash Free: ç„¡æ–™æä¾›æœŸé–“ä¸­ã€åŽé›†ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãŒãƒ¢ãƒ‡ãƒ«æ”¹å–„ã«ä½¿ã‚ã‚Œã‚‹å ´åˆãŒã‚ã‚Šã¾ã™ã€‚
+- MiMo-V2.5 Free: ç„¡æ–™æä¾›æœŸé–“ä¸­ã€åŽé›†ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãŒãƒ¢ãƒ‡ãƒ«æ”¹å–„ã«ä½¿ã‚ã‚Œã‚‹å ´åˆãŒã‚ã‚Šã¾ã™ã€‚
+- North Mini Code Free: ç„¡æ–™æä¾›æœŸé–“ä¸­ã€åŽé›†ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã¯ä¿æŒã•ã‚Œã€ãƒ¢ãƒ‡ãƒ«ã®æ”¹å–„ã«ä½¿ç”¨ã•ã‚Œã‚‹å ´åˆãŒã‚ã‚Šã¾ã™ã€‚å€‹äººæƒ…å ±ã‚„æ©Ÿå¯†æƒ…å ±ã‚’é€ä¿¡ã—ãªã„ã§ãã ã•ã„ã€‚è©³ã—ãã¯ã€[åˆ©ç”¨è¦ç´„](https://cohere.com/terms-of-use)ãŠã‚ˆã³[ãƒ—ãƒ©ã‚¤ãƒã‚·ãƒ¼ãƒãƒªã‚·ãƒ¼](https://cohere.com/privacy)ã‚’ã”è¦§ãã ã•ã„ã€‚
+- Nemotron 3 Ultra Freeï¼ˆNVIDIA ã®ç„¡æ–™ã‚¨ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆï¼‰: è©¦ç”¨å°‚ç”¨ã§ã™ â€” å€‹äººæƒ…å ±ã‚„æ©Ÿå¯†ãƒ‡ãƒ¼ã‚¿ã¯é€ä¿¡ã—ãªã„ã§ãã ã•ã„ã€‚ãŠå®¢æ§˜ã®åˆ©ç”¨ã¯ã€ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ç›®çš„ãŠã‚ˆã³ NVIDIA ã®è£½å“ã¨ã‚µãƒ¼ãƒ“ã‚¹ã®æ”¹å–„ã®ãŸã‚ã«è¨˜éŒ²ã•ã‚Œã¾ã™ã€‚æ”¹å–„ç›®çš„ã§è¨˜éŒ²ã•ã‚ŒãŸã‚»ãƒƒã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿ã¯ã€ãŠå®¢æ§˜ã®èº«å…ƒã‚„æ°¸ç¶šçš„ãªè­˜åˆ¥å­ã¨ã¯é–¢é€£ä»˜ã‘ã‚‰ã‚Œã¾ã›ã‚“ã€‚å½“ç¤¾ã®ãƒ‡ãƒ¼ã‚¿å‡¦ç†æ…£è¡Œã®è©³ç´°ã«ã¤ã„ã¦ã¯ã€[ãƒ—ãƒ©ã‚¤ãƒã‚·ãƒ¼ãƒãƒªã‚·ãƒ¼](https://assets.ngc.nvidia.com/products/api-catalog/legal/NVIDIA%20API%20Trial%20Terms%20of%20Service.pdf)ã‚’ã”è¦§ãã ã•ã„ã€‚ã“ã®ã‚¨ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆã‚’åˆ©ç”¨ã™ã‚‹ã“ã¨ã§ã€ãŠå®¢æ§˜ã¯ãã®ã‚ˆã†ãªæƒ…å ±ã®å½“ç¤¾ã«ã‚ˆã‚‹åŽé›†ã€è¨˜éŒ²ã€åˆ©ç”¨ã€ãŠã‚ˆã³ [NVIDIA API Trial Terms of Service](https://assets.ngc.nvidia.com/products/api-catalog/legal/NVIDIA%20API%20Trial%20Terms%20of%20Service.pdf) ã«åŒæ„ã—ãŸã‚‚ã®ã¨ã¿ãªã•ã‚Œã¾ã™ã€‚
+- OpenAI APIs: ãƒªã‚¯ã‚¨ã‚¹ãƒˆã¯ [OpenAI's Data Policies](https://platform.openai.com/docs/guides/your-data) ã«å¾“ã£ã¦ 30 æ—¥é–“ä¿æŒã•ã‚Œã¾ã™ã€‚
+- Anthropic APIs: ãƒªã‚¯ã‚¨ã‚¹ãƒˆã¯ [Anthropic's Data Policies](https://docs.anthropic.com/en/docs/claude-code/data-usage) ã«å¾“ã£ã¦ 30 æ—¥é–“ä¿æŒã•ã‚Œã¾ã™ã€‚
+
+---
+
+## ãƒãƒ¼ãƒ å‘ã‘
+
+Zen ã¯ãƒãƒ¼ãƒ ã§ã‚‚éžå¸¸ã«ä¾¿åˆ©ã§ã™ã€‚ãƒãƒ¼ãƒ ãƒ¡ã‚¤ãƒˆã‚’æ‹›å¾…ã—ã€ãƒ­ãƒ¼ãƒ«ã‚’å‰²ã‚Šå½“ã¦ã€ãƒãƒ¼ãƒ ã§ä½¿ã†ãƒ¢ãƒ‡ãƒ«ã‚’åŽ³é¸ã™ã‚‹ãªã©ã€ã•ã¾ã–ã¾ãªã“ã¨ãŒã§ãã¾ã™ã€‚
+
+:::note
+ãƒ¯ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹ã¯ç¾åœ¨ã€ãƒ™ãƒ¼ã‚¿ã®ä¸€ç’°ã¨ã—ã¦ãƒãƒ¼ãƒ å‘ã‘ã«ç„¡æ–™ã§ã™ã€‚
+:::
+
+ãƒ¯ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹ç®¡ç†ã¯ç¾åœ¨ã€ãƒ™ãƒ¼ã‚¿ã®ä¸€ç’°ã¨ã—ã¦ãƒãƒ¼ãƒ å‘ã‘ã«ç„¡æ–™ã§ã™ã€‚ä¾¡æ ¼ã«ã¤ã„ã¦ã®è©³ç´°ã¯è¿‘æ—¥ä¸­ã«å…±æœ‰ã—ã¾ã™ã€‚
+
+---
+
+### ãƒ­ãƒ¼ãƒ«
+
+ãƒãƒ¼ãƒ ãƒ¡ã‚¤ãƒˆã‚’ãƒ¯ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹ã«æ‹›å¾…ã—ã€ãƒ­ãƒ¼ãƒ«ã‚’å‰²ã‚Šå½“ã¦ã‚‰ã‚Œã¾ã™ã€‚
+
+- **Admin**: ãƒ¢ãƒ‡ãƒ«ã€ãƒ¡ãƒ³ãƒãƒ¼ã€API ã‚­ãƒ¼ã€è«‹æ±‚ã‚’ç®¡ç†ã§ãã¾ã™
+- **Member**: è‡ªåˆ†è‡ªèº«ã® API ã‚­ãƒ¼ã®ã¿ç®¡ç†ã§ãã¾ã™
+
+Admin ã¯ã€ã‚³ã‚¹ãƒˆã‚’æŠ‘ãˆã‚‹ãŸã‚ã«å„ãƒ¡ãƒ³ãƒãƒ¼ã®æœˆæ¬¡æ”¯å‡ºä¸Šé™ã‚’è¨­å®šã™ã‚‹ã“ã¨ã‚‚ã§ãã¾ã™ã€‚
+
+---
+
+### ãƒ¢ãƒ‡ãƒ«ã‚¢ã‚¯ã‚»ã‚¹
+
+Admin ã¯ã€ãƒ¯ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹ã§ç‰¹å®šã®ãƒ¢ãƒ‡ãƒ«ã‚’æœ‰åŠ¹åŒ–ã¾ãŸã¯ç„¡åŠ¹åŒ–ã§ãã¾ã™ã€‚ç„¡åŠ¹åŒ–ã•ã‚ŒãŸãƒ¢ãƒ‡ãƒ«ã¸ã®ãƒªã‚¯ã‚¨ã‚¹ãƒˆã¯ã‚¨ãƒ©ãƒ¼ã«ãªã‚Šã¾ã™ã€‚
+
+ã“ã‚Œã¯ã€ãƒ‡ãƒ¼ã‚¿ã‚’åŽé›†ã™ã‚‹ãƒ¢ãƒ‡ãƒ«ã®åˆ©ç”¨ã‚’ç„¡åŠ¹ã«ã—ãŸã„å ´åˆã«ä¾¿åˆ©ã§ã™ã€‚
+
+---
+
+### Bring your own key
+
+Zen ã®ã»ã‹ã®ãƒ¢ãƒ‡ãƒ«ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ãªãŒã‚‰ã€è‡ªåˆ†ã® OpenAI ã¾ãŸã¯ Anthropic API ã‚­ãƒ¼ã‚’ä½¿ã†ã“ã¨ã‚‚ã§ãã¾ã™ã€‚
+
+è‡ªåˆ†ã®ã‚­ãƒ¼ã‚’ä½¿ã†å ´åˆã€ãƒˆãƒ¼ã‚¯ãƒ³æ–™é‡‘ã¯ Zen ã§ã¯ãªããƒ—ãƒ­ãƒã‚¤ãƒ€ãƒ¼ã‹ã‚‰ç›´æŽ¥è«‹æ±‚ã•ã‚Œã¾ã™ã€‚
+
+ãŸã¨ãˆã°ã€ã‚ãªãŸã®çµ„ç¹”ãŒã™ã§ã« OpenAI ã‚„ Anthropic ã®ã‚­ãƒ¼ã‚’æŒã£ã¦ã„ã¦ã€Zen ãŒæä¾›ã™ã‚‹ã‚‚ã®ã§ã¯ãªããã¡ã‚‰ã‚’ä½¿ã„ãŸã„å ´åˆãŒã‚ã‚Šã¾ã™ã€‚
+
+---
+
+## ç›®æ¨™
+
+ç§ãŸã¡ãŒ Voracode Zen ã‚’ä½œã£ãŸç›®çš„ã¯æ¬¡ã®ã¨ãŠã‚Šã§ã™ã€‚
+
+1. ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã«æœ€é©ãªãƒ¢ãƒ‡ãƒ«/ãƒ—ãƒ­ãƒã‚¤ãƒ€ãƒ¼ã‚’ **Benchmark** ã™ã‚‹ã“ã¨ã€‚
+2. **highest quality** ã®é¸æŠžè‚¢ã«ã‚¢ã‚¯ã‚»ã‚¹ã§ãã‚‹ã‚ˆã†ã«ã—ã€æ€§èƒ½ã‚’è½ã¨ã—ãŸã‚Šã€ã‚ˆã‚Šå®‰ä¾¡ãªãƒ—ãƒ­ãƒã‚¤ãƒ€ãƒ¼ã¸ãƒ«ãƒ¼ãƒ†ã‚£ãƒ³ã‚°ã•ã‚ŒãŸã‚Šã—ãªã„ã“ã¨ã€‚
+3. åŽŸä¾¡ã§æä¾›ã™ã‚‹ã“ã¨ã§ **price drops** ã‚’ãã®ã¾ã¾åæ˜ ã—ã€ä¸Šä¹—ã›ã¯å‡¦ç†æ‰‹æ•°æ–™ã®ã‚«ãƒãƒ¼åˆ†ã ã‘ã«ã™ã‚‹ã“ã¨ã€‚
+4. ã»ã‹ã®ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã§ã‚‚ä½¿ãˆã‚‹ã‚ˆã†ã«ã—ã¦ **no lock-in** ã‚’å®Ÿç¾ã—ã€ã•ã‚‰ã« Voracode ã§ã¯å¸¸ã«ã»ã‹ã®ãƒ—ãƒ­ãƒã‚¤ãƒ€ãƒ¼ã‚‚ä½¿ãˆã‚‹ã‚ˆã†ã«ã™ã‚‹ã“ã¨ã€‚

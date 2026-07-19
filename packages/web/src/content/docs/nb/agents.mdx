@@ -1,0 +1,754 @@
+﻿---
+title: Agenter
+description: Konfigurer og bruk spesialiserte agenter.
+---
+
+Agenter er spesialiserte AI-assistenter som kan konfigureres for spesifikke oppgaver og arbeidsflyter. De lar deg lage fokuserte verktÃ¸y med tilpassede meldinger, modeller og verktÃ¸ytilgang.
+
+:::tip
+Bruk planagenten til Ã¥ analysere kode og gjennomgÃ¥ forslag uten Ã¥ gjÃ¸re noen kodeendringer.
+:::
+
+Du kan bytte mellom agenter under en Ã¸kt eller pÃ¥kalle dem med `@`-omtalen.
+
+---
+
+## Typer
+
+Det er to typer agenter i Voracode; primÃ¦re agenter og underagenter.
+
+---
+
+### PrimÃ¦ragenter
+
+PrimÃ¦ragenter er de viktigste assistentene du samhandler direkte med. Du kan bla gjennom dem ved Ã¥ bruke **Tab**-tasten, eller din konfigurerte `switch_agent`-tastebinding. Disse agentene hÃ¥ndterer hovedsamtalen din. VerktÃ¸ytilgang konfigureres via tillatelser - for eksempel har Build alle verktÃ¸y aktivert mens Plan er begrenset.
+
+:::tip
+Du kan bruke **Tab**-tasten for Ã¥ bytte mellom primÃ¦re agenter under en Ã¸kt.
+:::
+
+Voracode kommer med to innebygde primÃ¦re agenter, **Build** og **Plan**. Vi ser nÃ¦rmere pÃ¥ disse nedenfor.
+
+---
+
+### Underagenter
+
+Underagenter er spesialiserte assistenter som primÃ¦re agenter kan pÃ¥kalle for spesifikke oppgaver. Du kan ogsÃ¥ starte dem manuelt ved Ã¥ **@ nevne** dem i meldingene dine.
+
+Voracode kommer med tre innebygde underagenter, **General**, **Explore** og **Scout**. Vi skal se pÃ¥ dette nedenfor.
+
+---
+
+## Innebygd
+
+Voracode kommer med to innebygde primÃ¦re agenter og tre innebygde underagenter.
+
+---
+
+### Bruk av Build
+
+_Modus_: `primary`
+
+Build er **standard** primÃ¦ragent med alle verktÃ¸y aktivert. Dette er standardagenten for utviklingsarbeid der du trenger full tilgang til filoperasjoner og systemkommandoer.
+
+---
+
+### Bruk av Plan
+
+_Modus_: `primary`
+
+En begrenset agent designet for planlegging og analyse. Vi bruker et tillatelsessystem for Ã¥ gi deg mer kontroll og forhindre utilsiktede endringer.
+Som standard er alt av fÃ¸lgende satt til `ask`:
+
+- `file edits`: Alle skrivinger, patcher og redigeringer
+- `bash`: Alle bash-kommandoer
+
+Denne agenten er nyttig nÃ¥r du vil at LLM skal analysere kode, foreslÃ¥ endringer eller lage planer uten Ã¥ gjÃ¸re noen faktiske endringer i kodebasen.
+
+---
+
+### Bruk av General
+
+_Modus_: `subagent`
+
+En generell agent for Ã¥ undersÃ¸ke komplekse spÃ¸rsmÃ¥l og utfÃ¸re flertrinnsoppgaver. Har full verktÃ¸ytilgang (unntatt todo), slik at den kan gjÃ¸re filendringer nÃ¥r det er nÃ¸dvendig. Bruk denne til Ã¥ kjÃ¸re flere arbeidsenheter parallelt.
+
+---
+
+### Bruk av Explore
+
+_Modus_: `subagent`
+
+En rask, skrivebeskyttet agent for Ã¥ utforske kodebaser. Kan ikke endre filer. Bruk dette nÃ¥r du raskt trenger Ã¥ finne filer etter mÃ¸nstre, sÃ¸ke i kode etter nÃ¸kkelord eller svare pÃ¥ spÃ¸rsmÃ¥l om kodebasen.
+
+---
+
+### Bruk av Scout
+
+_Modus_: `subagent`
+
+En skrivebeskyttet agent for ekstern dokumentasjon og forskning pÃ¥ avhengigheter. Bruk denne nÃ¥r du trenger Ã¥ klone et avhengighetsrepo inn i Voracode sin administrerte cache, inspisere kildekoden til et bibliotek eller kryssjekke lokal kode mot upstream-implementasjoner uten Ã¥ endre arbeidsomrÃ¥det ditt.
+
+---
+
+### Bruk av Compaction
+
+_Modus_: `primary`
+
+Skjult systemagent som komprimerer lang kontekst til et mindre sammendrag. Den kjÃ¸rer automatisk ved behov og kan ikke velges i UI.
+
+---
+
+### Bruk av Title
+
+_Modus_: `primary`
+
+Skjult systemagent som genererer korte Ã¸kttitler. Den kjÃ¸rer automatisk og kan ikke velges i UI.
+
+---
+
+### Bruk av Summary
+
+_Modus_: `primary`
+
+Skjult systemagent som lager Ã¸ktsammendrag. Den kjÃ¸rer automatisk og kan ikke velges i UI.
+
+---
+
+## Bruk
+
+1. For primÃ¦re agenter, bruk **Tab**-tasten for Ã¥ bla gjennom dem under en Ã¸kt. Du kan ogsÃ¥ bruke din konfigurerte `switch_agent` nÃ¸kkelbinding.
+
+2. Underagenter kan pÃ¥kalles:
+   - **Automatisk** av primÃ¦re agenter for spesialiserte oppgaver basert pÃ¥ deres beskrivelser.
+   - Manuelt ved Ã¥ **@ nevne** en underagent i meldingen. For eksempel.
+
+     ```txt frame="none"
+     @general help me search for this function
+     ```
+
+3. **Navigering mellom Ã¸kter**: NÃ¥r underagenter oppretter sine egne underordnede Ã¸kter, kan du navigere mellom overordnede Ã¸kter og alle underordnede Ã¸kter ved Ã¥ bruke:
+   - **\<Leader>+Right** (eller din konfigurerte `session_child_cycle`-tastebinding) for Ã¥ gÃ¥ videre gjennom forelder â†’ barn1 â†’ barn2 â†’ ... â†’ forelder
+   - **\<Leader>+Left** (eller din konfigurerte `session_child_cycle_reverse`-tastebinding) for Ã¥ gÃ¥ bakover gjennom forelder â† barn1 â† barn2 â† ... â† forelder
+
+   Dette lar deg sÃ¸mlÃ¸st bytte mellom hovedsamtalen og spesialisert underagentarbeid.
+
+---
+
+## Konfigurasjon
+
+Du kan tilpasse de innebygde agentene eller lage dine egne gjennom konfigurasjon. Agenter kan konfigureres pÃ¥ to mÃ¥ter:
+
+---
+
+### JSON
+
+Konfigurer agenter i konfigurasjonsfilen `voracode.json`:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "mode": "primary",
+      "model": "anthropic/claude-sonnet-4-20250514",
+      "prompt": "{file:./prompts/build.txt}",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true
+      }
+    },
+    "plan": {
+      "mode": "primary",
+      "model": "anthropic/claude-haiku-4-20250514",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
+    },
+    "code-reviewer": {
+      "description": "Reviews code for best practices and potential issues",
+      "mode": "subagent",
+      "model": "anthropic/claude-sonnet-4-20250514",
+      "prompt": "You are a code reviewer. Focus on security, performance, and maintainability.",
+      "tools": {
+        "write": false,
+        "edit": false
+      }
+    }
+  }
+}
+```
+
+---
+
+### Markdown
+
+Du kan ogsÃ¥ definere agenter ved Ã¥ bruke markdown-filer. Plasser dem i:
+
+- Globalt: `~/.config/voracode/agents/`
+- Per prosjekt: `.voracode/agents/`
+
+```markdown title="~/.config/voracode/agents/review.md"
+---
+description: Reviews code for quality and best practices
+mode: subagent
+model: anthropic/claude-sonnet-4-20250514
+temperature: 0.1
+tools:
+  write: false
+  edit: false
+  bash: false
+---
+
+You are in code review mode. Focus on:
+
+- Code quality and best practices
+- Potential bugs and edge cases
+- Performance implications
+- Security considerations
+
+Provide constructive feedback without making direct changes.
+```
+
+Markdown-filnavnet blir agentnavnet. For eksempel oppretter `review.md` en `review`-agent.
+
+---
+
+## Alternativer
+
+La oss se pÃ¥ disse konfigurasjonsalternativene i detalj.
+
+---
+
+### Beskrivelse
+
+Bruk alternativet `description` for Ã¥ gi en kort beskrivelse av hva agenten gjÃ¸r og nÃ¥r den skal brukes.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "description": "Reviews code for best practices and potential issues"
+    }
+  }
+}
+```
+
+Dette er et **obligatorisk** konfigurasjonsalternativ.
+
+---
+
+### Temperatur
+
+Kontroller tilfeldigheten og kreativiteten til LLMs svar med `temperature`-konfigurasjonen.
+
+Lavere verdier gjÃ¸r svarene mer fokuserte og deterministiske, mens hÃ¸yere verdier Ã¸ker kreativiteten og variasjonen.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "plan": {
+      "temperature": 0.1
+    },
+    "creative": {
+      "temperature": 0.8
+    }
+  }
+}
+```
+
+Temperaturverdier varierer vanligvis fra 0,0 til 1,0:
+
+- **0.0-0.2**: Veldig fokuserte og deterministiske svar, ideell for kodeanalyse og planlegging
+- **0,3-0,5**: Balanserte svar med litt kreativitet, bra for generelle utviklingsoppgaver
+- **0.6-1.0**: Mer kreative og varierte svar, nyttig for idÃ©dugnad og utforskning
+
+```json title="voracode.json"
+{
+  "agent": {
+    "analyze": {
+      "temperature": 0.1,
+      "prompt": "{file:./prompts/analysis.txt}"
+    },
+    "build": {
+      "temperature": 0.3
+    },
+    "brainstorm": {
+      "temperature": 0.7,
+      "prompt": "{file:./prompts/creative.txt}"
+    }
+  }
+}
+```
+
+Hvis ingen temperatur er spesifisert, bruker Voracode modellspesifikke standardinnstillinger; typisk 0 for de fleste modeller, 0,55 for Qwen-modeller.
+
+---
+
+### Maks trinn
+
+Kontroller det maksimale antallet agentiske iterasjoner en agent kan utfÃ¸re fÃ¸r den blir tvunget til Ã¥ svare kun med tekst. Dette lar brukere som Ã¸nsker Ã¥ kontrollere kostnadene sette en grense for agenthandlinger.
+
+Hvis dette ikke er satt, vil agenten fortsette Ã¥ iterere til modellen velger Ã¥ stoppe eller brukeren avbryter Ã¸kten.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "quick-thinker": {
+      "description": "Fast reasoning with limited iterations",
+      "prompt": "You are a quick thinker. Solve problems with minimal steps.",
+      "steps": 5
+    }
+  }
+}
+```
+
+NÃ¥r grensen er nÃ¥dd, mottar agenten en spesiell systemmelding som instruerer den om Ã¥ svare med en oppsummering av arbeidet og anbefalte gjenvÃ¦rende oppgaver.
+
+:::caution
+Det gamle `maxSteps`-feltet er avviklet. Bruk `steps` i stedet.
+:::
+
+---
+
+### Deaktiver
+
+Sett til `true` for Ã¥ deaktivere agenten.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "disable": true
+    }
+  }
+}
+```
+
+---
+
+### Ledetekst
+
+Spesifiser en tilpasset systemmeldingsfil for denne agenten med `prompt`-konfigurasjonen. Ledetekstfilen skal inneholde instruksjoner som er spesifikke for agentens formÃ¥l.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "prompt": "{file:./prompts/code-review.txt}"
+    }
+  }
+}
+```
+
+Denne banen er i forhold til hvor konfigurasjonsfilen er plassert. SÃ¥ dette fungerer for bÃ¥de den globale Voracode-konfigurasjonen og den prosjektspesifikke konfigurasjonen.
+
+---
+
+### Modell
+
+Bruk `model`-konfigurasjonen for Ã¥ overstyre modellen for denne agenten. Nyttig for bruk av ulike modeller optimalisert for ulike oppgaver. For eksempel en raskere modell for planlegging, en mer kapabel modell for implementering.
+
+:::tip
+Hvis du ikke spesifiserer en modell, bruker primÃ¦ragenter [modell globalt konfigurert](/docs/config#models) mens subagenter vil bruke modellen til primÃ¦ragenten som pÃ¥kalte subagenten.
+:::
+
+```json title="voracode.json"
+{
+  "agent": {
+    "plan": {
+      "model": "anthropic/claude-haiku-4-20250514"
+    }
+  }
+}
+```
+
+Modellen ID i Voracode-konfigurasjonen din bruker formatet `provider/model-id`. For eksempel, hvis du bruker [Voracode Zen](/docs/zen), vil du bruke `voracode/gpt-5.1-codex` for GPT 5.1 Codex.
+
+---
+
+### VerktÃ¸y
+
+Kontroller hvilke verktÃ¸y som er tilgjengelige i denne agenten med `tools`-konfigurasjonen. Du kan aktivere eller deaktivere spesifikke verktÃ¸y ved Ã¥ sette dem til `true` eller `false`.
+
+```json title="voracode.json" {3-6,9-12}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "tools": {
+    "write": true,
+    "bash": true
+  },
+  "agent": {
+    "plan": {
+      "tools": {
+        "write": false,
+        "bash": false
+      }
+    }
+  }
+}
+```
+
+:::note
+Den agentspesifikke konfigurasjonen overstyrer den globale konfigurasjonen.
+:::
+
+Du kan ogsÃ¥ bruke jokertegn for Ã¥ kontrollere flere verktÃ¸y samtidig. For eksempel, for Ã¥ deaktivere alle verktÃ¸y fra en MCP-server:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "readonly": {
+      "tools": {
+        "mymcp_*": false,
+        "write": false,
+        "edit": false
+      }
+    }
+  }
+}
+```
+
+[Finn ut mer om verktÃ¸y](/docs/tools).
+
+---
+
+### Tillatelser
+
+Du kan konfigurere tillatelser for Ã¥ administrere hvilke handlinger en agent kan utfÃ¸re. For Ã¸yeblikket kan tillatelsene for verktÃ¸yene `edit`, `bash` og `webfetch` konfigureres til:
+
+- `"ask"` â€” Be om godkjenning fÃ¸r du kjÃ¸rer verktÃ¸yet
+- `"allow"` â€” Tillat alle operasjoner uten godkjenning
+- `"deny"` â€” Deaktiver verktÃ¸yet
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "deny"
+  }
+}
+```
+
+Du kan overstyre disse tillatelsene per agent.
+
+```json title="voracode.json" {3-5,8-10}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "deny"
+  },
+  "agent": {
+    "build": {
+      "permission": {
+        "edit": "ask"
+      }
+    }
+  }
+}
+```
+
+Du kan ogsÃ¥ angi tillatelser i Markdown-agenter.
+
+```markdown title="~/.config/voracode/agents/review.md"
+---
+description: Code review without edits
+mode: subagent
+permission:
+  edit: deny
+  bash:
+    "*": ask
+    "git diff": allow
+    "git log*": allow
+    "grep *": allow
+  webfetch: deny
+---
+
+Only analyze code and suggest changes.
+```
+
+Du kan angi tillatelser for spesifikke bash-kommandoer.
+
+```json title="voracode.json" {7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "git push": "ask",
+          "grep *": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+Dette kan ta et globmÃ¸nster.
+
+```json title="voracode.json" {7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "git *": "ask"
+        }
+      }
+    }
+  }
+}
+```
+
+Og du kan ogsÃ¥ bruke jokertegnet `*` for Ã¥ administrere tillatelser for alle kommandoer.
+Siden den siste samsvarsregelen har forrang, setter du jokertegnet `*` fÃ¸rst og spesifikke regler etter.
+
+```json title="voracode.json" {8}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "git status *": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+[Finn ut mer om tillatelser](/docs/permissions).
+
+---
+
+### Modus
+
+Kontroller agentens modus med `mode`-konfigurasjonen. Alternativet `mode` brukes til Ã¥ bestemme hvordan agenten kan brukes.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "mode": "subagent"
+    }
+  }
+}
+```
+
+Alternativet `mode` kan settes til `primary`, `subagent` eller `all`. Hvis ingen `mode` er spesifisert, er den standard til `all`.
+
+---
+
+### Skjult
+
+Skjul en underagent fra `@` autofullfÃ¸ringsmenyen med `hidden: true`. Nyttig for interne underagenter som bare skal pÃ¥kalles programmatisk av andre agenter via oppgaveverktÃ¸yet.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "internal-helper": {
+      "mode": "subagent",
+      "hidden": true
+    }
+  }
+}
+```
+
+Dette pÃ¥virker kun brukersynlighet i autofullfÃ¸r-menyen. Skjulte agenter kan fortsatt pÃ¥kalles av modellen via oppgaveverktÃ¸yet hvis tillatelser tillater det.
+
+:::note
+Gjelder kun `mode: subagent`-agenter.
+:::
+
+---
+
+### Oppgavetillatelser
+
+Kontroller hvilke subagenter en agent kan pÃ¥kalle via oppgaveverktÃ¸yet med `permission.task`. Bruker glob-mÃ¸nstre for fleksibel matching.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "orchestrator": {
+      "mode": "primary",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "orchestrator-*": "allow",
+          "code-reviewer": "ask"
+        }
+      }
+    }
+  }
+}
+```
+
+NÃ¥r den er satt til `deny`, fjernes subagenten fullstendig fra oppgaveverktÃ¸ybeskrivelsen, sÃ¥ modellen vil ikke forsÃ¸ke Ã¥ starte den.
+
+:::tip
+Reglene evalueres i rekkefÃ¸lge, og den **siste samsvarsregelen vinner**. I eksemplet ovenfor samsvarer `orchestrator-planner` med bÃ¥de `*` (avslÃ¥) og `orchestrator-*` (tillat), men siden `orchestrator-*` kommer etter `*`, er resultatet `allow`.
+:::
+
+:::tip
+Brukere kan alltid starte en hvilken som helst underagent direkte via `@` autofullfÃ¸ringsmenyen, selv om agentens oppgavetillatelser ville nekte det.
+:::
+
+---
+
+### Farge
+
+Tilpass agentens visuelle utseende i UI med alternativet `color`. Dette pÃ¥virker hvordan agenten vises i grensesnittet.
+
+Bruk en gyldig sekskantfarge (f.eks. `#FF5733`) eller temafarge: `primary`, `secondary`, `accent`, `success`, `warning`, `error`, `info`.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "creative": {
+      "color": "#ff6b6b"
+    },
+    "code-reviewer": {
+      "color": "accent"
+    }
+  }
+}
+```
+
+---
+
+### Top P
+
+Kontroller responsmangfoldet med alternativet `top_p`. Alternativ til temperatur for Ã¥ kontrollere tilfeldighet.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "brainstorm": {
+      "top_p": 0.9
+    }
+  }
+}
+```
+
+Verdiene varierer fra 0,0 til 1,0. Lavere verdier er mer fokuserte, hÃ¸yere verdier mer mangfoldige.
+
+---
+
+### Ekstra
+
+Eventuelle andre alternativer du spesifiserer i agentkonfigurasjonen vil bli **overfÃ¸rt direkte** til leverandÃ¸ren som modellalternativer. Dette lar deg bruke leverandÃ¸rspesifikke funksjoner og parametere.
+
+For eksempel, med OpenAIs resonneringsmodeller kan du kontrollere resonnementinnsatsen:
+
+```json title="voracode.json" {6,7}
+{
+  "agent": {
+    "deep-thinker": {
+      "description": "Agent that uses high reasoning effort for complex problems",
+      "model": "openai/gpt-5",
+      "reasoningEffort": "high",
+      "textVerbosity": "low"
+    }
+  }
+}
+```
+
+Disse tilleggsalternativene er modell- og leverandÃ¸rspesifikke. Sjekk leverandÃ¸rens dokumentasjon for tilgjengelige parametere.
+
+:::tip
+KjÃ¸r `voracode models` for Ã¥ se en liste over tilgjengelige modeller.
+:::
+
+---
+
+## Opprette agenter
+
+Du kan opprette nye agenter ved Ã¥ bruke fÃ¸lgende kommando:
+
+```bash
+voracode agent create
+```
+
+Denne interaktive kommandoen vil:
+
+1. SpÃ¸r hvor du skal lagre agenten; global eller prosjektspesifikk.
+2. Beskrivelse av hva agenten skal gjÃ¸re.
+3. Generer en passende systemmelding og identifikator.
+4. La deg velge hvilke verktÃ¸y agenten har tilgang til.
+5. Lag til slutt en nedmerkingsfil med agentkonfigurasjonen.
+
+---
+
+## BruksomrÃ¥der
+
+Her er noen vanlige bruksomrÃ¥der for forskjellige agenter.
+
+- **Byggagent**: Fullstendig utviklingsarbeid med alle verktÃ¸y aktivert
+- **Planagent**: Analyse og planlegging uten Ã¥ gjÃ¸re endringer
+- **Kodevurderingsagent**: Kodegjennomgang med skrivebeskyttet tilgang pluss dokumentasjonsverktÃ¸y
+- **FeilsÃ¸kingsagent**: Fokusert pÃ¥ etterforskning med bash og leseverktÃ¸y aktivert
+- **Dokumentasjonsagent**: Dokumentasjonsskriving med filoperasjoner, men ingen systemkommandoer
+
+---
+
+## Eksempler
+
+Her er noen eksempler pÃ¥ agenter du kan finne nyttige.
+
+:::tip
+Har du en agent du vil dele? [Send inn en PR](https://github.com/mysterious75/voracode).
+:::
+
+---
+
+### Dokumentasjonsagent
+
+```markdown title="~/.config/voracode/agents/docs-writer.md"
+---
+description: Writes and maintains project documentation
+mode: subagent
+tools:
+  bash: false
+---
+
+You are a technical writer. Create clear, comprehensive documentation.
+
+Focus on:
+
+- Clear explanations
+- Proper structure
+- Code examples
+- User-friendly language
+```
+
+---
+
+### Sikkerhetsrevisor
+
+```markdown title="~/.config/voracode/agents/security-auditor.md"
+---
+description: Performs security audits and identifies vulnerabilities
+mode: subagent
+tools:
+  write: false
+  edit: false
+---
+
+You are a security expert. Focus on identifying potential security issues.
+
+Look for:
+
+- Input validation vulnerabilities
+- Authentication and authorization flaws
+- Data exposure risks
+- Dependency vulnerabilities
+- Configuration security issues
+```

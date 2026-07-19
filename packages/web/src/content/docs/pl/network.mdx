@@ -1,0 +1,57 @@
+---
+title: SieÄ‡
+description: Skonfiguruj serwery proxy i certyfikaty uwierzytelniajÄ…ce.
+---
+
+voracode obsÅ‚uga standardowego zmiennego proxy i certyfikatÃ³w dla usÅ‚ug sieciowych przedsiÄ™biorstw.
+
+---
+
+## PeÅ‚nomocnik
+
+voracode respektuje standardowe zmienne Å›rodowiskowe proxy.
+
+```bash
+# HTTPS proxy (recommended)
+export HTTPS_PROXY=https://proxy.example.com:8080
+
+# HTTP proxy (if HTTPS not available)
+export HTTP_PROXY=http://proxy.example.com:8080
+
+# Bypass proxy for local server (required)
+export NO_PROXY=localhost,127.0.0.1
+```
+
+:::caution
+TUI komunikuje siÄ™ z popularnym serwerem HTTP. Aby zapobiec Å‚Ä…czem routingu, naleÅ¼y ominÄ…Ä‡ serwer proxy dla tego poÅ‚Ä…czenia.
+:::
+
+MoÅ¼esz pozostawiÄ‡ port serwera i hosta za pomocÄ… [flaga CLI](/docs/cli#run).
+
+---
+
+### UwierzytelniaÄ‡
+
+JeÅ›li TwÃ³j serwer proxy wymaga podstawowego uwierzytelniania, doÅ‚Ä…cz dane uwierzytelniajÄ…ce w adresie URL.
+
+```bash
+export HTTPS_PROXY=http://username:password@proxy.example.com:8080
+```
+
+:::caution
+Unikaj kodowania haseÅ‚ na staÅ‚e. UÅ¼yj testÃ³w kontrolnych lub oprogramowania poÅ›wiadczeÅ„.
+:::
+
+W przypadku serwera proxy zaawansowanego uwierzytelniania, jak NTLM lub Kerberos, dostÄ™p do bram LLM, ktÃ³ry umoÅ¼liwia uwierzytelnianie.
+
+---
+
+## Certyfikaty niestandardowe
+
+JeÅ›li Twoje przedsiÄ™biorstwo korzysta z niestandardowych usÅ‚ug, urzÄ™dÃ³w dostÄ™pu do HTTPS, skonfiguruj voracode tak, aby im ufaÄ‡.
+
+```bash
+export NODE_EXTRA_CA_CERTS=/path/to/ca-cert.pem
+```
+
+DziaÅ‚ajÄ… tylko w przypadku proxy, jak i bezpoÅ›redniego dostÄ™pu do API.

@@ -1,0 +1,195 @@
+---
+title: GitLab
+description: GitLab sorunlarÄ±nda ve birleÅŸtirme isteklerinde voracode'u kullanÄ±n.
+---
+
+voracode, GitLab CI/CD iÅŸlem hattÄ±nÄ±z veya GitLab Duo aracÄ±lÄ±ÄŸÄ±yla GitLab iÅŸ akÄ±ÅŸÄ±nÄ±zla bÃ¼tÃ¼nleÅŸir.
+
+Her iki durumda da voracode, GitLab Ã§alÄ±ÅŸtÄ±rÄ±cÄ±larÄ±nÄ±zda Ã§alÄ±ÅŸacaktÄ±r.
+
+---
+
+## GitLab CI
+
+voracode normal bir GitLab iÅŸlem hattÄ±nda Ã§alÄ±ÅŸÄ±r. Bunu bir [CI component](https://docs.gitlab.com/ee/ci/components/) olarak bir iÅŸlem hattÄ±na oluÅŸturabilirsiniz.
+
+Burada voracode iÃ§in topluluk tarafÄ±ndan oluÅŸturulan bir CI/CD bileÅŸeni kullanÄ±yoruz â€” [nagyv/gitlab-voracode](https://gitlab.com/nagyv/gitlab-voracode).
+
+---
+
+### Ã–zellikler
+
+- **Ä°ÅŸ baÅŸÄ±na Ã¶zel iÅŸlemleri kullanÄ±n**: voracode parÃ§alarÄ±nÄ±n kullanÄ±ma veya devre dÄ±ÅŸÄ± bÄ±rakmak iÃ§in voracode'u Ã¶zel bir yapÄ±landÄ±rma dizini ile yapÄ±landÄ±rÄ±n; Ã¶rneÄŸin `./config/#custom-directory`.
+- **Minimum kurulum**: CI bileÅŸeni voracode'u arka planda kurar; yalnÄ±zca voracode yapÄ±landÄ±rmasÄ±nÄ± ve ilk istemi oluÅŸturmanÄ±z gerekir.
+- **Esnek**: CI bileÅŸeni, davranÄ±ÅŸÄ±nÄ± Ã¶zelleÅŸtirmek iÃ§in Ã§eÅŸitli giriÅŸleri destekler
+
+---
+
+### Kurulum
+
+1. voracode kimlik doÄŸrulamanÄ±zÄ± JSON **Ayarlar** > **CI/CD** > **DeÄŸiÅŸkenler** altÄ±nda Dosya tÃ¼rÃ¼ CI ortam deÄŸiÅŸkenleri olarak saklayÄ±n. BunlarÄ± "Maskeli ve gizli" olarak iÅŸaretlediÄŸinizden emin olun.
+2. AÅŸaÄŸÄ±dakileri `.gitlab-ci.yml` dosyanÄ±za ekleyin.
+
+   ```yaml title=".gitlab-ci.yml"
+   include:
+     - component: $CI_SERVER_FQDN/nagyv/gitlab-voracode/voracode@2
+       inputs:
+         config_dir: ${CI_PROJECT_DIR}/voracode-config
+         auth_json: $VORACODE_AUTH_JSON # The variable name for your Voracode authentication JSON
+         command: optional-custom-command
+         message: "Your prompt here"
+   ```
+
+Daha fazla girdi ve bu bileÅŸene yÃ¶nelik kullanÄ±m durumlarÄ± iÃ§in [check out the docs](https://gitlab.com/explore/catalog/nagyv/gitlab-voracode).
+
+---
+
+## GitLab Duo
+
+voracode, GitLab iÅŸ akÄ±ÅŸÄ±nÄ±zla bÃ¼tÃ¼nleÅŸir.
+Bir yorumda `@voracode`'dan bahsedin; voracode, GitLab CI iÅŸlem hattÄ±nÄ±zdaki gÃ¶revleri yÃ¼rÃ¼tecektir.
+
+---
+
+### Ã–zellikler
+
+- **SorunlarÄ± Ã¶nceliklendirin**: voracode'dan bir sorunu araÅŸtÄ±rÄ±p size aÃ§Ä±klamasÄ±nÄ± isteyin.
+- **DÃ¼zelt ve uygula**: voracode'dan bir sorunu dÃ¼zeltmesini veya bir Ã¶zelliÄŸi uygulamasÄ±nÄ± isteyin.
+  Yeni bir dal oluÅŸturacak ve deÄŸiÅŸikliklerle birlikte bir birleÅŸtirme isteÄŸi oluÅŸturacaktÄ±r.
+- **GÃ¼venli**: voracode, GitLab Ã§alÄ±ÅŸtÄ±rÄ±cÄ±larÄ±nÄ±zda Ã§alÄ±ÅŸÄ±r.
+
+---
+
+### YapÄ±landÄ±rma
+
+voracode, GitLab CI/CD iÅŸlem hattÄ±nÄ±zda Ã§alÄ±ÅŸÄ±r; bunu ayarlamak iÃ§in ihtiyacÄ±nÄ±z olacaklar:
+
+:::tip
+GÃ¼ncel talimatlar iÃ§in [**GitLab docs**](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/)'a gÃ¶z atÄ±n.
+:::
+
+1.  GitLab ortamÄ±nÄ±zÄ± yapÄ±landÄ±rÄ±n
+2.  CI/CD'yi kurma
+3.  Bir AI model saÄŸlayÄ±cÄ±sÄ± API anahtarÄ±nÄ± gÃ¶sterir
+4.  Hizmet hesabÄ± oluÅŸturun
+5.  CI/CD deÄŸiÅŸkenlerini yapÄ±landÄ±rma
+6.  Bir akÄ±ÅŸ yapÄ±landÄ±rma dosyasÄ± oluÅŸturun; iÅŸte bir Ã¶rnek:
+
+        <details>
+
+    <summary>AkÄ±ÅŸ yapÄ±landÄ±rmasÄ±</summary>
+
+    ```yaml
+    image: node:22-slim
+    commands:
+      - echo "Installing voracode"
+      - npm install --global voracode-ai
+      - echo "Installing glab"
+      - export GITLAB_TOKEN=$GITLAB_TOKEN_VORACODE
+      - apt-get update --quiet && apt-get install --yes curl wget gpg git && rm --recursive --force /var/lib/apt/lists/*
+      - curl --silent --show-error --location "https://raw.githubusercontent.com/upciti/wakemeops/main/assets/install_repository" | bash
+      - apt-get install --yes glab
+      - echo "Configuring glab"
+      - echo $GITLAB_HOST
+      - echo "Creating Voracode auth configuration"
+      - mkdir --parents ~/.local/share/voracode
+      - |
+        cat > ~/.local/share/voracode/auth.json << EOF
+        {
+          "anthropic": {
+            "type": "api",
+            "key": "$ANTHROPIC_API_KEY"
+          }
+        }
+        EOF
+      - echo "Configuring git"
+      - git config --global user.email "voracode@gitlab.com"
+      - git config --global user.name "Voracode"
+      - echo "Testing glab"
+      - glab issue list
+      - echo "Running Voracode"
+      - |
+        voracode run "
+        You are an AI assistant helping with GitLab operations.
+
+        Context: $AI_FLOW_CONTEXT
+        Task: $AI_FLOW_INPUT
+        Event: $AI_FLOW_EVENT
+
+        Please execute the requested task using the available GitLab tools.
+        Be thorough in your analysis and provide clear explanations.
+
+        <important>
+        Please use the glab CLI to access data from GitLab. The glab CLI has already been authenticated. You can run the corresponding commands.
+
+        If you are asked to summarize an MR or issue or asked to provide more information then please post back a note to the MR/Issue so that the user can see it.
+        You don't need to commit or push up changes, those will be done automatically based on the file changes you make.
+        </important>
+        "
+      - git checkout --branch $CI_WORKLOAD_REF origin/$CI_WORKLOAD_REF
+      - echo "Checking for git changes and pushing if any exist"
+      - |
+        if ! git diff --quiet || ! git diff --cached --quiet || [ --not --zero "$(git ls-files --others --exclude-standard)" ]; then
+          echo "Git changes detected, adding and pushing..."
+          git add .
+          if git diff --cached --quiet; then
+            echo "No staged changes to commit"
+          else
+            echo "Committing changes to branch: $CI_WORKLOAD_REF"
+            git commit --message "Codex changes"
+            echo "Pushing changes up to $CI_WORKLOAD_REF"
+            git push https://gitlab-ci-token:$GITLAB_TOKEN@$GITLAB_HOST/gl-demo-ultimate-dev-ai-epic-17570/test-java-project.git $CI_WORKLOAD_REF
+            echo "Changes successfully pushed"
+          fi
+        else
+          echo "No git changes detected, skipping push"
+        fi
+    variables:
+      - ANTHROPIC_API_KEY
+      - GITLAB_TOKEN_VORACODE
+      - GITLAB_HOST
+    ```
+
+        </details>
+
+AyrÄ±ntÄ±lÄ± talimatlar iÃ§in [GitLab CLI agents docs](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/)'a baÅŸvurabilirsiniz.
+
+---
+
+### Ã–rnekler
+
+GitLab'da voracode'u nasÄ±l kullanabileceÄŸinize dair bazÄ± Ã¶rnekleri burada bulabilirsiniz.
+
+:::tip
+`@voracode`'dan farklÄ± bir tetikleyici ifade kullanacak ÅŸekilde yapÄ±landÄ±rabilirsiniz.
+:::
+
+- **Bir sorunu aÃ§Ä±klama**
+
+  Bu yorumu bir GitLab sayÄ±sÄ±na ekleyin.
+
+  ```
+  @voracode explain this issue
+  ```
+
+  voracode konuyu okuyacak ve net bir aÃ§Ä±klama ile yanÄ±t verecektir.
+
+- **Bir sorunu dÃ¼zeltme**
+
+  In a GitLab issue, say:
+
+  ```
+  @voracode fix this
+  ```
+
+  voracode yeni bir dal oluÅŸturacak, deÄŸiÅŸiklikleri uygulayacak ve deÄŸiÅŸiklikleri iÃ§eren bir birleÅŸtirme isteÄŸi aÃ§acaktÄ±r.
+
+- **BirleÅŸtirme isteklerini inceleme**
+
+  GitLab birleÅŸtirme isteÄŸine aÅŸaÄŸÄ±daki yorumu bÄ±rakÄ±n.
+
+  ```
+  @voracode review this merge request
+  ```
+
+  voracode, birleÅŸtirme isteÄŸini inceleyecek ve geri bildirim saÄŸlayacaktÄ±r.

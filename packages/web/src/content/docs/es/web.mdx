@@ -1,0 +1,142 @@
+---
+title: Web
+description: Usando Voracode en su navegador.
+---
+
+Voracode puede ejecutarse como una aplicaciÃ³n web en su navegador, brindando la misma poderosa experiencia de codificaciÃ³n de IA sin necesidad de una terminal.
+
+![Voracode Web - Nueva sesiÃ³n](../../../assets/web/web-homepage-new-session.png)
+
+## Empezar
+
+Inicie la interfaz web ejecutando:
+
+```bash
+voracode web
+```
+
+Esto inicia un servidor local en `127.0.0.1` con un puerto disponible aleatorio y abre automÃ¡ticamente Voracode en su navegador predeterminado.
+
+:::caution
+Si no se establece `VORACODE_SERVER_PASSWORD`, el servidor no serÃ¡ seguro. Esto estÃ¡ bien para uso local, pero debe configurarse para acceso a la red.
+:::
+
+:::tip[Windows Usuarios]
+Para obtener la mejor experiencia, ejecute `voracode web` desde [WSL](/docs/windows-wsl) en lugar de PowerShell. Esto garantiza el acceso adecuado al sistema de archivos y la integraciÃ³n del terminal.
+:::
+
+---
+
+## ConfiguraciÃ³n
+
+Puede configurar el servidor web usando indicadores de lÃ­nea de comando o en su [archivo de configuraciÃ³n](/docs/config).
+
+### Puerto
+
+De forma predeterminada, Voracode elige un puerto disponible. Puede especificar un puerto:
+
+```bash
+voracode web --port 4096
+```
+
+### Nombre de host
+
+De forma predeterminada, el servidor se vincula a `127.0.0.1` (solo localhost). Para hacer que Voracode sea accesible en su red:
+
+```bash
+voracode web --hostname 0.0.0.0
+```
+
+Al usar `0.0.0.0`, Voracode mostrarÃ¡ direcciones locales y de red:
+
+```
+  Local access:       http://localhost:4096
+  Network access:     http://192.168.1.100:4096
+```
+
+### Descubrimiento de mDNS
+
+Habilite mDNS para que su servidor sea reconocible en la red local:
+
+```bash
+voracode web --mdns
+```
+
+Esto establece automÃ¡ticamente el nombre de host en `0.0.0.0` y anuncia el servidor como `voracode.local`.
+
+Puede personalizar el nombre de dominio mDNS para ejecutar varias instancias en la misma red:
+
+```bash
+voracode web --mdns --mdns-domain myproject.local
+```
+
+### CORS
+
+Para permitir dominios adicionales para CORS (Ãºtil para interfaces personalizadas):
+
+```bash
+voracode web --cors https://example.com
+```
+
+### AutenticaciÃ³n
+
+Para proteger el acceso, establezca una contraseÃ±a utilizando la variable de entorno `VORACODE_SERVER_PASSWORD`:
+
+```bash
+VORACODE_SERVER_PASSWORD=secret voracode web
+```
+
+El nombre de usuario predeterminado es `voracode` pero se puede cambiar con `VORACODE_SERVER_USERNAME`.
+
+---
+
+## Usar la interfaz web
+
+Una vez iniciada, la interfaz web proporciona acceso a sus sesiones Voracode.
+
+### Sesiones
+
+Vea y administre sus sesiones desde la pÃ¡gina de inicio. Puedes ver sesiones activas e iniciar otras nuevas.
+
+![Voracode Web - SesiÃ³n activa](../../../assets/web/web-homepage-active-session.png)
+
+### Estado del servidor
+
+Haga clic en "Ver servidores" para ver los servidores conectados y su estado.
+
+![Voracode Web - Ver Servidores](../../../assets/web/web-homepage-see-servers.png)
+
+---
+
+## Adjuntar una terminal
+
+Puede conectar un terminal TUI a un servidor web en ejecuciÃ³n:
+
+```bash
+# Start the web server
+voracode web --port 4096
+
+# In another terminal, attach the TUI
+voracode attach http://localhost:4096
+```
+
+Esto le permite utilizar la interfaz web y el terminal simultÃ¡neamente, compartiendo las mismas sesiones y estados.
+
+---
+
+## Archivo de configuraciÃ³n
+
+TambiÃ©n puede configurar los ajustes del servidor en su archivo de configuraciÃ³n `voracode.json`:
+
+```json
+{
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "cors": ["https://example.com"]
+  }
+}
+```
+
+Los indicadores de la lÃ­nea de comando tienen prioridad sobre la configuraciÃ³n del archivo de configuraciÃ³n.

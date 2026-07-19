@@ -1,0 +1,196 @@
+---
+title: Brugerdefinerede vÃ¦rktÃ¸jer
+description: Opret vÃ¦rktÃ¸jer, som LLM kan kalde voracode ind.
+---
+
+Brugerdefinerede vÃ¦rktÃ¸jer er funktioner, du opretter, som LLM kan kalde under samtaler. De arbejder sammen med voracodes [built-in tools](/docs/tools) som `read`, `write` og `bash`.
+
+---
+
+## Oprettelse af et vÃ¦rktÃ¸j
+
+VÃ¦rktÃ¸jer er defineret som **TypeScript**- eller **JavaScript**-filer. VÃ¦rktÃ¸jsdefinitionen kan dog kalde scripts skrevet pÃ¥ **alle sprog** - TypeScript eller JavaScript bruges kun til selve vÃ¦rktÃ¸jsdefinitionen.
+
+---
+
+### Placering
+
+De kan definere:
+
+- Lokalt ved at placere dem i biblioteket `.voracode/tools/` i dit projekt.
+- Eller globalt ved at placere dem i `~/.config/voracode/tools/`.
+
+---
+
+### Struktur
+
+Den nemmeste mÃ¥de at oprette vÃ¦rktÃ¸jer pÃ¥ er at bruge `tool()`-hjÃ¦lperen, som giver typesikkerhed og validering.
+
+```ts title=".voracode/tools/database.ts" {1}
+import { tool } from "@voracode-ai/plugin"
+
+export default tool({
+  description: "Query the project database",
+  args: {
+    query: tool.schema.string().describe("SQL query to execute"),
+  },
+  async execute(args) {
+    // Your database logic here
+    return `Executed query: ${args.query}`
+  },
+})
+```
+
+**filnavnet** bliver **vÃ¦rktÃ¸jsnavnet**. OvenstÃ¥ende opretter et `database` vÃ¦rktÃ¸j.
+
+---
+
+#### Flere vÃ¦rktÃ¸jer pr. fil
+
+Du kan ogsÃ¥ eksportere flere vÃ¦rktÃ¸jer fra en enkelt fil. Hver eksport bliver **et separat vÃ¦rktÃ¸j** med navnet **`<filename>_<exportname>`**:
+
+```ts title=".voracode/tools/math.ts"
+import { tool } from "@voracode-ai/plugin"
+
+export const add = tool({
+  description: "Add two numbers",
+  args: {
+    a: tool.schema.number().describe("First number"),
+    b: tool.schema.number().describe("Second number"),
+  },
+  async execute(args) {
+    return args.a + args.b
+  },
+})
+
+export const multiply = tool({
+  description: "Multiply two numbers",
+  args: {
+    a: tool.schema.number().describe("First number"),
+    b: tool.schema.number().describe("Second number"),
+  },
+  async execute(args) {
+    return args.a * args.b
+  },
+})
+```
+
+Dette skaber vÃ¦rktÃ¸jer: `math_add` og `math_multiply`.
+
+---
+
+#### Navnekollisioner med indbyggede vÃ¦rktÃ¸jer
+
+Brugerdefinerede vÃ¦rktÃ¸jer er identificeret ved vÃ¦rktÃ¸jsnavn. Hvis et brugerdefineret vÃ¦rktÃ¸j bruger samme navn som et indbygget vÃ¦rktÃ¸j, har det brugerdefinerede vÃ¦rktÃ¸j forrang.
+
+For eksempel erstatter denne fil det indbyggede `bash` vÃ¦rktÃ¸j:
+
+```ts title=".voracode/tools/bash.ts"
+import { tool } from "@voracode-ai/plugin"
+
+export default tool({
+  description: "Restricted bash wrapper",
+  args: {
+    command: tool.schema.string(),
+  },
+  async execute(args) {
+    return `blocked: ${args.command}`
+  },
+})
+```
+
+:::note
+ForetrÃ¦k unikke navne, medmindre du bevidst Ã¸nsker at erstatte et indbygget vÃ¦rktÃ¸j. Hvis du vil deaktivere et indbygget vÃ¦rktÃ¸j, men ikke overskrive det, skal du bruge [tilladelser](/docs/permissions).
+:::
+
+---
+
+### Argumenter
+
+Du kan bruge `tool.schema`, som kun er [Zod](https://zod.dev), til at definere argumenttyper.
+
+```ts "tool.schema"
+args: {
+  query: tool.schema.string().describe("SQL query to execute")
+}
+```
+
+Du kan ogsÃ¥ importere [Zod](https://zod.dev) direkte og returnere et almindeligt objekt:
+
+```ts {6}
+import { z } from "zod"
+
+export default {
+  description: "Tool description",
+  args: {
+    param: z.string().describe("Parameter description"),
+  },
+  async execute(args, context) {
+    // Tool implementation
+    return "result"
+  },
+}
+```
+
+---
+
+### Kontekst
+
+VÃ¦rktÃ¸jer modtager kontekst om den aktuelle session:
+
+```ts title=".voracode/tools/project.ts" {8}
+import { tool } from "@voracode-ai/plugin"
+
+export default tool({
+  description: "Get project information",
+  args: {},
+  async execute(args, context) {
+    // Access context information
+    const { agent, sessionID, messageID, directory, worktree } = context
+    return `Agent: ${agent}, Session: ${sessionID}, Message: ${messageID}, Directory: ${directory}, Worktree: ${worktree}`
+  },
+})
+```
+
+Brug `context.directory` til sessionens arbejdsmappe.
+Brug `context.worktree` til git-arbejdstrÃ¦ets rod.
+
+---
+
+## Eksempler
+
+### Skriv et vÃ¦rktÃ¸j i Python
+
+Du kan skrive dine vÃ¦rktÃ¸jer pÃ¥ et hvilket som helst sprog, du Ã¸nsker. Her er et eksempel, der tilfÃ¸jer til tal ved hjÃ¦lp af Python.
+
+FÃ¸rst skal du oprette vÃ¦rktÃ¸jet som et Python-script:
+
+```python title=".voracode/tools/add.py"
+import sys
+
+a = int(sys.argv[1])
+b = int(sys.argv[2])
+print(a + b)
+```
+
+Opret derefter vÃ¦rktÃ¸jsdefinitionen, der kalder den:
+
+```ts title=".voracode/tools/python-add.ts" {10}
+import { tool } from "@voracode-ai/plugin"
+import path from "path"
+
+export default tool({
+  description: "Add two numbers using Python",
+  args: {
+    a: tool.schema.number().describe("First number"),
+    b: tool.schema.number().describe("Second number"),
+  },
+  async execute(args, context) {
+    const script = path.join(context.worktree, ".voracode/tools/add.py")
+    const result = await Bun.$`python3 ${script} ${args.a} ${args.b}`.text()
+    return result.trim()
+  },
+})
+```
+
+Her bruger vi [`Bun.$`](https://bun.com/docs/runtime/shell)-vÃ¦rktÃ¸jet til at kÃ¸re Python-scriptet.

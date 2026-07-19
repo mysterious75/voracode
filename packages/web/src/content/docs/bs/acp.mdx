@@ -1,0 +1,156 @@
+---
+title: ACP podrÅ¡ka
+description: Koristite Voracode u bilo kojem ureÄ‘ivaÄu kompatibilnom sa ACP.
+---
+
+Voracode podrÅ¾ava [Agent Client Protocol](https://agentclientprotocol.com) (ACP), Å¡to vam omoguÄ‡ava da ga koristite direktno u kompatibilnim ureÄ‘ivaÄima i IDE-ovima.
+
+:::tip
+Za listu ureÄ‘ivaÄa i alata koji podrÅ¾avaju ACP, pogledajte [ACP izvjeÅ¡taj o napretku](https://zed.dev/blog/acp-progress-report#available-now).
+:::
+
+ACP je otvoreni protokol koji standardizira komunikaciju izmeÄ‘u ureÄ‘ivaÄa koda i AI coding agenata.
+
+---
+
+## Konfiguracija
+
+Da biste koristili Voracode putem ACP-a, konfigurirajte svoj ureÄ‘ivaÄ da pokrene naredbu `voracode acp`.
+
+Naredba pokreÄ‡e Voracode kao ACP-kompatibilan podproces koji komunicira sa vaÅ¡im ureÄ‘ivaÄem preko JSON-RPC-a kroz stdio.
+
+Ispod su primjeri za popularne ureÄ‘ivaÄe koji podrÅ¾avaju ACP.
+
+---
+
+### Zed
+
+Dodajte u svoju [Zed](https://zed.dev) konfiguraciju (`~/.config/zed/settings.json`):
+
+```json title="~/.config/zed/settings.json"
+{
+  "agent_servers": {
+    "Voracode": {
+      "command": "voracode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+Da biste ga otvorili, koristite akciju `agent: new thread` u **Command Palette**.
+
+TakoÄ‘er moÅ¾ete vezati preÄicu na tastaturi ureÄ‘ivanjem vaÅ¡eg `keymap.json`:
+
+```json title="keymap.json"
+[
+  {
+    "bindings": {
+      "cmd-alt-o": [
+        "agent::NewExternalAgentThread",
+        {
+          "agent": {
+            "custom": {
+              "name": "Voracode",
+              "command": {
+                "command": "voracode",
+                "args": ["acp"]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+]
+```
+
+---
+
+### JetBrains IDE-ovi
+
+Dodajte u svoj [JetBrains IDE](https://www.jetbrains.com/) `acp.json` prema [dokumentaciji](https://www.jetbrains.com/help/ai-assistant/acp.html):
+
+```json title="acp.json"
+{
+  "agent_servers": {
+    "Voracode": {
+      "command": "/absolute/path/bin/voracode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+Da biste ga otvorili, koristite novog "Voracode" agenta u AI Chat agent selektoru.
+
+---
+
+### Avante.nvim
+
+Dodajte u svoju [Avante.nvim](https://github.com/yetone/avante.nvim) konfiguraciju:
+
+```lua
+{
+  acp_providers = {
+    ["voracode"] = {
+      command = "voracode",
+      args = { "acp" }
+    }
+  }
+}
+```
+
+Ako trebate proslijediti varijable okruÅ¾enja:
+
+```lua {6-8}
+{
+  acp_providers = {
+    ["voracode"] = {
+      command = "voracode",
+      args = { "acp" },
+      env = {
+        VORACODE_API_KEY = os.getenv("VORACODE_API_KEY")
+      }
+    }
+  }
+}
+```
+
+---
+
+### CodeCompanion.nvim
+
+Da koristite Voracode kao ACP agenta u [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim), dodajte sljedeÄ‡e u svoju Neovim konfiguraciju:
+
+```lua
+require("codecompanion").setup({
+  interactions = {
+    chat = {
+      adapter = {
+        name = "voracode",
+        model = "claude-sonnet-4",
+      },
+    },
+  },
+})
+```
+
+Ova konfiguracija postavlja CodeCompanion da koristi Voracode kao ACP chat agenta.
+
+Ako trebate proslijediti varijable okruÅ¾enja (kao Å¡to je `VORACODE_API_KEY`), pogledajte [Configuring Adapters: Environment Variables](https://codecompanion.olimorris.dev/getting-started#setting-an-api-key) u dokumentaciji CodeCompanion.nvim.
+
+## PodrÅ¾ane funkcije
+
+Voracode radi isto kroz ACP kao i u terminalu. PodrÅ¾ane su sve funkcije:
+
+:::note
+Neke ugraÄ‘ene komande kao Å¡to su `/undo` i `/redo` trenutno nisu podrÅ¾ane.
+:::
+
+- UgraÄ‘eni alati (operacije sa datotekama, naredbe terminala, itd.)
+- PrilagoÄ‘eni alati i slash komande
+- MCP serveri konfigurisani u vaÅ¡oj Voracode konfiguraciji
+- Pravila specifiÄna za projekat `AGENTS.md`
+- PrilagoÄ‘eni formateri i linteri
+- Agenti i sistem dozvola

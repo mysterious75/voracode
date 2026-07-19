@@ -1,0 +1,755 @@
+﻿---
+title: Agentes
+description: Configure e use agentes especializados.
+---
+
+Agentes sÃ£o assistentes de IA especializados que podem ser configurados para tarefas e fluxos de trabalho especÃ­ficos. Eles permitem que vocÃª crie ferramentas focadas com prompts, modelos e acesso a ferramentas personalizados.
+
+:::tip
+Use o agente de planejamento (plan) para analisar cÃ³digo e revisar sugestÃµes sem fazer alteraÃ§Ãµes no cÃ³digo.
+:::
+
+VocÃª pode alternar entre agentes durante uma sessÃ£o ou invocÃ¡-los com a menÃ§Ã£o `@`.
+
+---
+
+## Tipos
+
+Existem dois tipos de agentes no voracode; agentes primÃ¡rios e subagentes.
+
+---
+
+### Agentes primÃ¡rios
+
+Agentes primÃ¡rios sÃ£o os principais assistentes com os quais vocÃª interage diretamente. VocÃª pode alternar entre eles usando a tecla **Tab** ou sua tecla de atalho configurada `switch_agent`. Esses agentes lidam com sua conversa principal. O acesso Ã s ferramentas Ã© configurado por meio de permissÃµes â€” por exemplo, Build tem todas as ferramentas habilitadas, enquanto Plan Ã© restrito.
+
+:::tip
+VocÃª pode usar a tecla **Tab** para alternar entre agentes primÃ¡rios durante uma sessÃ£o.
+:::
+
+voracode vem com dois agentes primÃ¡rios integrados, **Build** e **Plan**. Vamos
+ver isso abaixo.
+
+---
+
+### Subagentes
+
+Subagentes sÃ£o assistentes especializados que agentes primÃ¡rios podem invocar para tarefas especÃ­ficas. VocÃª tambÃ©m pode invocÃ¡-los manualmente mencionando-os com **@** em suas mensagens.
+
+Voracode vem com trÃªs subagentes integrados, **General**, **Explore** e **Scout**. Vamos ver isso abaixo.
+
+---
+
+## Integrados
+
+Voracode vem com dois agentes primÃ¡rios integrados e trÃªs subagentes integrados.
+
+---
+
+### build
+
+_Modo_: `primary`
+
+Build Ã© o agente primÃ¡rio **padrÃ£o** com todas as ferramentas habilitadas. Este Ã© o agente padrÃ£o para trabalho de desenvolvimento onde vocÃª precisa de acesso total a operaÃ§Ãµes de arquivo e comandos do sistema.
+
+---
+
+### plan
+
+_Modo_: `primary`
+
+Um agente restrito projetado para planejamento e anÃ¡lise. Usamos um sistema de permissÃµes para lhe dar mais controle e evitar alteraÃ§Ãµes nÃ£o intencionais.
+Por padrÃ£o, todos os seguintes estÃ£o configurados para `ask`:
+
+- `file edits`: Todas as gravaÃ§Ãµes, patches e ediÃ§Ãµes
+- `bash`: Todos os comandos bash
+
+Este agente Ã© Ãºtil quando vocÃª deseja que o LLM analise cÃ³digo, sugira alteraÃ§Ãµes ou crie planos sem fazer modificaÃ§Ãµes reais em seu cÃ³digo.
+
+---
+
+### general
+
+_Modo_: `subagent`
+
+Um agente de propÃ³sito geral para pesquisar questÃµes complexas e executar tarefas em mÃºltiplas etapas. Tem acesso total Ã s ferramentas (exceto todo), portanto, pode fazer alteraÃ§Ãµes em arquivos quando necessÃ¡rio. Use isso para executar vÃ¡rias unidades de trabalho em paralelo.
+
+---
+
+### explore
+
+_Modo_: `subagent`
+
+Um agente rÃ¡pido e somente leitura para explorar bases de cÃ³digo. NÃ£o pode modificar arquivos. Use isso quando vocÃª precisar encontrar rapidamente arquivos por padrÃµes, pesquisar cÃ³digo por palavras-chave ou responder perguntas sobre a base de cÃ³digo.
+
+---
+
+### Scout
+
+_Modo_: `subagent`
+
+Um agente somente leitura para pesquisa em documentaÃ§Ã£o externa e dependÃªncias. Use-o quando vocÃª precisar clonar o repositÃ³rio de uma dependÃªncia para o cache gerenciado do Voracode, inspecionar o cÃ³digo-fonte de uma biblioteca ou cruzar o cÃ³digo local com implementaÃ§Ãµes upstream sem modificar seu workspace.
+
+---
+
+### compaction
+
+_Modo_: `primary`
+
+Agente de sistema oculto que compacta longos contextos em um resumo menor. Ele Ã© executado automaticamente quando necessÃ¡rio e nÃ£o Ã© selecionÃ¡vel na interface.
+
+---
+
+### title
+
+_Modo_: `primary`
+
+Agente de sistema oculto que gera tÃ­tulos curtos para sessÃµes. Ele Ã© executado automaticamente e nÃ£o Ã© selecionÃ¡vel na interface.
+
+---
+
+### summary
+
+_Modo_: `primary`
+
+Agente de sistema oculto que cria resumos de sessÃµes. Ele Ã© executado automaticamente e nÃ£o Ã© selecionÃ¡vel na interface.
+
+---
+
+## Uso
+
+1. Para agentes primÃ¡rios, use a tecla **Tab** para alternar entre eles durante uma sessÃ£o. VocÃª tambÃ©m pode usar sua tecla de atalho configurada `switch_agent`.
+
+2. Subagentes podem ser invocados:
+   - **Automaticamente** por agentes primÃ¡rios para tarefas especializadas com base em suas descriÃ§Ãµes.
+   - Manualmente mencionando um subagente em sua mensagem. Por exemplo.
+
+     ```txt frame="none"
+     @general help me search for this function
+     ```
+
+3. **NavegaÃ§Ã£o entre sessÃµes**: Quando subagentes criam suas prÃ³prias sessÃµes filhas, vocÃª pode navegar entre a sessÃ£o pai e todas as sessÃµes filhas usando:
+   - **\<Leader>+Right** (ou sua tecla de atalho configurada `session_child_cycle`) para alternar para frente atravÃ©s de pai â†’ child1 â†’ child2 â†’ ... â†’ pai
+   - **\<Leader>+Left** (ou sua tecla de atalho configurada `session_child_cycle_reverse`) para alternar para trÃ¡s atravÃ©s de pai â† child1 â† child2 â† ... â† pai
+
+   Isso permite que vocÃª mude perfeitamente entre a conversa principal e o trabalho especializado do subagente.
+
+---
+
+## ConfiguraÃ§Ã£o
+
+VocÃª pode personalizar os agentes integrados ou criar os seus prÃ³prios atravÃ©s da configuraÃ§Ã£o. Os agentes podem ser configurados de duas maneiras:
+
+---
+
+### JSON
+
+Configure os agentes em seu arquivo de configuraÃ§Ã£o `voracode.json`:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "mode": "primary",
+      "model": "anthropic/claude-sonnet-4-20250514",
+      "prompt": "{file:./prompts/build.txt}",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true
+      }
+    },
+    "plan": {
+      "mode": "primary",
+      "model": "anthropic/claude-haiku-4-20250514",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
+    },
+    "code-reviewer": {
+      "description": "Revisa cÃ³digo para melhores prÃ¡ticas e potenciais problemas",
+      "mode": "subagent",
+      "model": "anthropic/claude-sonnet-4-20250514",
+      "prompt": "VocÃª Ã© um revisor de cÃ³digo. Foque em seguranÃ§a, performance e manutenibilidade.",
+      "tools": {
+        "write": false,
+        "edit": false
+      }
+    }
+  }
+}
+```
+
+---
+
+### Markdown
+
+VocÃª tambÃ©m pode definir agentes usando arquivos markdown. Coloque-os em:
+
+- Global: `~/.config/voracode/agents/`
+- Por projeto: `.voracode/agents/`
+
+```markdown title="~/.config/voracode/agents/review.md"
+---
+description: Revisa cÃ³digo para qualidade e melhores prÃ¡ticas
+mode: subagent
+model: anthropic/claude-sonnet-4-20250514
+temperature: 0.1
+tools:
+  write: false
+  edit: false
+  bash: false
+---
+
+VocÃª estÃ¡ no modo de revisÃ£o de cÃ³digo. Foque em:
+
+- Qualidade do cÃ³digo e melhores prÃ¡ticas
+- Bugs potenciais e casos de borda
+- ImplicaÃ§Ãµes de desempenho
+- ConsideraÃ§Ãµes de seguranÃ§a
+
+ForneÃ§a feedback construtivo sem fazer alteraÃ§Ãµes diretas.
+```
+
+O nome do arquivo markdown se torna o nome do agente. Por exemplo, `review.md` cria um agente `review`.
+
+---
+
+## OpÃ§Ãµes
+
+Vamos analisar essas opÃ§Ãµes de configuraÃ§Ã£o em detalhes.
+
+---
+
+### DescriÃ§Ã£o
+
+Use a opÃ§Ã£o `description` para fornecer uma breve descriÃ§Ã£o do que o agente faz e quando usÃ¡-lo.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "description": "Revisa cÃ³digo para melhores prÃ¡ticas e potenciais problemas"
+    }
+  }
+}
+```
+
+Esta Ã© uma opÃ§Ã£o de configuraÃ§Ã£o **obrigatÃ³ria**.
+
+---
+
+### Temperatura
+
+Controle a aleatoriedade e criatividade das respostas do LLM com a configuraÃ§Ã£o `temperature`.
+
+Valores mais baixos tornam as respostas mais focadas e determinÃ­sticas, enquanto valores mais altos aumentam a criatividade e variabilidade.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "plan": {
+      "temperature": 0.1
+    },
+    "creative": {
+      "temperature": 0.8
+    }
+  }
+}
+```
+
+Os valores de temperatura geralmente variam de 0.0 a 1.0:
+
+- **0.0-0.2**: Respostas muito focadas e determinÃ­sticas, ideais para anÃ¡lise de cÃ³digo e planejamento
+- **0.3-0.5**: Respostas equilibradas com alguma criatividade, boas para tarefas de desenvolvimento gerais
+- **0.6-1.0**: Respostas mais criativas e variadas, Ãºteis para brainstorming e exploraÃ§Ã£o
+
+```json title="voracode.json"
+{
+  "agent": {
+    "analyze": {
+      "temperature": 0.1,
+      "prompt": "{file:./prompts/analysis.txt}"
+    },
+    "build": {
+      "temperature": 0.3
+    },
+    "brainstorm": {
+      "temperature": 0.7,
+      "prompt": "{file:./prompts/creative.txt}"
+    }
+  }
+}
+```
+
+Se nenhuma temperatura for especificada, o voracode usa padrÃµes especÃ­ficos do modelo; tipicamente 0 para a maioria dos modelos, 0.55 para modelos Qwen.
+
+---
+
+### MÃ¡ximo de etapas
+
+Controle o nÃºmero mÃ¡ximo de iteraÃ§Ãµes que um agente pode realizar antes de ser forÃ§ado a responder apenas com texto. Isso permite que usuÃ¡rios que desejam controlar custos definam um limite nas aÃ§Ãµes do agente.
+
+Se isso nÃ£o for definido, o agente continuarÃ¡ a iterar atÃ© que o modelo decida parar ou o usuÃ¡rio interrompa a sessÃ£o.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "quick-thinker": {
+      "description": "RaciocÃ­nio rÃ¡pido com iteraÃ§Ãµes limitadas",
+      "prompt": "VocÃª Ã© um pensador rÃ¡pido. Resolva problemas com etapas mÃ­nimas.",
+      "steps": 5
+    }
+  }
+}
+```
+
+Quando o limite Ã© alcanÃ§ado, o agente recebe um prompt especial do sistema instruindo-o a responder com um resumo de seu trabalho e tarefas recomendadas restantes.
+
+:::caution
+O campo legado `maxSteps` estÃ¡ obsoleto. Use `steps` em vez disso.
+:::
+
+---
+
+### Desativar
+
+Defina como `true` para desativar o agente.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "disable": true
+    }
+  }
+}
+```
+
+---
+
+### Prompt
+
+Especifique um arquivo de prompt do sistema personalizado para este agente com a configuraÃ§Ã£o `prompt`. O arquivo de prompt deve conter instruÃ§Ãµes especÃ­ficas para o propÃ³sito do agente.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "prompt": "{file:./prompts/code-review.txt}"
+    }
+  }
+}
+```
+
+Este caminho Ã© relativo ao local onde o arquivo de configuraÃ§Ã£o estÃ¡ localizado. Portanto, isso funciona tanto para a configuraÃ§Ã£o global do voracode quanto para a configuraÃ§Ã£o especÃ­fica do projeto.
+
+---
+
+### Modelo
+
+Use a configuraÃ§Ã£o `model` para substituir o modelo para este agente. Ãštil para usar diferentes modelos otimizados para diferentes tarefas. Por exemplo, um modelo mais rÃ¡pido para planejamento, um modelo mais capaz para implementaÃ§Ã£o.
+
+:::tip
+Se vocÃª nÃ£o especificar um modelo, os agentes primÃ¡rios usam o [modelo configurado globalmente](/docs/config#models) enquanto subagentes usarÃ£o o modelo do agente primÃ¡rio que invocou o subagente.
+:::
+
+```json title="voracode.json"
+{
+  "agent": {
+    "plan": {
+      "model": "anthropic/claude-haiku-4-20250514"
+    }
+  }
+}
+```
+
+O ID do modelo em sua configuraÃ§Ã£o do voracode usa o formato `provider/model-id`. Por exemplo, se vocÃª estiver usando [Voracode Zen](/docs/zen), vocÃª usaria `voracode/gpt-5.1-codex` para GPT 5.1 Codex.
+
+---
+
+### Ferramentas
+
+Controle quais ferramentas estÃ£o disponÃ­veis neste agente com a configuraÃ§Ã£o `tools`. VocÃª pode habilitar ou desabilitar ferramentas especÃ­ficas definindo-as como `true` ou `false`.
+
+```json title="voracode.json" {3-6,9-12}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "tools": {
+    "write": true,
+    "bash": true
+  },
+  "agent": {
+    "plan": {
+      "tools": {
+        "write": false,
+        "bash": false
+      }
+    }
+  }
+}
+```
+
+:::note
+A configuraÃ§Ã£o especÃ­fica do agente substitui a configuraÃ§Ã£o global.
+:::
+
+VocÃª tambÃ©m pode usar curingas para controlar vÃ¡rias ferramentas ao mesmo tempo. Por exemplo, para desativar todas as ferramentas de um servidor MCP:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "readonly": {
+      "tools": {
+        "mymcp_*": false,
+        "write": false,
+        "edit": false
+      }
+    }
+  }
+}
+```
+
+[Saiba mais sobre ferramentas](/docs/tools).
+
+---
+
+### PermissÃµes
+
+VocÃª pode configurar permissÃµes para gerenciar quais aÃ§Ãµes um agente pode realizar. Atualmente, as permissÃµes para as ferramentas `edit`, `bash` e `webfetch` podem ser configuradas para:
+
+- `"ask"` â€” Solicitar aprovaÃ§Ã£o antes de executar a ferramenta
+- `"allow"` â€” Permitir todas as operaÃ§Ãµes sem aprovaÃ§Ã£o
+- `"deny"` â€” Desativar a ferramenta
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "deny"
+  }
+}
+```
+
+VocÃª pode substituir essas permissÃµes por agente.
+
+```json title="voracode.json" {3-5,8-10}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "deny"
+  },
+  "agent": {
+    "build": {
+      "permission": {
+        "edit": "ask"
+      }
+    }
+  }
+}
+```
+
+VocÃª tambÃ©m pode definir permissÃµes em agentes Markdown.
+
+```markdown title="~/.config/voracode/agents/review.md"
+---
+description: RevisÃ£o de cÃ³digo sem ediÃ§Ãµes
+mode: subagent
+permission:
+  edit: deny
+  bash:
+    "*": ask
+    "git diff": allow
+    "git log*": allow
+    "grep *": allow
+  webfetch: deny
+---
+
+Apenas analise o cÃ³digo e sugira alteraÃ§Ãµes.
+```
+
+VocÃª pode definir permissÃµes para comandos bash especÃ­ficos.
+
+```json title="voracode.json" {7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "git push": "ask",
+          "grep *": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+Isso pode aceitar um padrÃ£o glob.
+
+```json title="voracode.json" {7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "git *": "ask"
+        }
+      }
+    }
+  }
+}
+```
+
+E vocÃª tambÃ©m pode usar o curinga `*` para gerenciar permissÃµes para todos os comandos.
+Como a Ãºltima regra correspondente tem precedÃªncia, coloque o curinga `*` primeiro e regras especÃ­ficas depois.
+
+```json title="voracode.json" {8}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "git status *": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+[Saiba mais sobre permissÃµes](/docs/permissions).
+
+---
+
+### Modo
+
+Controle o modo do agente com a configuraÃ§Ã£o `mode`. A opÃ§Ã£o `mode` Ã© usada para determinar como o agente pode ser usado.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "mode": "subagent"
+    }
+  }
+}
+```
+
+A opÃ§Ã£o `mode` pode ser definida como `primary`, `subagent` ou `all`. Se nenhum `mode` for especificado, o padrÃ£o Ã© `all`.
+
+---
+
+### Oculto
+
+Oculte um subagente do menu de autocompletar `@` com `hidden: true`. Ãštil para subagentes internos que devem ser invocados apenas programaticamente por outros agentes atravÃ©s da ferramenta Task.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "internal-helper": {
+      "mode": "subagent",
+      "hidden": true
+    }
+  }
+}
+```
+
+Isso afeta apenas a visibilidade do usuÃ¡rio no menu de autocompletar. Agentes ocultos ainda podem ser invocados pelo modelo atravÃ©s da ferramenta Task, se as permissÃµes permitirem.
+
+:::note
+Aplica-se apenas a agentes `mode: subagent`.
+:::
+
+---
+
+### PermissÃµes de tarefa
+
+Controle quais subagentes um agente pode invocar atravÃ©s da ferramenta Task com `permission.task`. Usa padrÃµes globais para correspondÃªncia flexÃ­vel.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "orchestrator": {
+      "mode": "primary",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "orchestrator-*": "allow",
+          "code-reviewer": "ask"
+        }
+      }
+    }
+  }
+}
+```
+
+Quando definido como `deny`, o subagente Ã© removido da descriÃ§Ã£o da ferramenta Task completamente, entÃ£o o modelo nÃ£o tentarÃ¡ invocÃ¡-lo.
+
+:::tip
+As regras sÃ£o avaliadas em ordem, e a **Ãºltima regra correspondente vence**. No exemplo acima, `orchestrator-planner` corresponde a ambos `*` (deny) e `orchestrator-*` (allow), mas como `orchestrator-*` vem depois de `*`, o resultado Ã© `allow`.
+:::
+
+:::tip
+Os usuÃ¡rios sempre podem invocar qualquer subagente diretamente atravÃ©s do menu de autocompletar `@`, mesmo que as permissÃµes de tarefa do agente o neguem.
+:::
+
+---
+
+### Cor
+
+Personalize a aparÃªncia visual do agente na interface com a opÃ§Ã£o `color`. Isso afeta como o agente aparece na interface.
+
+Use uma cor hex vÃ¡lida (por exemplo, `#FF5733`) ou cor de tema: `primary`, `secondary`, `accent`, `success`, `warning`, `error`, `info`.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "creative": {
+      "color": "#ff6b6b"
+    },
+    "code-reviewer": {
+      "color": "accent"
+    }
+  }
+}
+```
+
+---
+
+### Top P
+
+Controle a diversidade das respostas com a opÃ§Ã£o `top_p`. Alternativa Ã  temperatura para controlar a aleatoriedade.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "brainstorm": {
+      "top_p": 0.9
+    }
+  }
+}
+```
+
+Os valores variam de 0.0 a 1.0. Valores mais baixos sÃ£o mais focados, valores mais altos sÃ£o mais diversos.
+
+---
+
+### Adicional
+
+Quaisquer outras opÃ§Ãµes que vocÃª especificar em sua configuraÃ§Ã£o de agente serÃ£o **passadas diretamente** para o provedor como opÃ§Ãµes de modelo. Isso permite que vocÃª use recursos e parÃ¢metros especÃ­ficos do provedor.
+
+Por exemplo, com os modelos de raciocÃ­nio da OpenAI, vocÃª pode controlar o esforÃ§o de raciocÃ­nio:
+
+```json title="voracode.json" {6,7}
+{
+  "agent": {
+    "deep-thinker": {
+      "description": "Agente que usa alto esforÃ§o de raciocÃ­nio para problemas complexos",
+      "model": "openai/gpt-5",
+      "reasoningEffort": "high",
+      "textVerbosity": "low"
+    }
+  }
+}
+```
+
+Essas opÃ§Ãµes adicionais sÃ£o especÃ­ficas do modelo e do provedor. Verifique a documentaÃ§Ã£o do seu provedor para parÃ¢metros disponÃ­veis.
+
+:::tip
+Execute `voracode models` para ver uma lista dos modelos disponÃ­veis.
+:::
+
+---
+
+## Criando agentes
+
+VocÃª pode criar novos agentes usando o seguinte comando:
+
+```bash
+voracode agent create
+```
+
+Este comando interativo irÃ¡:
+
+1. Perguntar onde salvar o agente; global ou especÃ­fico do projeto.
+2. DescriÃ§Ã£o do que o agente deve fazer.
+3. Gerar um prompt de sistema apropriado e identificador.
+4. Permitir que vocÃª selecione quais ferramentas o agente pode acessar.
+5. Finalmente, criar um arquivo markdown com a configuraÃ§Ã£o do agente.
+
+---
+
+## Casos de uso
+
+Aqui estÃ£o alguns casos de uso comuns para diferentes agentes.
+
+- **Agente Build**: Trabalho de desenvolvimento completo com todas as ferramentas habilitadas
+- **Agente Plan**: AnÃ¡lise e planejamento sem fazer alteraÃ§Ãµes
+- **Agente Review**: RevisÃ£o de cÃ³digo com acesso somente leitura e ferramentas de documentaÃ§Ã£o
+- **Agente Debug**: Focado em investigaÃ§Ã£o com ferramentas bash e de leitura habilitadas
+- **Agente Docs**: RedaÃ§Ã£o de documentaÃ§Ã£o com operaÃ§Ãµes de arquivo, mas sem comandos do sistema
+
+---
+
+## Exemplos
+
+Aqui estÃ£o alguns agentes de exemplo que vocÃª pode achar Ãºteis.
+
+:::tip
+VocÃª tem um agente que gostaria de compartilhar? [Envie um PR](https://github.com/mysterious75/voracode).
+:::
+
+---
+
+### Agente de documentaÃ§Ã£o
+
+```markdown title="~/.config/voracode/agents/docs-writer.md"
+---
+description: Escreve e mantÃ©m a documentaÃ§Ã£o do projeto
+mode: subagent
+tools:
+  bash: false
+---
+
+VocÃª Ã© um escritor tÃ©cnico. Crie documentaÃ§Ã£o clara e abrangente.
+
+Foque em:
+
+- ExplicaÃ§Ãµes claras
+- Estrutura adequada
+- Exemplos de cÃ³digo
+- Linguagem amigÃ¡vel ao usuÃ¡rio
+```
+
+---
+
+### Auditor de seguranÃ§a
+
+```markdown title="~/.config/voracode/agents/security-auditor.md"
+---
+description: Realiza auditorias de seguranÃ§a e identifica vulnerabilidades
+mode: subagent
+tools:
+  write: false
+  edit: false
+---
+
+VocÃª Ã© um especialista em seguranÃ§a. Foque em identificar potenciais problemas de seguranÃ§a.
+
+Procure por:
+
+- Vulnerabilidades de validaÃ§Ã£o de entrada
+- Falhas de autenticaÃ§Ã£o e autorizaÃ§Ã£o
+- Riscos de exposiÃ§Ã£o de dados
+- Vulnerabilidades de dependÃªncia
+- Problemas de seguranÃ§a de configuraÃ§Ã£o
+```

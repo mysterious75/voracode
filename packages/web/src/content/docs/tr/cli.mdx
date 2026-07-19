@@ -1,0 +1,617 @@
+---
+title: CLI
+description: voracode CLI seÃ§enekleri ve komutlarÄ±.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
+voracode CLI herhangi bir argÃ¼man olmadan Ã§alÄ±ÅŸtÄ±rÄ±ldÄ±ÄŸÄ±nda varsayÄ±lan olarak [TUI](/docs/tui)'yi baÅŸlatÄ±r.
+
+```bash
+voracode
+```
+
+Ancak bu sayfada belgelendiÄŸi gibi komutlarÄ± da kabul eder. Bu, voracode ile programlÄ± olarak etkileÅŸim kurmanÄ±za olanak tanÄ±r.
+
+```bash
+voracode run "Explain how closures work in JavaScript"
+```
+
+---
+
+### tui
+
+voracode terminal kullanÄ±cÄ± arayÃ¼zÃ¼nÃ¼ baÅŸlatÄ±r.
+
+```bash
+voracode [project]
+```
+
+#### Bayraklar
+
+| Bayrak                                   | KÄ±sa | AÃ§Ä±klama                                                                    |
+| ---------------------------------------- | ---- | --------------------------------------------------------------------------- |
+| <nobr><code>{"--continue"}</code></nobr> | `-c` | Son oturuma devam et                                                        |
+| <nobr><code>{"--session"}</code></nobr>  | `-s` | Devam edecek oturum kimliÄŸi                                                 |
+| <nobr><code>{"--fork"}</code></nobr>     |      | Devam ederken oturumu fork'lar (`--continue` veya `--session` ile kullanÄ±n) |
+| <nobr><code>{"--prompt"}</code></nobr>   |      | KullanÄ±lacak prompt                                                         |
+| <nobr><code>{"--model"}</code></nobr>    | `-m` | provider/model biÃ§iminde kullanÄ±lacak model                                 |
+| <nobr><code>{"--agent"}</code></nobr>    |      | KullanÄ±lacak agent                                                          |
+| <nobr><code>{"--port"}</code></nobr>     |      | Dinlenecek port                                                             |
+| <nobr><code>{"--hostname"}</code></nobr> |      | Dinlenecek host adÄ±                                                         |
+
+---
+
+## Komutlar
+
+voracode CLI ayrÄ±ca aÅŸaÄŸÄ±daki komutlara da sahiptir.
+
+---
+
+### agent
+
+voracode iÃ§in agent'larÄ± yÃ¶netin.
+
+```bash
+voracode agent [command]
+```
+
+---
+
+### attach
+
+`serve` veya `web` komutlarÄ±yla baÅŸlatÄ±lan, halihazÄ±rda Ã§alÄ±ÅŸan bir voracode arka uÃ§ sunucusuna bir terminal ekleyin.
+
+```bash
+voracode attach [url]
+```
+
+Bu, TUI Ã¶ÄŸesinin uzak bir voracode arka ucuyla kullanÄ±lmasÄ±na olanak tanÄ±r. Ã–rneÄŸin:
+
+```bash
+# Start the backend server for web/mobile access
+voracode web --port 4096 --hostname 0.0.0.0
+
+# In another terminal, attach the TUI to the running backend
+voracode attach http://10.20.30.40:4096
+```
+
+#### Bayraklar
+
+| Bayrak                                   | KÄ±sa | TanÄ±m                                                                                         |
+| ---------------------------------------- | ---- | --------------------------------------------------------------------------------------------- |
+| <nobr><code>{"--dir"}</code></nobr>      |      | TUI'yi baÅŸlatmak iÃ§in Ã§alÄ±ÅŸma dizini                                                          |
+| <nobr><code>{"--continue"}</code></nobr> | `-c` | Son oturuma devam et                                                                          |
+| <nobr><code>{"--session"}</code></nobr>  | `-s` | Devam edecek oturum aÃ§ma bilgileri                                                            |
+| <nobr><code>{"--fork"}</code></nobr>     |      | Devam ederken oturumu Ã§atalla (`--continue` veya `--session` ile kullanÄ±n)                    |
+| <nobr><code>{"--password"}</code></nobr> | `-p` | Temel kimlik doÄŸrulama parolasÄ± (varsayÄ±lan: `VORACODE_SERVER_PASSWORD`)                      |
+| <nobr><code>{"--username"}</code></nobr> | `-u` | Temel kimlik doÄŸrulama kullanÄ±cÄ± adÄ± (varsayÄ±lan: `VORACODE_SERVER_USERNAME` veya `voracode`) |
+
+---
+
+#### create
+
+Ã–zel yapÄ±landÄ±rmaya sahip yeni bir agent oluÅŸturun.
+
+```bash
+voracode agent create
+```
+
+Bu komut, Ã¶zel sistem istemi ve araÃ§ yapÄ±landÄ±rmasÄ±yla yeni bir agent oluÅŸturma konusunda size yol gÃ¶sterecektir.
+
+---
+
+#### list
+
+Mevcut tÃ¼m agent'larÄ± listeleyin.
+
+```bash
+voracode agent list
+```
+
+---
+
+### auth
+
+SaÄŸlayÄ±cÄ±lar iÃ§in kimlik bilgilerini ve oturum aÃ§mayÄ± yÃ¶netme komutu.
+
+```bash
+voracode auth [command]
+```
+
+---
+
+#### login
+
+voracode, [Models.dev](https://models.dev) adresindeki saÄŸlayÄ±cÄ± listesi tarafÄ±ndan desteklenmektedir, dolayÄ±sÄ±yla kullanmak istediÄŸiniz herhangi bir saÄŸlayÄ±cÄ± iÃ§in API anahtarlarÄ±nÄ± ayarlamak Ã¼zere `voracode auth login` kullanabilirsiniz. Bu `~/.local/share/voracode/auth.json`'de saklanÄ±yor.
+
+```bash
+voracode auth login
+```
+
+voracode baÅŸlatÄ±ldÄ±ÄŸÄ±nda saÄŸlayÄ±cÄ±larÄ± kimlik bilgileri dosyasÄ±ndan yÃ¼kler. AyrÄ±ca ortam deÄŸiÅŸkenlerindeki veya projenizdeki `.env` dosyasÄ±ndaki anahtarlarÄ± da kullanÄ±r.
+
+---
+
+#### list
+
+Kimlik bilgileri dosyasÄ±nda depolanan tÃ¼m kimliÄŸi doÄŸrulanmÄ±ÅŸ saÄŸlayÄ±cÄ±larÄ± listeler.
+
+```bash
+voracode auth list
+```
+
+Veya kÄ±sa versiyonu.
+
+```bash
+voracode auth ls
+```
+
+---
+
+#### logout
+
+Bir saÄŸlayÄ±cÄ±yÄ± kimlik bilgileri dosyasÄ±ndan temizleyerek oturumunuzu kapatÄ±r.
+
+```bash
+voracode auth logout
+```
+
+---
+
+### github
+
+Depo otomasyonu iÃ§in GitHub aracÄ±sÄ±nÄ± yÃ¶netin.
+
+```bash
+voracode github [command]
+```
+
+---
+
+#### install
+
+GitHub aracÄ±sÄ±nÄ± deponuza yÃ¼kleyin.
+
+```bash
+voracode github install
+```
+
+Bu komut gerekli GitHub Actions workflow'unu kurar ve yapÄ±landÄ±rma adÄ±mlarÄ±nda size rehberlik eder. [Daha fazla bilgi](/docs/github).
+
+---
+
+#### run
+
+GitHub aracÄ±sÄ±nÄ± Ã§alÄ±ÅŸtÄ±rÄ±n. Bu genellikle GitHub Eylemlerinde kullanÄ±lÄ±r.
+
+```bash
+voracode github run
+```
+
+##### Bayraklar
+
+| Bayrak                                | AÃ§Ä±klama                                    |
+| ------------------------------------- | ------------------------------------------- |
+| <nobr><code>{"--event"}</code></nobr> | AracÄ±yÄ± Ã§alÄ±ÅŸtÄ±rmak iÃ§in GitHub sahte olayÄ± |
+| <nobr><code>{"--token"}</code></nobr> | GitHub personal access token                |
+
+---
+
+### mcp
+
+Model BaÄŸlam ProtokolÃ¼ sunucularÄ±nÄ± yÃ¶netin.
+
+```bash
+voracode mcp [command]
+```
+
+---
+
+#### add
+
+YapÄ±landÄ±rmanÄ±za bir MCP sunucusu ekleyin.
+
+```bash
+voracode mcp add
+```
+
+Bu komut, yerel veya uzak bir MCP sunucusu ekleme konusunda size yol gÃ¶sterecektir.
+
+---
+
+#### list
+
+YapÄ±landÄ±rÄ±lmÄ±ÅŸ tÃ¼m MCP sunucularÄ±nÄ± ve baÄŸlantÄ± durumlarÄ±nÄ± listeleyin.
+
+```bash
+voracode mcp list
+```
+
+Veya kÄ±sa versiyonunu kullanÄ±n.
+
+```bash
+voracode mcp ls
+```
+
+---
+
+#### auth
+
+OAuth'un etkin olduÄŸu bir MCP sunucusuyla kimlik doÄŸrulamasÄ± yapÄ±n.
+
+```bash
+voracode mcp auth [name]
+```
+
+Sunucu adÄ± belirtmezseniz mevcut OAuth Ã¶zellikli sunucular arasÄ±ndan seÃ§im yapmanÄ±z istenir.
+
+AyrÄ±ca OAuth Ã¶zellikli sunucularÄ± ve bunlarÄ±n kimlik doÄŸrulama durumlarÄ±nÄ± da listeleyebilirsiniz.
+
+```bash
+voracode mcp auth list
+```
+
+Veya kÄ±sa versiyonunu kullanÄ±n.
+
+```bash
+voracode mcp auth ls
+```
+
+---
+
+#### logout
+
+MCP sunucusu iÃ§in OAuth kimlik bilgilerini kaldÄ±rÄ±n.
+
+```bash
+voracode mcp logout [name]
+```
+
+---
+
+#### debug
+
+MCP sunucusu iÃ§in OAuth baÄŸlantÄ± sorunlarÄ±nÄ±n hatalarÄ±nÄ± ayÄ±klayÄ±n.
+
+```bash
+voracode mcp debug <name>
+```
+
+---
+
+### models
+
+YapÄ±landÄ±rÄ±lmÄ±ÅŸ saÄŸlayÄ±cÄ±larÄ±n tÃ¼m mevcut modellerini listeleyin.
+
+```bash
+voracode models [provider]
+```
+
+Bu komut, yapÄ±landÄ±rdÄ±ÄŸÄ±nÄ±z saÄŸlayÄ±cÄ±lardaki modelleri `provider/model` formatÄ±nda listeler.
+
+Bu, [config dosyanÄ±zda](/docs/config/) kullanmanÄ±z gereken tam model adÄ±nÄ± bulmak iÃ§in kullanÄ±ÅŸlÄ±dÄ±r.
+
+Modelleri bu saÄŸlayÄ±cÄ±ya gÃ¶re filtrelemek iÃ§in isteÄŸe baÄŸlÄ± olarak bir saÄŸlayÄ±cÄ± kimliÄŸini iletebilirsiniz.
+
+```bash
+voracode models anthropic
+```
+
+#### Bayraklar
+
+| Bayrak                                  | TanÄ±m                                                                       |
+| --------------------------------------- | --------------------------------------------------------------------------- |
+| <nobr><code>{"--refresh"}</code></nobr> | Modeller.dev'den model Ã¶nbelleÄŸini yenileyin                                |
+| <nobr><code>{"--verbose"}</code></nobr> | Daha ayrÄ±ntÄ±lÄ± model Ã§Ä±ktÄ±sÄ± kullanÄ±n (maliyetler gibi meta veriler iÃ§erir) |
+
+Ã–nbelleÄŸe alÄ±nan model listesini gÃ¼ncellemek iÃ§in `--refresh` bayraÄŸÄ±nÄ± kullanÄ±n. Bu, bir saÄŸlayÄ±cÄ±ya yeni modeller eklendiÄŸinde ve bunlarÄ± voracode'da gÃ¶rmek istediÄŸinizde kullanÄ±ÅŸlÄ±dÄ±r.
+
+```bash
+voracode models --refresh
+```
+
+---
+
+### run
+
+DoÄŸrudan bir istem ileterek voracode'u etkileÅŸimli olmayan modda Ã§alÄ±ÅŸtÄ±rÄ±n.
+
+```bash
+voracode run [message..]
+```
+
+Bu, komut dosyasÄ± oluÅŸturma, otomasyon veya TUI'un tamamÄ±nÄ± baÅŸlatmadan hÄ±zlÄ± bir yanÄ±t istediÄŸinizde kullanÄ±ÅŸlÄ±dÄ±r. Ã–rneÄŸin.
+
+```bash "voracode run"
+voracode run Explain the use of context in Go
+```
+
+AyrÄ±ca, her Ã§alÄ±ÅŸtÄ±rmada MCP sunucusunun soÄŸuk Ã¶nyÃ¼kleme sÃ¼relerini Ã¶nlemek iÃ§in Ã§alÄ±ÅŸan bir `voracode serve` Ã¶rneÄŸine de ekleyebilirsiniz:
+
+```bash
+# Start a headless server in one terminal
+voracode serve
+
+# In another terminal, run commands that attach to it
+voracode run --attach http://localhost:4096 "Explain async/await in JavaScript"
+```
+
+#### Bayraklar
+
+| Bayrak                                   | KÄ±sa | AÃ§Ä±klama                                                                                      |
+| ---------------------------------------- | ---- | --------------------------------------------------------------------------------------------- |
+| <nobr><code>{"--command"}</code></nobr>  |      | Ã‡alÄ±ÅŸtÄ±rÄ±lacak komut, args iÃ§in mesajÄ± kullanÄ±n                                               |
+| <nobr><code>{"--continue"}</code></nobr> | `-c` | Son oturuma devam et                                                                          |
+| <nobr><code>{"--session"}</code></nobr>  | `-s` | Devam edecek oturum kimliÄŸi                                                                   |
+| <nobr><code>{"--fork"}</code></nobr>     |      | Devam ederken oturumu fork'lar (`--continue` veya `--session` ile kullanÄ±n)                   |
+| <nobr><code>{"--share"}</code></nobr>    |      | Oturumu paylaÅŸÄ±n                                                                              |
+| <nobr><code>{"--model"}</code></nobr>    | `-m` | provider/model biÃ§iminde kullanÄ±lacak model                                                   |
+| <nobr><code>{"--agent"}</code></nobr>    |      | KullanÄ±lacak temsilci                                                                         |
+| <nobr><code>{"--file"}</code></nobr>     | `-f` | Mesaja eklenecek dosya(lar)                                                                   |
+| <nobr><code>{"--format"}</code></nobr>   |      | BiÃ§im: varsayÄ±lan (biÃ§imlendirilmiÅŸ) veya json (ham JSON olaylarÄ±)                            |
+| <nobr><code>{"--title"}</code></nobr>    |      | Oturumun baÅŸlÄ±ÄŸÄ± (deÄŸer saÄŸlanmazsa kÄ±saltÄ±lmÄ±ÅŸ bilgi istemi kullanÄ±lÄ±r)                      |
+| <nobr><code>{"--attach"}</code></nobr>   |      | Ã‡alÄ±ÅŸan bir voracode sunucusuna ekleyin (Ã¶r. http://localhost:4096)                           |
+| <nobr><code>{"--password"}</code></nobr> | `-p` | Temel kimlik doÄŸrulama parolasÄ± (varsayÄ±lan: `VORACODE_SERVER_PASSWORD`)                      |
+| <nobr><code>{"--username"}</code></nobr> | `-u` | Temel kimlik doÄŸrulama kullanÄ±cÄ± adÄ± (varsayÄ±lan: `VORACODE_SERVER_USERNAME` veya `voracode`) |
+| <nobr><code>{"--dir"}</code></nobr>      |      | Ã‡alÄ±ÅŸtÄ±rÄ±lacak dizin veya baÄŸlanÄ±rken uzak sunucudaki yol                                     |
+| <nobr><code>{"--variant"}</code></nobr>  |      | Model varyantÄ± (saÄŸlayÄ±cÄ±ya Ã¶zgÃ¼ muhakeme dÃ¼zeyi)                                             |
+| <nobr><code>{"--thinking"}</code></nobr> |      | DÃ¼ÅŸÃ¼nme bloklarÄ±nÄ± gÃ¶ster                                                                     |
+| <nobr><code>{"--port"}</code></nobr>     |      | Yerel sunucunun baÄŸlantÄ± noktasÄ± (varsayÄ±lan olarak rastgele baÄŸlantÄ± noktasÄ±dÄ±r)             |
+
+---
+
+### serve
+
+API eriÅŸimi iÃ§in headless bir voracode sunucusu baÅŸlatÄ±r. Tam HTTP arayÃ¼zÃ¼ iÃ§in [server docs](/docs/server) sayfasÄ±na bakÄ±n.
+
+```bash
+voracode serve
+```
+
+Bu, TUI arayÃ¼zÃ¼ olmadan voracode iÅŸlevselliÄŸine API eriÅŸimi saÄŸlayan bir HTTP sunucusunu baÅŸlatÄ±r. HTTP temel kimlik doÄŸrulamasÄ±nÄ± etkinleÅŸtirmek iÃ§in `VORACODE_SERVER_PASSWORD` Ã¶ÄŸesini ayarlayÄ±n (kullanÄ±cÄ± adÄ± varsayÄ±lan olarak `voracode` ÅŸeklindedir).
+
+#### Bayraklar
+
+| Bayrak                                   | TanÄ±m                                      |
+| ---------------------------------------- | ------------------------------------------ |
+| <nobr><code>{"--port"}</code></nobr>     | Dinlenecek baÄŸlantÄ± noktasÄ±                |
+| <nobr><code>{"--hostname"}</code></nobr> | Dinlenecek ana bilgisayar adÄ±              |
+| <nobr><code>{"--mdns"}</code></nobr>     | mDNS bulmayÄ± etkinleÅŸtir                   |
+| <nobr><code>{"--cors"}</code></nobr>     | CORS'a izin verecek ek tarayÄ±cÄ± kaynaklarÄ± |
+
+---
+
+### session
+
+voracode oturumlarÄ±nÄ± yÃ¶netin.
+
+```bash
+voracode session [command]
+```
+
+---
+
+#### list
+
+TÃ¼m voracode oturumlarÄ±nÄ± listeleyin.
+
+```bash
+voracode session list
+```
+
+##### Bayraklar
+
+| Bayrak                                    | KÄ±sa | TanÄ±m                                  |
+| ----------------------------------------- | ---- | -------------------------------------- |
+| <nobr><code>{"--max-count"}</code></nobr> | `-n` | En son N oturumla sÄ±nÄ±rla              |
+| <nobr><code>{"--format"}</code></nobr>    |      | Ã‡Ä±kÄ±ÅŸ formatÄ±: tablo veya json (tablo) |
+
+---
+
+### stats
+
+voracode oturumlarÄ±nÄ±z iÃ§in belirteÃ§ kullanÄ±mÄ± ve maliyet istatistiklerini gÃ¶sterin.
+
+```bash
+voracode stats
+```
+
+#### Bayraklar
+
+| Bayrak                                  | AÃ§Ä±klama                                                                                                    |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| <nobr><code>{"--days"}</code></nobr>    | Son N gÃ¼ne ait istatistikleri gÃ¶ster (tÃ¼m zamanlar)                                                         |
+| <nobr><code>{"--tools"}</code></nobr>   | GÃ¶sterilecek araÃ§ sayÄ±sÄ± (tÃ¼mÃ¼)                                                                             |
+| <nobr><code>{"--models"}</code></nobr>  | Model kullanÄ±m dÃ¶kÃ¼mÃ¼nÃ¼ gÃ¶ster (varsayÄ±lan olarak gizlidir). En Ã¼stteki N'yi gÃ¶stermek iÃ§in bir sayÄ± iletin |
+| <nobr><code>{"--project"}</code></nobr> | Projeye gÃ¶re filtrele (tÃ¼m projeler, boÅŸ deÄŸer: mevcut proje)                                               |
+
+---
+
+### export
+
+Oturum verilerini JSON olarak dÄ±ÅŸa aktarÄ±n.
+
+```bash
+voracode export [sessionID]
+```
+
+Bir oturum kimliÄŸi saÄŸlamazsanÄ±z mevcut oturumlar arasÄ±ndan seÃ§im yapmanÄ±z istenir.
+
+---
+
+### import
+
+Bir JSON dosyasÄ±ndan veya voracode paylaÅŸÄ±mÄ±ndan URL oturum verilerini iÃ§e aktarÄ±n.
+
+```bash
+voracode import <file>
+```
+
+Yerel bir dosyadan veya voracode paylaÅŸÄ±mÄ±ndan (URL) iÃ§e aktarabilirsiniz.
+
+```bash
+voracode import session.json
+voracode import https://opncd.ai/s/abc123
+```
+
+---
+
+### web
+
+Web arayÃ¼zÃ¼yle baÅŸsÄ±z bir voracode sunucusu baÅŸlatÄ±n.
+
+```bash
+voracode web
+```
+
+Bu, bir HTTP sunucusunu baÅŸlatÄ±r ve bir web arayÃ¼zÃ¼ aracÄ±lÄ±ÄŸÄ±yla voracode'a eriÅŸmek iÃ§in bir web tarayÄ±cÄ±sÄ± aÃ§ar. HTTP temel kimlik doÄŸrulamasÄ±nÄ± etkinleÅŸtirmek iÃ§in `VORACODE_SERVER_PASSWORD` Ã¶ÄŸesini ayarlayÄ±n (kullanÄ±cÄ± adÄ± varsayÄ±lan olarak `voracode` ÅŸeklindedir).
+
+#### Bayraklar
+
+| Bayrak                                   | TanÄ±m                                      |
+| ---------------------------------------- | ------------------------------------------ |
+| <nobr><code>{"--port"}</code></nobr>     | Dinlenecek baÄŸlantÄ± noktasÄ±                |
+| <nobr><code>{"--hostname"}</code></nobr> | Dinlenecek ana bilgisayar adÄ±              |
+| <nobr><code>{"--mdns"}</code></nobr>     | mDNS bulmayÄ± etkinleÅŸtir                   |
+| <nobr><code>{"--cors"}</code></nobr>     | CORS'a izin verecek ek tarayÄ±cÄ± kaynaklarÄ± |
+
+---
+
+### acp
+
+Bir ACP (Ajan Ä°stemci ProtokolÃ¼) sunucusu baÅŸlatÄ±n.
+
+```bash
+voracode acp
+```
+
+Bu komut, nd-JSON kullanarak stdin/stdout aracÄ±lÄ±ÄŸÄ±yla iletiÅŸim kuran bir ACP sunucusunu baÅŸlatÄ±r.
+
+#### Bayraklar
+
+| Bayrak                                   | AÃ§Ä±klama            |
+| ---------------------------------------- | ------------------- |
+| <nobr><code>{"--cwd"}</code></nobr>      | Ã‡alÄ±ÅŸma dizini      |
+| <nobr><code>{"--port"}</code></nobr>     | Dinlenecek port     |
+| <nobr><code>{"--hostname"}</code></nobr> | Dinlenecek host adÄ± |
+
+---
+
+### uninstall
+
+voracode'u kaldÄ±rÄ±n ve ilgili tÃ¼m dosyalarÄ± kaldÄ±rÄ±n.
+
+```bash
+voracode uninstall
+```
+
+#### Bayraklar
+
+| Bayrak                                      | KÄ±sa | TanÄ±m                                           |
+| ------------------------------------------- | ---- | ----------------------------------------------- |
+| <nobr><code>{"--keep-config"}</code></nobr> | `-c` | YapÄ±landÄ±rma dosyalarÄ±nÄ± sakla                  |
+| <nobr><code>{"--keep-data"}</code></nobr>   | `-d` | Oturum verilerini ve anlÄ±k gÃ¶rÃ¼ntÃ¼leri saklayÄ±n |
+| <nobr><code>{"--dry-run"}</code></nobr>     |      | Nelerin kaldÄ±rÄ±lmadan kaldÄ±rÄ±lacaÄŸÄ± gÃ¶ster      |
+| <nobr><code>{"--force"}</code></nobr>       | `-f` | Onay istemlerini atla                           |
+
+---
+
+### upgrade
+
+voracode'u en son sÃ¼rÃ¼me veya belirli bir sÃ¼rÃ¼me gÃ¼nceller.
+
+```bash
+voracode upgrade [target]
+```
+
+En son sÃ¼rÃ¼me yÃ¼kseltmek iÃ§in.
+
+```bash
+voracode upgrade
+```
+
+Belirli bir sÃ¼rÃ¼me yÃ¼kseltmek iÃ§in:
+
+```bash
+voracode upgrade v0.1.48
+```
+
+#### Bayraklar
+
+| Bayrak                                 | KÄ±sa | AÃ§Ä±klama                                               |
+| -------------------------------------- | ---- | ------------------------------------------------------ |
+| <nobr><code>{"--method"}</code></nobr> | `-m` | KullanÄ±lan kurulum yÃ¶ntemi: curl, npm, pnpm, bun, brew |
+
+---
+
+## Global bayraklar
+
+voracode CLI aÅŸaÄŸÄ±daki global bayraklarÄ± destekler.
+
+| Bayrak                                     | KÄ±sa | TanÄ±m                                    |
+| ------------------------------------------ | ---- | ---------------------------------------- |
+| <nobr><code>{"--help"}</code></nobr>       | `-h` | YardÄ±mÄ± gÃ¶rÃ¼ntÃ¼le                        |
+| <nobr><code>{"--version"}</code></nobr>    | `-v` | SÃ¼rÃ¼m numarasÄ±nÄ± yazdÄ±r                  |
+| <nobr><code>{"--print-logs"}</code></nobr> |      | GÃ¼nlÃ¼kleri stderr'e yazdÄ±r               |
+| <nobr><code>{"--log-level"}</code></nobr>  |      | GÃ¼nlÃ¼k dÃ¼zeyi (DEBUG, INFO, WARN, ERROR) |
+
+---
+
+## Ortam deÄŸiÅŸkenleri
+
+voracode ortam deÄŸiÅŸkenleri kullanÄ±larak yapÄ±landÄ±rÄ±labilir.
+
+| DeÄŸiÅŸken                              | Tip     | AÃ§Ä±klama                                                                    |
+| ------------------------------------- | ------- | --------------------------------------------------------------------------- |
+| `VORACODE_AUTO_SHARE`                 | boolean | OturumlarÄ± otomatik olarak paylaÅŸ                                           |
+| `VORACODE_GIT_BASH_PATH`              | string  | Windows'ta yÃ¼rÃ¼tÃ¼lebilir Git Bash'in Yolu                                   |
+| `VORACODE_CONFIG`                     | string  | YapÄ±landÄ±rma dosyasÄ±nÄ±n yolu                                                |
+| `VORACODE_TUI_CONFIG`                 | string  | TUI yapÄ±landÄ±rma dosyasÄ±nÄ±n yolu                                            |
+| `VORACODE_CONFIG_DIR`                 | string  | YapÄ±landÄ±rma dizinine giden yol                                             |
+| `VORACODE_CONFIG_CONTENT`             | string  | SatÄ±r iÃ§i JSON config iÃ§eriÄŸi                                               |
+| `VORACODE_DISABLE_AUTOUPDATE`         | boolean | Otomatik gÃ¼ncelleme kontrollerini devre dÄ±ÅŸÄ± bÄ±rak                          |
+| `VORACODE_DISABLE_PRUNE`              | boolean | Eski verilerin temizlenmesini devre dÄ±ÅŸÄ± bÄ±rak                              |
+| `VORACODE_DISABLE_TERMINAL_TITLE`     | boolean | Otomatik terminal baÅŸlÄ±ÄŸÄ± gÃ¼ncellemelerini devre dÄ±ÅŸÄ± bÄ±rakÄ±n               |
+| `VORACODE_PERMISSION`                 | string  | SatÄ±r iÃ§i JSON izin config'i                                                |
+| `VORACODE_DISABLE_DEFAULT_PLUGINS`    | boolean | VarsayÄ±lan eklentileri devre dÄ±ÅŸÄ± bÄ±rakÄ±n                                   |
+| `VORACODE_DISABLE_LSP_DOWNLOAD`       | boolean | Otomatik LSP sunucu indirmelerini devre dÄ±ÅŸÄ± bÄ±rakÄ±n                        |
+| `VORACODE_ENABLE_EXPERIMENTAL_MODELS` | boolean | Deneysel modelleri etkinleÅŸtir                                              |
+| `VORACODE_DISABLE_AUTOCOMPACT`        | boolean | Otomatik context sÄ±kÄ±ÅŸtÄ±rmayÄ± devre dÄ±ÅŸÄ± bÄ±rak                              |
+| `VORACODE_DISABLE_CLAUDE_CODE`        | boolean | `.claude`'den okumayÄ± devre dÄ±ÅŸÄ± bÄ±rak (istem + beceriler)                  |
+| `VORACODE_DISABLE_CLAUDE_CODE_PROMPT` | boolean | `~/.claude/CLAUDE.md` dosyasÄ±nÄ± okumayÄ± devre dÄ±ÅŸÄ± bÄ±rak                    |
+| `VORACODE_DISABLE_CLAUDE_CODE_SKILLS` | boolean | `.claude/skills` yÃ¼klemesini devre dÄ±ÅŸÄ± bÄ±rak                               |
+| `VORACODE_DISABLE_MODELS_FETCH`       | boolean | Uzak kaynaklardan model getirmeyi devre dÄ±ÅŸÄ± bÄ±rakÄ±n                        |
+| `VORACODE_FAKE_VCS`                   | string  | Test amaÃ§lÄ± sahte VCS saÄŸlayÄ±cÄ±sÄ±                                           |
+| `VORACODE_CLIENT`                     | string  | Client kimliÄŸi (varsayÄ±lan: `cli`)                                          |
+| `VORACODE_ENABLE_EXA`                 | boolean | Exa web arama araÃ§larÄ±nÄ± etkinleÅŸtir                                        |
+| `VORACODE_SERVER_PASSWORD`            | string  | `serve`/`web` iÃ§in temel kimlik doÄŸrulamayÄ± etkinleÅŸtirin                   |
+| `VORACODE_SERVER_USERNAME`            | string  | Temel kimlik doÄŸrulama kullanÄ±cÄ± adÄ±nÄ± geÃ§ersiz kÄ±l (varsayÄ±lan `voracode`) |
+| `VORACODE_MODELS_URL`                 | string  | Model yapÄ±landÄ±rmasÄ±nÄ± almak iÃ§in Ã¶zel URL                                  |
+
+---
+
+### Deneysel
+
+Bu ortam deÄŸiÅŸkenleri deÄŸiÅŸebilecek veya kaldÄ±rÄ±labilecek deneysel Ã¶zellikleri etkinleÅŸtirir.
+
+| DeÄŸiÅŸken                                        | Tip     | TanÄ±m                                                   |
+| ----------------------------------------------- | ------- | ------------------------------------------------------- |
+| `VORACODE_EXPERIMENTAL`                         | boolean | Åžemsiye bayraÄŸa baÄŸlÄ± deneysel Ã¶zellikleri etkinleÅŸtir  |
+| `VORACODE_EXPERIMENTAL_ICON_DISCOVERY`          | boolean | Simge bulmayÄ± etkinleÅŸtir                               |
+| `VORACODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT`  | boolean | TUI'da seÃ§im yapÄ±ldÄ±ÄŸÄ±nda kopyalamayÄ± devre dÄ±ÅŸÄ± bÄ±rak  |
+| `VORACODE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS` | number  | MS cinsinden bash komutlarÄ± iÃ§in varsayÄ±lan zaman aÅŸÄ±mÄ± |
+| `VORACODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX`        | number  | LLM yanÄ±tlarÄ± iÃ§in maksimum Ã§Ä±ktÄ± belirteÃ§leri          |
+| `VORACODE_EXPERIMENTAL_FILEWATCHER`             | boolean | TÃ¼m dizin iÃ§in dosya izleyiciyi etkinleÅŸtir             |
+| `VORACODE_EXPERIMENTAL_OXFMT`                   | boolean | Oxfmt biÃ§imlendiriciyi etkinleÅŸtir                      |
+| `VORACODE_EXPERIMENTAL_LSP_TOOL`                | boolean | Deneysel LSP aracÄ±nÄ± etkinleÅŸtir                        |
+| `VORACODE_EXPERIMENTAL_DISABLE_FILEWATCHER`     | boolean | Dosya izleyiciyi devre dÄ±ÅŸÄ± bÄ±rak                       |
+| `VORACODE_EXPERIMENTAL_EXA`                     | boolean | Deneysel Exa Ã¶zelliklerini etkinleÅŸtirin                |
+| `VORACODE_EXPERIMENTAL_LSP_TY`                  | boolean | python dosyalarÄ± iÃ§in TY LSP'yi etkinleÅŸtir             |
+| `VORACODE_EXPERIMENTAL_PLAN_MODE`               | boolean | Plan modunu etkinleÅŸtir                                 |
+| `VORACODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS`    | boolean | Arka plan alt ajan gÃ¶revlerini etkinleÅŸtir              |
+| `VORACODE_EXPERIMENTAL_EVENT_SYSTEM`            | boolean | Deneysel olay sistemini etkinleÅŸtir                     |
+| `VORACODE_EXPERIMENTAL_NATIVE_LLM`              | boolean | Yerel LLM istek yolunu etkinleÅŸtir                      |
+| `VORACODE_EXPERIMENTAL_PARALLEL`                | boolean | Paralel web aramasÄ± yÃ¼rÃ¼tmesini etkinleÅŸtir             |
+| `VORACODE_EXPERIMENTAL_SCOUT`                   | boolean | Scout alt ajanÄ±nÄ± etkinleÅŸtir                           |
+| `VORACODE_EXPERIMENTAL_WORKSPACES`              | boolean | Ã‡alÄ±ÅŸma alanÄ± desteÄŸini etkinleÅŸtir                     |

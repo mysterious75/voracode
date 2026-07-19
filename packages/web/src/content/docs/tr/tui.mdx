@@ -1,0 +1,427 @@
+---
+title: TUI
+description: Voracode terminal kullanÄ±cÄ± arayÃ¼zÃ¼nÃ¼ kullanma.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
+Voracode, projelerinizde LLM ile Ã§alÄ±ÅŸmak iÃ§in etkileÅŸimli bir terminal arayÃ¼zÃ¼ (TUI) sunar.
+
+Voracode'u Ã§alÄ±ÅŸtÄ±rdÄ±ÄŸÄ±nÄ±zda mevcut dizin iÃ§in TUI baÅŸlar.
+
+```bash
+voracode
+```
+
+Ä°sterseniz belirli bir Ã§alÄ±ÅŸma dizini iÃ§in de baÅŸlatabilirsiniz.
+
+```bash
+voracode /path/to/project
+```
+
+TUI iÃ§ine girdiÄŸinizde, bir mesajla istem gÃ¶nderebilirsiniz.
+
+```text
+Give me a quick summary of the codebase.
+```
+
+---
+
+## Dosya referanslarÄ±
+
+MesajlarÄ±nÄ±zda `@` kullanarak dosyalara referans verebilirsiniz. Bu, mevcut Ã§alÄ±ÅŸma dizininde bulanÄ±k dosya aramasÄ± yapar.
+
+:::tip
+MesajlarÄ±nÄ±zda dosyalara referans vermek iÃ§in `@` kullanabilirsiniz.
+:::
+
+```text "@packages/functions/src/api/index.ts"
+How is auth handled in @packages/functions/src/api/index.ts?
+```
+
+Dosya iÃ§eriÄŸi otomatik olarak konuÅŸmaya eklenir.
+
+---
+
+## Bash komutlarÄ±
+
+Bir mesajÄ± `!` ile baÅŸlatarak shell komutu Ã§alÄ±ÅŸtÄ±rÄ±n.
+
+```bash frame="none"
+!ls -la
+```
+
+Komut Ã§Ä±ktÄ±sÄ± bir araÃ§ sonucu olarak konuÅŸmaya eklenir.
+
+---
+
+## Komutlar
+
+Voracode TUI kullanÄ±rken `/` ve ardÄ±ndan komut adÄ±nÄ± yazarak hÄ±zlÄ± eylemler Ã§alÄ±ÅŸtÄ±rabilirsiniz. Ã–rneÄŸin:
+
+```bash frame="none"
+/help
+```
+
+KomutlarÄ±n Ã§oÄŸu, lider tuÅŸu `ctrl+x` olan bir kÄ±sayola da sahiptir. [Daha fazla bilgi](/docs/keybinds).
+
+Ä°ÅŸte mevcut slash komutlarÄ±nÄ±n tÃ¼mÃ¼:
+
+---
+
+### connect
+
+Voracode'a bir saÄŸlayÄ±cÄ± ekler. Mevcut saÄŸlayÄ±cÄ±larÄ± seÃ§ip API anahtarlarÄ± eklemenizi saÄŸlar.
+
+```bash frame="none"
+/connect
+```
+
+---
+
+### compact
+
+Mevcut oturumu sÄ±kÄ±ÅŸtÄ±rÄ±r. _Takma ad_: `/summarize`
+
+```bash frame="none"
+/compact
+```
+
+**KÄ±sayol:** `ctrl+x c`
+
+---
+
+### details
+
+AraÃ§ Ã§alÄ±ÅŸtÄ±rma detaylarÄ±nÄ± gÃ¶ster/gizle yapar.
+
+```bash frame="none"
+/details
+```
+
+**KÄ±sayol:** `ctrl+x d`
+
+---
+
+### editor
+
+Mesaj yazmak iÃ§in harici editÃ¶r aÃ§ar. `EDITOR` ortam deÄŸiÅŸkeninde ayarlÄ± editÃ¶rÃ¼ kullanÄ±r. [Daha fazla bilgi](#editor-setup).
+
+```bash frame="none"
+/editor
+```
+
+**KÄ±sayol:** `ctrl+x e`
+
+---
+
+### exit
+
+Voracode'dan Ã§Ä±kar. _Takma adlar_: `/quit`, `/q`
+
+```bash frame="none"
+/exit
+```
+
+**KÄ±sayol:** `ctrl+x q`
+
+---
+
+### export
+
+Mevcut konuÅŸmayÄ± Markdown olarak dÄ±ÅŸa aktarÄ±r ve varsayÄ±lan editÃ¶rÃ¼nÃ¼zde aÃ§ar. `EDITOR` ortam deÄŸiÅŸkeninde ayarlÄ± editÃ¶rÃ¼ kullanÄ±r. [Daha fazla bilgi](#editor-setup).
+
+```bash frame="none"
+/export
+```
+
+**KÄ±sayol:** `ctrl+x x`
+
+---
+
+### help
+
+YardÄ±m penceresini gÃ¶sterir.
+
+```bash frame="none"
+/help
+```
+
+**KÄ±sayol:** `ctrl+x h`
+
+---
+
+### init
+
+`AGENTS.md` dosyasÄ±nÄ± oluÅŸturur veya gÃ¼nceller. [Daha fazla bilgi](/docs/rules).
+
+```bash frame="none"
+/init
+```
+
+**KÄ±sayol:** `ctrl+x i`
+
+---
+
+### models
+
+KullanÄ±labilir modelleri listeler.
+
+```bash frame="none"
+/models
+```
+
+**KÄ±sayol:** `ctrl+x m`
+
+---
+
+### new
+
+Yeni bir oturum baÅŸlatÄ±r. _Takma ad_: `/clear`
+
+```bash frame="none"
+/new
+```
+
+**KÄ±sayol:** `ctrl+x n`
+
+---
+
+### redo
+
+Geri alÄ±nan bir mesajÄ± tekrar uygular. YalnÄ±zca `/undo` kullanÄ±ldÄ±ktan sonra kullanÄ±labilir.
+
+:::tip
+Herhangi bir dosya deÄŸiÅŸikliÄŸi de geri yÃ¼klenir.
+:::
+
+Dahili olarak bu iÅŸlem dosya deÄŸiÅŸikliklerini yÃ¶netmek iÃ§in Git kullanÄ±r. Bu nedenle projenizin **bir Git deposu olmasÄ± gerekir**.
+
+```bash frame="none"
+/redo
+```
+
+**KÄ±sayol:** `ctrl+x r`
+
+---
+
+### sessions
+
+OturumlarÄ± listeler ve aralarÄ±nda geÃ§iÅŸ yapar. _Takma adlar_: `/resume`, `/continue`
+
+```bash frame="none"
+/sessions
+```
+
+**KÄ±sayol:** `ctrl+x l`
+
+---
+
+### share
+
+Mevcut oturumu paylaÅŸÄ±r. [Daha fazla bilgi](/docs/share).
+
+```bash frame="none"
+/share
+```
+
+**KÄ±sayol:** `ctrl+x s`
+
+---
+
+### themes
+
+KullanÄ±labilir temalarÄ± listeler.
+
+```bash frame="none"
+/themes
+```
+
+**KÄ±sayol:** `ctrl+x t`
+
+---
+
+### thinking
+
+KonuÅŸmadaki thinking/reasoning bloklarÄ±nÄ±n gÃ¶rÃ¼nÃ¼rlÃ¼ÄŸÃ¼nÃ¼ deÄŸiÅŸtirir. Etkin olduÄŸunda, geniÅŸletilmiÅŸ dÃ¼ÅŸÃ¼nmeyi destekleyen modellerin akÄ±l yÃ¼rÃ¼tme sÃ¼recini gÃ¶rebilirsiniz.
+
+:::note
+Bu komut sadece thinking bloklarÄ±nÄ±n **gÃ¶sterilip gÃ¶sterilmeyeceÄŸini** kontrol eder - modelin akÄ±l yÃ¼rÃ¼tme yeteneklerini etkinleÅŸtirmez veya devre dÄ±ÅŸÄ± bÄ±rakmaz. GerÃ§ek akÄ±l yÃ¼rÃ¼tme yeteneklerini deÄŸiÅŸtirmek iÃ§in `ctrl+t` kullanarak model varyantlarÄ± arasÄ±nda geÃ§iÅŸ yapÄ±n.
+:::
+
+```bash frame="none"
+/thinking
+```
+
+---
+
+### undo
+
+KonuÅŸmadaki son mesajÄ± geri alÄ±r. En son kullanÄ±cÄ± mesajÄ±nÄ±, sonraki tÃ¼m yanÄ±tlarÄ± ve dosya deÄŸiÅŸikliklerini kaldÄ±rÄ±r.
+
+:::tip
+YapÄ±lan tÃ¼m dosya deÄŸiÅŸiklikleri de geri alÄ±nÄ±r.
+:::
+
+Dahili olarak bu iÅŸlem dosya deÄŸiÅŸikliklerini yÃ¶netmek iÃ§in Git kullanÄ±r. Bu nedenle projenizin **bir Git deposu olmasÄ± gerekir**.
+
+```bash frame="none"
+/undo
+```
+
+**KÄ±sayol:** `ctrl+x u`
+
+---
+
+### unshare
+
+Mevcut oturumun paylaÅŸÄ±mÄ±nÄ± kaldÄ±rÄ±r. [Daha fazla bilgi](/docs/share#un-sharing).
+
+```bash frame="none"
+/unshare
+```
+
+---
+
+## EditÃ¶r kurulumu
+
+Hem `/editor` hem de `/export` komutlarÄ±, `EDITOR` ortam deÄŸiÅŸkeninde belirtilen editÃ¶rÃ¼ kullanÄ±r.
+
+<Tabs>
+  <TabItem label="Linux/macOS">
+    ```bash
+    # Example for nano or vim
+    export EDITOR=nano
+    export EDITOR=vim
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    export EDITOR="code --wait"
+    ```
+
+    KalÄ±cÄ± yapmak iÃ§in bunu kabuk profilinize ekleyin;
+    `~/.bashrc`, `~/.zshrc` vb.
+
+  </TabItem>
+
+  <TabItem label="Windows (CMD)">
+    ```bash
+    set EDITOR=notepad
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    set EDITOR=code --wait
+    ```
+
+    KalÄ±cÄ± yapmak iÃ§in **System Properties** > **Environment
+    Variables** yolunu kullanÄ±n.
+
+  </TabItem>
+
+  <TabItem label="Windows (PowerShell)">
+    ```powershell
+    $env:EDITOR = "notepad"
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    $env:EDITOR = "code --wait"
+    ```
+
+    KalÄ±cÄ± yapmak iÃ§in bunu PowerShell profilinize ekleyin.
+
+  </TabItem>
+</Tabs>
+
+PopÃ¼ler editÃ¶r seÃ§enekleri ÅŸunlarÄ± iÃ§erir:
+
+- `code` - Visual Studio Code
+- `cursor` - Cursor
+- `windsurf` - Windsurf
+- `nvim` - Neovim editÃ¶rÃ¼
+- `vim` - Vim editÃ¶rÃ¼
+- `nano` - Nano editÃ¶rÃ¼
+- `notepad` - Windows Notepad
+- `subl` - Sublime Text
+
+:::note
+VS Code gibi bazÄ± editÃ¶rlerin `--wait` bayraÄŸÄ± ile baÅŸlatÄ±lmasÄ± gerekir.
+:::
+
+BazÄ± editÃ¶rler bloklama modunda Ã§alÄ±ÅŸmak iÃ§in komut satÄ±rÄ± argÃ¼manlarÄ±na ihtiyaÃ§ duyar. `--wait` bayraÄŸÄ±, editÃ¶r sÃ¼reci kapanana kadar iÅŸlemin bloklanmasÄ±nÄ± saÄŸlar.
+
+---
+
+## YapÄ±landÄ±rma
+
+TUI davranÄ±ÅŸÄ±nÄ± `tui.json` (veya `tui.jsonc`) aracÄ±lÄ±ÄŸÄ±yla Ã¶zelleÅŸtirebilirsiniz.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "theme": "voracode",
+  "leader_timeout": 2000,
+  "keybinds": {
+    "leader": "ctrl+x",
+    "command_list": "ctrl+p"
+  },
+  "scroll_speed": 3,
+  "scroll_acceleration": {
+    "enabled": false
+  },
+  "diff_style": "auto",
+  "mouse": true,
+  "attention": {
+    "enabled": true,
+    "notifications": true,
+    "sound": true,
+    "volume": 0.4,
+    "sound_pack": "voracode.default",
+    "sounds": {
+      "error": "./sounds/error.mp3"
+    }
+  }
+}
+```
+
+Bu, sunucu/Ã§alÄ±ÅŸma zamanÄ± davranÄ±ÅŸÄ±nÄ± yapÄ±landÄ±ran `voracode.json` dosyasÄ±ndan ayrÄ±dÄ±r.
+
+`keybinds` yerleÅŸik varsayÄ±lanlarla birleÅŸtirilir; bu yÃ¼zden yalnÄ±zca deÄŸiÅŸtirmek istediÄŸiniz kÄ±sayollarÄ± yapÄ±landÄ±rmanÄ±z yeterlidir.
+
+### SeÃ§enekler
+
+- `theme` - UI temanÄ±zÄ± ayarlar. [Daha fazla bilgi](/docs/themes).
+- `keybinds` - Klavye kÄ±sayollarÄ±nÄ± Ã¶zelleÅŸtirir. [Daha fazla bilgi](/docs/keybinds).
+- `leader_timeout` - Voracode'un leader key sonrasÄ±nda ne kadar bekleyeceÄŸini kontrol eder. VarsayÄ±lan deÄŸer `2000`.
+- `scroll_acceleration.enabled` - PÃ¼rÃ¼zsÃ¼z, doÄŸal kaydÄ±rma iÃ§in macOS tarzÄ± kaydÄ±rma ivmesini etkinleÅŸtirin. EtkinleÅŸtirildiÄŸinde, kaydÄ±rma hÄ±zÄ± hÄ±zlÄ± kaydÄ±rma hareketleriyle artar ve daha yavaÅŸ hareketler iÃ§in hassas kalÄ±r. **Bu ayar `scroll_speed` ayarÄ±ndan Ã¶nceliklidir ve etkinleÅŸtirildiÄŸinde onu geÃ§ersiz kÄ±lar.**
+- `scroll_speed` - KaydÄ±rma komutlarÄ±nÄ± kullanÄ±rken TUI'nin ne kadar hÄ±zlÄ± kaydÄ±rÄ±lacaÄŸÄ±nÄ± kontrol eder (minimum: `0.001`, ondalÄ±k deÄŸerleri destekler). VarsayÄ±lan deÄŸer `3`'tÃ¼r. **Not: `scroll_acceleration.enabled` `true` olarak ayarlanmÄ±ÅŸsa bu yok sayÄ±lÄ±r.**
+- `diff_style` - Fark (diff) oluÅŸturmayÄ± kontrol eder. `"auto"` terminal geniÅŸliÄŸine uyum saÄŸlar, `"stacked"` her zaman tek sÃ¼tunlu bir dÃ¼zen gÃ¶sterir.
+- `mouse` - TUI iÃ§inde fare yakalamayÄ± etkinleÅŸtirir veya devre dÄ±ÅŸÄ± bÄ±rakÄ±r (varsayÄ±lan: `true`). Devre dÄ±ÅŸÄ± bÄ±rakÄ±ldÄ±ÄŸÄ±nda terminalin yerel fareyle seÃ§me ve kaydÄ±rma davranÄ±ÅŸÄ± korunur.
+- `attention` - TUI masaÃ¼stÃ¼ bildirimlerini ve seslerini yapÄ±landÄ±rÄ±r. VarsayÄ±lan olarak devre dÄ±ÅŸÄ±dÄ±r.
+
+Ã–zel bir TUI yapÄ±landÄ±rma yolu yÃ¼klemek iÃ§in `VORACODE_TUI_CONFIG` kullanÄ±n.
+
+### Attention
+
+Attention, Voracode bir yanÄ±t beklediÄŸinde, izin onayÄ± gerektiÄŸinde, oturum hatasÄ± oluÅŸtuÄŸunda veya oturum tamamlandÄ±ÄŸÄ±nda TUI'nin sizi ses ve masaÃ¼stÃ¼ bildirimiyle uyarmasÄ±nÄ± saÄŸlar. `attention.enabled` ile etkinleÅŸtirin; yerleÅŸik olaylar gerÃ§ekleÅŸtiÄŸinde ses Ã§alar. MasaÃ¼stÃ¼ bildirimleri yalnÄ±zca terminal penceresi odakta deÄŸilken gÃ¶nderilir ve subagent olaylarÄ± iÃ§in kullanÄ±lmaz.
+
+- `enabled` - Attention iÃ§in tÃ¼m bildirimleri ve sesleri etkinleÅŸtirir. VarsayÄ±lan deÄŸer `false`.
+- `notifications` - Attention etkin olduÄŸunda TUI'nin terminal Ã¼zerinden masaÃ¼stÃ¼ bildirimi gÃ¶ndermesine izin verir. VarsayÄ±lan deÄŸer `true`.
+- `sound` - Attention etkin olduÄŸunda uyarÄ± seslerinin Ã§almasÄ±na izin verir. VarsayÄ±lan deÄŸer `true`.
+- `volume` - UyarÄ± sesleri iÃ§in varsayÄ±lan ses dÃ¼zeyi, `0` ile `1` arasÄ±ndadÄ±r. VarsayÄ±lan deÄŸer `0.4`.
+- `sound_pack` - KullanÄ±lacak sound pack ID. VarsayÄ±lan deÄŸer `voracode.default`.
+- `sounds` - `default`, `question`, `permission`, `error`, `done` veya `subagent_done` iÃ§in Ã¶zel ses dosyalarÄ± ayarlar. Yollar mutlak, `file://` URL'leri veya `tui.json` dosyasÄ±na gÃ¶re gÃ¶reli olabilir.
+
+---
+
+## Ã–zelleÅŸtirme
+
+Komut paletini (`ctrl+x h` veya `/help`) kullanarak TUI gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼n Ã§eÅŸitli yÃ¶nlerini Ã¶zelleÅŸtirebilirsiniz. Bu ayarlar yeniden baÅŸlatmalar arasÄ±nda korunur.
+
+---
+
+#### KullanÄ±cÄ± adÄ± gÃ¶rÃ¼nÃ¼mÃ¼
+
+Sohbet mesajlarÄ±nda kullanÄ±cÄ± adÄ±nÄ±zÄ±n gÃ¶rÃ¼nÃ¼p gÃ¶rÃ¼nmeyeceÄŸini deÄŸiÅŸtirin. Buna ÅŸuradan eriÅŸin:
+
+- Komut paleti: "username" veya "hide username" aramasÄ± yapÄ±n
+- Ayar otomatik olarak kalÄ±cÄ± hale gelir ve TUI oturumlarÄ± arasÄ±nda hatÄ±rlanÄ±r

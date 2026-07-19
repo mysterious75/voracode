@@ -1,0 +1,208 @@
+---
+title: LSP-servere
+description: voracode integreres med LSP-serverne dine.
+---
+
+Voracode kan integreres med Language Server Protocol (LSP)-servere for Ã¥ bruke diagnostikk som tilbakemelding til agenten.
+
+---
+
+## Innebygde servere
+
+Voracode kommer med flere innebygde LSP-servere for populÃ¦re sprÃ¥k:
+
+| LSP Server         | Filendelser                                                         | Krav                                                                    |
+| ------------------ | ------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| astro              | .astro                                                              | Installeres automatisk for Astro-prosjekter                             |
+| bash               | .sh, .bash, .zsh, .ksh                                              | Installerer bash-language-server automatisk                             |
+| clangd             | .c, .cpp, .cc, .cxx, .c++, .h, .hpp, .hh, .hxx, .h++                | Installeres automatisk for C/C++-prosjekter                             |
+| csharp             | .cs                                                                 | `.NET SDK` installert                                                   |
+| clojure-lsp        | .clj, .cljs, .cljc, .edn                                            | `clojure-lsp` kommando tilgjengelig                                     |
+| dart               | .dart                                                               | `dart` kommando tilgjengelig                                            |
+| deno               | .ts, .tsx, .js, .jsx, .mjs                                          | `deno` kommando tilgjengelig (automatisk oppdager deno.json/deno.jsonc) |
+| elixir-ls          | .ex, .exs                                                           | `elixir` kommando tilgjengelig                                          |
+| eslint             | .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, .cts, .vue                  | `eslint` avhengighet i prosjekt                                         |
+| fsharp             | .fs, .fsi, .fsx, .fsscript                                          | `.NET SDK` installert                                                   |
+| gleam              | .gleam                                                              | `gleam` kommando tilgjengelig                                           |
+| gopls              | .go                                                                 | `go` kommando tilgjengelig                                              |
+| hls                | .hs, .lhs                                                           | `haskell-language-server-wrapper` kommando tilgjengelig                 |
+| jdtls              | .java                                                               | `Java SDK (version 21+)` installert                                     |
+| julials            | .jl                                                                 | `julia` og `LanguageServer.jl` installert                               |
+| kotlin-ls          | .kt, .kts                                                           | Installeres automatisk for Kotlin-prosjekter                            |
+| lua-ls             | .lua                                                                | Installeres automatisk for Lua-prosjekter                               |
+| nixd               | .nix                                                                | `nixd` kommando tilgjengelig                                            |
+| ocaml-lsp          | .ml, .mli                                                           | `ocamllsp` kommando tilgjengelig                                        |
+| oxlint             | .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, .cts, .vue, .astro, .svelte | `oxlint` avhengighet i prosjekt                                         |
+| php intelephense   | .php                                                                | Installeres automatisk for PHP-prosjekter                               |
+| prisma             | .prisma                                                             | `prisma` kommando tilgjengelig                                          |
+| pyright            | .py, .pyi                                                           | `pyright` avhengighet installert                                        |
+| ruby-lsp (rubocop) | .rb, .rake, .gemspec, .ru                                           | `ruby` og `gem` kommandoer tilgjengelig                                 |
+| rust               | .rs                                                                 | `rust-analyzer` kommando tilgjengelig                                   |
+| sourcekit-lsp      | .swift, .objc, .objcpp                                              | `swift` installert (`xcode` pÃ¥ macOS)                                   |
+| svelte             | .svelte                                                             | Installeres automatisk for Svelte-prosjekter                            |
+| terraform          | .tf, .tfvars                                                        | Installeres automatisk fra GitHub-utgivelser                            |
+| tinymist           | .typ, .typc                                                         | Installeres automatisk fra GitHub-utgivelser                            |
+| typescript         | .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, .cts                        | `typescript` avhengighet i prosjekt                                     |
+| vue                | .vue                                                                | Installeres automatisk for Vue-prosjekter                               |
+| yaml-ls            | .yaml, .yml                                                         | Installerer Red Hat yaml-language-server automatisk                     |
+| zls                | .zig, .zon                                                          | `zig` kommando tilgjengelig                                             |
+
+LSP er deaktivert som standard. NÃ¥r det er aktivert, starter servere nÃ¥r en av filtypene ovenfor oppdages og kravene oppfylles.
+
+:::note
+Du kan deaktivere automatiske LSP-servernedlastinger ved Ã¥ sette miljÃ¸variabelen `VORACODE_DISABLE_LSP_DOWNLOAD` til `true`.
+:::
+
+---
+
+## Slik fungerer det
+
+NÃ¥r LSP er aktivert og voracode Ã¥pner en fil, gjÃ¸r den:
+
+1. Kontrollerer filtypen mot alle aktiverte LSP-servere.
+2. Starter den riktige LSP-serveren hvis den ikke allerede kjÃ¸rer.
+
+---
+
+## Beste praksis
+
+LSP kan hjelpe agenten med Ã¥ finne og fikse problemer ved Ã¥ gi diagnostikk fra sprÃ¥kservere. Dette er nyttig i noen prosjekter, men er ikke alltid en klar gevinst.
+
+SprÃ¥kservere kan komme ut av synk, bruke mye minne, variere etter versjon eller prosjekt og redusere agentarbeidsflyter. I mange prosjekter er det bedre at agenten kjÃ¸rer lint, typecheck eller andre diagnostiske CLI-verktÃ¸y direkte, slik at feil mates tilbake i agentlÃ¸kken uten disse avveiningene. Dokumenter disse kommandoene i instruksjonsfiler som `AGENTS.md` eller skills, slik at agenten vet hva den skal kjÃ¸re. Aktiver LSP nÃ¥r prosjektet ditt har nytte av ekstra sprÃ¥kservertilbakemelding.
+
+---
+
+## Konfigurasjon
+
+Du kan aktivere og tilpasse LSP-servere gjennom `lsp`-delen i Voracode-konfigurasjonen.
+
+For Ã¥ aktivere alle innebygde LSP-servere, sett `lsp` til `true`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": true
+}
+```
+
+Bruk et objekt for Ã¥ beholde innebygde servere aktivert mens du konfigurerer overstyringer eller egendefinerte servere.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {}
+}
+```
+
+Hver LSP-server stÃ¸tter fÃ¸lgende:
+
+| Egenskap         | Type     | Beskrivelse                                              |
+| ---------------- | -------- | -------------------------------------------------------- |
+| `disabled`       | boolean  | Sett dette til `true` for Ã¥ deaktivere LSP-serveren      |
+| `command`        | string[] | Kommandoen for Ã¥ starte LSP-serveren                     |
+| `extensions`     | string[] | Filendelser denne LSP-serveren skal hÃ¥ndtere             |
+| `env`            | object   | MiljÃ¸variabler som skal angis nÃ¥r serveren startes       |
+| `initialization` | object   | Initialiseringsalternativer for Ã¥ sende til LSP-serveren |
+
+La oss se pÃ¥ noen eksempler.
+
+---
+
+### MiljÃ¸variabler
+
+Bruk egenskapen `env` til Ã¥ angi miljÃ¸variabler nÃ¥r du starter LSP-serveren:
+
+```json title="voracode.json" {5-7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {
+    "rust": {
+      "env": {
+        "RUST_LOG": "debug"
+      }
+    }
+  }
+}
+```
+
+---
+
+### Initialiseringsalternativer
+
+Bruk egenskapen `initialization` til Ã¥ sende initialiseringsalternativer til LSP-serveren. Dette er serverspesifikke innstillinger sendt under LSP `initialize`-forespÃ¸rselen:
+
+```json title="voracode.json" {5-9}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {
+    "typescript": {
+      "initialization": {
+        "preferences": {
+          "importModuleSpecifierPreference": "relative"
+        }
+      }
+    }
+  }
+}
+```
+
+:::note
+Initialiseringsalternativer varierer etter LSP-server. Sjekk dokumentasjonen til LSP-serveren for tilgjengelige alternativer.
+:::
+
+---
+
+### Deaktivering av LSP-servere
+
+Hvis `lsp` utelates, er alle LSP-servere deaktivert. For Ã¥ deaktivere alle LSP-servere etter at en annen konfigurasjon har aktivert dem, sett `lsp` til `false`:
+
+```json title="voracode.json" {3}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": false
+}
+```
+
+For Ã¥ deaktivere en **spesifikk** LSP-server, sett `disabled` til `true`:
+
+```json title="voracode.json" {5}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {
+    "typescript": {
+      "disabled": true
+    }
+  }
+}
+```
+
+---
+
+### Egendefinerte LSP-servere
+
+Du kan legge til egendefinerte LSP-servere ved Ã¥ spesifisere kommandoen og filtypene:
+
+```json title="voracode.json" {4-7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {
+    "custom-lsp": {
+      "command": ["custom-lsp-server", "--stdio"],
+      "extensions": [".custom"]
+    }
+  }
+}
+```
+
+---
+
+## Tilleggsinformasjon
+
+### PHP Intelephense
+
+PHP Intelephense tilbyr fÃ¸rsteklasses funksjoner gjennom en lisensnÃ¸kkel. Du kan oppgi en lisensnÃ¸kkel ved Ã¥ plassere (bare) nÃ¸kkelen i en tekstfil pÃ¥:
+
+- PÃ¥ macOS/Linux: `$HOME/intelephense/license.txt`
+- PÃ¥ Windows: `%USERPROFILE%/intelephense/license.txt`
+
+Filen skal bare inneholde lisensnÃ¸kkelen uten ekstra innhold.

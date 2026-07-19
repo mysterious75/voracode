@@ -1,0 +1,142 @@
+---
+title: Web
+description: TarayÄ±cÄ±nÄ±zda voracode'u kullanma.
+---
+
+voracode, tarayÄ±cÄ±nÄ±zda bir web uygulamasÄ± olarak Ã§alÄ±ÅŸabilir ve bir terminale ihtiyaÃ§ duymadan aynÄ± gÃ¼Ã§lÃ¼ AI kodlama deneyimini saÄŸlayabilir.
+
+![voracode Web - Yeni Oturum](../../../assets/web/web-homepage-new-session.png)
+
+## BaÅŸlarken
+
+AÅŸaÄŸÄ±dakileri Ã§alÄ±ÅŸtÄ±rarak web arayÃ¼zÃ¼nÃ¼ baÅŸlatÄ±n:
+
+```bash
+voracode web
+```
+
+Bu, `127.0.0.1` Ã¼zerinde rastgele kullanÄ±labilir bir baÄŸlantÄ± noktasÄ±na sahip yerel bir sunucuyu baÅŸlatÄ±r ve voracode'u varsayÄ±lan tarayÄ±cÄ±nÄ±zda otomatik olarak aÃ§ar.
+
+:::caution
+`VORACODE_SERVER_PASSWORD` ayarlanmadÄ±ysa sunucunun gÃ¼venliÄŸi kaldÄ±rÄ±lacaktÄ±r. Bu, yerel kullanÄ±m iÃ§in iyidir ancak aÄŸ eriÅŸimi iÃ§in ayarlanmalÄ±dÄ±r.
+:::
+
+:::tip[Windows KullanÄ±cÄ±larÄ±]
+En iyi deneyim iÃ§in PowerShell yerine `voracode web`'yi [WSL](/docs/windows-wsl)'den Ã§alÄ±ÅŸtÄ±rÄ±n. Bu, uygun dosya sistemi eriÅŸimini ve terminal entegrasyonunu saÄŸlar.
+:::
+
+---
+
+## YapÄ±landÄ±rma
+
+Web sunucusunu komut satÄ±rÄ± bayraklarÄ±yla veya [config dosyanÄ±zda](/docs/config) yapÄ±landÄ±rabilirsiniz.
+
+### Port
+
+voracode varsayÄ±lan olarak kullanÄ±labilir bir baÄŸlantÄ± noktasÄ±nÄ± seÃ§er. Bir baÄŸlantÄ± noktasÄ± belirtebilirsiniz:
+
+```bash
+voracode web --port 4096
+```
+
+### Ana makine adÄ±
+
+VarsayÄ±lan olarak sunucu `127.0.0.1` (yalnÄ±zca localhost) Ã¶ÄŸesine baÄŸlanÄ±r. voracode'u aÄŸÄ±nÄ±zda eriÅŸilebilir kÄ±lmak iÃ§in:
+
+```bash
+voracode web --hostname 0.0.0.0
+```
+
+`0.0.0.0` kullanÄ±ldÄ±ÄŸÄ±nda, voracode hem yerel hem de aÄŸ adreslerini gÃ¶sterecektir:
+
+```
+  Local access:       http://localhost:4096
+  Network access:     http://192.168.1.100:4096
+```
+
+### mDNS KeÅŸfi
+
+Sunucunuzun yerel aÄŸda bulunabilir olmasÄ±nÄ± saÄŸlamak iÃ§in mDNS'yi etkinleÅŸtirin:
+
+```bash
+voracode web --mdns
+```
+
+Bu, ana bilgisayar adÄ±nÄ± otomatik olarak `0.0.0.0` olarak ayarlar ve sunucuyu `voracode.local` olarak tanÄ±tÄ±r.
+
+AynÄ± aÄŸ Ã¼zerinde birden fazla Ã¶rneÄŸi Ã§alÄ±ÅŸtÄ±racak ÅŸekilde mDNS alan adÄ±nÄ± Ã¶zelleÅŸtirebilirsiniz:
+
+```bash
+voracode web --mdns --mdns-domain myproject.local
+```
+
+### CORS
+
+CORS'a yÃ¶nelik ek alan adlarÄ±na izin vermek iÃ§in (Ã¶zel Ã¶n uÃ§lar iÃ§in kullanÄ±ÅŸlÄ±dÄ±r):
+
+```bash
+voracode web --cors https://example.com
+```
+
+### Kimlik DoÄŸrulamasÄ±
+
+EriÅŸimi korumak iÃ§in `VORACODE_SERVER_PASSWORD` ortam deÄŸiÅŸkenini kullanarak bir parola ayarlayÄ±n:
+
+```bash
+VORACODE_SERVER_PASSWORD=secret voracode web
+```
+
+KullanÄ±cÄ± adÄ± varsayÄ±lan olarak `voracode` ÅŸeklindedir ancak `VORACODE_SERVER_USERNAME` ile deÄŸiÅŸtirilebilir.
+
+---
+
+## Web ArayÃ¼zÃ¼nÃ¼ Kullanma
+
+Web arayÃ¼zÃ¼ baÅŸlatÄ±ldÄ±ÄŸÄ±nda voracode oturumlarÄ±nÄ±za eriÅŸim saÄŸlar.
+
+### Oturum
+
+OturumlarÄ±nÄ±zÄ± ana sayfadan gÃ¶rÃ¼ntÃ¼leyin ve yÃ¶netin. Aktif oturumlarÄ± gÃ¶rebilir ve yenilerini baÅŸlatabilirsiniz.
+
+![voracode Web - Etkin Oturum](../../../assets/web/web-homepage-active-session.png)
+
+### Sunucu Durumu
+
+BaÄŸlÄ± sunucularÄ± ve durumlarÄ±nÄ± gÃ¶rÃ¼ntÃ¼lemek iÃ§in "SunucularÄ± GÃ¶r" seÃ§eneÄŸini tÄ±klayÄ±n.
+
+![voracode Web - Sunuculara bakÄ±n](../../../assets/web/web-homepage-see-servers.png)
+
+---
+
+## Terminal Takma
+
+Ã‡alÄ±ÅŸan bir web sunucusuna bir terminal TUI'si ekleyebilirsiniz:
+
+```bash
+# Start the web server
+voracode web --port 4096
+
+# In another terminal, attach the TUI
+voracode attach http://localhost:4096
+```
+
+Bu, aynÄ± oturumlarÄ± ve durumu paylaÅŸarak hem web arayÃ¼zÃ¼nÃ¼ hem de terminali aynÄ± anda kullanmanÄ±za olanak tanÄ±r.
+
+---
+
+## YapÄ±landÄ±rma DosyasÄ±
+
+Sunucu ayarlarÄ±nÄ± `voracode.json` yapÄ±landÄ±rma dosyanÄ±zda da yapÄ±landÄ±rabilirsiniz:
+
+```json
+{
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "cors": ["https://example.com"]
+  }
+}
+```
+
+Komut satÄ±rÄ± bayraklarÄ± yapÄ±landÄ±rma dosyasÄ± ayarlarÄ±ndan Ã¶nceliklidir.

@@ -1,0 +1,222 @@
+---
+title: "ì—ì´ì „íŠ¸ ìŠ¤í‚¬"
+description: "SKILL.md ì •ì˜ë¥¼ í†µí•´ ìž¬ì‚¬ìš© ê°€ëŠ¥í•œ ë™ìž‘ì„ ì •ì˜í•©ë‹ˆë‹¤."
+---
+
+Agent Skill let voracode discover reusable instruction from your repo ë˜ëŠ” í™ˆ ë””ë ‰í† ë¦¬.
+Skills are loaded on-demand via native `skill` tool-agents see available skills and can loaded full content when needed.
+
+---
+
+## íŒŒì¼ ìœ„ì¹˜
+
+ê¸°ìˆ  ì´ë¦„ ë‹¹ í•˜ë‚˜ì˜ í´ë”ë¥¼ ë§Œë“¤ê³  ë‚´ë¶€ `SKILL.md`ë¥¼ ë„£ì–´.
+voracode ì´ ìœ„ì¹˜ë¥¼ ê²€ìƒ‰:
+
+- í”„ë¡œì íŠ¸ êµ¬ì„±: `.voracode/skills/<name>/SKILL.md`
+- ê¸€ë¡œë²Œ êµ¬ì„±: `~/.config/voracode/skills/<name>/SKILL.md`
+- í”„ë¡œì íŠ¸ í´ë¡œë“œ í˜¸í™˜ : `.claude/skills/<name>/SKILL.md`
+- ê¸€ë¡œë²Œ í´ë¡œë“œ í˜¸í™˜ : `~/.claude/skills/<name>/SKILL.md`
+- í”„ë¡œì íŠ¸ ì—ì´ì „íŠ¸ í˜¸í™˜ : `.agents/skills/<name>/SKILL.md`
+- ê¸€ë¡œë²Œ ì—ì´ì „íŠ¸ í˜¸í™˜ : `~/.agents/skills/<name>/SKILL.md`
+
+---
+
+## ê²€ìƒ‰ ì´í•´
+
+Project-local pathsì˜ ê²½ìš°, voracodeëŠ” git worktreeì— ë„ë‹¬ í•  ë•Œê¹Œì§€ í˜„ìž¬ ìž‘ì—… ë””ë ‰í† ë¦¬ì—ì„œ ê±·ìŠµë‹ˆë‹¤.
+ê·¸ê²ƒì€ `skills/*/SKILL.md`ì— ìžˆëŠ” ì–´ë–¤ ì–´ìš¸ë¦¬ëŠ” `.voracode/` ë° ì–´ë–¤ ì–´ìš¸ë¦¬ëŠ” `.claude/skills/*/SKILL.md` ë˜ëŠ” `.agents/skills/*/SKILL.md`ë¥¼ ë°©ë²• ì ìž¬í•©ë‹ˆë‹¤.
+
+ì„¸ê³„ì ì¸ ì •ì˜ëŠ” ë˜í•œ `~/.config/voracode/skills/*/SKILL.md`, `~/.claude/skills/*/SKILL.md` ë° `~/.agents/skills/*/SKILL.md`ì—ì„œ ì ìž¬ë©ë‹ˆë‹¤.
+
+---
+
+## Frontmatter ìž‘ì„±
+
+ê° `SKILL.md`ëŠ” YAML frontmatterë¡œ ì‹œìž‘í•´ì•¼ í•©ë‹ˆë‹¤.
+ì´ í•„ë“œëŠ” ì¸ì‹ë©ë‹ˆë‹¤:
+
+- `name` (í•„ìˆ˜)
+- `description` (í•„ìˆ˜)
+- (ì„ íƒ) `license`
+- (ì„ íƒ) `compatibility`
+- `metadata` (ì„ íƒ ì‚¬í•­, ë¬¸ìžì—´ì— ë¬¸ìžì—´ ë§µ)
+
+ì•Œë ¤ì§„ frontmatter í•„ë“œëŠ” ë¬´ì‹œë©ë‹ˆë‹¤.
+
+---
+
+## ìœ íš¨í•œ ì´ë¦„
+
+`name`ëŠ” í•´ì•¼ í•©ë‹ˆë‹¤:
+
+- 1â€“64ìž
+- ë‹¨ í•˜ë‚˜ hyphen ë¶„ë¦¬ê¸°ë¥¼ ê°€ì§„ ë” ë‚®ì€ ì¼€ì´ìŠ¤ alphanumericê°€ ìžˆìœ¼ì‹­ì‹œì˜¤
+- `-`ë¡œ ì‹œìž‘ ë˜ëŠ” ë ì•„ë‹™ë‹ˆë‹¤
+- ì—°ì† `--` í¬í•¨í•˜ì§€
+- `SKILL.md`ë¥¼ í¬í•¨í•˜ëŠ” ë””ë ‰í† ë¦¬ ì´ë¦„ì„ ì¼ì¹˜
+
+ë™ë“±í•œ regex:
+
+```text
+^[a-z0-9]+(-[a-z0-9]+)*$
+```
+
+---
+
+## ê¸¸ì´ ê·œì¹™ ì¤€ìˆ˜
+
+`description`ëŠ” 1-1024 íŠ¹ì„±ì´ì–´ì•¼ í•©ë‹ˆë‹¤.
+ì œëŒ€ë¡œ ì„ íƒí•˜ê¸° ìœ„í•´ ì—ì´ì „íŠ¸ì— ëŒ€í•´ ì¶©ë¶„ížˆ ìœ ì§€í•˜ì‹­ì‹œì˜¤.
+
+---
+
+## ì‚¬ìš© ì˜ˆì œ
+
+ì´ì²˜ëŸ¼ `.voracode/skills/git-release/SKILL.md` ë§Œë“¤ê¸°:
+
+```markdown
+---
+name: git-release
+description: Create consistent releases and changelogs
+license: MIT
+compatibility: voracode
+metadata:
+  audience: maintainers
+  workflow: github
+---
+
+## What I do
+
+- Draft release notes from merged PRs
+- Propose a version bump
+- Provide a copy-pasteable `gh release create` command
+
+## When to use me
+
+Use this when you are preparing a tagged release.
+Ask clarifying questions if the target versioning scheme is unclear.
+```
+
+---
+
+## ë„êµ¬ ì„¤ëª… ì¸ì‹
+
+voracodeëŠ” `skill` ë„êµ¬ ì„¤ëª…ì—ì„œ ì‚¬ìš©í•  ìˆ˜ìžˆëŠ” ê¸°ìˆ ì„ ë‚˜ì—´í•©ë‹ˆë‹¤.
+ê° í•­ëª©ì—ëŠ” ê¸°ìˆ  ì´ë¦„ ë° ì„¤ëª…ì´ í¬í•¨ë©ë‹ˆë‹¤.
+
+```xml
+<available_skills>
+  <skill>
+    <name>git-release</name>
+    <description>Create consistent releases and changelogs</description>
+  </skill>
+</available_skills>
+```
+
+ì—ì´ì „íŠ¸ëŠ” ë„êµ¬ë¥¼ í˜¸ì¶œí•˜ì—¬ ê¸°ìˆ ì„ë¡œë“œ :
+
+```
+skill({ name: "git-release" })
+```
+
+---
+
+## ê¶Œí•œ êµ¬ì„±
+
+ê¸°ìˆ  ì—ì´ì „íŠ¸ê°€ `voracode.json`ì˜ íŒ¨í„´ ê¸°ë°˜ ê¶Œí•œì„ ì‚¬ìš©í•˜ì—¬ ì•¡ì„¸ìŠ¤ í•  ìˆ˜ìžˆëŠ” ì œì–´ :
+
+```json
+{
+  "permission": {
+    "skill": {
+      "*": "allow",
+      "pr-review": "allow",
+      "internal-*": "deny",
+      "experimental-*": "ask"
+    }
+  }
+}
+```
+
+| ê¶Œí•œ    | ë™ìž‘                              |
+| ------- | --------------------------------- |
+| `allow` | ê¸°ìˆ ì´ ì¦‰ì‹œ ë¡œë“œë¨                |
+| `deny`  | ì—ì´ì „íŠ¸ì—ì„œ ê¸°ìˆ  ìˆ¨ê¹€, ì ‘ê·¼ ê±°ë¶€ |
+| `ask`   | ë¡œë“œ ì „ì— ì‚¬ìš©ìžì—ê²Œ ìŠ¹ì¸ ìš”ì²­    |
+
+íŒ¨í„´ ì§€ì› ì™€ì¼ë“œ ì¹´ë“œ: `internal-*` ê²½ê¸° `internal-docs`, `internal-tools`, ë“±.
+
+---
+
+## ì—ì´ì „íŠ¸ë³„ ìž¬ì •ì˜
+
+ê¸€ë¡œë²Œ ë””í´íŠ¸ë³´ë‹¤ íŠ¹ì • ì—ì´ì „íŠ¸ ë‹¤ë¥¸ ê¶Œí•œì„ ë¶€ì—¬í•©ë‹ˆë‹¤.
+
+**ì‚¬ìš©ìž ì§€ì • ì—ì´ì „íŠ¸ ** ( ì—ì´ì „íŠ¸ frontmatter):
+
+```yaml
+---
+permission:
+  skill:
+    "documents-*": "allow"
+---
+```
+
+** ë‚´ìž¥ ì—ì´ì „íŠ¸ ** (`voracode.json`ì—ì„œ):
+
+```json
+{
+  "agent": {
+    "plan": {
+      "permission": {
+        "skill": {
+          "internal-*": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+## ìŠ¤í‚¬ ë„êµ¬ ë¹„í™œì„±í™”
+
+ê·¸ë“¤ì„ ì‚¬ìš©í•˜ì§€ ì•ŠëŠ” ì—ì´ì „íŠ¸ì„ìœ„í•œ ì™„ì „ížˆ ë¹„í™œì„±í™” ëœ ê¸°ìˆ  :
+
+**ì‚¬ìš©ìž ì§€ì • ì—ì´ì „íŠ¸**:
+
+```yaml
+---
+tools:
+  skill: false
+---
+```
+
+** ë‚´ìž¥ ì—ì´ì „íŠ¸ **:
+
+```json
+{
+  "agent": {
+    "plan": {
+      "tools": {
+        "skill": false
+      }
+    }
+  }
+}
+```
+
+ë¹„í™œì„±í™” í•  ë•Œ, `<available_skills>` ì„¹ì…˜ì€ ì™„ì „ížˆ ë¶€ìœ í•©ë‹ˆë‹¤.
+
+---
+
+## ë¡œë”© ë¬¸ì œ í•´ê²°
+
+ê¸°ìˆ ì´ ë‚˜íƒ€ë‚˜ì§€ ì•ŠëŠ” ê²½ìš°:
+
+1. `SKILL.md`ëŠ” ëª¨ë“  ëª¨ìžì—ì„œ spelled
+2. `name`ì™€ `description`ë¥¼ í¬í•¨í•˜ëŠ” ê²€ì‚¬
+3. ê¸°ìˆ  ì´ë¦„ì€ ëª¨ë“  ìœ„ì¹˜ì—ì„œ ë…íŠ¹í•©ë‹ˆë‹¤.
+4. `deny`ë¥¼ ê°€ì§„ í—ˆê°€ë¥¼ ê²€ì‚¬í•˜ì‹­ì‹œì˜¤ ì—ì´ì „íŠ¸ì—ì„œ ìˆ¨ê²¨ì§‘ë‹ˆë‹¤

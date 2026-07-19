@@ -1,0 +1,156 @@
+---
+title: ACP æ”¯æŒ
+description: åœ¨ä»»ä½•å…¼å®¹ ACP çš„ç¼–è¾‘å™¨ä¸­ä½¿ç”¨ Voracodeã€‚
+---
+
+Voracode æ”¯æŒ [Agent Client Protocol](https://agentclientprotocol.com)ï¼ˆACPï¼‰ï¼Œå…è®¸ä½ ç›´æŽ¥åœ¨å…¼å®¹çš„ç¼–è¾‘å™¨å’Œ IDE ä¸­ä½¿ç”¨å®ƒã€‚
+
+:::tip
+æœ‰å…³æ”¯æŒ ACP çš„ç¼–è¾‘å™¨å’Œå·¥å…·åˆ—è¡¨ï¼Œè¯·æŸ¥çœ‹ [ACP è¿›å±•æŠ¥å‘Š](https://zed.dev/blog/acp-progress-report#available-now)ã€‚
+:::
+
+ACP æ˜¯ä¸€ä¸ªå¼€æ”¾åè®®ï¼Œç”¨äºŽæ ‡å‡†åŒ–ä»£ç ç¼–è¾‘å™¨ä¸Ž AI ç¼–ç ä»£ç†ä¹‹é—´çš„é€šä¿¡ã€‚
+
+---
+
+## é…ç½®
+
+è¦é€šè¿‡ ACP ä½¿ç”¨ Voracodeï¼Œè¯·åœ¨ç¼–è¾‘å™¨ä¸­é…ç½®è¿è¡Œ `voracode acp` å‘½ä»¤ã€‚
+
+è¯¥å‘½ä»¤ä¼šå°† Voracode ä½œä¸ºå…¼å®¹ ACP çš„å­è¿›ç¨‹å¯åŠ¨ï¼Œé€šè¿‡ stdio ä¸Šçš„ JSON-RPC ä¸Žç¼–è¾‘å™¨è¿›è¡Œé€šä¿¡ã€‚
+
+ä»¥ä¸‹æ˜¯æ”¯æŒ ACP çš„å¸¸ç”¨ç¼–è¾‘å™¨çš„é…ç½®ç¤ºä¾‹ã€‚
+
+---
+
+### Zed
+
+æ·»åŠ åˆ°ä½ çš„ [Zed](https://zed.dev) é…ç½®æ–‡ä»¶ï¼ˆ`~/.config/zed/settings.json`ï¼‰ä¸­ï¼š
+
+```json title="~/.config/zed/settings.json"
+{
+  "agent_servers": {
+    "Voracode": {
+      "command": "voracode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+æ‰“å¼€æ–¹å¼ï¼šåœ¨**å‘½ä»¤é¢æ¿**ä¸­æ‰§è¡Œ `agent: new thread` æ“ä½œã€‚
+
+ä½ ä¹Ÿå¯ä»¥é€šè¿‡ç¼–è¾‘ `keymap.json` æ¥ç»‘å®šé”®ç›˜å¿«æ·é”®ï¼š
+
+```json title="keymap.json"
+[
+  {
+    "bindings": {
+      "cmd-alt-o": [
+        "agent::NewExternalAgentThread",
+        {
+          "agent": {
+            "custom": {
+              "name": "Voracode",
+              "command": {
+                "command": "voracode",
+                "args": ["acp"]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+]
+```
+
+---
+
+### JetBrains IDEs
+
+æ ¹æ®[æ–‡æ¡£](https://www.jetbrains.com/help/ai-assistant/acp.html)ï¼Œå°†ä»¥ä¸‹å†…å®¹æ·»åŠ åˆ°ä½ çš„ [JetBrains IDE](https://www.jetbrains.com/) çš„ acp.json ä¸­ï¼š
+
+```json title="acp.json"
+{
+  "agent_servers": {
+    "Voracode": {
+      "command": "/absolute/path/bin/voracode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+æ‰“å¼€æ–¹å¼ï¼šåœ¨ AI Chat ä»£ç†é€‰æ‹©å™¨ä¸­é€‰æ‹©æ–°çš„ 'Voracode' ä»£ç†ã€‚
+
+---
+
+### Avante.nvim
+
+æ·»åŠ åˆ°ä½ çš„ [Avante.nvim](https://github.com/yetone/avante.nvim) é…ç½®ä¸­ï¼š
+
+```lua
+{
+  acp_providers = {
+    ["voracode"] = {
+      command = "voracode",
+      args = { "acp" }
+    }
+  }
+}
+```
+
+å¦‚æžœéœ€è¦ä¼ é€’çŽ¯å¢ƒå˜é‡ï¼š
+
+```lua {6-8}
+{
+  acp_providers = {
+    ["voracode"] = {
+      command = "voracode",
+      args = { "acp" },
+      env = {
+        VORACODE_API_KEY = os.getenv("VORACODE_API_KEY")
+      }
+    }
+  }
+}
+```
+
+---
+
+### CodeCompanion.nvim
+
+è¦åœ¨ [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim) ä¸­å°† Voracode ç”¨ä½œ ACP ä»£ç†ï¼Œè¯·å°†ä»¥ä¸‹å†…å®¹æ·»åŠ åˆ°ä½ çš„ Neovim é…ç½®ä¸­ï¼š
+
+```lua
+require("codecompanion").setup({
+  interactions = {
+    chat = {
+      adapter = {
+        name = "voracode",
+        model = "claude-sonnet-4",
+      },
+    },
+  },
+})
+```
+
+æ­¤é…ç½®å°† CodeCompanion è®¾ç½®ä¸ºä½¿ç”¨ Voracode ä½œä¸ºèŠå¤©çš„ ACP ä»£ç†ã€‚
+
+å¦‚æžœéœ€è¦ä¼ é€’çŽ¯å¢ƒå˜é‡ï¼ˆå¦‚ `VORACODE_API_KEY`ï¼‰ï¼Œè¯·å‚é˜… CodeCompanion.nvim æ–‡æ¡£ä¸­çš„[é…ç½®é€‚é…å™¨ï¼šçŽ¯å¢ƒå˜é‡](https://codecompanion.olimorris.dev/getting-started#setting-an-api-key)äº†è§£è¯¦ç»†ä¿¡æ¯ã€‚
+
+## æ”¯æŒ
+
+Voracode é€šè¿‡ ACP ä½¿ç”¨æ—¶ä¸Žåœ¨ç»ˆç«¯ä¸­ä½¿ç”¨çš„æ•ˆæžœå®Œå…¨ä¸€è‡´ã€‚æ‰€æœ‰åŠŸèƒ½å‡å—æ”¯æŒï¼š
+
+:::note
+éƒ¨åˆ†å†…ç½®æ–œæ å‘½ä»¤ï¼ˆå¦‚ `/undo` å’Œ `/redo`ï¼‰ç›®å‰æš‚ä¸æ”¯æŒã€‚
+:::
+
+- å†…ç½®å·¥å…·ï¼ˆæ–‡ä»¶æ“ä½œã€ç»ˆç«¯å‘½ä»¤ç­‰ï¼‰
+- è‡ªå®šä¹‰å·¥å…·å’Œæ–œæ å‘½ä»¤
+- åœ¨ Voracode é…ç½®ä¸­é…ç½®çš„ MCP æœåŠ¡å™¨
+- æ¥è‡ª `AGENTS.md` çš„é¡¹ç›®çº§è§„åˆ™
+- è‡ªå®šä¹‰æ ¼å¼åŒ–å·¥å…·å’Œä»£ç æ£€æŸ¥å·¥å…·
+- ä»£ç†å’Œæƒé™ç³»ç»Ÿ

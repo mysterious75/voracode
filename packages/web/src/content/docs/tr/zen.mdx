@@ -1,0 +1,313 @@
+---
+title: Zen
+description: voracode tarafÄ±ndan saÄŸlanan seÃ§ilmiÅŸ modeller listesi.
+---
+
+import config from "../../../../config.mjs"
+export const console = config.console
+export const email = `mailto:${config.email}`
+
+Voracode Zen, Voracode ekibi tarafÄ±ndan test edilip doÄŸrulanmÄ±ÅŸ modellerin bir listesidir.
+
+Zen, Voracode'daki diÄŸer saÄŸlayÄ±cÄ±lar gibi Ã§alÄ±ÅŸÄ±r. Voracode Zen'de oturum aÃ§Ä±p API anahtarÄ±nÄ±zÄ± alÄ±rsÄ±nÄ±z. Bu **tamamen isteÄŸe baÄŸlÄ±dÄ±r** ve Voracode kullanmak iÃ§in buna ihtiyacÄ±nÄ±z yoktur.
+
+---
+
+## Arka plan
+
+Piyasada Ã§ok sayÄ±da model var, ancak bunlarÄ±n yalnÄ±zca birkaÃ§Ä± kodlama ajanÄ± olarak iyi Ã§alÄ±ÅŸÄ±yor. AyrÄ±ca Ã§oÄŸu saÄŸlayÄ±cÄ± Ã§ok farklÄ± ÅŸekilde yapÄ±landÄ±rÄ±lÄ±yor; bu yÃ¼zden performans ve kalite de ciddi Ã¶lÃ§Ã¼de deÄŸiÅŸiyor.
+
+:::tip
+Voracode ile iyi Ã§alÄ±ÅŸan seÃ§ili bir model ve saÄŸlayÄ±cÄ± grubunu test ettik.
+:::
+
+Bu yÃ¼zden, OpenRouter gibi bir ÅŸey Ã¼zerinden model kullanÄ±yorsanÄ±z istediÄŸiniz modelin en iyi sÃ¼rÃ¼mÃ¼nÃ¼ alÄ±p almadÄ±ÄŸÄ±nÄ±zdan asla emin olamazsÄ±nÄ±z.
+
+Bunu dÃ¼zeltmek iÃ§in birkaÃ§ ÅŸey yaptÄ±k:
+
+1. SeÃ§ili bir model grubunu test ettik ve bunlarÄ± en iyi ÅŸekilde nasÄ±l Ã§alÄ±ÅŸtÄ±racaklarÄ±mÄ±z konusunda ekipleriyle gÃ¶rÃ¼ÅŸtÃ¼k.
+2. ArdÄ±ndan, bunlarÄ±n doÄŸru ÅŸekilde sunulduÄŸundan emin olmak iÃ§in birkaÃ§ saÄŸlayÄ±cÄ±yla birlikte Ã§alÄ±ÅŸtÄ±k.
+3. Son olarak, model/saÄŸlayÄ±cÄ± kombinasyonlarÄ±nÄ± benchmark edip gÃ¶nÃ¼l rahatlÄ±ÄŸÄ±yla Ã¶nerebileceÄŸimiz bir liste Ã§Ä±kardÄ±k.
+
+Voracode Zen, bu modellere eriÅŸmenizi saÄŸlayan bir AI aÄŸ geÃ§ididir.
+
+---
+
+## NasÄ±l Ã§alÄ±ÅŸÄ±r
+
+Voracode Zen, Voracode'daki diÄŸer saÄŸlayÄ±cÄ±lar gibi Ã§alÄ±ÅŸÄ±r.
+
+1. **<a href={console}>Voracode Zen</a>**'de oturum aÃ§Ä±n, faturalandÄ±rma bilgilerinizi ekleyin ve API anahtarÄ±nÄ±zÄ± kopyalayÄ±n.
+2. TUI'de `/connect` komutunu Ã§alÄ±ÅŸtÄ±rÄ±n, Voracode Zen'i seÃ§in ve API anahtarÄ±nÄ±zÄ± yapÄ±ÅŸtÄ±rÄ±n.
+3. Ã–nerdiÄŸimiz modellerin listesini gÃ¶rmek iÃ§in TUI'de `/models` komutunu Ã§alÄ±ÅŸtÄ±rÄ±n.
+
+Ä°stek baÅŸÄ±na Ã¼cretlendirilirsiniz ve hesabÄ±nÄ±za kredi ekleyebilirsiniz.
+
+---
+
+## UÃ§ noktalar
+
+Modellerimize aÅŸaÄŸÄ±daki API uÃ§ noktalarÄ± aracÄ±lÄ±ÄŸÄ±yla da eriÅŸebilirsiniz.
+
+| Model                  | Model ID               | Endpoint                                             | AI SDK Package              |
+| ---------------------- | ---------------------- | ---------------------------------------------------- | --------------------------- |
+| GPT 5.6 Sol            | gpt-5.6-sol            | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.6 Terra          | gpt-5.6-terra          | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.6 Luna           | gpt-5.6-luna           | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.5                | gpt-5.5                | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.5 Pro            | gpt-5.5-pro            | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4                | gpt-5.4                | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4 Pro            | gpt-5.4-pro            | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4 Mini           | gpt-5.4-mini           | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4 Nano           | gpt-5.4-nano           | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.3 Codex          | gpt-5.3-codex          | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.3 Codex Spark    | gpt-5.3-codex-spark    | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.2                | gpt-5.2                | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.2 Codex          | gpt-5.2-codex          | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1                | gpt-5.1                | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1 Codex          | gpt-5.1-codex          | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1 Codex Max      | gpt-5.1-codex-max      | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1 Codex Mini     | gpt-5.1-codex-mini     | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5                  | gpt-5                  | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5 Codex            | gpt-5-codex            | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5 Nano             | gpt-5-nano             | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| Claude Fable 5         | claude-fable-5         | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.8        | claude-opus-4-8        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.7        | claude-opus-4-7        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.6        | claude-opus-4-6        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.5        | claude-opus-4-5        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Sonnet 5        | claude-sonnet-5        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Sonnet 4.6      | claude-sonnet-4-6      | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Sonnet 4.5      | claude-sonnet-4-5      | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Haiku 4.5       | claude-haiku-4-5       | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Gemini 3.5 Flash       | gemini-3.5-flash       | `https://voracode.ai/zen/v1/models/gemini-3.5-flash` | `@ai-sdk/google`            |
+| Gemini 3.1 Pro         | gemini-3.1-pro         | `https://voracode.ai/zen/v1/models/gemini-3.1-pro`   | `@ai-sdk/google`            |
+| Gemini 3 Flash         | gemini-3-flash         | `https://voracode.ai/zen/v1/models/gemini-3-flash`   | `@ai-sdk/google`            |
+| Qwen3.7 Max            | qwen3.7-max            | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Qwen3.7 Plus           | qwen3.7-plus           | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Qwen3.6 Plus           | qwen3.6-plus           | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Qwen3.5 Plus           | qwen3.5-plus           | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| DeepSeek V4 Pro        | deepseek-v4-pro        | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| DeepSeek V4 Flash      | deepseek-v4-flash      | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| MiniMax M3             | minimax-m3             | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| MiniMax M2.7           | minimax-m2.7           | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| MiniMax M2.5           | minimax-m2.5           | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| GLM 5.2                | glm-5.2                | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| GLM 5.1                | glm-5.1                | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| GLM 5                  | glm-5                  | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Kimi K2.5              | kimi-k2.5              | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Kimi K2.6              | kimi-k2.6              | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Kimi K2.7 Code         | kimi-k2.7-code         | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Grok 4.5               | grok-4.5               | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Grok Build 0.1         | grok-build-0.1         | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Big Pickle             | big-pickle             | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| MiMo-V2.5 Free         | mimo-v2.5-free         | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| North Mini Code Free   | north-mini-code-free   | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Nemotron 3 Ultra Free  | nemotron-3-ultra-free  | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| DeepSeek V4 Flash Free | deepseek-v4-flash-free | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+
+Voracode yapÄ±landÄ±rmanÄ±zdaki [model id](/docs/config/#models) `voracode/<model-id>` biÃ§imini kullanÄ±r. Ã–rneÄŸin, GPT 5.5 iÃ§in yapÄ±landÄ±rmanÄ±zda `voracode/gpt-5.5` kullanÄ±rsÄ±nÄ±z.
+
+---
+
+### Modeller
+
+Mevcut modellerin tam listesini ve metadata'larÄ±nÄ± ÅŸuradan alabilirsiniz:
+
+```
+https://voracode.ai/zen/v1/models
+```
+
+---
+
+## FiyatlandÄ±rma
+
+KullandÄ±kÃ§a Ã¶de modelini destekliyoruz. AÅŸaÄŸÄ±da **1M token baÅŸÄ±na** fiyatlar yer alÄ±yor.
+
+| Model                             | Input  | Output  | Cached Read | Cached Write |
+| --------------------------------- | ------ | ------- | ----------- | ------------ |
+| Big Pickle                        | Free   | Free    | Free        | -            |
+| DeepSeek V4 Flash Free            | Free   | Free    | Free        | -            |
+| MiMo-V2.5 Free                    | Free   | Free    | Free        | -            |
+| North Mini Code Free              | Free   | Free    | Free        | -            |
+| Nemotron 3 Ultra Free             | Free   | Free    | Free        | -            |
+| MiniMax M3                        | $0.30  | $1.20   | $0.06       | -            |
+| MiniMax M2.7                      | $0.30  | $1.20   | $0.06       | -            |
+| MiniMax M2.5                      | $0.30  | $1.20   | $0.06       | -            |
+| GLM 5.2                           | $1.40  | $4.40   | $0.26       | -            |
+| GLM 5.1                           | $1.40  | $4.40   | $0.26       | -            |
+| GLM 5                             | $1.00  | $3.20   | $0.20       | -            |
+| Kimi K2.7 Code                    | $0.95  | $4.00   | $0.19       | -            |
+| Kimi K2.6                         | $0.95  | $4.00   | $0.16       | -            |
+| Kimi K2.5                         | $0.60  | $3.00   | $0.10       | -            |
+| Qwen3.7 Max                       | $2.50  | $7.50   | $0.50       | $3.125       |
+| Qwen3.7 Plus                      | $0.40  | $1.60   | $0.04       | $0.50        |
+| Qwen3.6 Plus                      | $0.50  | $3.00   | $0.05       | $0.625       |
+| Qwen3.5 Plus                      | $0.20  | $1.20   | $0.02       | $0.25        |
+| DeepSeek V4 Pro                   | $1.74  | $3.48   | $0.145      | -            |
+| DeepSeek V4 Flash                 | $0.14  | $0.28   | $0.028      | -            |
+| Grok 4.5 (â‰¤ 200K tokens)          | $2.00  | $6.00   | $0.50       | -            |
+| Grok 4.5 (> 200K tokens)          | $4.00  | $12.00  | $1.00       | -            |
+| Grok Build 0.1                    | $1.00  | $2.00   | $0.20       | -            |
+| Claude Fable 5                    | $10.00 | $50.00  | $1.00       | $12.50       |
+| Claude Opus 4.8                   | $5.00  | $25.00  | $0.50       | $6.25        |
+| Claude Opus 4.7                   | $5.00  | $25.00  | $0.50       | $6.25        |
+| Claude Opus 4.6                   | $5.00  | $25.00  | $0.50       | $6.25        |
+| Claude Opus 4.5                   | $5.00  | $25.00  | $0.50       | $6.25        |
+| Claude Sonnet 5                   | $2.00  | $10.00  | $0.20       | $2.50        |
+| Claude Sonnet 4.6                 | $3.00  | $15.00  | $0.30       | $3.75        |
+| Claude Sonnet 4.5 (â‰¤ 200K tokens) | $3.00  | $15.00  | $0.30       | $3.75        |
+| Claude Sonnet 4.5 (> 200K tokens) | $6.00  | $22.50  | $0.60       | $7.50        |
+| Claude Haiku 4.5                  | $1.00  | $5.00   | $0.10       | $1.25        |
+| Gemini 3.5 Flash                  | $1.50  | $9.00   | $0.15       | -            |
+| Gemini 3.1 Pro (â‰¤ 200K tokens)    | $2.00  | $12.00  | $0.20       | -            |
+| Gemini 3.1 Pro (> 200K tokens)    | $4.00  | $18.00  | $0.40       | -            |
+| Gemini 3 Flash                    | $0.50  | $3.00   | $0.05       | -            |
+| GPT 5.6 Sol (â‰¤ 272K tokens)       | $5.00  | $30.00  | $0.50       | $6.25        |
+| GPT 5.6 Sol (> 272K tokens)       | $10.00 | $45.00  | $1.00       | $12.50       |
+| GPT 5.6 Terra (â‰¤ 272K tokens)     | $2.50  | $15.00  | $0.25       | $3.125       |
+| GPT 5.6 Terra (> 272K tokens)     | $5.00  | $22.50  | $0.50       | $6.25        |
+| GPT 5.6 Luna (â‰¤ 272K tokens)      | $1.00  | $6.00   | $0.10       | $1.25        |
+| GPT 5.6 Luna (> 272K tokens)      | $2.00  | $9.00   | $0.20       | $2.50        |
+| GPT 5.5 (â‰¤ 272K tokens)           | $5.00  | $30.00  | $0.50       | -            |
+| GPT 5.5 (> 272K tokens)           | $10.00 | $45.00  | $1.00       | -            |
+| GPT 5.5 Pro                       | $30.00 | $180.00 | $30.00      | -            |
+| GPT 5.4 (â‰¤ 272K tokens)           | $2.50  | $15.00  | $0.25       | -            |
+| GPT 5.4 (> 272K tokens)           | $5.00  | $22.50  | $0.50       | -            |
+| GPT 5.4 Pro                       | $30.00 | $180.00 | $30.00      | -            |
+| GPT 5.4 Mini                      | $0.75  | $4.50   | $0.075      | -            |
+| GPT 5.4 Nano                      | $0.20  | $1.25   | $0.02       | -            |
+| GPT 5.3 Codex Spark               | $1.75  | $14.00  | $0.175      | -            |
+| GPT 5.3 Codex                     | $1.75  | $14.00  | $0.175      | -            |
+| GPT 5.2                           | $1.75  | $14.00  | $0.175      | -            |
+| GPT 5.2 Codex                     | $1.75  | $14.00  | $0.175      | -            |
+| GPT 5.1                           | $1.07  | $8.50   | $0.107      | -            |
+| GPT 5.1 Codex                     | $1.07  | $8.50   | $0.107      | -            |
+| GPT 5.1 Codex Max                 | $1.25  | $10.00  | $0.125      | -            |
+| GPT 5.1 Codex Mini                | $0.25  | $2.00   | $0.025      | -            |
+| GPT 5                             | $1.07  | $8.50   | $0.107      | -            |
+| GPT 5 Codex                       | $1.07  | $8.50   | $0.107      | -            |
+| GPT 5 Nano                        | $0.05  | $0.40   | $0.005      | -            |
+
+KullanÄ±m geÃ§miÅŸinizde _Claude Haiku 3.5_ gÃ¶rebilirsiniz. Bu, oturum baÅŸlÄ±klarÄ±nÄ±zÄ± oluÅŸturmak iÃ§in kullanÄ±lan [dÃ¼ÅŸÃ¼k maliyetli bir modeldir](/docs/config/#models).
+
+:::note
+Kredi kartÄ± Ã¼cretleri maliyet Ã¼zerinden yansÄ±tÄ±lÄ±r (%4.4 + iÅŸlem baÅŸÄ±na $0.30); bunun dÄ±ÅŸÄ±nda ekstra bir Ã¼cret almÄ±yoruz.
+:::
+
+Ãœcretsiz modeller:
+
+- DeepSeek V4 Flash Free, sÄ±nÄ±rlÄ± bir sÃ¼re iÃ§in Voracode'da Ã¼cretsizdir. Ekip bu sÃ¼reyi geri bildirim toplamak ve modeli iyileÅŸtirmek iÃ§in kullanÄ±yor.
+- MiMo-V2.5 Free, sÄ±nÄ±rlÄ± bir sÃ¼re iÃ§in Voracode'da Ã¼cretsizdir. Ekip bu sÃ¼reyi geri bildirim toplamak ve modeli iyileÅŸtirmek iÃ§in kullanÄ±yor.
+- North Mini Code Free, sÄ±nÄ±rlÄ± bir sÃ¼re iÃ§in Voracode'da Ã¼cretsizdir. Ekip bu sÃ¼reyi geri bildirim toplamak ve modeli iyileÅŸtirmek iÃ§in kullanÄ±yor.
+- Nemotron 3 Ultra Free, sÄ±nÄ±rlÄ± bir sÃ¼re iÃ§in Voracode'da Ã¼cretsizdir. Ekip bu sÃ¼reyi geri bildirim toplamak ve modeli iyileÅŸtirmek iÃ§in kullanÄ±yor.
+- Big Pickle, sÄ±nÄ±rlÄ± bir sÃ¼re iÃ§in Voracode'da Ã¼cretsiz olan gizli bir modeldir. Ekip bu sÃ¼reyi geri bildirim toplamak ve modeli iyileÅŸtirmek iÃ§in kullanÄ±yor.
+
+SorularÄ±nÄ±z varsa <a href={email}>bizimle iletiÅŸime geÃ§in</a>.
+
+---
+
+### Otomatik yÃ¼kleme
+
+Bakiyeniz $5'in altÄ±na dÃ¼ÅŸerse, Zen otomatik olarak $20 yÃ¼kler.
+
+Otomatik yÃ¼kleme tutarÄ±nÄ± deÄŸiÅŸtirebilirsiniz. Otomatik yÃ¼klemeyi tamamen devre dÄ±ÅŸÄ± da bÄ±rakabilirsiniz.
+
+---
+
+### AylÄ±k limitler
+
+AyrÄ±ca tÃ¼m Ã§alÄ±ÅŸma alanÄ± iÃ§in ve ekibinizdeki her Ã¼ye iÃ§in aylÄ±k kullanÄ±m limiti belirleyebilirsiniz.
+
+Ã–rneÄŸin, aylÄ±k kullanÄ±m limitini $20 olarak ayarladÄ±ÄŸÄ±nÄ±zÄ± dÃ¼ÅŸÃ¼nelim; Zen bir ay iÃ§inde $20'den fazla kullanmaz. Ancak otomatik yÃ¼kleme aÃ§Ä±ksa, bakiyeniz $5'in altÄ±na dÃ¼ÅŸerse Zen sizden $20'den fazla Ã¼cret Ã§ekebilir.
+
+---
+
+### KullanÄ±mdan kaldÄ±rÄ±lan modeller
+
+| Model              | KullanÄ±mdan kaldÄ±rÄ±lma tarihi |
+| ------------------ | ----------------------------- |
+| GPT 5.2 Codex      | July 23, 2026                 |
+| GPT 5.1 Codex      | July 23, 2026                 |
+| GPT 5.1 Codex Max  | July 23, 2026                 |
+| GPT 5.1 Codex Mini | July 23, 2026                 |
+| GPT 5 Codex        | July 23, 2026                 |
+| Claude Opus 4.1    | August 5, 2026                |
+| Claude Sonnet 4    | June 15, 2026                 |
+| Claude Haiku 3.5   | February 16, 2026             |
+| Gemini 3 Pro       | March 9, 2026                 |
+| MiniMax M2.5       | August 5, 2026                |
+| MiniMax M2.1       | March 15, 2026                |
+| GLM 5              | May 14, 2026                  |
+| GLM 4.7            | March 15, 2026                |
+| GLM 4.6            | March 15, 2026                |
+| Kimi K2.5          | August 5, 2026                |
+| Kimi K2 Thinking   | March 6, 2026                 |
+| Kimi K2            | March 6, 2026                 |
+| Qwen3 Coder 480B   | February 6, 2026              |
+
+---
+
+## Gizlilik
+
+TÃ¼m modellerimiz US'de barÄ±ndÄ±rÄ±lÄ±yor. SaÄŸlayÄ±cÄ±larÄ±mÄ±z zero-retention politikasÄ± uygular ve aÅŸaÄŸÄ±daki istisnalar dÄ±ÅŸÄ±nda verilerinizi model eÄŸitimi iÃ§in kullanmaz:
+
+- Big Pickle: Ãœcretsiz dÃ¶neminde toplanan veriler modeli iyileÅŸtirmek iÃ§in kullanÄ±labilir.
+- DeepSeek V4 Flash Free: Ãœcretsiz dÃ¶neminde toplanan veriler modeli iyileÅŸtirmek iÃ§in kullanÄ±labilir.
+- MiMo-V2.5 Free: Ãœcretsiz dÃ¶neminde toplanan veriler modeli iyileÅŸtirmek iÃ§in kullanÄ±labilir.
+- North Mini Code Free: Ãœcretsiz kullanÄ±m sÃ¼resi boyunca toplanan veriler saklanabilir ve modeli geliÅŸtirmek iÃ§in kullanÄ±labilir. KiÅŸisel veya gizli veriler gÃ¶ndermeyin. [KullanÄ±m KoÅŸullarÄ±mÄ±za](https://cohere.com/terms-of-use) ve [Gizlilik PolitikamÄ±za](https://cohere.com/privacy) bakÄ±n.
+- Nemotron 3 Ultra Free (Ã¼cretsiz NVIDIA uÃ§ noktalarÄ±): YalnÄ±zca deneme amaÃ§lÄ±dÄ±r â€” kiÅŸisel veya gizli veri gÃ¶ndermeyin. KullanÄ±mÄ±nÄ±z gÃ¼venlik amacÄ±yla ve NVIDIA Ã¼rÃ¼nlerini ve hizmetlerini geliÅŸtirmek iÃ§in kaydedilir. GeliÅŸtirme amacÄ±yla kaydedilen oturum verileri kimliÄŸinizle veya herhangi bir kalÄ±cÄ± tanÄ±mlayÄ±cÄ±yla iliÅŸkilendirilmez. Veri iÅŸleme uygulamalarÄ±mÄ±z hakkÄ±nda daha fazla bilgi iÃ§in [Gizlilik PolitikamÄ±za](https://assets.ngc.nvidia.com/products/api-catalog/legal/NVIDIA%20API%20Trial%20Terms%20of%20Service.pdf) bakÄ±n. Bu uÃ§ noktayla etkileÅŸime geÃ§erek, bu tÃ¼r bilgileri toplamamÄ±za, kaydetmemize ve kullanmamÄ±za ve [NVIDIA API Trial Terms of Service](https://assets.ngc.nvidia.com/products/api-catalog/legal/NVIDIA%20API%20Trial%20Terms%20of%20Service.pdf) koÅŸullarÄ±na onay vermiÅŸ olursunuz.
+- OpenAI APIs: Ä°stekler [OpenAI's Data Policies](https://platform.openai.com/docs/guides/your-data) uyarÄ±nca 30 gÃ¼n boyunca saklanÄ±r.
+- Anthropic APIs: Ä°stekler [Anthropic's Data Policies](https://docs.anthropic.com/en/docs/claude-code/data-usage) uyarÄ±nca 30 gÃ¼n boyunca saklanÄ±r.
+
+---
+
+## Ekipler iÃ§in
+
+Zen ekipler iÃ§in de harika Ã§alÄ±ÅŸÄ±r. Ekip arkadaÅŸlarÄ±nÄ±zÄ± davet edebilir, roller atayabilir, ekibinizin kullandÄ±ÄŸÄ± modelleri dÃ¼zenleyebilir ve daha fazlasÄ±nÄ± yapabilirsiniz.
+
+:::note
+Ã‡alÄ±ÅŸma alanlarÄ± ÅŸu anda beta'nÄ±n bir parÃ§asÄ± olarak ekipler iÃ§in Ã¼cretsizdir.
+:::
+
+Ã‡alÄ±ÅŸma alanÄ±nÄ±zÄ± yÃ¶netmek ÅŸu anda beta'nÄ±n bir parÃ§asÄ± olarak ekipler iÃ§in Ã¼cretsizdir. FiyatlandÄ±rma hakkÄ±nda daha fazla ayrÄ±ntÄ±yÄ± yakÄ±nda paylaÅŸacaÄŸÄ±z.
+
+---
+
+### Roller
+
+Ekip arkadaÅŸlarÄ±nÄ±zÄ± Ã§alÄ±ÅŸma alanÄ±nÄ±za davet edip rol atayabilirsiniz:
+
+- **Admin**: Modelleri, Ã¼yeleri, API anahtarlarÄ±nÄ± ve faturalandÄ±rmayÄ± yÃ¶netir
+- **Member**: YalnÄ±zca kendi API anahtarlarÄ±nÄ± yÃ¶netir
+
+Admin'ler ayrÄ±ca maliyetleri kontrol altÄ±nda tutmak iÃ§in her Ã¼ye iÃ§in aylÄ±k harcama limiti belirleyebilir.
+
+---
+
+### Model eriÅŸimi
+
+Admin'ler Ã§alÄ±ÅŸma alanÄ± iÃ§in belirli modelleri etkinleÅŸtirebilir veya devre dÄ±ÅŸÄ± bÄ±rakabilir. Devre dÄ±ÅŸÄ± bÄ±rakÄ±lmÄ±ÅŸ bir modele yapÄ±lan istekler hata dÃ¶ndÃ¼rÃ¼r.
+
+Bu, veri toplayan bir modelin kullanÄ±mÄ±nÄ± kapatmak istediÄŸiniz durumlarda kullanÄ±ÅŸlÄ±dÄ±r.
+
+---
+
+### Kendi anahtarÄ±nÄ±zÄ± getirin
+
+Zen'deki diÄŸer modellere eriÅŸmeye devam ederken kendi OpenAI veya Anthropic API anahtarlarÄ±nÄ±zÄ± kullanabilirsiniz.
+
+Kendi anahtarlarÄ±nÄ±zÄ± kullandÄ±ÄŸÄ±nÄ±zda token'lar Zen tarafÄ±ndan deÄŸil, doÄŸrudan saÄŸlayÄ±cÄ± tarafÄ±ndan faturalandÄ±rÄ±lÄ±r.
+
+Ã–rneÄŸin, kuruluÅŸunuzun OpenAI veya Anthropic iÃ§in zaten bir anahtarÄ± olabilir ve Zen'in saÄŸladÄ±ÄŸÄ± anahtar yerine onu kullanmak isteyebilirsiniz.
+
+---
+
+## Hedefler
+
+Voracode Zen'i ÅŸunlar iÃ§in oluÅŸturduk:
+
+1. Kodlama ajanlarÄ± iÃ§in en iyi modelleri/saÄŸlayÄ±cÄ±larÄ± **kÄ±yaslamak**.
+2. **En yÃ¼ksek kaliteli** seÃ§eneklere eriÅŸmek ve performansÄ± dÃ¼ÅŸÃ¼rmemek ya da daha ucuz saÄŸlayÄ±cÄ±lara yÃ¶nlendirmemek.
+3. Maliyetine satÄ±ÅŸ yaparak tÃ¼m **fiyat dÃ¼ÅŸÃ¼ÅŸlerini** yansÄ±tmak; yani tek ek Ã¼cretimiz iÅŸlem Ã¼cretlerimizi karÅŸÄ±lamak iÃ§indir.
+4. BaÅŸka herhangi bir kodlama ajanÄ±yla kullanmanÄ±za izin vererek **kilitlenme olmamasÄ±nÄ±** saÄŸlamak. AyrÄ±ca Voracode ile her zaman baÅŸka herhangi bir saÄŸlayÄ±cÄ±yÄ± da kullanabilmenizi saÄŸlamak.

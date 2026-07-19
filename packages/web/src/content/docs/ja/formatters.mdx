@@ -1,0 +1,132 @@
+---
+title: ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿
+description: Voracode ã¯è¨€èªžå›ºæœ‰ã®ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
+---
+
+Voracode ã¯ã€è¨€èªžå›ºæœ‰ã®ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ã‚’ä½¿ç”¨ã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã¾ãŸã¯ç·¨é›†ã—ãŸå¾Œã€ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è‡ªå‹•çš„ã«ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆã—ã¾ã™ã€‚ã“ã‚Œã«ã‚ˆã‚Šã€ç”Ÿæˆã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ‰ãŒãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ã‚³ãƒ¼ãƒ‰ã‚¹ã‚¿ã‚¤ãƒ«ã«å¾“ã£ã¦ã„ã‚‹ã“ã¨ãŒä¿è¨¼ã•ã‚Œã¾ã™ã€‚
+
+---
+
+## çµ„ã¿è¾¼ã¿
+
+Voracode ã«ã¯ã€ä¸€èˆ¬çš„ãªè¨€èªžãŠã‚ˆã³ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯ç”¨ã®ã„ãã¤ã‹ã®çµ„ã¿è¾¼ã¿ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ãŒä»˜å±žã—ã¦ã„ã¾ã™ã€‚ä»¥ä¸‹ã¯ã€ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ã€ã‚µãƒãƒ¼ãƒˆã•ã‚Œã¦ã„ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã€ãŠã‚ˆã³å¿…è¦ãªã‚³ãƒžãƒ³ãƒ‰ã¾ãŸã¯æ§‹æˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®ãƒªã‚¹ãƒˆã§ã™ã€‚
+
+| Formatter            | Extensions                                                                                               | Requirements                                                                                          |
+| -------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| air                  | .R                                                                                                       | `air` command available                                                                               |
+| biome                | .js, .jsx, .ts, .tsx, .html, .css, .md, .json, .yaml, and [more](https://biomejs.dev/)                   | `biome.json(c)` config file                                                                           |
+| cargofmt             | .rs                                                                                                      | `cargo fmt` command available                                                                         |
+| clang-format         | .c, .cpp, .h, .hpp, .ino, and [more](https://clang.llvm.org/docs/ClangFormat.html)                       | `.clang-format` config file                                                                           |
+| cljfmt               | .clj, .cljs, .cljc, .edn                                                                                 | `cljfmt` command available                                                                            |
+| dart                 | .dart                                                                                                    | `dart` command available                                                                              |
+| dfmt                 | .d                                                                                                       | `dfmt` command available                                                                              |
+| gleam                | .gleam                                                                                                   | `gleam` command available                                                                             |
+| gofmt                | .go                                                                                                      | `gofmt` command available                                                                             |
+| htmlbeautifier       | .erb, .html.erb                                                                                          | `htmlbeautifier` command available                                                                    |
+| ktlint               | .kt, .kts                                                                                                | `ktlint` command available                                                                            |
+| mix                  | .ex, .exs, .eex, .heex, .leex, .neex, .sface                                                             | `mix` command available                                                                               |
+| nixfmt               | .nix                                                                                                     | `nixfmt` command available                                                                            |
+| ocamlformat          | .ml, .mli                                                                                                | `ocamlformat` command available and `.ocamlformat` config file                                        |
+| ormolu               | .hs                                                                                                      | `ormolu` command available                                                                            |
+| oxfmt (Experimental) | .js, .jsx, .ts, .tsx                                                                                     | `oxfmt` dependency in `package.json` and an [experimental env variable flag](/docs/cli/#experimental) |
+| pint                 | .php                                                                                                     | `laravel/pint` dependency in `composer.json`                                                          |
+| prettier             | .js, .jsx, .ts, .tsx, .html, .css, .md, .json, .yaml, and [more](https://prettier.io/docs/en/index.html) | `prettier` dependency in `package.json`                                                               |
+| rubocop              | .rb, .rake, .gemspec, .ru                                                                                | `rubocop` command available                                                                           |
+| ruff                 | .py, .pyi                                                                                                | `ruff` command available with config                                                                  |
+| rustfmt              | .rs                                                                                                      | `rustfmt` command available                                                                           |
+| shfmt                | .sh, .bash                                                                                               | `shfmt` command available                                                                             |
+| standardrb           | .rb, .rake, .gemspec, .ru                                                                                | `standardrb` command available                                                                        |
+| terraform            | .tf, .tfvars                                                                                             | `terraform` command available                                                                         |
+| uv                   | .py, .pyi                                                                                                | `uv` command available                                                                                |
+| zig                  | .zig, .zon                                                                                               | `zig` command available                                                                               |
+
+ã—ãŸãŒã£ã¦ã€ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã® `prettier` ã« `package.json` ãŒå«ã¾ã‚Œã¦ã„ã‚‹å ´åˆã€Voracode ã¯è‡ªå‹•çš„ã«ãã‚Œã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
+
+---
+
+## ä»•çµ„ã¿
+
+Voracode ãŒãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›¸ãè¾¼ã‚“ã ã‚Šç·¨é›†ã—ãŸã‚Šã™ã‚‹ã¨ã€æ¬¡ã®ã“ã¨ãŒè¡Œã‚ã‚Œã¾ã™ã€‚
+
+1. æœ‰åŠ¹ãªã™ã¹ã¦ã®ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ã«å¯¾ã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã‚’ãƒã‚§ãƒƒã‚¯ã—ã¾ã™ã€‚
+2. ãƒ•ã‚¡ã‚¤ãƒ«ã«å¯¾ã—ã¦é©åˆ‡ãªãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ã‚³ãƒžãƒ³ãƒ‰ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
+3. æ›¸å¼ã®å¤‰æ›´ã‚’è‡ªå‹•çš„ã«é©ç”¨ã—ã¾ã™ã€‚
+
+ã“ã®ãƒ—ãƒ­ã‚»ã‚¹ã¯ãƒãƒƒã‚¯ã‚°ãƒ©ã‚¦ãƒ³ãƒ‰ã§å®Ÿè¡Œã•ã‚Œã‚‹ãŸã‚ã€æ‰‹å‹•ã®æ‰‹é †ã‚’è¡Œã‚ãªãã¦ã‚‚ã‚³ãƒ¼ãƒ‰ã‚¹ã‚¿ã‚¤ãƒ«ãŒç¶­æŒã•ã‚Œã¾ã™ã€‚
+
+---
+
+## è¨­å®š
+
+Voracode è¨­å®šã® `formatter` ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã‚’é€šã˜ã¦ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ã‚’ã‚«ã‚¹ã‚¿ãƒžã‚¤ã‚ºã§ãã¾ã™ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {}
+}
+```
+
+å„ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿è¨­å®šã¯ä»¥ä¸‹ã‚’ã‚µãƒãƒ¼ãƒˆã—ã¾ã™ã€‚
+
+| ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£    | ã‚¿ã‚¤ãƒ—       | èª¬æ˜Ž                                                       |
+| ------------- | ------------ | ---------------------------------------------------------- |
+| `disabled`    | ãƒ–ãƒ¼ãƒ«å€¤     | ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ã‚’ç„¡åŠ¹ã«ã™ã‚‹ã«ã¯ã€ã“ã‚Œã‚’ `true` ã«è¨­å®šã—ã¾ã™ã€‚ |
+| `command`     | æ–‡å­—åˆ—[]     | ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆã®ãŸã‚ã«å®Ÿè¡Œã™ã‚‹ã‚³ãƒžãƒ³ãƒ‰                       |
+| `environment` | ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ | ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ã®å®Ÿè¡Œæ™‚ã«è¨­å®šã™ã‚‹ç’°å¢ƒå¤‰æ•°                     |
+| `extensions`  | æ–‡å­—åˆ—[]     | ã“ã®ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ãŒå‡¦ç†ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­                   |
+
+ã„ãã¤ã‹ã®ä¾‹ã‚’è¦‹ã¦ã¿ã¾ã—ã‚‡ã†ã€‚
+
+---
+
+### ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ã®ç„¡åŠ¹åŒ–
+
+**ã™ã¹ã¦**ã®ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ã‚’ã‚°ãƒ­ãƒ¼ãƒãƒ«ã«ç„¡åŠ¹ã«ã™ã‚‹ã«ã¯ã€`formatter` ã‚’ `false` ã«è¨­å®šã—ã¾ã™ã€‚
+
+```json title="voracode.json" {3}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": false
+}
+```
+
+**ç‰¹å®š**ã®ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ã‚’ç„¡åŠ¹ã«ã™ã‚‹ã«ã¯ã€`disabled` ã‚’ `true` ã«è¨­å®šã—ã¾ã™ã€‚
+
+```json title="voracode.json" {5}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {
+    "prettier": {
+      "disabled": true
+    }
+  }
+}
+```
+
+---
+
+### ã‚«ã‚¹ã‚¿ãƒ ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿
+
+ã‚³ãƒžãƒ³ãƒ‰ã€ç’°å¢ƒå¤‰æ•°ã€ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã‚’æŒ‡å®šã™ã‚‹ã“ã¨ã§ã€çµ„ã¿è¾¼ã¿ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ãŸã‚Šã€æ–°ã—ã„ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ã‚’è¿½åŠ ã—ãŸã‚Šã§ãã¾ã™ã€‚
+
+```json title="voracode.json" {4-14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {
+    "prettier": {
+      "command": ["npx", "prettier", "--write", "$FILE"],
+      "environment": {
+        "NODE_ENV": "development"
+      },
+      "extensions": [".js", ".ts", ".jsx", ".tsx"]
+    },
+    "custom-markdown-formatter": {
+      "command": ["deno", "fmt", "$FILE"],
+      "extensions": [".md"]
+    }
+  }
+}
+```
+
+ã‚³ãƒžãƒ³ãƒ‰å†…ã® **`$FILE` ãƒ—ãƒ¬ãƒ¼ã‚¹ãƒ›ãƒ«ãƒ€ãƒ¼** ã¯ã€ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆã•ã‚Œã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã¸ã®ãƒ‘ã‚¹ã«ç½®ãæ›ãˆã‚‰ã‚Œã¾ã™ã€‚

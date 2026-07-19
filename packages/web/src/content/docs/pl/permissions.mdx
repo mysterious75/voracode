@@ -1,0 +1,235 @@
+---
+title: Uprawnienia
+description: Kontroluj, ktÃ³re Akcje wymagajÄ… zatwierdzenia do uruchomienia.
+---
+
+voracode uÅ¼ywa `permission`, aby uniknÄ…Ä‡, czy dana akcja zostaÅ‚a wykonana automatycznie, zachowana monit lub zostaÅ‚a zablokowana.
+
+Od `v1.1.1` starsza stworzona logiczna `tools` jest przestarzaÅ‚a i zostaÅ‚a stworzona scalona z `permission`. Stara wersja `tools` jest nadal obsÅ‚ugiwana w celu zapewnienia zgodnoÅ›ci wstecznej.
+
+---
+
+## DziaÅ‚ania
+
+KaÅ¼da reguÅ‚a uprawnieÅ„ skutkuje jednÄ… z:
+
+- `"allow"` â€” uruchamiany bez zgody
+- `"ask"` â€” monit o zatwierdzenie
+- `"deny"` â€” zablokuj akcjÄ™
+
+---
+
+## Konfiguracja
+
+MoÅ¼esz zainstalowaÄ‡ uprawnienia globalnie (za pomocÄ… `*`) i znajdujÄ…cego siÄ™ w nim narzÄ™dzia.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "*": "ask",
+    "bash": "allow",
+    "edit": "deny"
+  }
+}
+```
+
+MoÅ¼esz takÅ¼e zainstalowaÄ‡ wszystkie uprawnienia na raz:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": "allow"
+}
+```
+
+---
+
+## SzczegÃ³Å‚owe reguÅ‚y (skÅ‚adnia obiektu)
+
+MoÅ¼na skorzystaÄ‡ z rÃ³Å¼nych dziaÅ‚aÅ„, ktÃ³re zaleÅ¼Ä… od danych uÅ¼ytkowych.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "git *": "allow",
+      "npm *": "allow",
+      "rm *": "deny",
+      "grep *": "allow"
+    },
+    "edit": {
+      "*": "deny",
+      "packages/web/src/content/docs/*.mdx": "allow"
+    }
+  }
+}
+```
+
+ReguÅ‚y sÄ… zalecane na podstawie odpowiedniego wzorca, przy czym **ostatnia wynikaca reguÅ‚a wygrywa**. Powszechnym wzorcem jest umieszczenie na pierwszym miejscu odpowiedniego catch-all `"*"`, a po bardziej szczegÃ³Å‚owe zasady.
+
+### Symbole wieloznaczne
+
+Wzorce uprawnieÅ„ z prostych dopasowywania symboli wieloznacznych:
+
+- `*` dopasowuje zero lub wiÄ™cej dowolnego znaku
+- `?` odpowiada dokÅ‚adnie jednemu znakowi
+- Wszystkie pozostaÅ‚e znaki pasujÄ… dosÅ‚ownie
+
+### Rozszerzenie katalogu domowego
+
+MoÅ¼esz uÅ¼ywaÄ‡ `~` lub `$HOME` na poczÄ…tku wzorca, aby zastosowaÄ‡ siÄ™ do swojego katalogu domowego. Jest to szczegÃ³lnie szczegÃ³lne w przypadku reguÅ‚y [`external_directory`](#external-directories).
+
+- `~/projects/*` -> `/Users/username/projects/*`
+- `$HOME/projects/*` -> `/Users/username/projects/*`
+- `~` -> `/Users/username`
+
+### Katalogi zewnÄ™trzne
+
+UÅ¼ycie `external_directory`, aby zezwoliÄ‡ na wywoÅ‚anie narzÄ™dzia, ktÃ³re obsÅ‚uguje obsÅ‚ugÄ™ poza katalogiem roboczym, z uruchomieniem voracode. Dotyczy kaÅ¼dego narzÄ™dzia, ktÃ³re jako dane wejÅ›ciowe zostaÅ‚o przyjÄ™te (na przykÅ‚ad `read`, `edit`, `glob`, `grep` i wiele zaÅ‚oÅ¼ycieli `bash`).
+
+Rozszerzenie domu (jak `~/...`) wpÅ‚ywa tylko na sposÃ³b za zwyczajowy wzorca. Nie powoduje to, Å¼e strategie zewnÄ™trzne stajÄ… siÄ™ stosowane przez `external_directory`.
+
+Na przykÅ‚ad umoÅ¼liwia dostÄ™p do wszystkiego pod `~/projects/personal/`:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "external_directory": {
+      "~/projects/personal/**": "allow"
+    }
+  }
+}
+```
+
+KaÅ¼dy dopuszczony tutaj katalog jest dziedziczy tych samych ustawieÅ„, co dostÄ™p do obszaru roboczego. PoniewaÅ¼ [`read` ma wartoÅ›Ä‡ domyÅ›lnÄ… `allow`](#defaults), odczyty sÄ… rÃ³wnieÅ¼ dostÄ™pne dla wpisÃ³w poniÅ¼ej `external_directory`, chyba Å¼e zagÅ‚Ä™bione. Dodaj dodatkowe rozwiÄ…zanie, kiedy narzÄ™dzie powinno byÄ‡ rozwiÄ…zaniem w tych Å›cieÅ¼kach, np. blokowanie edycji przy zachowaniu odczytÃ³w:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "external_directory": {
+      "~/projects/personal/**": "allow"
+    },
+    "edit": {
+      "~/projects/personal/**": "deny"
+    }
+  }
+}
+```
+
+Skoncentruj listÄ™ na zaufanych Å›cieÅ¼kach i dodaj dodatkowe zezwolenie lub odmowÄ™, jeÅ›li jest potrzebne w innych narzÄ™dziach (na przykÅ‚ad `bash`).
+
+---
+
+## DostÄ™pne uprawnienia
+
+Uprawnienia voracode sÄ… okreÅ›lane na podstawie nazwy narzÄ™dzia i kilku zabezpieczeÅ„:
+
+- `read` â€” odczyt pliku (odpowiada Å›cieÅ¼ce pliku)
+- `edit` â€” wszystkie modyfikacje plikÃ³w (obejmuje `edit`, `write`, `patch`)
+- `glob` â€” maglowanie plikÃ³w (pasuje do wzorcÃ³w globowania)
+- `grep` â€” wyszukiwanie treÅ›ci (pasuje do wzorca regularnego)
+- `bash` â€” uruchamianie poleceÅ„ shell (pasuje do poleceÅ„ przeanalizowanych, takich jak `git status --porcelain`)
+- `task` â€” uruchamianie podagentÃ³w (odpowiada typowi podagenta)
+- `skill` â€” Å‚adowanie umiejÄ™tnoÅ›ci (pasuje do nazwy umiejÄ™tnoÅ›ci)
+- `lsp` â€” uruchamianie zapytaÅ„ LSP (obecnie nieszczegÃ³Å‚owych)
+- `webfetch` â€” pobieranie adresu URL (pasuje do adresu URL)
+- `websearch` â€” wyszukiwanie sieci (pasuje do zapytaÅ„)
+- `external_directory` â€” wywoÅ‚ywacz, gdy narzÄ™dzie jest dostÄ™pne poza katalogiem roboczym projektu
+- `doom_loop` â€” wyzwalane, gdy samo wywoÅ‚anie narzÄ™dzia zostanie powtÃ³rzone 3 razy z tymi samymi danymi podstawowymi
+
+---
+
+## DomyÅ›lne
+
+JeÅ¼eli nic nie jest okreÅ›lone, voracode zostanie uruchomione od dopuszczalnych rozwiÄ…zaÅ„ diagnostycznych:
+
+- DostÄ™pne uprawnienia ma wartoÅ›Ä‡ domyÅ›lnÄ… `"allow"`.
+- `doom_loop` i `external_directory` zamek ma wartoÅ›Ä‡ `"ask"`.
+- `read` do `"allow"`, ale pliki `.env` sÄ… odrzucane:
+
+```json title="voracode.json"
+{
+  "permission": {
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow"
+    }
+  }
+}
+```
+
+---
+
+## Co robi â€žZapytajâ€.
+
+Gdy voracode poprosi o zatwierdzenie, interfejs uÅ¼ytkownika oferujÄ…cy trzy wyniki:
+
+- `once` â€” zatwierdÅº tylko tÄ™ proÅ›bÄ™
+- `always` â€” zastosowanie, ktÃ³re nastÄ™puje po zastosowaniu sugerowanych wzorcÃ³w (przez nastÄ™pczÄ… bieÅ¼Ä…cÄ… sesjÄ™ voracode)
+- `reject` â€” odrzuciÄ‡
+
+Zestaw wzorcÃ³w, ktÃ³re `always` zatwierdziÅ‚by, jest udostÄ™pniony przez narzÄ™dzie (na przykÅ‚adzie zatwierdzenia bash zazwyczaj umieszczajÄ… na czÄ™stotliwoÅ›ci bezpiecznej prefiksy polecenia, takie jak `git status*`).
+
+---
+
+## Agenci
+
+MoÅ¼na uzyskaÄ‡ dostÄ™p do poszczegÃ³lnych agentÃ³w. Uprawnienia agenta sÄ… skalowane z konfiguracjÄ… globalnÄ…, a nastÄ™pnie agenta ma pierwszeÅ„stwo. [Dowiedz siÄ™ wiÄ™cej](/docs/agents#permissions) o prawach agenta.
+
+:::note
+Bardziej szczegÃ³Å‚owe przykÅ‚ady dopasowywania wzorcÃ³w moÅ¼na znaleÅºÄ‡ w sekcji [ReguÅ‚y szczegÃ³Å‚owe (skÅ‚adnia obiektu) (#granular-rules-object-syntax) powyÅ¼ej.
+:::
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "git *": "allow",
+      "git commit *": "deny",
+      "git push *": "deny",
+      "grep *": "allow"
+    }
+  },
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "git *": "allow",
+          "git commit *": "ask",
+          "git push *": "deny",
+          "grep *": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+MoÅ¼esz takÅ¼e mieÄ‡ pozwolenie na agenta w Markdown:
+
+```markdown title="~/.config/voracode/agents/review.md"
+---
+description: Code review without edits
+mode: subagent
+permission:
+  edit: deny
+  bash: ask
+  webfetch: deny
+---
+
+Only analyze code and suggest changes.
+```
+
+:::tip
+zastosowanie dopasowywania wzorcÃ³w dla pierwotnych z argumentami. `"grep *"` pozwala na `grep pattern file.txt`, podczas gdy sam `"grep"` blokuje to. Polecenia takie jak `git status` w przypadku postÄ™powania dyscyplinarnego, ale ostatecznego zastosowania (np. `"git status *"`) podczas stosowania argumentÃ³w.
+:::

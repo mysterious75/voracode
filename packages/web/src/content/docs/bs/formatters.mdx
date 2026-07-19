@@ -1,0 +1,124 @@
+---
+title: Formateri
+description: Voracode koristi formatere specifiÄne za jezik.
+---
+
+Voracode automatski formatira datoteke nakon Å¡to su napisane ili ureÄ‘ene pomoÄ‡u formatera specifiÄnih za jezik. Ovo osigurava da kod koji se generira prati stilove koda vaÅ¡eg projekta.
+
+---
+
+## UgraÄ‘eni
+
+Voracode dolazi sa nekoliko ugraÄ‘enih formatera za popularne jezike i okvire. Ispod je lista formatera, podrÅ¾anih ekstenzija datoteka i naredbi ili opcija konfiguracije koje su mu potrebne.
+| Formatter | Ekstenzije | Zahtjevi
+|-------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| gofmt | .go | `gofmt` komanda dostupna |
+| mix | .ex, .exs, .eex, .heex, .leex, .neex, .sface | `mix` komanda dostupna |
+| prettier | .js, .jsx, .ts, .tsx, .html, .css, .md, .json, .yaml i [viÅ¡e](https://prettier.io/docs/en/index.html) | `prettier` zavisnost u `package.json` |
+| biome | .js, .jsx, .ts, .tsx, .html, .css, .md, .json, .yaml i [viÅ¡e](https://biomejs.dev/) | `biome.json(c)` konfiguracijski fajl |
+| zig | .zig, .zon | `zig` komanda dostupna |
+| clang-format | .c, .cpp, .h, .hpp, .ino i [viÅ¡e](https://clang.llvm.org/docs/ClangFormat.html) | `.clang-format` konfiguracijski fajl |
+| ktlint | .kt, .kts | `ktlint` komanda dostupna |
+| ruff | .py, .pyi | `ruff` komanda dostupna sa konfiguracijom |
+| rustfmt | .rs | `rustfmt` komanda dostupna |
+| cargofmt | .rs | `cargo fmt` komanda dostupna |
+| uv | .py, .pyi | `uv` komanda dostupna || rubocop | .rb, .rake, .gemspec, .ru | `rubocop` komanda dostupna |
+| standardrb | .rb, .rake, .gemspec, .ru | `standardrb` komanda dostupna |
+| htmlbeautifier | .erb, .html.erb | `htmlbeautifier` komanda dostupna |
+| air | .R | `air` komanda dostupna |
+| dart | .dart | `dart` komanda dostupna |
+| dfmt | .d | `dfmt` komanda dostupna |
+| ocamlformat | .ml, .mli | `ocamlformat` komanda dostupna i `.ocamlformat` konfiguracioni fajl |
+| terraform | .tf, .tfvars | `terraform` komanda dostupna |
+| gleam | .bleam | `gleam` komanda dostupna |
+| nixfmt | .nix | `nixfmt` komanda dostupna |
+| shfmt | .sh, .bash | `shfmt` komanda dostupna |
+| pint | .php | `laravel/pint` zavisnost u `composer.json` || oxfmt (Eksperimentalno) | .js, .jsx, .ts, .tsx | `oxfmt` zavisnost u `package.json` i [eksperimentalna env varijabla flag](/docs/cli/#experimental) |
+| ormolu | .hs | `ormolu` komanda dostupna |
+Dakle, ako vaÅ¡ projekat ima `prettier` u vaÅ¡em `package.json`, Voracode Ä‡e ga automatski koristiti.
+
+---
+
+## Kako radi
+
+Kada Voracode piÅ¡e ili ureÄ‘uje datoteku, on:
+
+1. Provjerava ekstenziju datoteke prema svim omoguÄ‡enim formaterima.
+2. PokreÄ‡e odgovarajuÄ‡u naredbu za formatiranje na datoteci.
+3. Automatski primjenjuje promjene formatiranja.
+   Ovaj proces se dogaÄ‘a u pozadini, osiguravajuÄ‡i da se vaÅ¡i stilovi koda odrÅ¾avaju bez ikakvih ruÄnih koraka.
+
+---
+
+## Konfiguracija
+
+MoÅ¾ete prilagoditi formatere kroz `formatter` odjeljak u vaÅ¡oj Voracode konfiguraciji.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {}
+}
+```
+
+Svaka konfiguracija formatera podrÅ¾ava sljedeÄ‡e:
+| Svojstvo | Vrsta | Opis
+|------------- | -------- | ------------------------------------------------------- |
+| `disabled` | boolean | Postavite ovo na `true` da onemoguÄ‡ite formater |
+| `command` | string[] | Naredba za pokretanje za formatiranje |
+| `environment` | objekt | Varijable okruÅ¾enja koje treba postaviti prilikom pokretanja formatera |
+| `extensions` | string[] | Ekstenzije datoteka koje ovaj formater treba da obraÄ‘uje |
+Pogledajmo neke primjere.
+
+---
+
+### OnemoguÄ‡avanje formatera
+
+Da onemoguÄ‡ite **sve** formatere globalno, postavite `formatter` na `false`:
+
+```json title="voracode.json" {3}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": false
+}
+```
+
+Da onemoguÄ‡ite **specifiÄni** formater, postavite `disabled` na `true`:
+
+```json title="voracode.json" {5}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {
+    "prettier": {
+      "disabled": true
+    }
+  }
+}
+```
+
+---
+
+### PrilagoÄ‘eni formateri
+
+MoÅ¾ete nadjaÄati ugraÄ‘ene formatere ili dodati nove navoÄ‘enjem naredbe, varijabli okruÅ¾enja i ekstenzija datoteke:
+
+```json title="voracode.json" {4-14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {
+    "prettier": {
+      "command": ["npx", "prettier", "--write", "$FILE"],
+      "environment": {
+        "NODE_ENV": "development"
+      },
+      "extensions": [".js", ".ts", ".jsx", ".tsx"]
+    },
+    "custom-markdown-formatter": {
+      "command": ["deno", "fmt", "$FILE"],
+      "extensions": [".md"]
+    }
+  }
+}
+```
+
+**`$FILE` Äuvar mjesta** u naredbi Ä‡e biti zamijenjen putanjom do datoteke koja se formatira.

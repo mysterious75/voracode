@@ -1,0 +1,78 @@
+---
+title: Ecossistema
+description: Projetos e integraÃ§Ãµes construÃ­dos com o Voracode.
+---
+
+Uma coleÃ§Ã£o de projetos da comunidade construÃ­dos sobre o Voracode.
+
+:::note
+Quer adicionar seu projeto relacionado ao Voracode a esta lista? Envie um PR.
+:::
+
+VocÃª tambÃ©m pode conferir [awesome-voracode](https://github.com/awesome-voracode/awesome-voracode) e [voracode.cafe](https://voracode.cafe), uma comunidade que agrega o ecossistema e a comunidade.
+
+---
+
+## Plugins
+
+| Nome                                                                                               | DescriÃ§Ã£o                                                                                                                      |
+| -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| [voracode-daytona](https://github.com/daytonaio/daytona/tree/main/libs/voracode-plugin)            | Execute automaticamente sessÃµes do Voracode em sandboxes isoladas do Daytona com sincronizaÃ§Ã£o git e prÃ©-visualizaÃ§Ãµes ao vivo |
+| [voracode-helicone-session](https://github.com/H2Shami/voracode-helicone-session)                  | Injete automaticamente cabeÃ§alhos de sessÃ£o Helicone para agrupamento de requisiÃ§Ãµes                                           |
+| [voracode-type-inject](https://github.com/nick-vi/voracode-type-inject)                            | Auto-injetar tipos TypeScript/Svelte em leituras de arquivos com ferramentas de busca                                          |
+| [voracode-openai-codex-auth](https://github.com/numman-ali/voracode-openai-codex-auth)             | Use sua assinatura ChatGPT Plus/Pro em vez de crÃ©ditos de API                                                                  |
+| [voracode-gemini-auth](https://github.com/jenslys/voracode-gemini-auth)                            | Use seu plano Gemini existente em vez de cobranÃ§a de API                                                                       |
+| [voracode-antigravity-auth](https://github.com/NoeFabris/voracode-antigravity-auth)                | Use os modelos gratuitos do Antigravity em vez de cobranÃ§a de API                                                              |
+| [voracode-devcontainers](https://github.com/athal7/voracode-devcontainers)                         | Isolamento de devcontainer multi-branch com clones rasos e portas atribuÃ­das automaticamente                                   |
+| [voracode-google-antigravity-auth](https://github.com/shekohex/voracode-google-antigravity-auth)   | Plugin Google Antigravity OAuth, com suporte para Google Search e manuseio de API mais robusto                                 |
+| [voracode-dynamic-context-pruning](https://github.com/Tarquinen/voracode-dynamic-context-pruning)  | Otimize o uso de tokens podando saÃ­das de ferramentas obsoletas                                                                |
+| [voracode-vibeguard](https://github.com/inkdust2021/voracode-vibeguard)                            | Oculte segredos/PII em marcadores estilo VibeGuard antes de chamadas LLM; restaure localmente                                  |
+| [voracode-websearch-cited](https://github.com/ghoulr/voracode-websearch-cited.git)                 | Adicione suporte nativo de pesquisa na web para provedores suportados com estilo fundamentado no Google                        |
+| [voracode-pty](https://github.com/shekohex/voracode-pty.git)                                       | Permite que agentes de IA executem processos em segundo plano em um PTY, enviando entrada interativa para eles.                |
+| [voracode-shell-strategy](https://github.com/JRedeker/voracode-shell-strategy)                     | InstruÃ§Ãµes para comandos de shell nÃ£o interativos - evita travamentos de operaÃ§Ãµes dependentes de TTY                          |
+| [voracode-wakatime](https://github.com/angristan/voracode-wakatime)                                | Acompanhe o uso do Voracode com Wakatime                                                                                       |
+| [voracode-md-table-formatter](https://github.com/franlol/voracode-md-table-formatter/tree/main)    | Limpe tabelas markdown produzidas por LLMs                                                                                     |
+| [voracode-morph-plugin](https://github.com/morphllm/voracode-morph-plugin)                         | EdiÃ§Ã£o Fast Apply, busca de cÃ³digo WarpGrep e compactaÃ§Ã£o de contexto via Morph                                                |
+| [oh-my-voracode](https://github.com/code-yeongyu/oh-my-voracode)                                   | Agentes em segundo plano, ferramentas LSP/AST/MCP prÃ©-construÃ­das, agentes curados, compatÃ­vel com Claude Code                 |
+| [voracode-notificator](https://github.com/panta82/voracode-notificator)                            | NotificaÃ§Ãµes de desktop e alertas sonoros para sessÃµes do Voracode                                                             |
+| [voracode-notifier](https://github.com/mohak34/voracode-notifier)                                  | NotificaÃ§Ãµes de desktop e alertas sonoros para eventos de permissÃ£o, conclusÃ£o e erro                                          |
+| [voracode-zellij-namer](https://github.com/24601/voracode-zellij-namer)                            | NomeaÃ§Ã£o automÃ¡tica de sessÃµes Zellij com suporte de IA com base no contexto do Voracode                                       |
+| [voracode-skillful](https://github.com/zenobi-us/voracode-skillful)                                | Permite que agentes do Voracode carreguem prompts sob demanda com descoberta e injeÃ§Ã£o de habilidades                          |
+| [voracode-supermemory](https://github.com/supermemoryai/voracode-supermemory)                      | MemÃ³ria persistente entre sessÃµes usando Supermemory                                                                           |
+| [@plannotator/voracode](https://github.com/backnotprop/plannotator/tree/main/apps/voracode-plugin) | RevisÃ£o de plano interativa com anotaÃ§Ã£o visual e compartilhamento privado/offline                                             |
+| [@openspoon/subtask2](https://github.com/spoons-and-mirrors/subtask2)                              | Estenda voracode /commands em um poderoso sistema de orquestraÃ§Ã£o com controle de fluxo granular                               |
+| [voracode-scheduler](https://github.com/different-ai/voracode-scheduler)                           | Agende trabalhos recorrentes usando launchd (Mac) ou systemd (Linux) com sintaxe cron                                          |
+| [micode](https://github.com/vtemian/micode)                                                        | Fluxo de trabalho Estruturado Brainstorm â†’ Planejar â†’ Implementar com continuidade de sessÃ£o                                   |
+| [octto](https://github.com/vtemian/octto)                                                          | UI interativa do navegador para brainstorming de IA com formulÃ¡rios de mÃºltiplas perguntas                                     |
+| [voracode-background-agents](https://github.com/kdcokenny/voracode-background-agents)              | Agentes em segundo plano estilo Claude Code com delegaÃ§Ã£o assÃ­ncrona e persistÃªncia de contexto                                |
+| [voracode-notify](https://github.com/kdcokenny/voracode-notify)                                    | NotificaÃ§Ãµes nativas do OS para Voracode â€“ saiba quando as tarefas sÃ£o concluÃ­das                                              |
+| [voracode-workspace](https://github.com/kdcokenny/voracode-workspace)                              | Conjunto de orquestraÃ§Ã£o multi-agente â€“ 16 componentes, uma instalaÃ§Ã£o                                                         |
+| [voracode-worktree](https://github.com/kdcokenny/voracode-worktree)                                | Worktrees git sem atrito para Voracode                                                                                         |
+| [voracode-sentry-monitor](https://github.com/stolinski/voracode-sentry-monitor)                    | Rastreie e depure seus agentes de IA com o Sentry AI Monitoring                                                                |
+
+---
+
+## Projetos
+
+| Nome                                                                                       | DescriÃ§Ã£o                                                                       |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
+| [kimaki](https://github.com/remorses/kimaki)                                               | Bot do Discord para controlar sessÃµes do Voracode, construÃ­do sobre o SDK       |
+| [voracode.nvim](https://github.com/NickvanDyke/voracode.nvim)                              | Plugin Neovim para prompts cientes do editor, construÃ­do sobre a API            |
+| [portal](https://github.com/hosenur/portal)                                                | UI web mobile-first para Voracode sobre Tailscale/VPN                           |
+| [voracode plugin template](https://github.com/zenobi-us/voracode-plugin-template/)         | Template para construir plugins do Voracode                                     |
+| [voracode.nvim](https://github.com/sudo-tee/voracode.nvim)                                 | Frontend Neovim para Voracode - um agente de codificaÃ§Ã£o IA baseado em terminal |
+| [ai-sdk-provider-voracode-sdk](https://github.com/ben-vargas/ai-sdk-provider-voracode-sdk) | Provedor Vercel AI SDK para usar Voracode via @voracode-ai/sdk                  |
+| [OpenChamber](https://github.com/btriapitsyn/openchamber)                                  | Aplicativo Web / Desktop e ExtensÃ£o do VS Code para Voracode                    |
+| [Voracode-Obsidian](https://github.com/mtymek/voracode-obsidian)                           | Plugin Obsidian que incorpora Voracode na UI do Obsidian                        |
+| [OpenWork](https://github.com/different-ai/openwork)                                       | Uma alternativa de cÃ³digo aberto ao Claude Cowork, alimentada pelo Voracode     |
+| [ocx](https://github.com/kdcokenny/ocx)                                                    | Gerenciador de extensÃµes Voracode com perfis portÃ¡teis e isolados.              |
+| [CodeNomad](https://github.com/NeuralNomadsAI/CodeNomad)                                   | Aplicativo Desktop, Web, Mobile e Cliente Remoto para Voracode                  |
+
+---
+
+## Agentes
+
+| Nome                                                              | DescriÃ§Ã£o                                                                     |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| [Agentic](https://github.com/Cluster444/agentic)                  | Agentes e comandos de IA modulares para desenvolvimento estruturado           |
+| [voracode-agents](https://github.com/darrenhinde/voracode-agents) | ConfiguraÃ§Ãµes, prompts, agentes e plugins para fluxos de trabalho aprimorados |

@@ -1,0 +1,313 @@
+---
+title: Zen
+description: Liste organisÃ©e de modÃ¨les fournis par Voracode.
+---
+
+import config from "../../../../config.mjs"
+export const console = config.console
+export const email = `mailto:${config.email}`
+
+Voracode Zen est une liste de modÃ¨les testÃ©s et vÃ©rifiÃ©s fournie par l'Ã©quipe Voracode.
+
+Zen fonctionne comme n'importe quel autre fournisseur dans Voracode. Vous vous connectez Ã  Voracode Zen et obtenez votre clÃ© API. C'est **entiÃ¨rement facultatif** et vous n'avez pas besoin de l'utiliser pour utiliser Voracode.
+
+---
+
+## ArriÃ¨re-plan
+
+Il existe un grand nombre de modÃ¨les, mais seuls quelques-uns fonctionnent bien comme agents de codage. De plus, la plupart des fournisseurs sont configurÃ©s trÃ¨s diffÃ©remment ; vous obtenez donc des performances et une qualitÃ© trÃ¨s variables.
+
+:::tip
+Nous avons testÃ© un groupe sÃ©lectionnÃ© de modÃ¨les et de fournisseurs qui fonctionnent bien avec Voracode.
+:::
+
+Donc, si vous utilisez un modÃ¨le via quelque chose comme OpenRouter, vous ne pouvez jamais Ãªtre sÃ»r d'obtenir la meilleure version du modÃ¨le que vous voulez.
+
+Pour corriger cela, nous avons fait plusieurs choses :
+
+1. Nous avons testÃ© un groupe sÃ©lectionnÃ© de modÃ¨les et discutÃ© avec leurs Ã©quipes de la meilleure faÃ§on de les faire fonctionner.
+2. Nous avons ensuite travaillÃ© avec quelques fournisseurs pour nous assurer qu'ils Ã©taient correctement servis.
+3. Enfin, nous avons comparÃ© la combinaison modÃ¨le/fournisseur et Ã©tabli une liste que nous recommandons en toute confiance.
+
+Voracode Zen est une passerelle AI qui vous donne accÃ¨s Ã  ces modÃ¨les.
+
+---
+
+## Comment Ã§a marche
+
+Voracode Zen fonctionne comme n'importe quel autre fournisseur dans Voracode.
+
+1. Vous vous connectez Ã  **<a href={console}>Voracode Zen</a>**, ajoutez vos informations de facturation et copiez votre clÃ© API.
+2. Vous exÃ©cutez la commande `/connect` dans le TUI, sÃ©lectionnez Voracode Zen et collez votre clÃ© API.
+3. ExÃ©cutez `/models` dans le TUI pour voir la liste des modÃ¨les que nous recommandons.
+
+La facturation se fait Ã  la requÃªte et vous pouvez ajouter des crÃ©dits Ã  votre compte.
+
+---
+
+## Points de terminaison
+
+Vous pouvez Ã©galement accÃ©der Ã  nos modÃ¨les via les points de terminaison API suivants.
+
+| ModÃ¨le                 | ID du modÃ¨le           | Point de terminaison                                 | Package AI SDK              |
+| ---------------------- | ---------------------- | ---------------------------------------------------- | --------------------------- |
+| GPT 5.6 Sol            | gpt-5.6-sol            | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.6 Terra          | gpt-5.6-terra          | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.6 Luna           | gpt-5.6-luna           | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.5                | gpt-5.5                | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.5 Pro            | gpt-5.5-pro            | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4                | gpt-5.4                | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4 Pro            | gpt-5.4-pro            | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4 Mini           | gpt-5.4-mini           | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4 Nano           | gpt-5.4-nano           | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.3 Codex          | gpt-5.3-codex          | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.3 Codex Spark    | gpt-5.3-codex-spark    | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.2                | gpt-5.2                | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.2 Codex          | gpt-5.2-codex          | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1                | gpt-5.1                | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1 Codex          | gpt-5.1-codex          | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1 Codex Max      | gpt-5.1-codex-max      | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1 Codex Mini     | gpt-5.1-codex-mini     | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5                  | gpt-5                  | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5 Codex            | gpt-5-codex            | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5 Nano             | gpt-5-nano             | `https://voracode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| Claude Fable 5         | claude-fable-5         | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.8        | claude-opus-4-8        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.7        | claude-opus-4-7        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.6        | claude-opus-4-6        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.5        | claude-opus-4-5        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Sonnet 5        | claude-sonnet-5        | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Sonnet 4.6      | claude-sonnet-4-6      | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Sonnet 4.5      | claude-sonnet-4-5      | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Haiku 4.5       | claude-haiku-4-5       | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Gemini 3.5 Flash       | gemini-3.5-flash       | `https://voracode.ai/zen/v1/models/gemini-3.5-flash` | `@ai-sdk/google`            |
+| Gemini 3.1 Pro         | gemini-3.1-pro         | `https://voracode.ai/zen/v1/models/gemini-3.1-pro`   | `@ai-sdk/google`            |
+| Gemini 3 Flash         | gemini-3-flash         | `https://voracode.ai/zen/v1/models/gemini-3-flash`   | `@ai-sdk/google`            |
+| Qwen3.7 Max            | qwen3.7-max            | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Qwen3.7 Plus           | qwen3.7-plus           | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Qwen3.6 Plus           | qwen3.6-plus           | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Qwen3.5 Plus           | qwen3.5-plus           | `https://voracode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| DeepSeek V4 Pro        | deepseek-v4-pro        | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| DeepSeek V4 Flash      | deepseek-v4-flash      | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| MiniMax M3             | minimax-m3             | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| MiniMax M2.7           | minimax-m2.7           | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| MiniMax M2.5           | minimax-m2.5           | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| GLM 5.2                | glm-5.2                | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| GLM 5.1                | glm-5.1                | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| GLM 5                  | glm-5                  | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Kimi K2.5              | kimi-k2.5              | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Kimi K2.6              | kimi-k2.6              | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Kimi K2.7 Code         | kimi-k2.7-code         | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Grok 4.5               | grok-4.5               | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Grok Build 0.1         | grok-build-0.1         | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Big Pickle             | big-pickle             | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| MiMo-V2.5 Free         | mimo-v2.5-free         | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| North Mini Code Free   | north-mini-code-free   | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Nemotron 3 Ultra Free  | nemotron-3-ultra-free  | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| DeepSeek V4 Flash Free | deepseek-v4-flash-free | `https://voracode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+
+Le [model id](/docs/config/#models) dans votre configuration Voracode utilise le format `voracode/<model-id>`. Par exemple, pour GPT 5.5, vous utiliseriez `voracode/gpt-5.5` dans votre configuration.
+
+---
+
+### ModÃ¨les
+
+Vous pouvez rÃ©cupÃ©rer la liste complÃ¨te des modÃ¨les disponibles et leurs mÃ©tadonnÃ©es Ã  partir de :
+
+```
+https://voracode.ai/zen/v1/models
+```
+
+---
+
+## Tarification
+
+Nous prenons en charge un modÃ¨le de paiement Ã  l'utilisation. Vous trouverez ci-dessous les prix **par 1M tokens**.
+
+| ModÃ¨le                            | Input  | Output  | Cached Read | Cached Write |
+| --------------------------------- | ------ | ------- | ----------- | ------------ |
+| Big Pickle                        | Free   | Free    | Free        | -            |
+| DeepSeek V4 Flash Free            | Free   | Free    | Free        | -            |
+| MiMo-V2.5 Free                    | Free   | Free    | Free        | -            |
+| North Mini Code Free              | Free   | Free    | Free        | -            |
+| Nemotron 3 Ultra Free             | Free   | Free    | Free        | -            |
+| MiniMax M3                        | $0.30  | $1.20   | $0.06       | -            |
+| MiniMax M2.7                      | $0.30  | $1.20   | $0.06       | -            |
+| MiniMax M2.5                      | $0.30  | $1.20   | $0.06       | -            |
+| GLM 5.2                           | $1.40  | $4.40   | $0.26       | -            |
+| GLM 5.1                           | $1.40  | $4.40   | $0.26       | -            |
+| GLM 5                             | $1.00  | $3.20   | $0.20       | -            |
+| Kimi K2.7 Code                    | $0.95  | $4.00   | $0.19       | -            |
+| Kimi K2.6                         | $0.95  | $4.00   | $0.16       | -            |
+| Kimi K2.5                         | $0.60  | $3.00   | $0.10       | -            |
+| Qwen3.7 Max                       | $2.50  | $7.50   | $0.50       | $3.125       |
+| Qwen3.7 Plus                      | $0.40  | $1.60   | $0.04       | $0.50        |
+| Qwen3.6 Plus                      | $0.50  | $3.00   | $0.05       | $0.625       |
+| Qwen3.5 Plus                      | $0.20  | $1.20   | $0.02       | $0.25        |
+| DeepSeek V4 Pro                   | $1.74  | $3.48   | $0.145      | -            |
+| DeepSeek V4 Flash                 | $0.14  | $0.28   | $0.028      | -            |
+| Grok 4.5 (â‰¤ 200K tokens)          | $2.00  | $6.00   | $0.50       | -            |
+| Grok 4.5 (> 200K tokens)          | $4.00  | $12.00  | $1.00       | -            |
+| Grok Build 0.1                    | $1.00  | $2.00   | $0.20       | -            |
+| Claude Fable 5                    | $10.00 | $50.00  | $1.00       | $12.50       |
+| Claude Opus 4.8                   | $5.00  | $25.00  | $0.50       | $6.25        |
+| Claude Opus 4.7                   | $5.00  | $25.00  | $0.50       | $6.25        |
+| Claude Opus 4.6                   | $5.00  | $25.00  | $0.50       | $6.25        |
+| Claude Opus 4.5                   | $5.00  | $25.00  | $0.50       | $6.25        |
+| Claude Sonnet 5                   | $2.00  | $10.00  | $0.20       | $2.50        |
+| Claude Sonnet 4.6                 | $3.00  | $15.00  | $0.30       | $3.75        |
+| Claude Sonnet 4.5 (â‰¤ 200K tokens) | $3.00  | $15.00  | $0.30       | $3.75        |
+| Claude Sonnet 4.5 (> 200K tokens) | $6.00  | $22.50  | $0.60       | $7.50        |
+| Claude Haiku 4.5                  | $1.00  | $5.00   | $0.10       | $1.25        |
+| Gemini 3.5 Flash                  | $1.50  | $9.00   | $0.15       | -            |
+| Gemini 3.1 Pro (â‰¤ 200K tokens)    | $2.00  | $12.00  | $0.20       | -            |
+| Gemini 3.1 Pro (> 200K tokens)    | $4.00  | $18.00  | $0.40       | -            |
+| Gemini 3 Flash                    | $0.50  | $3.00   | $0.05       | -            |
+| GPT 5.6 Sol (â‰¤ 272K tokens)       | $5.00  | $30.00  | $0.50       | $6.25        |
+| GPT 5.6 Sol (> 272K tokens)       | $10.00 | $45.00  | $1.00       | $12.50       |
+| GPT 5.6 Terra (â‰¤ 272K tokens)     | $2.50  | $15.00  | $0.25       | $3.125       |
+| GPT 5.6 Terra (> 272K tokens)     | $5.00  | $22.50  | $0.50       | $6.25        |
+| GPT 5.6 Luna (â‰¤ 272K tokens)      | $1.00  | $6.00   | $0.10       | $1.25        |
+| GPT 5.6 Luna (> 272K tokens)      | $2.00  | $9.00   | $0.20       | $2.50        |
+| GPT 5.5 (â‰¤ 272K tokens)           | $5.00  | $30.00  | $0.50       | -            |
+| GPT 5.5 (> 272K tokens)           | $10.00 | $45.00  | $1.00       | -            |
+| GPT 5.5 Pro                       | $30.00 | $180.00 | $30.00      | -            |
+| GPT 5.4 (â‰¤ 272K tokens)           | $2.50  | $15.00  | $0.25       | -            |
+| GPT 5.4 (> 272K tokens)           | $5.00  | $22.50  | $0.50       | -            |
+| GPT 5.4 Pro                       | $30.00 | $180.00 | $30.00      | -            |
+| GPT 5.4 Mini                      | $0.75  | $4.50   | $0.075      | -            |
+| GPT 5.4 Nano                      | $0.20  | $1.25   | $0.02       | -            |
+| GPT 5.3 Codex Spark               | $1.75  | $14.00  | $0.175      | -            |
+| GPT 5.3 Codex                     | $1.75  | $14.00  | $0.175      | -            |
+| GPT 5.2                           | $1.75  | $14.00  | $0.175      | -            |
+| GPT 5.2 Codex                     | $1.75  | $14.00  | $0.175      | -            |
+| GPT 5.1                           | $1.07  | $8.50   | $0.107      | -            |
+| GPT 5.1 Codex                     | $1.07  | $8.50   | $0.107      | -            |
+| GPT 5.1 Codex Max                 | $1.25  | $10.00  | $0.125      | -            |
+| GPT 5.1 Codex Mini                | $0.25  | $2.00   | $0.025      | -            |
+| GPT 5                             | $1.07  | $8.50   | $0.107      | -            |
+| GPT 5 Codex                       | $1.07  | $8.50   | $0.107      | -            |
+| GPT 5 Nano                        | $0.05  | $0.40   | $0.005      | -            |
+
+Vous remarquerez peut-Ãªtre _Claude Haiku 3.5_ dans votre historique d'utilisation. Il s'agit d'un [modÃ¨le Ã  faible coÃ»t](/docs/config/#models) utilisÃ© pour gÃ©nÃ©rer les titres de vos sessions.
+
+:::note
+Les frais de carte de crÃ©dit sont rÃ©percutÃ©s au prix coÃ»tant (4.4% + $0.30 par transaction) ; nous ne facturons rien au-delÃ .
+:::
+
+Les modÃ¨les gratuits :
+
+- DeepSeek V4 Flash Free est disponible sur Voracode pour une durÃ©e limitÃ©e. L'Ã©quipe utilise cette pÃ©riode pour recueillir des retours et amÃ©liorer le modÃ¨le.
+- MiMo-V2.5 Free est disponible sur Voracode pour une durÃ©e limitÃ©e. L'Ã©quipe utilise cette pÃ©riode pour recueillir des retours et amÃ©liorer le modÃ¨le.
+- North Mini Code Free est disponible sur Voracode pour une durÃ©e limitÃ©e. L'Ã©quipe utilise cette pÃ©riode pour recueillir des retours et amÃ©liorer le modÃ¨le.
+- Nemotron 3 Ultra Free est disponible sur Voracode pour une durÃ©e limitÃ©e. L'Ã©quipe utilise cette pÃ©riode pour recueillir des retours et amÃ©liorer le modÃ¨le.
+- Big Pickle est un modÃ¨le stealth gratuit sur Voracode pour une durÃ©e limitÃ©e. L'Ã©quipe utilise cette pÃ©riode pour recueillir des retours et amÃ©liorer le modÃ¨le.
+
+<a href={email}>Contactez-nous</a> si vous avez des questions.
+
+---
+
+### Rechargement automatique
+
+Si votre solde passe sous $5, Zen rechargera automatiquement $20.
+
+Vous pouvez modifier le montant du rechargement automatique. Vous pouvez Ã©galement dÃ©sactiver complÃ¨tement le rechargement automatique.
+
+---
+
+### Limites mensuelles
+
+Vous pouvez Ã©galement dÃ©finir une limite d'utilisation mensuelle pour l'ensemble de l'espace de travail et pour chaque membre de votre Ã©quipe.
+
+Par exemple, si vous dÃ©finissez une limite d'utilisation mensuelle Ã  $20, Zen n'utilisera pas plus de $20 sur un mois. Mais si le rechargement automatique est activÃ©, Zen peut finir par vous facturer plus de $20 si votre solde passe sous $5.
+
+---
+
+### ModÃ¨les obsolÃ¨tes
+
+| ModÃ¨le             | Date de dÃ©prÃ©ciation |
+| ------------------ | -------------------- |
+| GPT 5.2 Codex      | July 23, 2026        |
+| GPT 5.1 Codex      | July 23, 2026        |
+| GPT 5.1 Codex Max  | July 23, 2026        |
+| GPT 5.1 Codex Mini | July 23, 2026        |
+| GPT 5 Codex        | July 23, 2026        |
+| Claude Opus 4.1    | August 5, 2026       |
+| Claude Sonnet 4    | June 15, 2026        |
+| Claude Haiku 3.5   | February 16, 2026    |
+| Gemini 3 Pro       | March 9, 2026        |
+| MiniMax M2.5       | August 5, 2026       |
+| MiniMax M2.1       | March 15, 2026       |
+| GLM 5              | May 14, 2026         |
+| GLM 4.7            | March 15, 2026       |
+| GLM 4.6            | March 15, 2026       |
+| Kimi K2.5          | August 5, 2026       |
+| Kimi K2 Thinking   | March 6, 2026        |
+| Kimi K2            | March 6, 2026        |
+| Qwen3 Coder 480B   | February 6, 2026     |
+
+---
+
+## ConfidentialitÃ©
+
+Tous nos modÃ¨les sont hÃ©bergÃ©s aux US. Nos fournisseurs suivent une politique de rÃ©tention zÃ©ro et n'utilisent pas vos donnÃ©es pour l'entraÃ®nement des modÃ¨les, avec les exceptions suivantes :
+
+- Big Pickle : Pendant sa pÃ©riode gratuite, les donnÃ©es collectÃ©es peuvent Ãªtre utilisÃ©es pour amÃ©liorer le modÃ¨le.
+- DeepSeek V4 Flash Free : Pendant sa pÃ©riode gratuite, les donnÃ©es collectÃ©es peuvent Ãªtre utilisÃ©es pour amÃ©liorer le modÃ¨le.
+- MiMo-V2.5 Free : Pendant sa pÃ©riode gratuite, les donnÃ©es collectÃ©es peuvent Ãªtre utilisÃ©es pour amÃ©liorer le modÃ¨le.
+- North Mini Code Free : Pendant la pÃ©riode de gratuitÃ©, les donnÃ©es collectÃ©es peuvent Ãªtre conservÃ©es et utilisÃ©es pour amÃ©liorer le modÃ¨le. Ne transmettez aucune donnÃ©e personnelle ou confidentielle. Consultez nos [Conditions dâ€™utilisation](https://cohere.com/terms-of-use) et notre [Politique de confidentialitÃ©](https://cohere.com/privacy).
+- Nemotron 3 Ultra Free (endpoints NVIDIA gratuits) : RÃ©servÃ© Ã  un usage d'essai â€” n'envoyez pas de donnÃ©es personnelles ou confidentielles. Votre utilisation est journalisÃ©e Ã  des fins de sÃ©curitÃ© et pour amÃ©liorer les produits et services de NVIDIA. Les donnÃ©es de session journalisÃ©es Ã  des fins d'amÃ©lioration ne sont pas liÃ©es Ã  votre identitÃ© ni Ã  un quelconque identifiant persistant. Pour plus d'informations sur nos pratiques de traitement des donnÃ©es, consultez notre [Politique de confidentialitÃ©](https://assets.ngc.nvidia.com/products/api-catalog/legal/NVIDIA%20API%20Trial%20Terms%20of%20Service.pdf). En interagissant avec cet endpoint, vous consentez Ã  notre collecte, Ã  notre enregistrement et Ã  notre utilisation de ces informations ainsi qu'aux [NVIDIA API Trial Terms of Service](https://assets.ngc.nvidia.com/products/api-catalog/legal/NVIDIA%20API%20Trial%20Terms%20of%20Service.pdf).
+- OpenAI APIs : Les requÃªtes sont conservÃ©es pendant 30 jours conformÃ©ment Ã  [OpenAI's Data Policies](https://platform.openai.com/docs/guides/your-data).
+- Anthropic APIs : Les requÃªtes sont conservÃ©es pendant 30 jours conformÃ©ment Ã  [Anthropic's Data Policies](https://docs.anthropic.com/en/docs/claude-code/data-usage).
+
+---
+
+## Pour les Ã©quipes
+
+Zen fonctionne aussi trÃ¨s bien pour les Ã©quipes. Vous pouvez inviter des coÃ©quipiers, attribuer des rÃ´les, sÃ©lectionner les modÃ¨les que votre Ã©quipe utilise, et plus encore.
+
+:::note
+Les espaces de travail sont actuellement gratuits pour les Ã©quipes dans le cadre de la version bÃªta.
+:::
+
+La gestion de votre espace de travail est actuellement gratuite pour les Ã©quipes dans le cadre de la version bÃªta. Nous partagerons bientÃ´t plus de dÃ©tails sur la tarification.
+
+---
+
+### RÃ´les
+
+Vous pouvez inviter des coÃ©quipiers dans votre espace de travail et attribuer des rÃ´les :
+
+- **Admin** : GÃ©rer les modÃ¨les, les membres, les clÃ©s API et la facturation
+- **Member** : GÃ©rer uniquement ses propres clÃ©s API
+
+Les administrateurs peuvent Ã©galement dÃ©finir des limites de dÃ©penses mensuelles pour chaque membre afin de garder les coÃ»ts sous contrÃ´le.
+
+---
+
+### AccÃ¨s aux modÃ¨les
+
+Les administrateurs peuvent activer ou dÃ©sactiver des modÃ¨les spÃ©cifiques pour l'espace de travail. Les requÃªtes effectuÃ©es vers un modÃ¨le dÃ©sactivÃ© renverront une erreur.
+
+Cela est utile si vous souhaitez dÃ©sactiver l'utilisation d'un modÃ¨le qui collecte des donnÃ©es.
+
+---
+
+### Apportez votre propre clÃ©
+
+Vous pouvez utiliser vos propres clÃ©s API OpenAI ou Anthropic tout en accÃ©dant Ã  d'autres modÃ¨les dans Zen.
+
+Lorsque vous utilisez vos propres clÃ©s, les tokens sont facturÃ©s directement par le fournisseur, pas par Zen.
+
+Par exemple, votre organisation a peut-Ãªtre dÃ©jÃ  une clÃ© pour OpenAI ou Anthropic et vous souhaitez l'utiliser Ã  la place de celle fournie par Zen.
+
+---
+
+## Objectifs
+
+Nous avons crÃ©Ã© Voracode Zen pour :
+
+1. **Benchmark** les meilleurs modÃ¨les/fournisseurs pour les agents de codage.
+2. Avoir accÃ¨s aux options de **la plus haute qualitÃ©** sans dÃ©grader les performances ni basculer vers des fournisseurs moins chers.
+3. RÃ©percuter toute **baisse de prix** en vendant au prix coÃ»tant ; la seule marge sert Ã  couvrir nos frais de traitement.
+4. N'avoir **aucun lock-in** en vous permettant de l'utiliser avec n'importe quel autre agent de codage. Et toujours vous permettre d'utiliser n'importe quel autre fournisseur avec Voracode Ã©galement.

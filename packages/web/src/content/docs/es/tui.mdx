@@ -1,0 +1,429 @@
+---
+title: TUI
+description: Usando la interfaz de usuario del terminal Voracode.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
+Voracode proporciona una interfaz de terminal interactiva o TUI para trabajar en sus proyectos con un LLM.
+
+Al ejecutar Voracode se inicia TUI para el directorio actual.
+
+```bash
+voracode
+```
+
+O puede iniciarlo para un directorio de trabajo especÃ­fico.
+
+```bash
+voracode /path/to/project
+```
+
+Una vez que estÃ© en TUI, puede indicarlo con un mensaje.
+
+```text
+Give me a quick summary of the codebase.
+```
+
+---
+
+## Referencias de archivos
+
+Puede hacer referencia a archivos en sus mensajes usando `@`. Esto realiza una bÃºsqueda difusa de archivos en el directorio de trabajo actual.
+
+:::tip
+TambiÃ©n puede utilizar `@` para hacer referencia a archivos en sus mensajes.
+:::
+
+```text "@packages/functions/src/api/index.ts"
+How is auth handled in @packages/functions/src/api/index.ts?
+```
+
+El contenido del archivo se agrega a la conversaciÃ³n automÃ¡ticamente.
+
+---
+
+## Comandos bash
+
+Inicie un mensaje con `!` para ejecutar un comando de shell.
+
+```bash frame="none"
+!ls -la
+```
+
+El resultado del comando se agrega a la conversaciÃ³n como resultado de la herramienta.
+
+---
+
+## Comandos
+
+Cuando utilice Voracode TUI, puede escribir `/` seguido de un nombre de comando para ejecutar acciones rÃ¡pidamente. Por ejemplo:
+
+```bash frame="none"
+/help
+```
+
+La mayorÃ­a de los comandos tambiÃ©n tienen una combinaciÃ³n de teclas que utiliza `ctrl+x` como tecla principal, donde `ctrl+x` es la tecla principal predeterminada. [MÃ¡s informaciÃ³n](/docs/keybinds).
+
+AquÃ­ estÃ¡n todos los comandos de barra diagonal disponibles:
+
+---
+
+### connect
+
+Agregue un proveedor a Voracode. Le permite seleccionar entre proveedores disponibles y agregar sus claves API.
+
+```bash frame="none"
+/connect
+```
+
+---
+
+### compact
+
+Compacta la sesiÃ³n actual. _Alias_: `/summarize`
+
+```bash frame="none"
+/compact
+```
+
+**CombinaciÃ³n de teclas:** `ctrl+x c`
+
+---
+
+### details
+
+Alternar detalles de ejecuciÃ³n de la herramienta.
+
+```bash frame="none"
+/details
+```
+
+**CombinaciÃ³n de teclas:** `ctrl+x d`
+
+---
+
+### editor
+
+Abra un editor externo para redactar mensajes. Utiliza el editor configurado en su variable de entorno `EDITOR`. [MÃ¡s informaciÃ³n](#editor-setup).
+
+```bash frame="none"
+/editor
+```
+
+**CombinaciÃ³n de teclas:** `ctrl+x e`
+
+---
+
+### exit
+
+Salga de Voracode. _Alias_: `/quit`, `/q`
+
+```bash frame="none"
+/exit
+```
+
+**CombinaciÃ³n de teclas:** `ctrl+x q`
+
+---
+
+### export
+
+Exporte la conversaciÃ³n actual a Markdown y Ã¡brala en su editor predeterminado. Utiliza el editor configurado en su variable de entorno `EDITOR`. [MÃ¡s informaciÃ³n](#editor-setup).
+
+```bash frame="none"
+/export
+```
+
+**CombinaciÃ³n de teclas:** `ctrl+x x`
+
+---
+
+### help
+
+Muestra el cuadro de diÃ¡logo de ayuda.
+
+```bash frame="none"
+/help
+```
+
+**CombinaciÃ³n de teclas:** `ctrl+x h`
+
+---
+
+### init
+
+Cree o actualice el archivo `AGENTS.md`. [MÃ¡s informaciÃ³n](/docs/rules).
+
+```bash frame="none"
+/init
+```
+
+**CombinaciÃ³n de teclas:** `ctrl+x i`
+
+---
+
+### models
+
+Listar modelos disponibles.
+
+```bash frame="none"
+/models
+```
+
+**CombinaciÃ³n de teclas:** `ctrl+x m`
+
+---
+
+### new
+
+Iniciar una nueva sesiÃ³n. _Alias_: `/clear`
+
+```bash frame="none"
+/new
+```
+
+**CombinaciÃ³n de teclas:** `ctrl+x n`
+
+---
+
+### redo
+
+Rehacer un mensaje previamente deshecho. Solo disponible despuÃ©s de usar `/undo`.
+
+:::tip
+TambiÃ©n se restaurarÃ¡n todos los cambios en el archivo.
+:::
+
+Internamente, esto utiliza Git para gestionar los cambios de archivos. Entonces tu proyecto **necesita
+ser un repositorio Git**.
+
+```bash frame="none"
+/redo
+```
+
+**CombinaciÃ³n de teclas:** `ctrl+x r`
+
+---
+
+### sessions
+
+Enumere y cambie entre sesiones. _Alias_: `/resume`, `/continue`
+
+```bash frame="none"
+/sessions
+```
+
+**CombinaciÃ³n de teclas:** `ctrl+x l`
+
+---
+
+### share
+
+Compartir la sesiÃ³n actual. [MÃ¡s informaciÃ³n](/docs/share).
+
+```bash frame="none"
+/share
+```
+
+**CombinaciÃ³n de teclas:** `ctrl+x s`
+
+---
+
+### theme
+
+Listar temas disponibles.
+
+```bash frame="none"
+/theme
+```
+
+**CombinaciÃ³n de teclas:** `ctrl+x t`
+
+---
+
+### thinking
+
+Alterna la visibilidad de los bloques de pensamiento/razonamiento en la conversaciÃ³n. Cuando estÃ¡ habilitado, puede ver el proceso de razonamiento del modelo para los modelos que admiten el pensamiento extendido.
+
+:::note
+Este comando solo controla si se **muestran** los bloques de pensamiento; no habilita ni deshabilita las capacidades de razonamiento del modelo. Para alternar las capacidades de razonamiento reales, use `ctrl+t` para recorrer las variantes del modelo.
+:::
+
+```bash frame="none"
+/thinking
+```
+
+---
+
+### undo
+
+Deshacer el Ãºltimo mensaje de la conversaciÃ³n. Elimina el mensaje de usuario mÃ¡s reciente, todas las respuestas posteriores y cualquier cambio de archivo.
+
+:::tip
+Cualquier cambio de archivo realizado tambiÃ©n se revertirÃ¡.
+:::
+
+Internamente, esto utiliza Git para gestionar los cambios de archivos. Entonces tu proyecto **necesita
+ser un repositorio Git**.
+
+```bash frame="none"
+/undo
+```
+
+**CombinaciÃ³n de teclas:** `ctrl+x u`
+
+---
+
+### unshare
+
+Dejar de compartir la sesiÃ³n actual. [MÃ¡s informaciÃ³n](/docs/share#un-sharing).
+
+```bash frame="none"
+/unshare
+```
+
+---
+
+## ConfiguraciÃ³n del editor
+
+Tanto el comando `/editor` como el `/export` usan el editor especificado en su variable de entorno `EDITOR`.
+
+<Tabs>
+  <TabItem label="Linux/macOS">
+    ```bash
+    # Example for nano or vim
+    export EDITOR=nano
+    export EDITOR=vim
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    export EDITOR="code --wait"
+    ```
+
+    Para hacerlo permanente, agrÃ©guelo a su perfil de shell;
+    `~/.bashrc`, `~/.zshrc`, etc.
+
+  </TabItem>
+
+  <TabItem label="Windows (CMD)">
+    ```bash
+    set EDITOR=notepad
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    set EDITOR=code --wait
+    ```
+
+    Para hacerlo permanente, use **Propiedades del sistema** > **Entorno
+    Variables**.
+
+  </TabItem>
+
+  <TabItem label="Windows (PowerShell)">
+    ```powershell
+    $env:EDITOR = "notepad"
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    $env:EDITOR = "code --wait"
+    ```
+
+    Para hacerlo permanente, agrÃ©guelo a su perfil de PowerShell.
+
+  </TabItem>
+</Tabs>
+
+Las opciones de editor populares incluyen:
+
+- `code` - CÃ³digo de Visual Studio
+- `cursor` - Cursor
+- `windsurf` - Windsurf
+- `nvim` - Editor Neovim
+- `vim` - Editor Vim
+- `nano` - Nanoeditor
+- `notepad` - Windows Bloc de notas
+- `subl` - Texto sublime
+
+:::note
+Algunos editores como VS Code deben iniciarse con el indicador `--wait`.
+:::
+
+Algunos editores necesitan argumentos de lÃ­nea de comandos para ejecutarse en modo de bloqueo. El indicador `--wait` hace que el proceso del editor se bloquee hasta que se cierre.
+
+---
+
+## Configurar
+
+Puede personalizar el comportamiento de TUI a travÃ©s de `tui.json` (o `tui.jsonc`).
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "theme": "voracode",
+  "leader_timeout": 2000,
+  "keybinds": {
+    "leader": "ctrl+x",
+    "command_list": "ctrl+p"
+  },
+  "scroll_speed": 3,
+  "scroll_acceleration": {
+    "enabled": false
+  },
+  "diff_style": "auto",
+  "mouse": true,
+  "attention": {
+    "enabled": true,
+    "notifications": true,
+    "sound": true,
+    "volume": 0.4,
+    "sound_pack": "voracode.default",
+    "sounds": {
+      "error": "./sounds/error.mp3"
+    }
+  }
+}
+```
+
+Esto es independiente de `voracode.json`, que configura el comportamiento del servidor/tiempo de ejecuciÃ³n.
+
+`keybinds` se combina con los valores predeterminados integrados, asÃ­ que solo necesitas configurar los atajos que quieras cambiar.
+
+### Opciones
+
+- `theme`: establece su tema de interfaz de usuario. [MÃ¡s informaciÃ³n](/docs/themes).
+- `keybinds`: personaliza los atajos de teclado. [MÃ¡s informaciÃ³n](/docs/keybinds).
+- `leader_timeout`: controla cuÃ¡nto tiempo espera Voracode despuÃ©s de la leader key. El valor predeterminado es `2000`.
+- `scroll_acceleration.enabled`: habilite la aceleraciÃ³n de desplazamiento estilo macOS para un desplazamiento suave y natural. Cuando estÃ¡ habilitado, la velocidad de desplazamiento aumenta con gestos de desplazamiento rÃ¡pido y se mantiene precisa para movimientos mÃ¡s lentos. **Esta configuraciÃ³n tiene prioridad sobre `scroll_speed` y la anula cuando estÃ¡ habilitada.**
+- `scroll_speed`: controla la rapidez con la que se desplaza el TUI cuando se utilizan comandos de desplazamiento (mÃ­nimo: `0.001`, admite valores decimales). El valor predeterminado es `3`. **Nota: Esto se ignora si `scroll_acceleration.enabled` estÃ¡ configurado en `true`.**
+- `diff_style`: controla la representaciÃ³n de diferencias. `"auto"` se adapta al ancho del terminal, `"stacked"` siempre muestra un diseÃ±o de una sola columna.
+- `mouse`: habilita o deshabilita la captura del mouse en el TUI (predeterminado: `true`). Cuando estÃ¡ deshabilitada, se conserva el comportamiento nativo del terminal para seleccionar y desplazarse con el mouse.
+- `attention`: configura las notificaciones de escritorio y los sonidos del TUI. Deshabilitado de forma predeterminada.
+
+Utilice `VORACODE_TUI_CONFIG` para cargar una ruta de configuraciÃ³n de TUI personalizada.
+
+### Attention
+
+Attention permite que el TUI te avise cuando Voracode necesita que respondas una pregunta, apruebes un permiso, revises un error de sesiÃ³n o sepas que una sesiÃ³n terminÃ³. ActÃ­valo con `attention.enabled`; los eventos integrados reproducen sonidos al ocurrir. Las notificaciones de escritorio solo se envÃ­an cuando la ventana del terminal no estÃ¡ enfocada y no se usan para eventos de subagent.
+
+- `enabled`: activa todas las notificaciones y sonidos de Attention. El valor predeterminado es `false`.
+- `notifications`: cuando Attention estÃ¡ activo, permite que el TUI envÃ­e notificaciones de escritorio a travÃ©s del terminal. El valor predeterminado es `true`.
+- `sound`: cuando Attention estÃ¡ activo, permite reproducir sonidos de aviso. El valor predeterminado es `true`.
+- `volume`: volumen predeterminado de los sonidos, de `0` a `1`. El valor predeterminado es `0.4`.
+- `sound_pack`: ID del sound pack que se usarÃ¡. El valor predeterminado es `voracode.default`.
+- `sounds`: define archivos de sonido personalizados para `default`, `question`, `permission`, `error`, `done` o `subagent_done`. Las rutas pueden ser absolutas, URL `file://` o relativas a `tui.json`.
+
+---
+
+## PersonalizaciÃ³n
+
+Puede personalizar varios aspectos de la vista TUI usando la paleta de comandos (`ctrl+x h` o `/help`). Estas configuraciones persisten despuÃ©s de los reinicios.
+
+---
+
+#### VisualizaciÃ³n del nombre de usuario
+
+Alterna si tu nombre de usuario aparece en los mensajes de chat. Accede a este a travÃ©s de:
+
+- Paleta de comandos: busque "nombre de usuario" u "ocultar nombre de usuario"
+- La configuraciÃ³n persiste automÃ¡ticamente y se recordarÃ¡ en TUI sesiones

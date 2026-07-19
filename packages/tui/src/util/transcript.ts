@@ -78,7 +78,7 @@ export function formatAssistantHeader(
 
   const modelName = Model.name(providers, msg.providerID, msg.modelID)
 
-  return `## Assistant (${Locale.titlecase(msg.agent)} Â· ${modelName}${duration ? ` Â· ${duration}` : ""})\n\n`
+  return `## Assistant (${Locale.titlecase(msg.agent)} · ${modelName}${duration ? ` · ${duration}` : ""})\n\n`
 }
 
 export function formatPart(part: Part, options: TranscriptOptions): string {

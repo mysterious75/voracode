@@ -1,0 +1,287 @@
+---
+title: Serveur
+description: Interagissez avec le serveur voracode via HTTP.
+---
+
+import config from "../../../../config.mjs"
+export const typesUrl = `${config.github}/blob/dev/packages/sdk/js/src/gen/types.gen.ts`
+
+La commande `voracode serve` exÃ©cute un serveur HTTP sans tÃªte qui expose un point de terminaison OpenAPI qu'un client voracode peut utiliser.
+
+---
+
+### Usage
+
+```bash
+voracode serve [--port <number>] [--hostname <string>] [--cors <origin>]
+```
+
+#### Options
+
+| Drapeau         | Descriptif                                         | Par dÃ©faut       |
+| --------------- | -------------------------------------------------- | ---------------- |
+| `--port`        | Port Ã  Ã©couter sur                                 | `4096`           |
+| `--hostname`    | Nom d'hÃ´te sur lequel Ã©couter                      | `127.0.0.1`      |
+| `--mdns`        | Activer la dÃ©couverte mDNS                         | `false`          |
+| `--mdns-domain` | Nom de domaine personnalisÃ© pour le service mDNS   | `voracode.local` |
+| `--cors`        | Origines de navigateur supplÃ©mentaires Ã  autoriser | `[]`             |
+
+`--cors` peut Ãªtre transmis plusieurs foisÂ :
+
+```bash
+voracode serve --cors http://localhost:5173 --cors https://app.example.com
+```
+
+---
+
+### Authentification
+
+DÃ©finissez `VORACODE_SERVER_PASSWORD` pour protÃ©ger le serveur avec l'authentification de base HTTP. Le nom d'utilisateur est par dÃ©faut `voracode`, ou dÃ©finissez `VORACODE_SERVER_USERNAME` pour le remplacer. Cela sâ€™applique Ã  la fois Ã  `voracode serve` et Ã  `voracode web`.
+
+```bash
+VORACODE_SERVER_PASSWORD=your-password voracode serve
+```
+
+---
+
+### Comment Ã§a marche
+
+Lorsque vous exÃ©cutez `voracode`, il dÃ©marre un TUI et un serveur. OÃ¹ le TUI est le
+client qui parle au serveur. Le serveur expose une spÃ©cification OpenAPI 3.1
+point final. Ce point de terminaison est Ã©galement utilisÃ© pour gÃ©nÃ©rer un [SDK](/docs/sdk).
+
+:::tip
+Utilisez le serveur voracode pour interagir avec voracode par programmation.
+:::
+
+Cette architecture permet Ã  voracode de prendre en charge plusieurs clients et vous permet d'interagir avec voracode par programme.
+
+Vous pouvez exÃ©cuter `voracode serve` pour dÃ©marrer un serveur autonome. Si vous avez le
+voracode TUI en cours d'exÃ©cution, `voracode serve` dÃ©marrera un nouveau serveur.
+
+---
+
+#### Connectez-vous Ã  un serveur existant
+
+Lorsque vous dÃ©marrez le TUI, il attribue de maniÃ¨re alÃ©atoire un port et un nom d'hÃ´te. Vous pouvez Ã  la place transmettre les `--hostname` et `--port` [flags](/docs/cli). Utilisez-le ensuite pour vous connecter Ã  son serveur.
+
+Le point de terminaison [`/tui`](#tui) peut Ãªtre utilisÃ© pour piloter le TUI via le serveur. Par exemple, vous pouvez prÃ©-remplir ou exÃ©cuter une invite. Cette configuration est utilisÃ©e par les plugins Voracode [IDE](/docs/ide).
+
+---
+
+## SpÃ©cification
+
+Le serveur publie une spÃ©cification OpenAPI 3.1 qui peut Ãªtre consultÃ©e Ã  l'adresseÂ :
+
+```
+http://<hostname>:<port>/doc
+```
+
+Par exemple, `http://localhost:4096/doc`. Utilisez la spÃ©cification pour gÃ©nÃ©rer des clients ou inspecter les types de requÃªtes et de rÃ©ponses. Ou visualisez-le dans un explorateur Swagger.
+
+---
+
+## APIs
+
+Le serveur voracode expose les API suivantes.
+
+---
+
+### Mondial
+
+| MÃ©thode | Chemin           | Descriptif                                 | RÃ©ponse                              |
+| ------- | ---------------- | ------------------------------------------ | ------------------------------------ |
+| `GET`   | `/global/health` | Obtenir l'Ã©tat et la version du serveur    | `{ healthy: true, version: string }` |
+| `GET`   | `/global/event`  | Obtenez des Ã©vÃ©nements mondiaux (flux SSE) | Flux d'Ã©vÃ©nements                    |
+
+---
+
+### Projet
+
+| MÃ©thode | Chemin             | Descriptif                 | RÃ©ponse                                       |
+| ------- | ------------------ | -------------------------- | --------------------------------------------- |
+| `GET`   | `/project`         | Lister tous les projets    | <a href={typesUrl}><code>Project[]</code></a> |
+| `GET`   | `/project/current` | Obtenez le projet en cours | <a href={typesUrl}><code>Project</code></a>   |
+
+---
+
+### Chemin et VCS
+
+| MÃ©thode | Chemin  | Descriptif                                           | RÃ©ponse                                     |
+| ------- | ------- | ---------------------------------------------------- | ------------------------------------------- |
+| `GET`   | `/path` | Obtenir le chemin actuel                             | <a href={typesUrl}><code>Path</code></a>    |
+| `GET`   | `/vcs`  | Obtenir des informations VCS pour le projet en cours | <a href={typesUrl}><code>VcsInfo</code></a> |
+
+---
+
+### Exemple
+
+| MÃ©thode | Chemin              | Descriptif                    | RÃ©ponse   |
+| ------- | ------------------- | ----------------------------- | --------- |
+| `POST`  | `/instance/dispose` | Supprimer l'instance actuelle | `boolean` |
+
+---
+
+### Configuration
+
+| MÃ©thode | Chemin              | Descriptif                                   | RÃ©ponse                                                                                  |
+| ------- | ------------------- | -------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `GET`   | `/config`           | Obtenir des informations de configuration    | <a href={typesUrl}><code>Config</code></a>                                               |
+| `PATCH` | `/config`           | Mettre Ã  jour la configuration               | <a href={typesUrl}><code>Config</code></a>                                               |
+| `GET`   | `/config/providers` | Liste des fournisseurs et modÃ¨les par dÃ©faut | `{ providers: `<a href={typesUrl}>Provider[]</a>`, default: { [key: string]: string } }` |
+
+---
+
+### Fournisseur
+
+| MÃ©thode | Chemin                           | Descriptif                                             | RÃ©ponse                                                                             |
+| ------- | -------------------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| `GET`   | `/provider`                      | Liste de tous les fournisseurs                         | `{ all: `<a href={typesUrl}>Provider[]</a>`, default: {...}, connected: string[] }` |
+| `GET`   | `/provider/auth`                 | Obtenir les mÃ©thodes d'authentification du fournisseur | `{ [providerID: string]: `<a href={typesUrl}>ProviderAuthMethod[]</a>` }`           |
+| `POST`  | `/provider/{id}/oauth/authorize` | Autoriser un fournisseur en utilisant OAuth            | <a href={typesUrl}><code>ProviderAuthAuthorization</code></a>                       |
+| `POST`  | `/provider/{id}/oauth/callback`  | GÃ©rer le rappel OAuth pour un fournisseur              | `boolean`                                                                           |
+
+---
+
+### SÃ©ances
+
+| MÃ©thode  | Chemin                                   | Descriptif                                            | Remarques                                                                            |
+| -------- | ---------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `GET`    | `/session`                               | Liste toutes les sessions                             | Renvoie <a href={typesUrl}><code>Session[]</code></a>                                |
+| `POST`   | `/session`                               | CrÃ©er une nouvelle session                            | corpsÂ : `{ parentID?, title? }`, renvoie <a href={typesUrl}><code>Session</code></a> |
+| `GET`    | `/session/status`                        | Obtenir l'Ã©tat de la session pour toutes les sessions | Renvoie `{ [sessionID: string]: `<a href={typesUrl}>SessionStatus</a>` }`            |
+| `GET`    | `/session/:id`                           | Obtenez les dÃ©tails de la session                     | Renvoie <a href={typesUrl}><code>Session</code></a>                                  |
+| `DELETE` | `/session/:id`                           | Supprimer une session et toutes ses donnÃ©es           | Renvoie `boolean`                                                                    |
+| `PATCH`  | `/session/:id`                           | Mettre Ã  jour les propriÃ©tÃ©s de la session            | corpsÂ : `{ title? }`, renvoie <a href={typesUrl}><code>Session</code></a>            |
+| `GET`    | `/session/:id/children`                  | Obtenir les sessions enfants d'une session            | Renvoie <a href={typesUrl}><code>Session[]</code></a>                                |
+| `GET`    | `/session/:id/todo`                      | Obtenez la liste de tÃ¢ches pour une session           | Renvoie <a href={typesUrl}><code>Todo[]</code></a>                                   |
+| `POST`   | `/session/:id/init`                      | Analysez l'application et crÃ©ez `AGENTS.md`           | corpsÂ : `{ messageID, providerID, modelID }`, renvoie `boolean`                      |
+| `POST`   | `/session/:id/fork`                      | Forkez une session existante Ã  un message             | corpsÂ : `{ messageID? }`, renvoie <a href={typesUrl}><code>Session</code></a>        |
+| `POST`   | `/session/:id/abort`                     | Abandonner une session en cours                       | Renvoie `boolean`                                                                    |
+| `POST`   | `/session/:id/share`                     | Partager une sÃ©ance                                   | Renvoie <a href={typesUrl}><code>Session</code></a>                                  |
+| `DELETE` | `/session/:id/share`                     | Annuler le partage d'une session                      | Renvoie <a href={typesUrl}><code>Session</code></a>                                  |
+| `GET`    | `/session/:id/diff`                      | Obtenez le diff pour cette session                    | requÃªteÂ : `messageID?`, renvoie <a href={typesUrl}><code>FileDiff[]</code></a>       |
+| `POST`   | `/session/:id/summarize`                 | RÃ©sumer la sÃ©ance                                     | corpsÂ : `{ providerID, modelID }`, renvoie `boolean`                                 |
+| `POST`   | `/session/:id/revert`                    | RÃ©tablir un message                                   | corpsÂ : `{ messageID, partID? }`, renvoie `boolean`                                  |
+| `POST`   | `/session/:id/unrevert`                  | Restaurer tous les messages annulÃ©s                   | Renvoie `boolean`                                                                    |
+| `POST`   | `/session/:id/permissions/:permissionID` | RÃ©pondre Ã  une demande d'autorisation                 | corpsÂ : `{ response, remember? }`, renvoie `boolean`                                 |
+
+---
+
+### Messages
+
+| MÃ©thode | Chemin                            | Descriptif                                               | Remarques                                                                                                                                                               |
+| ------- | --------------------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GET`   | `/session/:id/message`            | Liste des messages dans une session                      | requÃªteÂ : `limit?`, renvoie `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}[]`                                                       |
+| `POST`  | `/session/:id/message`            | Envoyer un message et attendre une rÃ©ponse               | corpsÂ : `{ messageID?, model?, agent?, noReply?, system?, tools?, parts }`, renvoie `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}` |
+| `GET`   | `/session/:id/message/:messageID` | Obtenir les dÃ©tails du message                           | Renvoie `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}`                                                                             |
+| `POST`  | `/session/:id/prompt_async`       | Envoyer un message de maniÃ¨re asynchrone (pas d'attente) | bodyÂ : identique Ã  `/session/:id/message`, renvoie `204 No Content`                                                                                                     |
+| `POST`  | `/session/:id/command`            | ExÃ©cuter une commande slash                              | corpsÂ : `{ messageID?, agent?, model?, command, arguments }`, renvoie `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}`               |
+| `POST`  | `/session/:id/shell`              | ExÃ©cuter une commande shell                              | corpsÂ : `{ agent, model?, command }`, renvoie `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}`                                       |
+
+---
+
+### Commandes
+
+| MÃ©thode | Chemin     | Descriptif                 | RÃ©ponse                                       |
+| ------- | ---------- | -------------------------- | --------------------------------------------- |
+| `GET`   | `/command` | Liste toutes les commandes | <a href={typesUrl}><code>Command[]</code></a> |
+
+---
+
+### Fichiers
+
+| MÃ©thode | Chemin                   | Descriptif                                         | RÃ©ponse                                                                                             |
+| ------- | ------------------------ | -------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `GET`   | `/find?pattern=<pat>`    | Rechercher du texte dans des fichiers              | Tableau d'objets correspondant avec `path`, `lines`, `line_number`, `absolute_offset`, `submatches` |
+| `GET`   | `/find/file?query=<q>`   | Rechercher des fichiers et des rÃ©pertoires par nom | `string[]` (chemins)                                                                                |
+| `GET`   | `/find/symbol?query=<q>` | Rechercher des symboles d'espace de travail        | <a href={typesUrl}><code>Symbol[]</code></a>                                                        |
+| `GET`   | `/file?path=<path>`      | Liste des fichiers et rÃ©pertoires                  | <a href={typesUrl}><code>FileNode[]</code></a>                                                      |
+| `GET`   | `/file/content?path=<p>` | Lire un fichier                                    | <a href={typesUrl}><code>FileContent</code></a>                                                     |
+| `GET`   | `/file/status`           | Obtenir le statut des fichiers suivis              | <a href={typesUrl}><code>File[]</code></a>                                                          |
+
+#### ParamÃ¨tres de requÃªte `/find/file`
+
+- `query` (obligatoire) â€” chaÃ®ne de recherche (correspondance floue)
+- `type` (facultatif) â€” limiter les rÃ©sultats Ã  `"file"` ou `"directory"`
+- `directory` (facultatif) â€” remplace la racine du projet pour la recherche
+- `limit` (facultatif) â€” rÃ©sultats maximum (1 Ã  200)
+- `dirs` (facultatif) â€” indicateur hÃ©ritÃ© (`"false"` renvoie uniquement les fichiers)
+
+---
+
+### Outils (expÃ©rimentaux)
+
+| MÃ©thode | Chemin                                      | Descriptif                                                  | RÃ©ponse                                      |
+| ------- | ------------------------------------------- | ----------------------------------------------------------- | -------------------------------------------- |
+| `GET`   | `/experimental/tool/ids`                    | RÃ©pertorier tous les ID d'outils                            | <a href={typesUrl}><code>ToolIDs</code></a>  |
+| `GET`   | `/experimental/tool?provider=<p>&model=<m>` | RÃ©pertorier les outils avec des schÃ©mas JSON pour un modÃ¨le | <a href={typesUrl}><code>ToolList</code></a> |
+
+---
+
+### LSP, formateurs et MCP
+
+| MÃ©thode | Chemin       | Descriptif                           | RÃ©ponse                                                  |
+| ------- | ------------ | ------------------------------------ | -------------------------------------------------------- |
+| `GET`   | `/lsp`       | Obtenir l'Ã©tat du serveur LSP        | <a href={typesUrl}><code>LSPStatus[]</code></a>          |
+| `GET`   | `/formatter` | Obtenir le statut du formateur       | <a href={typesUrl}><code>FormatterStatus[]</code></a>    |
+| `GET`   | `/mcp`       | Obtenir l'Ã©tat du serveur MCP        | `{ [name: string]: `<a href={typesUrl}>MCPStatus</a>` }` |
+| `POST`  | `/mcp`       | Ajouter dynamiquement le serveur MCP | corpsÂ : `{ name, config }`, renvoie l'objet d'Ã©tat MCP   |
+
+---
+
+### Agents
+
+| MÃ©thode | Chemin   | Descriptif                        | RÃ©ponse                                     |
+| ------- | -------- | --------------------------------- | ------------------------------------------- |
+| `GET`   | `/agent` | Liste tous les agents disponibles | <a href={typesUrl}><code>Agent[]</code></a> |
+
+---
+
+### Enregistrement
+
+| MÃ©thode | Chemin | Descriptif                                                                  | RÃ©ponse   |
+| ------- | ------ | --------------------------------------------------------------------------- | --------- |
+| `POST`  | `/log` | Ã‰crire une entrÃ©e de journal. CorpsÂ : `{ service, level, message, extra? }` | `boolean` |
+
+---
+
+### TUI
+
+| MÃ©thode | Chemin                  | Descriptif                                         | RÃ©ponse                      |
+| ------- | ----------------------- | -------------------------------------------------- | ---------------------------- |
+| `POST`  | `/tui/append-prompt`    | Ajouter du texte Ã  l'invite                        | `boolean`                    |
+| `POST`  | `/tui/open-help`        | Ouvrir la boÃ®te de dialogue d'aide                 | `boolean`                    |
+| `POST`  | `/tui/open-sessions`    | Ouvrez le sÃ©lecteur de session                     | `boolean`                    |
+| `POST`  | `/tui/open-themes`      | Ouvrez le sÃ©lecteur de thÃ¨me                       | `boolean`                    |
+| `POST`  | `/tui/open-models`      | Ouvrez le sÃ©lecteur de modÃ¨le                      | `boolean`                    |
+| `POST`  | `/tui/submit-prompt`    | Soumettre l'invite actuelle                        | `boolean`                    |
+| `POST`  | `/tui/clear-prompt`     | Effacez l'invite                                   | `boolean`                    |
+| `POST`  | `/tui/execute-command`  | ExÃ©cuter une commande (`{ command }`)              | `boolean`                    |
+| `POST`  | `/tui/show-toast`       | Afficher le toast (`{ title?, message, variant }`) | `boolean`                    |
+| `GET`   | `/tui/control/next`     | Attendre la prochaine demande de contrÃ´le          | Objet de demande de contrÃ´le |
+| `POST`  | `/tui/control/response` | RÃ©pondre Ã  une demande de contrÃ´le (`{ body }`)    | `boolean`                    |
+
+---
+
+### Authentification
+
+| MÃ©thode | Chemin      | Descriptif                                                                                          | RÃ©ponse   |
+| ------- | ----------- | --------------------------------------------------------------------------------------------------- | --------- |
+| `PUT`   | `/auth/:id` | DÃ©finissez les informations d'authentification. Le corps doit correspondre au schÃ©ma du fournisseur | `boolean` |
+
+---
+
+### Ã‰vÃ©nements
+
+| MÃ©thode | Chemin   | Descriptif                                                                                                        | RÃ©ponse                                  |
+| ------- | -------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `GET`   | `/event` | Flux dâ€™Ã©vÃ©nements envoyÃ©s par le serveur. Le premier Ã©vÃ©nement est `server.connected`, puis les Ã©vÃ©nements de bus | Flux d'Ã©vÃ©nements envoyÃ©s par le serveur |
+
+---
+
+### Documents
+
+| MÃ©thode | Chemin | Descriptif                | RÃ©ponse                              |
+| ------- | ------ | ------------------------- | ------------------------------------ |
+| `GET`   | `/doc` | SpÃ©cification OpenAPI 3.1 | Page HTML avec spÃ©cification OpenAPI |

@@ -1,0 +1,429 @@
+---
+title: TUI
+description: Korzystanie z interfejsu uÅ¼ytkownika terminala voracode.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
+voracode zapewnia interaktywny interfejs terminala lub TUI do pracy nad projektami za pomocÄ… LLM.
+
+Uruchomienie voracode uruchamia TUI dla bieÅ¼Ä…cego katalogu.
+
+```bash
+voracode
+```
+
+MoÅ¼esz teÅ¼ uruchomiÄ‡ go dla okreÅ›lonego katalogu roboczego.
+
+```bash
+voracode /path/to/project
+```
+
+Gdy znajdziesz siÄ™ w TUI, moÅ¼esz wyÅ›wietliÄ‡ monit za pomocÄ… komunikatu.
+
+```text
+Give me a quick summary of the codebase.
+```
+
+---
+
+## Referencje plikÃ³w
+
+MoÅ¼esz odwoÅ‚ywaÄ‡ siÄ™ do plikÃ³w w swoich wiadomoÅ›ciach, uÅ¼ywajÄ…c `@`. Spowoduje to rozmyte wyszukiwanie plikÃ³w w bieÅ¼Ä…cym katalogu roboczym.
+
+:::tip
+MoÅ¼esz takÅ¼e uÅ¼yÄ‡ `@` do odwoÅ‚ywania siÄ™ do plikÃ³w w swoich wiadomoÅ›ciach.
+:::
+
+```text "@packages/functions/src/api/index.ts"
+How is auth handled in @packages/functions/src/api/index.ts?
+```
+
+ZawartoÅ›Ä‡ pliku jest automatycznie dodawana do rozmowy.
+
+---
+
+## Polecenia Bash
+
+Rozpocznij wiadomoÅ›Ä‡ od `!`, aby uruchomiÄ‡ polecenie shell.
+
+```bash frame="none"
+!ls -la
+```
+
+Dane wyjÅ›ciowe polecenia sÄ… dodawane do konwersacji jako wynik narzÄ™dzia.
+
+---
+
+## Komendy
+
+KorzystajÄ…c z TUI voracode, moÅ¼esz wpisaÄ‡ `/`, po ktÃ³rym nastÄ™puje nazwa polecenia, aby szybko wykonaÄ‡ dziaÅ‚ania. Na przykÅ‚ad:
+
+```bash frame="none"
+/help
+```
+
+WiÄ™kszoÅ›Ä‡ poleceÅ„ ma rÃ³wnieÅ¼ skrÃ³t klawiszowy wykorzystujÄ…cy `ctrl+x` jako klucz wiodÄ…cy, gdzie `ctrl+x` jest domyÅ›lnym klawiszem wiodÄ…cym. [Dowiedz siÄ™ wiÄ™cej](/docs/keybinds).
+
+Oto wszystkie dostÄ™pne slash commands:
+
+---
+
+### connect
+
+Dodaj dostawcÄ™ do voracode. UmoÅ¼liwia wybÃ³r dostÄ™pnych dostawcÃ³w i dodanie ich kluczy API.
+
+```bash frame="none"
+/connect
+```
+
+---
+
+### compact
+
+Kompaktuj bieÅ¼Ä…cÄ… sesjÄ™. _Alias_: `/summarize`
+
+```bash frame="none"
+/compact
+```
+
+**Keybind:** `ctrl+x c`
+
+---
+
+### details
+
+PrzeÅ‚Ä…cz szczegÃ³Å‚y wykonywania narzÄ™dzi.
+
+```bash frame="none"
+/details
+```
+
+**Keybind:** `ctrl+x d`
+
+---
+
+### editor
+
+OtwÃ³rz zewnÄ™trzny edytor do tworzenia wiadomoÅ›ci. UÅ¼ywa edytora ustawionego w zmiennej Å›rodowiskowej `EDITOR`. [Dowiedz siÄ™ wiÄ™cej](#editor-setup).
+
+```bash frame="none"
+/editor
+```
+
+**Keybind:** `ctrl+x e`
+
+---
+
+### exit
+
+Zamknij voracode. _Aliasy_: `/quit`, `/q`
+
+```bash frame="none"
+/exit
+```
+
+**Keybind:** `ctrl+x q`
+
+---
+
+### export
+
+Wyeksportuj bieÅ¼Ä…cÄ… rozmowÄ™ do Markdown i otwÃ³rz jÄ… w domyÅ›lnym edytorze. UÅ¼ywa edytora ustawionego w zmiennej Å›rodowiskowej `EDITOR`. [Dowiedz siÄ™ wiÄ™cej](#editor-setup).
+
+```bash frame="none"
+/export
+```
+
+**Keybind:** `ctrl+x x`
+
+---
+
+### help
+
+PokaÅ¼ okno pomocy.
+
+```bash frame="none"
+/help
+```
+
+**Keybind:** `ctrl+x h`
+
+---
+
+### init
+
+UtwÃ³rz lub zaktualizuj plik `AGENTS.md`. [Dowiedz siÄ™ wiÄ™cej](/docs/rules).
+
+```bash frame="none"
+/init
+```
+
+**Keybind:** `ctrl+x i`
+
+---
+
+### models
+
+Lista dostÄ™pnych modeli.
+
+```bash frame="none"
+/models
+```
+
+**Keybind:** `ctrl+x m`
+
+---
+
+### new
+
+Rozpocznij nowÄ… sesjÄ™. _Alias_: `/clear`
+
+```bash frame="none"
+/new
+```
+
+**Keybind:** `ctrl+x n`
+
+---
+
+### redo
+
+PonÃ³w cofniÄ™tÄ… wczeÅ›niej wiadomoÅ›Ä‡. DostÄ™pne tylko po uÅ¼yciu `/undo`.
+
+:::tip
+Wszystkie zmiany plikÃ³w rÃ³wnieÅ¼ zostanÄ… przywrÃ³cone.
+:::
+
+WewnÄ™trznie uÅ¼ywa Git do zarzÄ…dzania zmianami plikÃ³w. WiÄ™c TwÃ³j projekt ** musi
+be a Git repository**.
+
+```bash frame="none"
+/redo
+```
+
+**Keybind:** `ctrl+x r`
+
+---
+
+### sessions
+
+WyÅ›wietl listÄ™ i przeÅ‚Ä…czaj siÄ™ miÄ™dzy sesjami. _Aliasy_: `/resume`, `/continue`
+
+```bash frame="none"
+/sessions
+```
+
+**Keybind:** `ctrl+x l`
+
+---
+
+### share
+
+UdostÄ™pnij bieÅ¼Ä…cÄ… sesjÄ™. [Dowiedz siÄ™ wiÄ™cej](/docs/share).
+
+```bash frame="none"
+/share
+```
+
+**Keybind:** `ctrl+x s`
+
+---
+
+### themes
+
+Lista dostÄ™pnych motywÃ³w.
+
+```bash frame="none"
+/theme
+```
+
+**Keybind:** `ctrl+x t`
+
+---
+
+### thinking
+
+PrzeÅ‚Ä…cz widocznoÅ›Ä‡ blokÃ³w myÅ›lenia/rozumowania w rozmowie. Po wÅ‚Ä…czeniu tej opcji moÅ¼na zobaczyÄ‡ proces wnioskowania modelu w przypadku modeli obsÅ‚ugujÄ…cych myÅ›lenie rozszerzone.
+
+:::note
+To polecenie kontroluje jedynie, czy bloki myÅ›lowe sÄ… **wyÅ›wietlane** - nie wÅ‚Ä…cza ani nie wyÅ‚Ä…cza moÅ¼liwoÅ›ci wnioskowania modelu. Aby przeÅ‚Ä…czyÄ‡ rzeczywiste moÅ¼liwoÅ›ci wnioskowania, uÅ¼yj `ctrl+t` do przeÅ‚Ä…czania wariantÃ³w modelu.
+:::
+
+```bash frame="none"
+/thinking
+```
+
+---
+
+### undo
+
+Cofnij ostatniÄ… wiadomoÅ›Ä‡ w rozmowie. Usuwa najnowszÄ… wiadomoÅ›Ä‡ uÅ¼ytkownika, wszystkie kolejne odpowiedzi i wszelkie zmiany w plikach.
+
+:::tip
+Wszystkie zmiany plikÃ³w rÃ³wnieÅ¼ zostanÄ… cofniÄ™te.
+:::
+
+WewnÄ™trznie uÅ¼ywa Git do zarzÄ…dzania zmianami plikÃ³w. WiÄ™c TwÃ³j projekt ** musi
+be a Git repository**.
+
+```bash frame="none"
+/undo
+```
+
+**Keybind:** `ctrl+x u`
+
+---
+
+### unshare
+
+Anuluj udostÄ™pnianie bieÅ¼Ä…cej sesji. [Dowiedz siÄ™ wiÄ™cej](/docs/share#un-sharing).
+
+```bash frame="none"
+/unshare
+```
+
+---
+
+## Konfiguracja edytora
+
+ZarÃ³wno polecenia `/editor`, jak i `/export` korzystajÄ… z edytora okreÅ›lonego w zmiennej Å›rodowiskowej `EDITOR`.
+
+<Tabs>
+  <TabItem label="Linux/macOS">
+    ```bash
+    # Example for nano or vim
+    export EDITOR=nano
+    export EDITOR=vim
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    export EDITOR="code --wait"
+    ```
+
+    Aby byÅ‚o to trwaÅ‚e, dodaj to do swojego profilu shell;
+    `~/.bashrc`, `~/.zshrc`, etc.
+
+  </TabItem>
+
+  <TabItem label="Windows (CMD)">
+    ```bash
+    set EDITOR=notepad
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    set EDITOR=code --wait
+    ```
+
+    Aby ustawiÄ‡ tÄ™ opcjÄ™ na staÅ‚e, uÅ¼yj opcji **WÅ‚aÅ›ciwoÅ›ci systemu** > **Åšrodowisko
+    Variables**.
+
+  </TabItem>
+
+  <TabItem label="Windows (PowerShell)">
+    ```powershell
+    $env:EDITOR = "notepad"
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    $env:EDITOR = "code --wait"
+    ```
+
+    Aby uczyniÄ‡ to trwaÅ‚ym, dodaj to do swojego profilu PowerShell.
+
+  </TabItem>
+</Tabs>
+
+Popularne opcje edytora:
+
+- `code` - Visual Studio Code
+- `cursor` - Cursor
+- `windsurf` - Windsurf
+- `nvim` - Neovim editor
+- `vim` - Vim editor
+- `nano` - Nano editor
+- `notepad` - Windows Notepad
+- `subl` - Sublime Text
+
+:::note
+NiektÃ³re edytory, takie jak VS Code, naleÅ¼y uruchamiaÄ‡ z flagÄ… `--wait`.
+:::
+
+NiektÃ³rzy edytory potrzebujÄ… argumentÃ³w wiersza poleceÅ„, aby dziaÅ‚aÄ‡ w trybie blokowania. Flaga `--wait` blokuje proces edytora aÅ¼ do jego zamkniÄ™cia.
+
+---
+
+## Skonfiguruj
+
+MoÅ¼esz dostosowaÄ‡ zachowanie TUI za pomocÄ… pliku `tui.json` (lub `tui.jsonc`).
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "theme": "voracode",
+  "leader_timeout": 2000,
+  "keybinds": {
+    "leader": "ctrl+x",
+    "command_list": "ctrl+p"
+  },
+  "scroll_speed": 3,
+  "scroll_acceleration": {
+    "enabled": false
+  },
+  "diff_style": "auto",
+  "mouse": true,
+  "attention": {
+    "enabled": true,
+    "notifications": true,
+    "sound": true,
+    "volume": 0.4,
+    "sound_pack": "voracode.default",
+    "sounds": {
+      "error": "./sounds/error.mp3"
+    }
+  }
+}
+```
+
+Jest to oddzielny plik od `voracode.json`, ktÃ³ry konfiguruje zachowanie serwera/runtime.
+
+`keybinds` jest Å‚Ä…czone z wbudowanymi wartoÅ›ciami domyÅ›lnymi, wiÄ™c wystarczy skonfigurowaÄ‡ tylko te skrÃ³ty, ktÃ³re chcesz zmieniÄ‡.
+
+### Opcje
+
+- `theme` - Ustawia motyw interfejsu. [Dowiedz siÄ™ wiÄ™cej](/docs/themes).
+- `keybinds` - Dostosowuje skrÃ³ty klawiszowe. [Dowiedz siÄ™ wiÄ™cej](/docs/keybinds).
+- `leader_timeout` - OkreÅ›la, jak dÅ‚ugo Voracode czeka po naciÅ›niÄ™ciu leader key. DomyÅ›lnie `2000`.
+- `scroll_acceleration.enabled` â€” WÅ‚Ä…cz przyspieszenie przewijania w stylu macOS, aby zapewniÄ‡ pÅ‚ynne, naturalne przewijanie. Po wÅ‚Ä…czeniu prÄ™dkoÅ›Ä‡ przewijania wzrasta wraz z szybkimi gestami przewijania i pozostaje precyzyjna w przypadku wolniejszych ruchÃ³w. **To ustawienie ma pierwszeÅ„stwo przed `scroll_speed` i zastÄ™puje je, gdy jest wÅ‚Ä…czone.**
+- `scroll_speed` - Kontroluje szybkoÅ›Ä‡ przewijania TUI podczas korzystania z poleceÅ„ przewijania (minimum: `0.001`, obsÅ‚uguje wartoÅ›ci dziesiÄ™tne). WartoÅ›Ä‡ domyÅ›lna to `3`. **Uwaga: jest to ignorowane, jeÅ›li `scroll_acceleration.enabled` jest ustawione na `true`.**
+- `diff_style` - Steruje renderowaniem rÃ³Å¼nic. `"auto"` dostosowuje siÄ™ do szerokoÅ›ci terminala, `"stacked"` zawsze pokazuje ukÅ‚ad jednokolumnowy.
+- `mouse` - WÅ‚Ä…cza lub wyÅ‚Ä…cza przechwytywanie myszy w TUI (domyÅ›lnie `true`). Po wyÅ‚Ä…czeniu zachowane zostaje natywne zachowanie terminala przy zaznaczaniu i przewijaniu myszÄ….
+- `attention` - Konfiguruje powiadomienia pulpitu i dÅºwiÄ™ki TUI. DomyÅ›lnie wyÅ‚Ä…czone.
+
+UÅ¼yj `VORACODE_TUI_CONFIG`, aby zaÅ‚adowaÄ‡ niestandardowÄ… Å›cieÅ¼kÄ™ konfiguracji TUI.
+
+### Attention
+
+Attention pozwala TUI powiadomiÄ‡ CiÄ™, gdy Voracode czeka na odpowiedÅº, wymaga zatwierdzenia uprawnienia, zgÅ‚asza bÅ‚Ä…d sesji albo informuje o zakoÅ„czeniu sesji. WÅ‚Ä…cz tÄ™ funkcjÄ™ za pomocÄ… `attention.enabled`; wbudowane zdarzenia odtwarzajÄ… dÅºwiÄ™k, gdy wystÄ…piÄ…. Powiadomienia pulpitu sÄ… wysyÅ‚ane tylko wtedy, gdy okno terminala nie jest aktywne, i nie sÄ… uÅ¼ywane dla zdarzeÅ„ subagent.
+
+- `enabled` - WÅ‚Ä…cza wszystkie powiadomienia i dÅºwiÄ™ki Attention. DomyÅ›lnie `false`.
+- `notifications` - Gdy Attention jest wÅ‚Ä…czone, pozwala TUI wysyÅ‚aÄ‡ powiadomienia pulpitu przez terminal. DomyÅ›lnie `true`.
+- `sound` - Gdy Attention jest wÅ‚Ä…czone, pozwala odtwarzaÄ‡ dÅºwiÄ™ki powiadomieÅ„. DomyÅ›lnie `true`.
+- `volume` - DomyÅ›lna gÅ‚oÅ›noÅ›Ä‡ dÅºwiÄ™kÃ³w powiadomieÅ„ od `0` do `1`. DomyÅ›lnie `0.4`.
+- `sound_pack` - ID sound pack do uÅ¼ycia. DomyÅ›lnie `voracode.default`.
+- `sounds` - Ustawia niestandardowe pliki dÅºwiÄ™kowe dla `default`, `question`, `permission`, `error`, `done` lub `subagent_done`. ÅšcieÅ¼ki mogÄ… byÄ‡ bezwzglÄ™dne, byÄ‡ URL-ami `file://` albo byÄ‡ wzglÄ™dne wzglÄ™dem `tui.json`.
+
+---
+
+## Personalizacja
+
+Za pomocÄ… palety poleceÅ„ (`ctrl+x h` lub `/help`) moÅ¼na dostosowaÄ‡ rÃ³Å¼ne aspekty widoku TUI. Te ustawienia sÄ… zachowywane po ponownym uruchomieniu.
+
+---
+
+#### WyÅ›wietlanie nazwy uÅ¼ytkownika
+
+WÅ‚Ä…cz lub wyÅ‚Ä…cz wyÅ›wietlanie Twojej nazwy uÅ¼ytkownika w wiadomoÅ›ciach na czacie. DostÄ™p do tego poprzez:
+
+- Paleta poleceÅ„: Wyszukaj â€žnazwÄ™ uÅ¼ytkownikaâ€ lub â€žukryj nazwÄ™ uÅ¼ytkownikaâ€
+- Ustawienie zostanie zapamiÄ™tane automatycznie i bÄ™dzie pamiÄ™tane podczas sesji TUI

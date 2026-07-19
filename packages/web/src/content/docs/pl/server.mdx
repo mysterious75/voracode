@@ -1,0 +1,287 @@
+---
+title: Serwer
+description: Interakcja z serwerem voracode za poÅ›rednictwem protokoÅ‚u HTTP.
+---
+
+import config from "../../../../config.mjs"
+export const typesUrl = `${config.github}/blob/dev/packages/sdk/js/src/gen/types.gen.ts`
+
+Komenda `voracode serve` uruchamia bezgÅ‚owy serwer HTTP, ktÃ³ry udostÄ™pnia punkt koÅ„cowy OpenAPI, z ktÃ³rego moÅ¼e korzystaÄ‡ klient voracode.
+
+---
+
+### UÅ¼ycie
+
+```bash
+voracode serve [--port <number>] [--hostname <string>] [--cors <origin>]
+```
+
+#### Opcje
+
+| Flaga           | Opis                                         | DomyÅ›lne         |
+| --------------- | -------------------------------------------- | ---------------- |
+| `--port`        | Port nasÅ‚uchiwania                           | `4096`           |
+| `--hostname`    | Nazwa hosta do nasÅ‚uchiwania                 | `127.0.0.1`      |
+| `--mdns`        | WÅ‚Ä…cz wykrywanie mDNS                        | `false`          |
+| `--mdns-domain` | Niestandardowa nazwa domeny dla usÅ‚ugi mDNS  | `voracode.local` |
+| `--cors`        | Dodatkowe originy przeglÄ…darki do dozwolenia | `[]`             |
+
+`--cors` moÅ¼na przekazaÄ‡ wiele razy:
+
+```bash
+voracode serve --cors http://localhost:5173 --cors https://app.example.com
+```
+
+---
+
+### Uwierzytelnianie
+
+Ustaw `VORACODE_SERVER_PASSWORD`, aby chroniÄ‡ serwer za pomocÄ… podstawowego uwierzytelniania HTTP. DomyÅ›lnÄ… nazwÄ… uÅ¼ytkownika jest `voracode` lub ustaw `VORACODE_SERVER_USERNAME`, aby jÄ… zastÄ…piÄ‡. Dotyczy to zarÃ³wno `voracode serve`, jak i `voracode web`.
+
+```bash
+VORACODE_SERVER_PASSWORD=your-password voracode serve
+```
+
+---
+
+### Jak to dziaÅ‚a
+
+Kiedy uruchomisz `voracode`, uruchomi siÄ™ TUI i serwer. Gdzie jest TUI
+klient komunikujÄ…cy siÄ™ z serwerem. Serwer udostÄ™pnia specyfikacjÄ™ OpenAPI 3.1
+punkt koÅ„cowy. Ten punkt koÅ„cowy jest rÃ³wnieÅ¼ uÅ¼ywany do generowania [SDK](/docs/sdk).
+
+:::tip
+UÅ¼yj serwera voracode do programowej interakcji z voracode.
+:::
+
+Ta architektura umoÅ¼liwia obsÅ‚ugÄ™ wielu klientÃ³w przez voracode i programowÄ… interakcjÄ™ z kodem otwartym.
+
+MoÅ¼esz uruchomiÄ‡ `voracode serve`, aby uruchomiÄ‡ samodzielny serwer. JeÅ›li masz
+voracode TUI dziaÅ‚a, `voracode serve` uruchomi nowy serwer.
+
+---
+
+#### PoÅ‚Ä…czenie z istniejÄ…cym serwerem
+
+Po uruchomieniu TUI losowo przypisuje port i nazwÄ™ hosta. Zamiast tego moÅ¼esz przekazaÄ‡ `--hostname` i `--port` [flagi](/docs/cli). NastÄ™pnie uÅ¼yj tego, aby poÅ‚Ä…czyÄ‡ siÄ™ z serwerem.
+
+Punktu koÅ„cowego [`/tui`](#TUI) moÅ¼na uÅ¼yÄ‡ do sterowania TUI przez serwer. MoÅ¼na na przykÅ‚ad wstÄ™pnie wypeÅ‚niÄ‡ lub uruchomiÄ‡ monit. Ta konfiguracja jest uÅ¼ywana przez wtyczki voracode [IDE](/docs/ide).
+
+---
+
+## Specyfikacja
+
+Serwer publikuje specyfikacjÄ™ OpenAPI 3.1, ktÃ³rÄ… moÅ¼na obejrzeÄ‡ pod adresem:
+
+```
+http://<hostname>:<port>/doc
+```
+
+Na przykÅ‚ad `http://localhost:4096/doc`. UÅ¼yj specyfikacji, aby wygenerowaÄ‡ klientÃ³w lub sprawdziÄ‡ typy Å¼Ä…daÅ„ i odpowiedzi. MoÅ¼esz teÅ¼ wyÅ›wietliÄ‡ go w eksploratorze Swagger.
+
+---
+
+## API
+
+Serwer voracode udostÄ™pnia nastÄ™pujÄ…ce interfejsy API.
+
+---
+
+### Globalne
+
+| Method | Path             | Description                    | Response                             |
+| ------ | ---------------- | ------------------------------ | ------------------------------------ |
+| `GET`  | `/global/health` | Uzyskaj stan i wersjÄ™ serwera  | `{ healthy: true, version: string }` |
+| `GET`  | `/global/event`  | Get global events (SSE stream) | Event stream                         |
+
+---
+
+### Projekt
+
+| Method | Path               | Description                | Response                                      |
+| ------ | ------------------ | -------------------------- | --------------------------------------------- |
+| `GET`  | `/project`         | Lista wszystkich projektÃ³w | <a href={typesUrl}><code>Project[]</code></a> |
+| `GET`  | `/project/current` | Pobierz bieÅ¼Ä…cy projekt    | <a href={typesUrl}><code>Project</code></a>   |
+
+---
+
+### ÅšcieÅ¼ka i VCS
+
+| Method | Path    | Description                                   | Response                                    |
+| ------ | ------- | --------------------------------------------- | ------------------------------------------- |
+| `GET`  | `/path` | Pobierz bieÅ¼Ä…cÄ… Å›cieÅ¼kÄ™                       | <a href={typesUrl}><code>Path</code></a>    |
+| `GET`  | `/vcs`  | Uzyskaj informacje VCS dla bieÅ¼Ä…cego projektu | <a href={typesUrl}><code>VcsInfo</code></a> |
+
+---
+
+### Instancja
+
+| Method | Path                | Description            | Response  |
+| ------ | ------------------- | ---------------------- | --------- |
+| `POST` | `/instance/dispose` | UsuÅ„ bieÅ¼Ä…cÄ… instancjÄ™ | `boolean` |
+
+---
+
+### Konfiguracja
+
+| Method  | Path                | Description                         | Response                                                                                 |
+| ------- | ------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------- |
+| `GET`   | `/config`           | Get config info                     | <a href={typesUrl}><code>Config</code></a>                                               |
+| `PATCH` | `/config`           | Update config                       | <a href={typesUrl}><code>Config</code></a>                                               |
+| `GET`   | `/config/providers` | Lista dostawcÃ³w i modeli domyÅ›lnych | `{ providers: `<a href={typesUrl}>Dostawca[]</a>`, default: { [key: string]: string } }` |
+
+---
+
+### Dostawca
+
+| Method | Path                             | Description                                    | Response                                                                            |
+| ------ | -------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `GET`  | `/provider`                      | Lista wszystkich dostawcÃ³w                     | `{ all: `<a href={typesUrl}>Dostawca[]</a>`, default: {...}, connected: string[] }` |
+| `GET`  | `/provider/auth`                 | Uzyskaj metody uwierzytelniania dostawcy       | `{ [providerID: string]: `<a href={typesUrl}>ProviderAuthMethod[]</a>` }`           |
+| `POST` | `/provider/{id}/oauth/authorize` | Autoryzuj dostawcÄ™ za pomocÄ… protokoÅ‚u OAuth   | <a href={typesUrl}><code>ProviderAuthAuthorization</code></a>                       |
+| `POST` | `/provider/{id}/oauth/callback`  | ObsÅ‚uga wywoÅ‚ania zwrotnego OAuth dla dostawcy | `boolean`                                                                           |
+
+---
+
+### Sesje
+
+| Method   | Path                                     | Description                                 | Notes                                                                              |
+| -------- | ---------------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `GET`    | `/session`                               | Lista wszystkich sesji                      | Zwraca <a href={typesUrl}><code>Session[]</code></a>                               |
+| `POST`   | `/session`                               | UtwÃ³rz nowÄ… sesjÄ™                           | treÅ›Ä‡: `{ parentID?, title? }`, zwraca <a href={typesUrl}><code>Session</code></a> |
+| `GET`    | `/session/status`                        | Uzyskaj status sesji dla wszystkich sesji   | Zwraca `{ [sessionID: string]: `<a href={typesUrl}>Status sesji</a>` }`            |
+| `GET`    | `/session/:id`                           | Uzyskaj szczegÃ³Å‚y sesji                     | Zwraca <a href={typesUrl}><code>Session</code></a>                                 |
+| `DELETE` | `/session/:id`                           | UsuÅ„ sesjÄ™ i wszystkie jej dane             | Zwraca `boolean`                                                                   |
+| `PATCH`  | `/session/:id`                           | Aktualizuj wÅ‚aÅ›ciwoÅ›ci sesji                | treÅ›Ä‡: `{ title? }`, zwraca <a href={typesUrl}><code>Session</code></a>            |
+| `GET`    | `/session/:id/children`                  | Pobierz sesje podrzÄ™dne sesji               | Zwraca <a href={typesUrl}><code>Session[]</code></a>                               |
+| `GET`    | `/session/:id/todo`                      | Pobierz listÄ™ rzeczy do zrobienia dla sesji | Zwraca <a href={typesUrl}><code>Todo[]</code></a>                                  |
+| `POST`   | `/session/:id/init`                      | Przeanalizuj aplikacjÄ™ i utwÃ³rz `AGENTS.md` | treÅ›Ä‡: `{ messageID, providerID, modelID }`, zwraca `boolean`                      |
+| `POST`   | `/session/:id/fork`                      | RozwiÅ„ istniejÄ…cÄ… sesjÄ™ w wiadomoÅ›ci        | treÅ›Ä‡: `{ messageID? }`, zwraca <a href={typesUrl}><code>Session</code></a>        |
+| `POST`   | `/session/:id/abort`                     | Przerwij trwajÄ…cÄ… sesjÄ™                     | Zwraca `boolean`                                                                   |
+| `POST`   | `/session/:id/share`                     | UdostÄ™pnij sesjÄ™                            | Zwraca <a href={typesUrl}><code>Session</code></a>                                 |
+| `DELETE` | `/session/:id/share`                     | Anuluj udostÄ™pnianie sesji                  | Zwraca <a href={typesUrl}><code>Session</code></a>                                 |
+| `GET`    | `/session/:id/diff`                      | Pobierz rÃ³Å¼nicÄ™ dla tej sesji               | zapytanie: `messageID?`, zwraca <a href={typesUrl}><code>FileDiff[]</code></a>     |
+| `POST`   | `/session/:id/summarize`                 | Podsumuj sesjÄ™                              | treÅ›Ä‡: `{ providerID, modelID }`, zwraca `boolean`                                 |
+| `POST`   | `/session/:id/revert`                    | PrzywrÃ³Ä‡ wiadomoÅ›Ä‡                          | treÅ›Ä‡: `{ messageID, partID? }`, zwraca `boolean`                                  |
+| `POST`   | `/session/:id/unrevert`                  | PrzywrÃ³Ä‡ wszystkie przywrÃ³cone wiadomoÅ›ci   | Zwraca `boolean`                                                                   |
+| `POST`   | `/session/:id/permissions/:permissionID` | Odpowiedz na proÅ›bÄ™ o pozwolenie            | treÅ›Ä‡: `{ response, remember? }`, zwraca `boolean`                                 |
+
+---
+
+### WiadomoÅ›ci
+
+| Method | Path                              | Description                                     | Notes                                                                                                                                                                    |
+| ------ | --------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `GET`  | `/session/:id/message`            | Lista wiadomoÅ›ci w sesji                        | zapytanie: `limit?`, zwraca `{ info: `<a href={typesUrl}>WiadomoÅ›Ä‡</a>`, parts: `<a href={typesUrl}>CzÄ™Å›Ä‡[]</a>`}[]`                                                     |
+| `POST` | `/session/:id/message`            | WyÅ›lij wiadomoÅ›Ä‡ i poczekaj na odpowiedÅº        | treÅ›Ä‡: `{ messageID?, model?, agent?, noReply?, system?, tools?, parts }`, zwraca `{ info: `<a href={typesUrl}>WiadomoÅ›Ä‡</a>`, parts: `<a href={typesUrl}>CzÄ™Å›Ä‡[]</a>`}` |
+| `GET`  | `/session/:id/message/:messageID` | Uzyskaj szczegÃ³Å‚y wiadomoÅ›ci                    | Zwraca `{ info: `<a href={typesUrl}>WiadomoÅ›Ä‡</a>`, parts: `<a href={typesUrl}>CzÄ™Å›Ä‡[]</a>`}`                                                                            |
+| `POST` | `/session/:id/prompt_async`       | WyÅ›lij wiadomoÅ›Ä‡ asynchronicznie (bez czekania) | treÅ›Ä‡: taka sama jak `/session/:id/message`, zwraca `204 No Content`                                                                                                     |
+| `POST` | `/session/:id/command`            | Wykonaj slash command                           | treÅ›Ä‡: `{ messageID?, agent?, model?, command, arguments }`, zwraca `{ info: `<a href={typesUrl}>WiadomoÅ›Ä‡</a>`, parts: `<a href={typesUrl}>CzÄ™Å›Ä‡[]</a>`}`               |
+| `POST` | `/session/:id/shell`              | Uruchom polecenie shell                         | treÅ›Ä‡: `{ agent, model?, command }`, zwraca `{ info: `<a href={typesUrl}>WiadomoÅ›Ä‡</a>`, parts: `<a href={typesUrl}>CzÄ™Å›Ä‡[]</a>`}`                                       |
+
+---
+
+### Polecenia
+
+| Metoda | ÅšcieÅ¼ka    | Opis                     | OdpowiedÅº                                     |
+| ------ | ---------- | ------------------------ | --------------------------------------------- |
+| `GET`  | `/command` | Lista wszystkich poleceÅ„ | <a href={typesUrl}><code>Command[]</code></a> |
+
+---
+
+### Pliki
+
+| Method | Path                     | Description                          | Response                                                                                       |
+| ------ | ------------------------ | ------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| `GET`  | `/find?pattern=<pat>`    | Szukaj tekstu w plikach              | Tablica obiektÃ³w dopasowania z `path`, `lines`, `line_number`, `absolute_offset`, `submatches` |
+| `GET`  | `/find/file?query=<q>`   | ZnajdÅº pliki i katalogi wedÅ‚ug nazwy | `string[]` (Å›cieÅ¼ki)                                                                           |
+| `GET`  | `/find/symbol?query=<q>` | Find workspace symbols               | <a href={typesUrl}><code>Symbol[]</code></a>                                                   |
+| `GET`  | `/file?path=<path>`      | Lista plikÃ³w i katalogÃ³w             | <a href={typesUrl}><code>FileNode[]</code></a>                                                 |
+| `GET`  | `/file/content?path=<p>` | Read a file                          | <a href={typesUrl}><code>FileContent</code></a>                                                |
+| `GET`  | `/file/status`           | Uzyskaj status Å›ledzonych plikÃ³w     | <a href={typesUrl}><code>File[]</code></a>                                                     |
+
+#### `/find/file` query parameters
+
+- `query` (required) â€” search string (fuzzy match)
+- `type` (optional) â€” limit results to `"file"` or `"directory"`
+- `directory` (opcjonalnie) â€” zastÄ…p katalog gÅ‚Ã³wny projektu dla wyszukiwania
+- `limit` (optional) â€” max results (1â€“200)
+- `dirs` (optional) â€” legacy flag (`"false"` returns only files)
+
+---
+
+### NarzÄ™dzia (Eksperymentalne)
+
+| Method | Path                                        | Description                                  | Response                                     |
+| ------ | ------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
+| `GET`  | `/experimental/tool/ids`                    | Lista wszystkich identyfikatorÃ³w narzÄ™dzi    | <a href={typesUrl}><code>ToolIDs</code></a>  |
+| `GET`  | `/experimental/tool?provider=<p>&model=<m>` | Lista narzÄ™dzi ze schematami JSON dla modelu | <a href={typesUrl}><code>ToolList</code></a> |
+
+---
+
+### LSP, Formatery i MCP
+
+| Method | Path         | Description                  | Response                                                 |
+| ------ | ------------ | ---------------------------- | -------------------------------------------------------- |
+| `GET`  | `/lsp`       | Uzyskaj status serwera LSP   | <a href={typesUrl}><code>LSPStatus[]</code></a>          |
+| `GET`  | `/formatter` | Get formatter status         | <a href={typesUrl}><code>FormatterStatus[]</code></a>    |
+| `GET`  | `/mcp`       | Uzyskaj status serwera MCP   | `{ [name: string]: `<a href={typesUrl}>MCPStatus</a>` }` |
+| `POST` | `/mcp`       | Dodaj dynamicznie serwer MCP | treÅ›Ä‡: `{ name, config }`, zwraca obiekt stanu MCP       |
+
+---
+
+### Agenci
+
+| Method | Path     | Description                         | Response                                    |
+| ------ | -------- | ----------------------------------- | ------------------------------------------- |
+| `GET`  | `/agent` | Lista wszystkich dostÄ™pnych agentÃ³w | <a href={typesUrl}><code>Agent[]</code></a> |
+
+---
+
+### Logowanie
+
+| Method | Path   | Description                                                  | Response  |
+| ------ | ------ | ------------------------------------------------------------ | --------- |
+| `POST` | `/log` | Write log entry. Body: `{ service, level, message, extra? }` | `boolean` |
+
+---
+
+### TUI
+
+| Method | Path                    | Description                                  | Response                |
+| ------ | ----------------------- | -------------------------------------------- | ----------------------- |
+| `POST` | `/tui/append-prompt`    | DoÅ‚Ä…cz tekst do promptu                      | `boolean`               |
+| `POST` | `/tui/open-help`        | OtwÃ³rz okno pomocy                           | `boolean`               |
+| `POST` | `/tui/open-sessions`    | OtwÃ³rz selektor sesji                        | `boolean`               |
+| `POST` | `/tui/open-themes`      | OtwÃ³rz selektor motywÃ³w                      | `boolean`               |
+| `POST` | `/tui/open-models`      | OtwÃ³rz selektor modelu                       | `boolean`               |
+| `POST` | `/tui/submit-prompt`    | PrzeÅ›lij bieÅ¼Ä…cy prompt                      | `boolean`               |
+| `POST` | `/tui/clear-prompt`     | WyczyÅ›Ä‡ prompt                               | `boolean`               |
+| `POST` | `/tui/execute-command`  | Wykonaj polecenie (`{ command }`)            | `boolean`               |
+| `POST` | `/tui/show-toast`       | PokaÅ¼ toast (`{ title?, message, variant }`) | `boolean`               |
+| `GET`  | `/tui/control/next`     | Poczekaj na nastÄ™pne Å¼Ä…danie kontroli        | Obiekt Å¼Ä…dania kontroli |
+| `POST` | `/tui/control/response` | Respond to a control request (`{ body }`)    | `boolean`               |
+
+---
+
+### Uwierzytelnianie
+
+| Method | Path        | Description                                                           | Response  |
+| ------ | ----------- | --------------------------------------------------------------------- | --------- |
+| `PUT`  | `/auth/:id` | Ustaw dane uwierzytelniajÄ…ce. TreÅ›Ä‡ musi pasowaÄ‡ do schematu dostawcy | `boolean` |
+
+---
+
+### Zdarzenia
+
+| Method | Path     | Description                                                                                                          | Response                                |
+| ------ | -------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| `GET`  | `/event` | StrumieÅ„ zdarzeÅ„ wysyÅ‚anych przez serwer. Pierwsze wydarzenie to `server.connected`, nastÄ™pnie wydarzenia autobusowe | StrumieÅ„ zdarzeÅ„ wysÅ‚anych przez serwer |
+
+---
+
+### Dokumentacja
+
+| Method | Path   | Description              | Response                            |
+| ------ | ------ | ------------------------ | ----------------------------------- |
+| `GET`  | `/doc` | Specyfikacja OpenAPI 3.1 | Strona HTML ze specyfikacjÄ… OpenAPI |

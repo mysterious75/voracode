@@ -1,0 +1,360 @@
+﻿---
+title: Introduktion
+description: Kom godt i gang med Voracode.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+import config from "../../../../config.mjs"
+export const console = config.console
+
+[**Voracode**](/) er en open source AI-kodningsagent. Den er tilgÃ¦ngelig som en terminalbaseret grÃ¦nseflade, desktop-app eller IDE-udvidelse.
+
+![Voracode TUI med voracode-temaet](../../../assets/lander/screenshot.png)
+
+Lad os komme i gang.
+
+---
+
+#### ForudsÃ¦tninger
+
+For at bruge Voracode i din terminal skal du bruge:
+
+1. En moderne terminalemulator som:
+   - [WezTerm](https://wezterm.org), pÃ¥ tvÃ¦rs af platforme
+   - [Alacritty](https://alacritty.org), pÃ¥ tvÃ¦rs af platforme
+   - [Ghostty](https://ghostty.org), Linux og macOS
+   - [Kitty](https://sw.kovidgoyal.net/kitty/), Linux og macOS
+
+2. API-nÃ¸gler til de LLM udbydere, du vil bruge.
+
+---
+
+## Installation
+
+Den nemmeste mÃ¥de at installere Voracode pÃ¥ er gennem installationsscriptet.
+
+```bash
+curl -fsSL https://voracode.ai/install | bash
+```
+
+Du kan ogsÃ¥ installere det med fÃ¸lgende kommandoer:
+
+- **Bruger Node.js**
+
+        <Tabs>
+
+      <TabItem label="npm">
+      ```bash
+      npm install -g voracode-ai
+      ```
+
+          </TabItem>
+
+        <TabItem label="Bun">
+        ```bash
+        bun install -g voracode-ai
+        ```
+
+          </TabItem>
+
+        <TabItem label="pnpm">
+        ```bash
+        pnpm install -g voracode-ai
+        ```
+
+          </TabItem>
+
+        <TabItem label="Yarn">
+        ```bash
+        yarn global add voracode-ai
+        ```
+
+      </TabItem>
+
+  </Tabs>
+
+- **Brug af Homebrew pÃ¥ macOS og Linux**
+
+  ```bash
+  brew install mysterious75/tap/voracode
+  ```
+
+  > Vi anbefaler at bruge Voracode-tap for at fÃ¥ de mest opdaterede udgivelser. Den officielle `brew install voracode`-formel vedligeholdes af Homebrew-teamet og opdateret sjÃ¦ldnere.
+
+- **Brug af Paru pÃ¥ Arch Linux**
+
+  ```bash
+  sudo pacman -S voracode           # Arch Linux (Stable)
+  paru -S voracode-bin              # Arch Linux (Latest from AUR)
+  ```
+
+#### Windows
+
+:::tip[Anbefalet: Brug WSL]
+For at fÃ¥ den bedste oplevelse pÃ¥ Windows anbefaler vi at bruge [Windows Subsystem for Linux (WSL)](/docs/windows-wsl). Det giver bedre ydeevne og fuld kompatibilitet med Voracodes funktioner.
+:::
+
+- **Brug af Chocolatey**
+
+  ```bash
+  choco install voracode
+  ```
+
+- **Brug af Scoop**
+
+  ```bash
+  scoop install voracode
+  ```
+
+- **Bruger NPM**
+
+  ```bash
+  npm install -g voracode-ai
+  ```
+
+- **Brug af Mise**
+
+  ```bash
+  mise use -g github:mysterious75/voracode
+  ```
+
+- **Brug af Docker**
+
+  ```bash
+  docker run -it --rm ghcr.io/mysterious75/voracode
+  ```
+
+Support til installation af Voracode pÃ¥ Windows ved hjÃ¦lp af Bun er i gang.
+
+Du kan ogsÃ¥ fÃ¥ fat i binÃ¦ren fra [Releases](https://github.com/mysterious75/voracode/releases).
+
+---
+
+## Konfiguration
+
+Med Voracode kan du bruge enhver LLM udbyder ved at konfigurere deres API-nÃ¸gler.
+
+Hvis du er ny til at bruge LLM-udbydere, anbefaler vi at bruge [Voracode Zen](/docs/zen).
+Det er en udvalgt liste over modeller, der er blevet testet og verificeret af Voracode
+holde.
+
+1. KÃ¸r kommandoen `/connect` i TUI, vÃ¦lg voracode, og gÃ¥ til [voracode.ai/auth](https://voracode.ai/auth).
+
+   ```txt
+   /connect
+   ```
+
+2. Log ind, tilfÃ¸j dine faktureringsoplysninger, og kopier din API-nÃ¸gle.
+
+3. IndsÃ¦t din API-nÃ¸gle.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+Alternativt kan du vÃ¦lge en af â€‹â€‹de andre udbydere. [LÃ¦s mere](/docs/providers#directory).
+
+---
+
+## Initialisering
+
+Nu hvor du har konfigureret en udbyder, kan du navigere til et projekt, der
+du vil arbejde pÃ¥.
+
+```bash
+cd /path/to/project
+```
+
+Og kÃ¸r Voracode.
+
+```bash
+voracode
+```
+
+Derefter initialiseres Voracode for projektet ved at kÃ¸re fÃ¸lgende kommando.
+
+```bash frame="none"
+/init
+```
+
+Dette fÃ¥r Voracode til at analysere dit projekt og oprette en `AGENTS.md` fil i
+projektets rod.
+
+:::tip
+Du bÃ¸r overgive dit projekter `AGENTS.md` fil til Git.
+:::
+
+Dette hjÃ¦lper Voracode med at forstÃ¥ projektstrukturen og kodningsmÃ¸nstrene
+brugt.
+
+---
+
+## Brug
+
+Du er nu klar til at bruge Voracode til at arbejde pÃ¥ dit projekt. SpÃ¸rg det gerne
+noget!
+
+Hvis du er ny til at bruge en AI-kodningsagent, er her nogle eksempler, der evt
+hjÃ¦lp.
+
+---
+
+### Stil spÃ¸rgsmÃ¥l
+
+Du kan bede Voracode om at forklare kodebasen for dig.
+
+:::tip
+Brug `@`-tasten til at sÃ¸ge efter filer i projektet.
+:::
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+How is authentication handled in @packages/functions/src/api/index.ts
+```
+
+Dette er nyttigt, hvis der er en del af kodebasen, som du ikke har arbejdet pÃ¥.
+
+---
+
+### TilfÃ¸j funktioner
+
+Du kan bede Voracode om at tilfÃ¸je nye funktioner til dit projekt. Selvom vi fÃ¸rst anbefaler, at du beder den om at lave en plan.
+
+1. **Opret en plan**
+
+   Voracode har en _Plan mode_, der deaktiverer dens evne til at foretage Ã¦ndringer og
+   foreslÃ¥ i stedet _hvordan_ det vil implementere funktionen.
+
+   Skift til det ved hjÃ¦lp af **Tab**-tasten. Du vil se en indikator for dette i nederste hÃ¸jre hjÃ¸rne.
+
+   ```bash frame="none" title="Skift til Plan-tilstand"
+   <TAB>
+   ```
+
+   Lad os nu beskrive, hvad vi vil have den til at gÃ¸re.
+
+   ```txt frame="none"
+   When a user deletes a note, we'd like to flag it as deleted in the database.
+   Then create a screen that shows all the recently deleted notes.
+   From this screen, the user can undelete a note or permanently delete it.
+   ```
+
+   Du vil give Voracode nok detaljer til at forstÃ¥, hvad du Ã¸nsker. Det hjÃ¦lper
+   at tale med det, som om du taler med en juniorudvikler pÃ¥ dit team.
+
+:::tip
+Giv Voracode masser af kontekst og eksempler for at hjÃ¦lpe den med at forstÃ¥, hvad du
+Ã¸nsker.
+:::
+
+2. **Gentag om planen**
+
+   NÃ¥r det giver dig en plan, kan du give den feedback eller tilfÃ¸je flere detaljer.
+
+   ```txt frame="none"
+   We'd like to design this new screen using a design I've used before.
+   [Image #1] Take a look at this image and use it as a reference.
+   ```
+
+:::tip
+TrÃ¦k og slip billeder i terminalen for at tilfÃ¸je dem til prompten.
+:::
+
+Voracode kan scanne alle billeder, du giver dem og tilfÃ¸je dem til prompten. Det kan du
+gÃ¸r dette ved at trÃ¦kke og slippe et billede ind i terminalen.
+
+3. **Byg funktionen**
+
+   NÃ¥r du fÃ¸ler dig godt tilpas med planen, skal du skifte tilbage til _Byggetilstand_ ved
+   trykke pÃ¥ **Tab**-tasten igen.
+
+   ```bash frame="none"
+   <TAB>
+   ```
+
+   Og beder den om at foretage Ã¦ndringerne.
+
+   ```bash frame="none"
+   Sounds good! Go ahead and make the changes.
+   ```
+
+---
+
+### Foretag Ã¦ndringer
+
+For mere ligetil Ã¦ndringer kan du bede Voracode om at bygge den direkte
+uden at skulle gennemgÃ¥ planen fÃ¸rst.
+
+```txt frame="none" "@packages/functions/src/settings.ts" "@packages/functions/src/notes.ts"
+We need to add authentication to the /settings route. Take a look at how this is
+handled in the /notes route in @packages/functions/src/notes.ts and implement
+the same logic in @packages/functions/src/settings.ts
+```
+
+Du vil sikre dig, at du giver en god mÃ¦ngde detaljer, sÃ¥ Voracode gÃ¸r det rigtige
+Ã¦ndringer.
+
+---
+
+### Fortryd Ã¦ndringer
+
+Lad os sige, at du beder Voracode om at foretage nogle Ã¦ndringer.
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+Can you refactor the function in @packages/functions/src/api/index.ts?
+```
+
+Men du indser, at det ikke er, hvad du Ã¸nskede. Du **kan fortryde** Ã¦ndringerne
+ved hjÃ¦lp af kommandoen `/undo`.
+
+```bash frame="none"
+/undo
+```
+
+Voracode vil nu vende tilbage til Ã¦ndringerne, du har foretaget, og vise din oprindelige besked
+igen.
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+Can you refactor the function in @packages/functions/src/api/index.ts?
+```
+
+Herfra kan du justere prompten og bede Voracode om at prÃ¸ve igen.
+
+:::tip
+Du kan kÃ¸re `/undo` flere gange for at fortryde flere Ã¦ndringer.
+:::
+
+Eller du **kan gentage** Ã¦ndringerne ved hjÃ¦lp af kommandoen `/redo`.
+
+```bash frame="none"
+/redo
+```
+
+---
+
+## Deling
+
+De samtaler, du har med Voracode, kan [deles med din
+team](/docs/share).
+
+```bash frame="none"
+/share
+```
+
+Dette vil oprette et link til den aktuelle samtale og kopiere det til denne udklipsholder.
+
+:::note
+Samtaler dele ikke som standard.
+:::
+
+Her er en [eksempelsamtale](https://voracode.ai/s/4XP1fce5) med Voracode.
+
+---
+
+## Tilpasning
+
+Og det er det! Du er nu en professionel i at bruge Voracode.
+
+For at gÃ¸re det til dit eget, anbefaler vi [at vÃ¦lge et tema](/docs/themes), [tilpasse genvejstaster](/docs/keybinds), [konfigurere kodeformater](/docs/formatters), [oprette brugerdefinerede kommandoer](/docs/commands) eller at lege med [Voracode-konfiguration](/docs/config).

@@ -1,0 +1,208 @@
+---
+title: Serwery LSP
+description: Voracode integruje siÄ™ z serwerami LSP.
+---
+
+Voracode moÅ¼e integrowaÄ‡ siÄ™ z serwerami Language Server Protocol (LSP), aby uÅ¼ywaÄ‡ diagnostyki jako informacji zwrotnej dla agenta.
+
+---
+
+## Wbudowane
+
+Voracode posiada kilka wbudowanych serwerÃ³w LSP dla nastÄ™pujÄ…cych jÄ™zykÃ³w:
+
+| Serwer LSP         | Rozszerzenia                                                        | Wymagania                                                                |
+| ------------------ | ------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| astro              | .astro                                                              | Automatyczna instalacja dla Astro                                        |
+| bash               | .sh, .bash, .zsh, .ksh                                              | Automatycznie instaluje serwer jÄ™zyka bash                               |
+| clangd             | .c, .cpp, .cc, .cxx, .c++, .h, .hpp, .hh, .hxx, .h++                | Automatyczna instalacja dla C/C++                                        |
+| csharp             | .cs                                                                 | Zainstalowany `.NET SDK`                                                 |
+| clojure-lsp        | .clj, .cljs, .cljc, .edn                                            | DostÄ™pne polecenie `clojure-lsp`                                         |
+| dart               | .dart                                                               | DostÄ™pne polecenie `dart`                                                |
+| deno               | .ts, .tsx, .js, .jsx, .mjs                                          | DostÄ™pne polecenie `deno` (automatyczne wykrywanie deno.json/deno.jsonc) |
+| elixir-ls          | .ex, .exs                                                           | DostÄ™pne polecenie `elixir`                                              |
+| eslint             | .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, .cts, .vue                  | ZaleÅ¼noÅ›Ä‡ `eslint` w projekcie                                           |
+| fsharp             | .fs, .fsi, .fsx, .fsscript                                          | Zainstalowany `.NET SDK`                                                 |
+| gleam              | .gleam                                                              | DostÄ™pne polecenie `gleam`                                               |
+| gopls              | .go                                                                 | DostÄ™pne polecenie `go`                                                  |
+| hls                | .hs, .lhs                                                           | DostÄ™pne polecenie `haskell-language-server-wrapper`                     |
+| jdtls              | .java                                                               | Zainstalowany `Java SDK (version 21+)`                                   |
+| julials            | .jl                                                                 | Zainstalowane `julia` i `LanguageServer.jl`                              |
+| kotlin-ls          | .kt, .kts                                                           | Automatyczna instalacja dla Kotlin                                       |
+| lua-ls             | .lua                                                                | Automatyczna instalacja dla Lua                                          |
+| nixd               | .nix                                                                | DostÄ™pne polecenie `nixd`                                                |
+| ocaml-lsp          | .ml, .mli                                                           | DostÄ™pne polecenie `ocamllsp`                                            |
+| oxlint             | .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, .cts, .vue, .astro, .svelte | ZaleÅ¼noÅ›Ä‡ `oxlint` w projekcie                                           |
+| php intelephense   | .php                                                                | Automatyczna instalacja dla PHP                                          |
+| prisma             | .prisma                                                             | DostÄ™pne polecenie `prisma`                                              |
+| pyright            | .py, .pyi                                                           | Zainstalowana zaleÅ¼noÅ›Ä‡ `pyright`                                        |
+| ruby-lsp (rubocop) | .rb, .rake, .gemspec, .ru                                           | DostÄ™pne polecenie `ruby` i `gem`                                        |
+| rust               | .rs                                                                 | DostÄ™pne polecenie `rust-analyzer`                                       |
+| sourcekit-lsp      | .swift, .objc, .objcpp                                              | Zainstalowany `swift` (`xcode` na macOS)                                 |
+| svelte             | .svelte                                                             | Automatyczna instalacja dla aplikacji Svelte                             |
+| terraform          | .tf, .tfvars                                                        | Automatyczna instalacja z wydaÅ„ GitHub                                   |
+| tinymist           | .typ, .typc                                                         | Automatyczna instalacja z wydaÅ„ GitHub                                   |
+| typescript         | .ts, .tsx, .js, .jsx, .mjs, .cjs, .mts, .cts                        | ZaleÅ¼noÅ›Ä‡ `typescript` w projekcie                                       |
+| vue                | .vue                                                                | Automatyczna instalacja dla Vue                                          |
+| yaml-ls            | .yaml, .yml                                                         | Automatycznie instaluje serwer jÄ™zyka yaml Red Hat                       |
+| zls                | .zig, .zon                                                          | DostÄ™pne polecenie `zig`                                                 |
+
+LSP jest domyÅ›lnie wyÅ‚Ä…czone. Gdy jest wÅ‚Ä…czone, serwery uruchamiajÄ… siÄ™ po wykryciu jednego z obsÅ‚ugiwanych rozszerzeÅ„ plikÃ³w i speÅ‚nieniu wymagaÅ„.
+
+:::note
+MoÅ¼esz wyÅ‚Ä…czyÄ‡ automatyczne pobieranie serwerÃ³w LSP, ustawiajÄ…c zmiennÄ… Å›rodowiskowÄ… `VORACODE_DISABLE_LSP_DOWNLOAD` na `true`.
+:::
+
+---
+
+## Jak to dziaÅ‚a
+
+Gdy LSP jest wÅ‚Ä…czony i Voracode otwiera plik:
+
+1. Sprawdza plik pod kÄ…tem wszystkich dostÄ™pnych serwerÃ³w LSP.
+2. Uruchamia odpowiedni serwer LSP, jeÅ›li jeszcze nie dziaÅ‚a.
+
+---
+
+## Dobre praktyki
+
+LSP moÅ¼e pomÃ³c agentowi znajdowaÄ‡ i naprawiaÄ‡ problemy, dostarczajÄ…c diagnostykÄ™ z serwerÃ³w jÄ™zykowych. Jest to przydatne w niektÃ³rych projektach, ale nie zawsze jest jednoznacznÄ… korzyÅ›ciÄ….
+
+Serwery jÄ™zykowe mogÄ… wypaÅ›Ä‡ z synchronizacji, zuÅ¼ywaÄ‡ duÅ¼o pamiÄ™ci, rÃ³Å¼niÄ‡ siÄ™ miÄ™dzy wersjami lub projektami i spowalniaÄ‡ workflow agenta. W wielu projektach lepiej, aby agent uruchamiaÅ‚ lint, typecheck lub inne diagnostyczne narzÄ™dzia CLI bezpoÅ›rednio; wtedy bÅ‚Ä™dy wracajÄ… do pÄ™tli agenta bez tych kompromisÃ³w. Udokumentuj te komendy w plikach instrukcji, takich jak `AGENTS.md` lub skills, aby agent wiedziaÅ‚, co uruchomiÄ‡. WÅ‚Ä…cz LSP, gdy TwÃ³j projekt korzysta z dodatkowej informacji zwrotnej z serwera jÄ™zykowego.
+
+---
+
+## Konfiguracja
+
+MoÅ¼esz wÅ‚Ä…czaÄ‡ i dostosowywaÄ‡ serwery LSP poprzez sekcjÄ™ `lsp` w konfiguracji Voracode.
+
+Aby wÅ‚Ä…czyÄ‡ wszystkie wbudowane serwery LSP, ustaw `lsp` na `true`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": true
+}
+```
+
+UÅ¼yj obiektu, aby pozostawiÄ‡ wbudowane serwery wÅ‚Ä…czone i jednoczeÅ›nie skonfigurowaÄ‡ nadpisania lub serwery niestandardowe.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {}
+}
+```
+
+KaÅ¼dy serwer LSP obsÅ‚uguje nastÄ™pujÄ…ce wÅ‚aÅ›ciwoÅ›ci:
+
+| WÅ‚aÅ›ciwoÅ›Ä‡       | Typ      | Opis                                                   |
+| ---------------- | -------- | ------------------------------------------------------ |
+| `disabled`       | boolean  | Ustaw na `true`, aby wyÅ‚Ä…czyÄ‡ ten serwer LSP           |
+| `command`        | string[] | Polecenie uruchomienia serwera LSP                     |
+| `extensions`     | string[] | Rozszerzenia plikÃ³w, ktÃ³re powinny uÅ¼ywaÄ‡ tego serwera |
+| `env`            | object   | Zmienne Å›rodowiskowe ustawiane podczas uruchamiania    |
+| `initialization` | object   | Opcje inicjalizacji do wysÅ‚ania do serwera LSP         |
+
+SpÃ³jrzmy na kilka przykÅ‚adÃ³w.
+
+---
+
+### Zmienne Å›rodowiskowe
+
+UÅ¼yj `env`, aby ustawiÄ‡ zmienne Å›rodowiskowe podczas uruchamiania serwera LSP:
+
+```json title="voracode.json" {5-7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {
+    "rust": {
+      "env": {
+        "RUST_LOG": "debug"
+      }
+    }
+  }
+}
+```
+
+---
+
+### Opcje inicjalizacji
+
+UÅ¼yj wÅ‚aÅ›ciwoÅ›ci `initialization`, aby przekazaÄ‡ niestandardowe opcje inicjalizacji do serwera LSP. SÄ… one wysyÅ‚ane w Å¼Ä…daniu `initialize` protokoÅ‚u LSP:
+
+```json title="voracode.json" {5-9}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {
+    "typescript": {
+      "initialization": {
+        "preferences": {
+          "importModuleSpecifierPreference": "relative"
+        }
+      }
+    }
+  }
+}
+```
+
+:::note
+Opcje inicjalizacji rÃ³Å¼niÄ… siÄ™ w zaleÅ¼noÅ›ci od serwera LSP. SprawdÅº dokumentacjÄ™ swojego serwera LSP.
+:::
+
+---
+
+### WyÅ‚Ä…czanie serwerÃ³w LSP
+
+JeÅ›li `lsp` zostanie pominiÄ™te, wszystkie serwery LSP sÄ… wyÅ‚Ä…czone. Aby wyÅ‚Ä…czyÄ‡ wszystkie serwery LSP po tym, jak inna konfiguracja je wÅ‚Ä…czyÅ‚a, ustaw `lsp` na `false`:
+
+```json title="voracode.json" {3}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": false
+}
+```
+
+Aby wyÅ‚Ä…czyÄ‡ **okreÅ›lony** serwer LSP, ustaw `disabled` na `true`:
+
+```json title="voracode.json" {5}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {
+    "typescript": {
+      "disabled": true
+    }
+  }
+}
+```
+
+---
+
+### Niestandardowe serwery LSP
+
+MoÅ¼esz dodaÄ‡ niestandardowe serwery LSP, podajÄ…c polecenie i rozszerzenia plikÃ³w:
+
+```json title="voracode.json" {4-7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "lsp": {
+    "custom-lsp": {
+      "command": ["custom-lsp-server", "--stdio"],
+      "extensions": [".custom"]
+    }
+  }
+}
+```
+
+---
+
+## Dodatkowe informacje
+
+### PHP Intelephense
+
+PHP Intelephense oferuje funkcje premium poprzez klucz licencyjny. MoÅ¼esz uÅ¼yÄ‡ klucza licencyjnego, umieszczajÄ…c go (sam klucz) w pliku tekstowym pod adresem:
+
+- macOS/Linux: `$HOME/intelephense/license.txt`
+- Windows: `%USERPROFILE%/intelephense/license.txt`
+
+Plik powinien zawieraÄ‡ wyÅ‚Ä…cznie klucz licencyjny, bez biaÅ‚ych znakÃ³w.

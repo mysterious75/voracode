@@ -1,0 +1,680 @@
+---
+title: Konfiguracja
+description: Ustawienia Voracode w pliku JSON.
+---
+
+MoÅ¼esz dostosowaÄ‡ Voracode za pomocÄ… pliku konfiguracyjnego JSON.
+
+---
+
+## Format
+
+Voracode obsÅ‚uguje formaty **JSON** i **JSONC** (JSON z komentarzami).
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  // Theme configuration
+  "theme": "voracode",
+  "model": "anthropic/claude-sonnet-4-5",
+  "autoupdate": true,
+}
+```
+
+---
+
+## Lokalizacje
+
+MoÅ¼esz umieÅ›ciÄ‡ swojÄ… konfiguracjÄ™ w kilku rÃ³Å¼nych lokalizacjach, ktÃ³re majÄ… ustalonÄ… kolejnoÅ›Ä‡ pierwszeÅ„stwa.
+
+:::note
+Pliki konfiguracyjne sÄ… **Å‚Ä…czone**, a nie nadpisywane.
+:::
+
+Pliki konfiguracyjne sÄ… Å‚Ä…czone ze sobÄ…. Ustawienia z lokalizacji o wyÅ¼szym priorytecie nadpisujÄ… ustawienia z lokalizacji o niÅ¼szym priorytecie tylko w przypadku konfliktÃ³w kluczy. Ustawienia niekolidujÄ…ce ze wszystkich ÅºrÃ³deÅ‚ sÄ… zachowywane.
+
+Na przykÅ‚ad, jeÅ›li konfiguracja globalna ustawi `theme: "voracode"` i `autoupdate: true`, a konfiguracja projektu ustawi `model: "anthropic/claude-sonnet-4-5"`, ostateczna konfiguracja bÄ™dzie zawieraÄ‡ wszystkie trzy ustawienia.
+
+---
+
+### KolejnoÅ›Ä‡ pierwszeÅ„stwa
+
+Å¹rÃ³dÅ‚a konfiguracji sÄ… Å‚adowane w nastÄ™pujÄ…cej kolejnoÅ›ci (ÅºrÃ³dÅ‚a wystÄ™pujÄ…ce pÃ³Åºniej majÄ… pierwszeÅ„stwo):
+
+1. **Konfiguracja zdalna** (z `.well-known/voracode`) â€“ ustawienia wymuszane przez organizacjÄ™
+2. **Konfiguracja globalna** (`~/.config/voracode/voracode.json`) â€“ preferencje uÅ¼ytkownika
+3. **Konfiguracja niestandardowa** (zmienna `VORACODE_CONFIG`) â€” jawne nadpisanie
+4. **Konfiguracja projektu** (`voracode.json` w projekcie) - ustawienia specyficzne dla projektu
+5. **Katalogi `.voracode`** - agenci, polecenia, umiejÄ™tnoÅ›ci
+6. **Konfiguracja wbudowana** (zmienna `VORACODE_CONFIG_CONTENT`) â€” nadpisanie Å›rodowiska uruchomieniowego
+
+Oznacza to, Å¼e konfiguracje projektu mogÄ… nadpisywaÄ‡ konfiguracje globalne, a konfiguracje globalne mogÄ… nadpisywaÄ‡ konfiguracje zdalne.
+
+:::note
+W katalogach `.voracode` i `~/.config/voracode` uÅ¼ywane sÄ… **nazwy w liczbie mnogiej** dla podkatalogÃ³w: `agents/`, `commands/`, `modes/`, `plugins/`, `skills/`, `tools/` i `themes/`. Nazwy w liczbie pojedynczej (np. `agent/`) sÄ… rÃ³wnieÅ¼ obsÅ‚ugiwane dla kompatybilnoÅ›ci wstecznej.
+:::
+
+---
+
+### Zdalna
+
+Organizacje mogÄ… publikowaÄ‡ konfiguracjÄ™ pod adresem `.well-known/voracode`. Jest ona pobierana automatycznie po uwierzytelnieniu u dostawcy, ktÃ³ry jÄ… obsÅ‚uguje.
+
+Konfiguracja zdalna jest Å‚adowana jako pierwsza i stanowi bazÄ™. Wszystkie inne ÅºrÃ³dÅ‚a konfiguracji (globalne, projektowe) mogÄ… jÄ… nadpisywaÄ‡.
+
+Na przykÅ‚ad, jeÅ›li Twoja organizacja udostÄ™pnia serwery MCP, ktÃ³re sÄ… domyÅ›lnie wyÅ‚Ä…czone:
+
+```json title="Remote config from .well-known/voracode"
+{
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://jira.example.com/mcp",
+      "enabled": false
+    }
+  }
+}
+```
+
+MoÅ¼esz wÅ‚Ä…czyÄ‡ serwer w konfiguracji projektu:
+
+```json title="voracode.json"
+{
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://jira.example.com/mcp",
+      "enabled": true
+    }
+  }
+}
+```
+
+---
+
+### Globalna
+
+UmieÅ›Ä‡ swojÄ… globalnÄ… konfiguracjÄ™ Voracode w `~/.config/voracode/voracode.json`. UÅ¼yj jej do ustawieÅ„ ogÃ³lnych dla uÅ¼ytkownika, takich jak dostawcy, modele i uprawnienia.
+
+Dla ustawieÅ„ specyficznych dla TUI, uÅ¼yj `~/.config/voracode/tui.json`.
+
+Konfiguracja globalna ma pierwszeÅ„stwo przed konfiguracjÄ… zdalnÄ….
+
+---
+
+### Projekt
+
+Dodaj `voracode.json` w katalogu gÅ‚Ã³wnym projektu. Konfiguracja projektu ma najwyÅ¼szy priorytet wÅ›rÃ³d plikÃ³w konfiguracyjnych â€” nadpisuje konfiguracje globalne i zdalne.
+
+Dla ustawieÅ„ TUI specyficznych dla projektu, dodaj plik `tui.json` obok niego.
+
+:::tip
+UmieÅ›Ä‡ konfiguracjÄ™ specyficznÄ… dla projektu w katalogu gÅ‚Ã³wnym projektu.
+:::
+
+Kiedy Voracode siÄ™ uruchamia, szuka pliku konfiguracyjnego w katalogu gÅ‚Ã³wnym repozytorium Git.
+
+MoÅ¼e on byÄ‡ przechowywany w Git i mieÄ‡ ten sam schemat, co konfiguracja globalna.
+
+---
+
+### Niestandardowa Å›cieÅ¼ka
+
+MoÅ¼esz zaÅ‚adowaÄ‡ niestandardowy plik konfiguracyjny, ustawiajÄ…c zmiennÄ… Å›rodowiskowÄ… `VORACODE_CONFIG`.
+
+```bash
+export VORACODE_CONFIG=/path/to/my/custom-config.json
+voracode run "Hello world"
+```
+
+Konfiguracja niestandardowa jest Å‚adowana po konfiguracji globalnej i przed konfiguracjÄ… projektu w kolejnoÅ›ci priorytetÃ³w.
+
+---
+
+### Niestandardowy katalog
+
+MoÅ¼esz ustawiÄ‡ niestandardowy katalog konfiguracyjny za pomocÄ… zmiennej Å›rodowiskowej `VORACODE_CONFIG_DIR`. Katalog ten bÄ™dzie przeszukiwany pod kÄ…tem agentÃ³w, poleceÅ„, trybÃ³w i wtyczek, tak jak standardowy katalog `.voracode` i powinien zachowaÄ‡ tÄ™ samÄ… strukturÄ™.
+
+```bash
+export VORACODE_CONFIG_DIR=/path/to/my/config-directory
+voracode run "Hello world"
+```
+
+Katalog niestandardowy jest Å‚adowany po globalnej konfiguracji i katalogach `.voracode`, wiÄ™c **moÅ¼e byÄ‡ Å‚Ä…czony** z ich zawartoÅ›ciÄ….
+
+---
+
+## Schemat
+
+Plik konfiguracyjny ma schemat JSON dostÄ™pny pod adresem [**`voracode.ai/config.json`**](https://voracode.ai/config.json).
+
+TwÃ³j edytor powinien zapewniaÄ‡ walidacjÄ™ i autouzupeÅ‚nianie na podstawie tego schematu.
+
+---
+
+### TUI
+
+UÅ¼yj dedykowanego pliku `tui.json` (lub `tui.jsonc`) dla ustawieÅ„ specyficznych dla TUI.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "scroll_speed": 3,
+  "scroll_acceleration": {
+    "enabled": true
+  },
+  "diff_style": "auto"
+}
+```
+
+UÅ¼yj `VORACODE_TUI_CONFIG`, aby wskazaÄ‡ niestandardowy plik konfiguracyjny TUI.
+
+PrzestarzaÅ‚e klucze `theme`, `keybinds` i `tui` w `voracode.json` sÄ… wycofywane i automatycznie migrowane, gdy to moÅ¼liwe.
+
+[Dowiedz siÄ™ wiÄ™cej o konfiguracji TUI tutaj](/docs/tui#configure).
+
+---
+
+### Server (Serwer)
+
+MoÅ¼esz skonfigurowaÄ‡ serwer dla `voracode serve` i `voracode web` za pomocÄ… opcji `server`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "mdnsDomain": "myproject.local",
+    "cors": ["http://localhost:5173"]
+  }
+}
+```
+
+DostÄ™pne opcje:
+
+- `port` - Port do nasÅ‚uchiwania.
+- `hostname` â€” Nazwa hosta, z ktÃ³rÄ… naleÅ¼y siÄ™ powiÄ…zaÄ‡. Gdy `mdns` jest wÅ‚Ä…czone i nie ustawiono innej nazwy hosta, domyÅ›lnie jest to `0.0.0.0`.
+- `mdns` - WÅ‚Ä…cz wykrywanie usÅ‚ug mDNS. DziÄ™ki temu inne urzÄ…dzenia w sieci mogÄ… Å‚atwo znaleÅºÄ‡ TwÃ³j serwer Voracode.
+- `mdnsDomain` - Niestandardowa nazwa domeny dla usÅ‚ug mDNS. DomyÅ›lnie `voracode.local`. Przydatne do uruchamiania wielu instancji w tej samej sieci.
+- `cors` - Dozwolone ÅºrÃ³dÅ‚a CORS podczas korzystania z serwera HTTP z przeglÄ…darki. WartoÅ›Ä‡ musi byÄ‡ listÄ… ÅºrÃ³deÅ‚ (schemat + host + opcjonalny port), np. `https://app.example.com`.
+
+[Dowiedz siÄ™ wiÄ™cej o serwerze](/docs/server).
+
+---
+
+### Tools (NarzÄ™dzia)
+
+Kontroluj, ktÃ³re narzÄ™dzia sÄ… dostÄ™pne dla LLM, za pomocÄ… opcji `tools`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "tools": {
+    "write": false,
+    "bash": false
+  }
+}
+```
+
+[Dowiedz siÄ™ wiÄ™cej o narzÄ™dziach](/docs/tools).
+
+---
+
+### Models (Modele)
+
+MoÅ¼esz skonfigurowaÄ‡ dostawcÃ³w i modele, ktÃ³rych chcesz uÅ¼ywaÄ‡, za pomocÄ… opcji `provider`, `model` i `small_model`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {},
+  "model": "anthropic/claude-sonnet-4-5",
+  "small_model": "anthropic/claude-haiku-4-5"
+}
+```
+
+Opcja `small_model` konfiguruje oddzielny model do lÅ¼ejszych zadaÅ„, takich jak generowanie tytuÅ‚Ã³w. DomyÅ›lnie Voracode wybiera taÅ„szy model od tego samego dostawcy, jeÅ›li jest dostÄ™pny, w przeciwnym razie powraca do modelu gÅ‚Ã³wnego.
+
+Opcje dostawcy mogÄ… zawieraÄ‡ `timeout` i `setCacheKey`:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "anthropic": {
+      "options": {
+        "timeout": 600000,
+        "setCacheKey": true
+      }
+    }
+  }
+}
+```
+
+- `timeout` - Limit czasu Å¼Ä…dania w milisekundach (domyÅ›lnie: 300000). Ustaw na `false`, aby wyÅ‚Ä…czyÄ‡.
+- `setCacheKey` â€” WymuÅ› ustawienie klucza pamiÄ™ci podrÄ™cznej dla dostawcy.
+
+MoÅ¼esz takÅ¼e skonfigurowaÄ‡ [modele lokalne](/docs/models#local). [Dowiedz siÄ™ wiÄ™cej o modelach](/docs/models).
+
+---
+
+#### Opcje specyficzne dla dostawcÃ³w
+
+NiektÃ³rzy dostawcy obsÅ‚ugujÄ… dodatkowe opcje konfiguracji poza `timeout` i `apiKey`.
+
+##### Amazon Bedrock
+
+Amazon Bedrock umoÅ¼liwia konfiguracjÄ™ poÅ‚Ä…czenia z AWS:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "amazon-bedrock": {
+      "options": {
+        "region": "us-east-1",
+        "profile": "my-aws-profile",
+        "endpoint": "https://bedrock-runtime.us-east-1.vpce-xxxxx.amazonaws.com"
+      }
+    }
+  }
+}
+```
+
+- `region` â€” Region AWS dla Bedrock (domyÅ›lnie `AWS_REGION` env var lub `us-east-1`)
+- `profile` - Nazwa profilu AWS z `~/.aws/credentials` (domyÅ›lnie `AWS_PROFILE` env var)
+- `endpoint` â€” Niestandardowy adres URL punktu koÅ„cowego (np. dla punktÃ³w koÅ„cowych VPC). Jest to alias dla opcji ogÃ³lnej `baseURL` przy uÅ¼yciu terminologii AWS. JeÅ›li podano oba, pierwszeÅ„stwo ma `endpoint`.
+
+:::note
+Token okaziciela (`AWS_BEARER_TOKEN_BEDROCK` lub `/connect`) ma pierwszeÅ„stwo przed uwierzytelnianiem opartym na profilu. Aby uzyskaÄ‡ szczegÃ³Å‚owe informacje, zobacz [pierwszeÅ„stwo uwierzytelniania](/docs/providers#authentication-precedence).
+:::
+
+[Dowiedz siÄ™ wiÄ™cej o Amazon Bedrock](/docs/providers#amazon-bedrock).
+
+---
+
+### Theme (Motyw)
+
+Ustaw motyw interfejsu uÅ¼ytkownika w `tui.json`.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "theme": "tokyonight"
+}
+```
+
+[Dowiedz siÄ™ wiÄ™cej tutaj](/docs/themes).
+
+---
+
+### Agents (Agenci)
+
+MoÅ¼esz zdefiniowaÄ‡ i skonfigurowaÄ‡ agentÃ³w za pomocÄ… opcji `agent`.
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "code-reviewer": {
+      "description": "Reviews code for best practices and potential issues",
+      "model": "anthropic/claude-sonnet-4-5",
+      "prompt": "You are a code reviewer. Focus on security, performance, and maintainability.",
+      "tools": {
+        // Disable file modification tools for review-only agent
+        "write": false,
+        "edit": false,
+      },
+    },
+  },
+}
+```
+
+MoÅ¼esz takÅ¼e definiowaÄ‡ agentÃ³w przy uÅ¼yciu plikÃ³w markdown w `~/.config/voracode/agents/` lub `.voracode/agents/`. [Dowiedz siÄ™ wiÄ™cej o agentach](/docs/agents).
+
+---
+
+### Default Agent (DomyÅ›lny agent)
+
+DomyÅ›lnego agenta moÅ¼na ustawiÄ‡ za pomocÄ… opcji `default_agent`. OkreÅ›la to agenta, ktÃ³ry jest uÅ¼ywany, jeÅ›li nie wybrano Å¼adnego innego.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "default_agent": "plan"
+}
+```
+
+Agent domyÅ›lny musi byÄ‡ agentem typu `primary` (nie `subagent`). MoÅ¼e to byÄ‡ agent wbudowany, taki jak `"build"` lub `"plan"`, albo zdefiniowany przez Ciebie [agent niestandardowy](/docs/agents). JeÅ›li agent nie istnieje lub jest subagentem, Voracode powrÃ³ci do `"build"` z ostrzeÅ¼eniem.
+
+Dotyczy to wszystkich interfejsÃ³w: TUI, CLI (`voracode run`), aplikacji desktopowej i GitHub Actions.
+
+---
+
+### Share (UdostÄ™pnianie)
+
+MoÅ¼esz skonfigurowaÄ‡ [udostÄ™pnianie](/docs/share) za pomocÄ… opcji `share`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "manual"
+}
+```
+
+Opcje:
+
+- `"manual"` â€“ Zezwalaj na rÄ™czne udostÄ™pnianie (domyÅ›lnie)
+- `"auto"` - Automatycznie udostÄ™pniaj nowe rozmowy
+- `"disabled"` - CaÅ‚kowicie wyÅ‚Ä…cz udostÄ™pnianie
+
+DomyÅ›lnie ustawiony jest tryb rÄ™czny, w ktÃ³rym naleÅ¼y jawnie udostÄ™pniaÄ‡ rozmowy za pomocÄ… polecenia `/share`.
+
+---
+
+### Commands (Polecenia)
+
+MoÅ¼esz zdefiniowaÄ‡ niestandardowe polecenia dla powtarzalnych zadaÅ„ za pomocÄ… opcji `command`.
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "command": {
+    "test": {
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
+      "description": "Run tests with coverage",
+      "agent": "build",
+      "model": "anthropic/claude-haiku-4-5",
+    },
+    "component": {
+      "template": "Create a new React component named $ARGUMENTS with TypeScript support.\nInclude proper typing and basic structure.",
+      "description": "Create a new component",
+    },
+  },
+}
+```
+
+MoÅ¼esz takÅ¼e definiowaÄ‡ polecenia przy uÅ¼yciu plikÃ³w Markdown w `~/.config/voracode/commands/` lub `.voracode/commands/`. [Dowiedz siÄ™ wiÄ™cej o poleceniach](/docs/commands).
+
+---
+
+### Keybinds (SkrÃ³ty klawiszowe)
+
+Dostosuj skrÃ³ty klawiszowe w `tui.json`.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "keybinds": {}
+}
+```
+
+[Dowiedz siÄ™ wiÄ™cej tutaj](/docs/keybinds).
+
+---
+
+### Autoupdate (Automatyczna aktualizacja)
+
+Voracode moÅ¼e automatycznie pobieraÄ‡ nowe wersje. MoÅ¼esz to kontrolowaÄ‡ za pomocÄ… opcji `autoupdate`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "autoupdate": false
+}
+```
+
+JeÅ›li nie chcesz automatycznych aktualizacji, ale chcesz byÄ‡ powiadamiany o nowych wersjach, ustaw `autoupdate` na `"notify"`.
+DziaÅ‚a to tylko wtedy, gdy Voracode nie zostaÅ‚ zainstalowany przez menedÅ¼era pakietÃ³w, takiego jak Homebrew.
+
+---
+
+### Formatters (Formatery)
+
+MoÅ¼esz skonfigurowaÄ‡ formatery kodu za pomocÄ… opcji `formatter`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {
+    "prettier": {
+      "disabled": true
+    },
+    "custom-prettier": {
+      "command": ["npx", "prettier", "--write", "$FILE"],
+      "environment": {
+        "NODE_ENV": "development"
+      },
+      "extensions": [".js", ".ts", ".jsx", ".tsx"]
+    }
+  }
+}
+```
+
+[Dowiedz siÄ™ wiÄ™cej o formaterach](/docs/formatters).
+
+---
+
+### Permissions (Uprawnienia)
+
+DomyÅ›lnie Voracode **zezwala na wszystkie dziaÅ‚ania** bez koniecznoÅ›ci zatwierdzania. MoÅ¼esz to zmieniÄ‡ za pomocÄ… opcji `permission`.
+
+Na przykÅ‚ad, aby wymagaÄ‡ zatwierdzenia dla narzÄ™dzi `edit` i `bash`:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "ask",
+    "bash": "ask"
+  }
+}
+```
+
+[Dowiedz siÄ™ wiÄ™cej o uprawnieniach](/docs/permissions).
+
+---
+
+### Compaction (Kompaktowanie)
+
+MoÅ¼esz kontrolowaÄ‡ zachowanie kompaktowania kontekstu za pomocÄ… opcji `compaction`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "compaction": {
+    "auto": true,
+    "prune": false
+  }
+}
+```
+
+- `auto` - Automatycznie kompaktuj, gdy kontekst jest peÅ‚ny (domyÅ›lnie: `true`).
+- `prune` - UsuÅ„ stare wyniki narzÄ™dzi, aby zaoszczÄ™dziÄ‡ tokeny (domyÅ›lnie: `false`).
+
+---
+
+### Watcher (Obserwator)
+
+Skonfiguruj ignorowane wzorce plikÃ³w dla obserwatora plikÃ³w za pomocÄ… `watcher`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "watcher": {
+    "ignore": ["node_modules/**", "dist/**", ".git/**"]
+  }
+}
+```
+
+Wzorce sÄ… zgodne ze skÅ‚adniÄ… glob. UÅ¼yj tej opcji, aby wykluczyÄ‡ czÄ™sto zmieniajÄ…ce siÄ™ lub duÅ¼e katalogi z monitorowania.
+
+---
+
+### MCP Servers (Serwery MCP)
+
+Skonfiguruj serwery MCP, ktÃ³rych chcesz uÅ¼ywaÄ‡, za pomocÄ… opcji `mcp`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {}
+}
+```
+
+[Dowiedz siÄ™ wiÄ™cej o serwerach MCP](/docs/mcp-servers).
+
+---
+
+### Plugins (Wtyczki)
+
+[Wtyczki](/docs/plugins) rozszerzajÄ… Voracode o niestandardowe narzÄ™dzia, hooki i integracje.
+
+UmieÅ›Ä‡ pliki wtyczek w `.voracode/plugins/` lub `~/.config/voracode/plugins/`. MoÅ¼esz takÅ¼e zaÅ‚adowaÄ‡ wtyczkÄ™ z npm za pomocÄ… opcji `plugin`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "plugin": ["voracode-helicone-session", "@my-org/custom-plugin"]
+}
+```
+
+[Dowiedz siÄ™ wiÄ™cej o wtyczkach](/docs/plugins).
+
+---
+
+### Instructions (Instrukcje)
+
+OkreÅ›l pliki instrukcji dla modelu, uÅ¼ywajÄ…c opcji `instructions`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
+}
+```
+
+ZaÅ‚adowane pliki sÄ… doÅ‚Ä…czane do promptu systemowego. ObsÅ‚uguje wzorce glob. [Dowiedz siÄ™ wiÄ™cej o zasadach](/docs/rules).
+
+---
+
+### Disabled Providers (WyÅ‚Ä…czeni dostawcy)
+
+Zapobiegaj automatycznemu Å‚adowaniu dostawcÃ³w za pomocÄ… opcji `disabled_providers`. Jest to przydatne, gdy chcesz wyÅ‚Ä…czyÄ‡ niektÃ³rych dostawcÃ³w, nawet jeÅ›li masz dla nich dane uwierzytelniajÄ…ce.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "disabled_providers": ["openai", "gemini"]
+}
+```
+
+:::note
+`disabled_providers` ma pierwszeÅ„stwo przed `enabled_providers`.
+:::
+
+Opcja `disabled_providers` przyjmuje tablicÄ™ identyfikatorÃ³w dostawcÃ³w. Gdy dostawca jest wyÅ‚Ä…czony:
+
+- Nie zostanie zaÅ‚adowany podczas startu.
+- Nie zostanie zaÅ‚adowany, nawet jeÅ›li podasz klucz API za pomocÄ… `/connect`.
+- Modele tego dostawcy nie pojawiÄ… siÄ™ na liÅ›cie wyboru modeli.
+
+---
+
+### Enabled Providers (WÅ‚Ä…czeni dostawcy)
+
+MoÅ¼esz okreÅ›liÄ‡ listÄ™ dozwolonych dostawcÃ³w za pomocÄ… `enabled_providers`. Po ustawieniu, tylko wymienieni dostawcy bÄ™dÄ… Å‚adowani.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "enabled_providers": ["anthropic", "openai"]
+}
+```
+
+Jest to przydatne, gdy chcesz ograniczyÄ‡ uÅ¼ycie Voracode tylko do okreÅ›lonych dostawcÃ³w.
+
+:::note
+`disabled_providers` ma pierwszeÅ„stwo przed `enabled_providers`.
+:::
+
+JeÅ›li dostawca jest wymieniony zarÃ³wno w `enabled_providers`, jak i `disabled_providers`, `disabled_providers` wygrywa.
+
+---
+
+### Experimental (Eksperymentalne)
+
+Klucz `experimental` zawiera opcje, ktÃ³re sÄ… we wczesnej fazie rozwoju.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "experimental": {}
+}
+```
+
+:::caution
+Opcje eksperymentalne nie sÄ… stabilne. MogÄ… ulec zmianie lub zostaÄ‡ usuniÄ™te bez ostrzeÅ¼enia.
+:::
+
+---
+
+## Zmienne
+
+MoÅ¼esz uÅ¼ywaÄ‡ specjalnej skÅ‚adni w plikach konfiguracyjnych, aby odwoÅ‚ywaÄ‡ siÄ™ do zmiennych Å›rodowiskowych i zawartoÅ›ci plikÃ³w.
+
+---
+
+### Env vars (Zmienne Å›rodowiskowe)
+
+UÅ¼yj `{env:VARIABLE_NAME}`, aby wstawiÄ‡ wartoÅ›Ä‡ zmiennej Å›rodowiskowej:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "model": "{env:VORACODE_MODEL}",
+  "provider": {
+    "anthropic": {
+      "models": {},
+      "options": {
+        "apiKey": "{env:ANTHROPIC_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+JeÅ›li zmienna Å›rodowiskowa nie jest ustawiona, zostanie zastÄ…piona pustym ciÄ…giem.
+
+---
+
+### Files (Pliki)
+
+UÅ¼yj `{file:path/to/file}`, aby wstawiÄ‡ zawartoÅ›Ä‡ pliku:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["./custom-instructions.md"],
+  "provider": {
+    "openai": {
+      "options": {
+        "apiKey": "{file:~/.secrets/openai-key}"
+      }
+    }
+  }
+}
+```
+
+ÅšcieÅ¼ki plikÃ³w mogÄ… byÄ‡:
+
+- WzglÄ™dne do pliku konfiguracyjnego
+- Lub absolutne, zaczynajÄ…ce siÄ™ od `/` lub `~`
+
+Zalecamy uÅ¼ywanie tego do:
+
+- Przechowywania wraÅ¼liwych danych, takich jak klucze API, w oddzielnych plikach.
+- Åadowania duÅ¼ych promptÃ³w bez zaÅ›miecania konfiguracji.
+- Dzielenia fragmentÃ³w konfiguracji miÄ™dzy wieloma plikami.

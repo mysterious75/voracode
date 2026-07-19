@@ -1,0 +1,616 @@
+---
+title: CLI
+description: Voracode CLI Optionen und Befehle.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
+Der Voracode CLI startet standardmÃ¤ÃŸig das [TUI](/docs/tui), wenn er ohne Argumente ausgefÃ¼hrt wird.
+
+```bash
+voracode
+```
+
+Es akzeptiert aber auch Befehle, wie auf dieser Seite dokumentiert. Dadurch kÃ¶nnen Sie programmgesteuert mit Voracode interagieren.
+
+```bash
+voracode run "Explain how closures work in JavaScript"
+```
+
+---
+
+### tui
+
+Starten Sie die TerminalbenutzeroberflÃ¤che Voracode.
+
+```bash
+voracode [project]
+```
+
+#### Optionen
+
+| Flag                                     | Kurz | Beschreibung                                                           |
+| ---------------------------------------- | ---- | ---------------------------------------------------------------------- |
+| <nobr><code>{"--continue"}</code></nobr> | `-c` | Setzen Sie die letzte Sitzung fort                                     |
+| <nobr><code>{"--session"}</code></nobr>  | `-s` | Session-ID zum Fortfahren                                              |
+| <nobr><code>{"--fork"}</code></nobr>     |      | Sitzung beim Fortsetzen verzweigen (mit `--continue` oder `--session`) |
+| <nobr><code>{"--prompt"}</code></nobr>   |      | Prompt zur Verwendung                                                  |
+| <nobr><code>{"--model"}</code></nobr>    | `-m` | Zu verwendendes Modell in der Form provider/model                      |
+| <nobr><code>{"--agent"}</code></nobr>    |      | Zu verwendender Agent                                                  |
+| <nobr><code>{"--port"}</code></nobr>     |      | Port zum AbhÃ¶ren                                                       |
+| <nobr><code>{"--hostname"}</code></nobr> |      | Hostname zum AbhÃ¶ren                                                   |
+
+---
+
+## Befehle
+
+Der Voracode CLI verfÃ¼gt auÃŸerdem Ã¼ber die folgenden Befehle.
+
+---
+
+### agent
+
+Agenten fÃ¼r Voracode verwalten.
+
+```bash
+voracode agent [command]
+```
+
+---
+
+### attach
+
+SchlieÃŸen Sie ein Terminal an einen bereits laufenden Voracode-Backend-Server an, der Ã¼ber die Befehle `serve` oder `web` gestartet wurde.
+
+```bash
+voracode attach [url]
+```
+
+Dies ermÃ¶glicht die Verwendung von TUI mit einem Remote-Backend Voracode. Zum Beispiel:
+
+```bash
+# Start the backend server for web/mobile access
+voracode web --port 4096 --hostname 0.0.0.0
+
+# In another terminal, attach the TUI to the running backend
+voracode attach http://10.20.30.40:4096
+```
+
+#### Optionen
+
+| Flag                                     | Kurz | Beschreibung                                                                       |
+| ---------------------------------------- | ---- | ---------------------------------------------------------------------------------- |
+| <nobr><code>{"--dir"}</code></nobr>      |      | Arbeitsverzeichnis zum Starten von TUI in                                          |
+| <nobr><code>{"--continue"}</code></nobr> | `-c` | Letzte Sitzung fortsetzen                                                          |
+| <nobr><code>{"--session"}</code></nobr>  | `-s` | Session-ID zum Fortfahren                                                          |
+| <nobr><code>{"--fork"}</code></nobr>     |      | Sitzung beim Fortsetzen abzweigen (mit `--continue` oder `--session` verwenden)    |
+| <nobr><code>{"--password"}</code></nobr> | `-p` | Basic-Auth-Passwort (standardmÃ¤ÃŸig `VORACODE_SERVER_PASSWORD`)                     |
+| <nobr><code>{"--username"}</code></nobr> | `-u` | Basic-Auth-Benutzername (standardmÃ¤ÃŸig `VORACODE_SERVER_USERNAME` oder `voracode`) |
+
+---
+
+#### create
+
+Erstellen Sie einen neuen Agenten mit benutzerdefinierter Konfiguration.
+
+```bash
+voracode agent create
+```
+
+Dieser Befehl fÃ¼hrt Sie durch die Erstellung eines neuen Agenten mit einer benutzerdefinierten Systemeingabeaufforderung und Toolkonfiguration.
+
+---
+
+#### list
+
+Listen Sie alle verfÃ¼gbaren Agenten auf.
+
+```bash
+voracode agent list
+```
+
+---
+
+### auth
+
+Befehl zum Verwalten von Anmeldeinformationen und Anmelden fÃ¼r Anbieter.
+
+```bash
+voracode auth [command]
+```
+
+---
+
+#### login
+
+Voracode wird von der Anbieterliste bei [Models.dev](https://models.dev) unterstÃ¼tzt, sodass Sie `voracode auth login` verwenden kÃ¶nnen, um API-SchlÃ¼ssel fÃ¼r jeden Anbieter zu konfigurieren, den Sie verwenden mÃ¶chten. Dies wird in `~/.local/share/voracode/auth.json` gespeichert.
+
+```bash
+voracode auth login
+```
+
+Wenn Voracode startet, lÃ¤dt es den Anbieter aus der Anmeldeinformationsdatei. Und ob in Ihren Umgebungen SchlÃ¼ssel sind oder in Ihrem Projekt eine `.env`-Datei vorhanden ist.
+
+---
+
+#### list
+
+Listet alle authentifizierten Anbieter auf, wie in der Anmeldeinformationsdatei gespeichert.
+
+```bash
+voracode auth list
+```
+
+Oder die Kurzversion.
+
+```bash
+voracode auth ls
+```
+
+---
+
+#### logout
+
+Melden Sie sich von einem Anbieter ab, indem Sie ihn aus der Anmeldeinformationsdatei lÃ¶schen.
+
+```bash
+voracode auth logout
+```
+
+---
+
+### github
+
+Verwalten Sie den GitHub-Agenten fÃ¼r die Repository-Automatisierung.
+
+```bash
+voracode github [command]
+```
+
+---
+
+#### install
+
+Installieren Sie den GitHub-Agenten in Ihrem Repository.
+
+```bash
+voracode github install
+```
+
+Dadurch wird der erforderliche GitHub-Aktionsworkflow eingerichtet und Sie durch den Konfigurationsprozess gefÃ¼hrt. [Learn more](/docs/github).
+
+---
+
+#### run
+
+FÃ¼hren Sie den GitHub-Agenten aus. Dies wird normalerweise in GitHub-Aktionen verwendet.
+
+```bash
+voracode github run
+```
+
+##### Optionen
+
+| Flag                                  | Beschreibung                                        |
+| ------------------------------------- | --------------------------------------------------- |
+| <nobr><code>{"--event"}</code></nobr> | GitHub Scheinereignis zum AusfÃ¼hren des Agenten fÃ¼r |
+| <nobr><code>{"--token"}</code></nobr> | GitHub persÃ¶nliches Zugriffstoken                   |
+
+---
+
+### mcp
+
+Verwalten Sie Model Context Protocol-Server.
+
+```bash
+voracode mcp [command]
+```
+
+---
+
+#### add
+
+FÃ¼gen Sie Ihrer Konfiguration einen MCP-Server hinzu.
+
+```bash
+voracode mcp add
+```
+
+Dieser Befehl fÃ¼hrt Sie durch das HinzufÃ¼gen eines lokalen oder Remote-MCP-Servers.
+
+---
+
+#### list
+
+Listen Sie alle konfigurierten MCP-Server und deren Verbindungsstatus auf.
+
+```bash
+voracode mcp list
+```
+
+Oder nutzen Sie die Kurzversion.
+
+```bash
+voracode mcp ls
+```
+
+---
+
+#### auth
+
+Authentifizieren Sie sich mit einem OAuth-fÃ¤higen MCP-Server.
+
+```bash
+voracode mcp auth [name]
+```
+
+Wenn Sie keinen Servernamen angeben, werden Sie aufgefordert, einen der verfÃ¼gbaren OAuth-fÃ¤higen Server auszuwÃ¤hlen.
+
+Sie kÃ¶nnen auch OAuth-fÃ¤hige Server und deren Authentifizierungsstatus auflisten.
+
+```bash
+voracode mcp auth list
+```
+
+Oder nutzen Sie die Kurzversion.
+
+```bash
+voracode mcp auth ls
+```
+
+---
+
+#### logout
+
+Entfernen Sie OAuth-Anmeldeinformationen fÃ¼r einen MCP-Server.
+
+```bash
+voracode mcp logout [name]
+```
+
+---
+
+#### debug
+
+Beheben Sie OAuth-Verbindungsprobleme fÃ¼r einen MCP-Server.
+
+```bash
+voracode mcp debug <name>
+```
+
+---
+
+### models
+
+Listen Sie alle verfÃ¼gbaren Modelle der konfigurierten Anbieter auf.
+
+```bash
+voracode models [provider]
+```
+
+Dieser Befehl zeigt alle bei Ihren konfigurierten Anbietern verfÃ¼gbaren Modelle im Format `provider/model` an.
+
+Dies ist nÃ¼tzlich, um die genauen Modellnamen herauszufinden, die in [Ihrer Konfiguration](/docs/config/) verwendet werden sollen.
+
+Sie kÃ¶nnen optional eine Anbieter-ID Ã¼bergeben, um Modelle nach diesem Anbieter zu filtern.
+
+```bash
+voracode models anthropic
+```
+
+#### Optionen
+
+| Flag                                    | Beschreibung                                                                          |
+| --------------------------------------- | ------------------------------------------------------------------------------------- |
+| <nobr><code>{"--refresh"}</code></nobr> | Aktualisieren Sie den Modellcache von models.dev                                      |
+| <nobr><code>{"--verbose"}</code></nobr> | Verwenden Sie eine ausfÃ¼hrlichere Modellausgabe (einschlieÃŸlich Metadaten wie Kosten) |
+
+Verwenden Sie das Flag `--refresh`, um die zwischengespeicherte Modellliste zu aktualisieren. Dies ist nÃ¼tzlich, wenn einem Anbieter neue Modelle hinzugefÃ¼gt wurden und Sie diese in Voracode sehen mÃ¶chten.
+
+```bash
+voracode models --refresh
+```
+
+---
+
+### run
+
+FÃ¼hren Sie Voracode im nicht interaktiven Modus aus, indem Sie direkt eine Eingabeaufforderung Ã¼bergeben.
+
+```bash
+voracode run [message..]
+```
+
+Dies ist nÃ¼tzlich fÃ¼r die Skripterstellung, die Automatisierung oder wenn Sie eine schnelle Antwort wÃ¼nschen, ohne das vollstÃ¤ndige TUI zu starten. Zum Beispiel:
+
+```bash "voracode run"
+voracode run Explain the use of context in Go
+```
+
+Sie kÃ¶nnen auch eine Verbindung zu einer laufenden `voracode serve`-Instanz herstellen, um bei jedem Lauf Kaltstartzeiten fÃ¼r den MCP-Server zu vermeiden:
+
+```bash
+# Start a headless server in one terminal
+voracode serve
+
+# In another terminal, run commands that attach to it
+voracode run --attach http://localhost:4096 "Explain async/await in JavaScript"
+```
+
+#### Optionen
+
+| Flag                                     | Kurz | Beschreibung                                                                                        |
+| ---------------------------------------- | ---- | --------------------------------------------------------------------------------------------------- |
+| <nobr><code>{"--command"}</code></nobr>  |      | Der auszufÃ¼hrende Befehl, Argumente als Nachricht verwenden                                         |
+| <nobr><code>{"--continue"}</code></nobr> | `-c` | Setzen Sie die letzte Sitzung fort                                                                  |
+| <nobr><code>{"--session"}</code></nobr>  | `-s` | Session-ID zum Fortfahren                                                                           |
+| <nobr><code>{"--fork"}</code></nobr>     |      | Sitzung beim Fortsetzen verzweigen (mit `--continue` oder `--session` verwenden)                    |
+| <nobr><code>{"--share"}</code></nobr>    |      | Teilen Sie die Sitzung                                                                              |
+| <nobr><code>{"--model"}</code></nobr>    | `-m` | Zu verwendendes Modell in der Form provider/model                                                   |
+| <nobr><code>{"--agent"}</code></nobr>    |      | Zu verwendender Agent                                                                               |
+| <nobr><code>{"--file"}</code></nobr>     | `-f` | Datei(en) zum AnhÃ¤ngen an die Nachricht                                                             |
+| <nobr><code>{"--format"}</code></nobr>   |      | Format: default (formatiert) oder json (rohe JSON-Ereignisse)                                       |
+| <nobr><code>{"--title"}</code></nobr>    |      | Titel fÃ¼r die Sitzung (verwendet eine verkÃ¼rzte Eingabeaufforderung, wenn kein Wert angegeben wird) |
+| <nobr><code>{"--attach"}</code></nobr>   |      | An einen laufenden Voracode-Server anschlieÃŸen (z.B. http://localhost:4096)                         |
+| <nobr><code>{"--password"}</code></nobr> | `-p` | Basic-Auth-Passwort (standardmÃ¤ÃŸig `VORACODE_SERVER_PASSWORD`)                                      |
+| <nobr><code>{"--username"}</code></nobr> | `-u` | Basic-Auth-Benutzername (standardmÃ¤ÃŸig `VORACODE_SERVER_USERNAME` oder `voracode`)                  |
+| <nobr><code>{"--dir"}</code></nobr>      |      | Verzeichnis fÃ¼r die AusfÃ¼hrung, oder Pfad auf dem Remote-Server beim AnhÃ¤ngen                       |
+| <nobr><code>{"--variant"}</code></nobr>  |      | Modellvariante (anbieterspezifischer Reasoning-Aufwand)                                             |
+| <nobr><code>{"--thinking"}</code></nobr> |      | DenkblÃ¶cke anzeigen                                                                                 |
+| <nobr><code>{"--port"}</code></nobr>     |      | Port fÃ¼r den lokalen Server (standardmÃ¤ÃŸig zufÃ¤lliger Port)                                         |
+
+---
+
+### serve
+
+Starten Sie einen Headless-Voracode-Server fÃ¼r den API-Zugriff. Sehen Sie sich die [Server-Dokumentation](/docs/server) fÃ¼r die vollstÃ¤ndige HTTP-Schnittstelle an.
+
+```bash
+voracode serve
+```
+
+Dadurch wird ein HTTP-Server gestartet, der API-Zugriff auf Voracode-FunktionalitÃ¤t ohne die TUI-Schnittstelle bietet. Legen Sie `VORACODE_SERVER_PASSWORD` fest, um die HTTP-Basisauthentifizierung zu aktivieren (Benutzername ist standardmÃ¤ÃŸig `voracode`).
+
+#### Optionen
+
+| Flag                                     | Beschreibung                                    |
+| ---------------------------------------- | ----------------------------------------------- |
+| <nobr><code>{"--port"}</code></nobr>     | Port zum AbhÃ¶ren                                |
+| <nobr><code>{"--hostname"}</code></nobr> | Hostname zum AbhÃ¶ren                            |
+| <nobr><code>{"--mdns"}</code></nobr>     | mDNS-Discovery aktivieren                       |
+| <nobr><code>{"--cors"}</code></nobr>     | ZusÃ¤tzliche Browser-UrsprÃ¼nge fÃ¼r CORS zulassen |
+
+---
+
+### session
+
+Voracode-Sitzungen verwalten.
+
+```bash
+voracode session [command]
+```
+
+---
+
+#### list
+
+Listen Sie alle Voracode-Sitzungen auf.
+
+```bash
+voracode session list
+```
+
+##### Optionen
+
+| Flag                                      | Kurz | Beschreibung                             |
+| ----------------------------------------- | ---- | ---------------------------------------- |
+| <nobr><code>{"--max-count"}</code></nobr> | `-n` | BeschrÃ¤nken auf die N neuesten Sitzungen |
+| <nobr><code>{"--format"}</code></nobr>    |      | Ausgabeformat: table oder json (table)   |
+
+---
+
+### stats
+
+Zeigen Sie Token-Nutzungs- und Kostenstatistiken fÃ¼r Ihre Voracode-Sitzungen an.
+
+```bash
+voracode stats
+```
+
+#### Optionen
+
+| Flag                                    | Beschreibung                                                                                                                   |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| <nobr><code>{"--days"}</code></nobr>    | Statistiken fÃ¼r die letzten N Tage anzeigen (alle Zeiten)                                                                      |
+| <nobr><code>{"--tools"}</code></nobr>   | Anzahl der angebotenen Werkzeuge (alle)                                                                                        |
+| <nobr><code>{"--models"}</code></nobr>  | AufschlÃ¼sselung der Modellnutzung anzeigen (standardmÃ¤ÃŸig ausgeblendet). Ãœbergeben Sie eine Zahl, um die obersten N anzuzeigen |
+| <nobr><code>{"--project"}</code></nobr> | Nach Projekt filtern (alle Projekte, leere Zeichenfolge: aktuelles Projekt)                                                    |
+
+---
+
+### export
+
+Sitzungsdaten als JSON exportieren.
+
+```bash
+voracode export [sessionID]
+```
+
+Wenn Sie keine Sitzungs-ID angeben, werden Sie aufgefordert, eine der verfÃ¼gbaren Sitzungen auszuwÃ¤hlen.
+
+---
+
+### import
+
+Importieren Sie Sitzungsdaten aus einer JSON-Datei oder einer Voracode-Freigabe-URL.
+
+```bash
+voracode import <file>
+```
+
+Sie kÃ¶nnen aus einer lokalen Datei oder einer Voracode-Freigabe-URL importieren.
+
+```bash
+voracode import session.json
+voracode import https://opncd.ai/s/abc123
+```
+
+---
+
+### web
+
+Starten Sie einen Headless-Voracode-Server mit einer WeboberflÃ¤che.
+
+```bash
+voracode web
+```
+
+Dadurch wird ein HTTP-Server gestartet und ein Webbrowser geÃ¶ffnet, um Ã¼ber eine Webschnittstelle auf Voracode zuzugreifen. Legen Sie `VORACODE_SERVER_PASSWORD` fest, um die HTTP-Basisauthentifizierung zu aktivieren (Benutzername ist standardmÃ¤ÃŸig `voracode`).
+
+#### Optionen
+
+| Flag                                     | Beschreibung                                    |
+| ---------------------------------------- | ----------------------------------------------- |
+| <nobr><code>{"--port"}</code></nobr>     | Port zum AbhÃ¶ren                                |
+| <nobr><code>{"--hostname"}</code></nobr> | Hostname zum AbhÃ¶ren                            |
+| <nobr><code>{"--mdns"}</code></nobr>     | mDNS-Discovery aktivieren                       |
+| <nobr><code>{"--cors"}</code></nobr>     | ZusÃ¤tzliche Browser-UrsprÃ¼nge fÃ¼r CORS zulassen |
+
+---
+
+### acp
+
+Starten Sie einen ACP (Agent Client Protocol) Server.
+
+```bash
+voracode acp
+```
+
+Dieser Befehl startet einen ACP-Server, der Ã¼ber stdin/stdout unter Verwendung von nd-JSON kommuniziert.
+
+#### Optionen
+
+| Flag                                     | Beschreibung         |
+| ---------------------------------------- | -------------------- |
+| <nobr><code>{"--cwd"}</code></nobr>      | Arbeitsverzeichnis   |
+| <nobr><code>{"--port"}</code></nobr>     | Port zum AbhÃ¶ren     |
+| <nobr><code>{"--hostname"}</code></nobr> | Hostname zum AbhÃ¶ren |
+
+---
+
+### uninstall
+
+Deinstallieren Sie Voracode und entfernen Sie alle zugehÃ¶rigen Dateien.
+
+```bash
+voracode uninstall
+```
+
+#### Optionen
+
+| Flag                                        | Kurz | Beschreibung                                        |
+| ------------------------------------------- | ---- | --------------------------------------------------- |
+| <nobr><code>{"--keep-config"}</code></nobr> | `-c` | Konfigurationsdateien behalten                      |
+| <nobr><code>{"--keep-data"}</code></nobr>   | `-d` | Sitzungsdaten und Snapshots aufbewahren             |
+| <nobr><code>{"--dry-run"}</code></nobr>     |      | Zeigt, was entfernt werden wÃ¼rde, ohne zu entfernen |
+| <nobr><code>{"--force"}</code></nobr>       | `-f` | BestÃ¤tigungsaufforderungen Ã¼berspringen             |
+
+---
+
+### upgrade
+
+Aktualisiert Voracode auf die neueste Version oder eine bestimmte Version.
+
+```bash
+voracode upgrade [target]
+```
+
+Um auf die neueste Version zu aktualisieren:
+
+```bash
+voracode upgrade
+```
+
+Um auf eine bestimmte Version zu aktualisieren.
+
+```bash
+voracode upgrade v0.1.48
+```
+
+#### Optionen
+
+| Flag                                   | Kurz | Beschreibung                                                        |
+| -------------------------------------- | ---- | ------------------------------------------------------------------- |
+| <nobr><code>{"--method"}</code></nobr> | `-m` | Die zu verwendende Installationsmethode; curl, npm, pnpm, bun, brew |
+
+---
+
+## Globale Flags
+
+Der Voracode CLI akzeptiert die folgenden globalen Flags.
+
+| Flag                                       | Kurz | Beschreibung                              |
+| ------------------------------------------ | ---- | ----------------------------------------- |
+| <nobr><code>{"--help"}</code></nobr>       | `-h` | Hilfe anzeigen                            |
+| <nobr><code>{"--version"}</code></nobr>    | `-v` | Versionsnummer drucken                    |
+| <nobr><code>{"--print-logs"}</code></nobr> |      | Protokolle nach stderr drucken            |
+| <nobr><code>{"--log-level"}</code></nobr>  |      | Protokollebene (DEBUG, INFO, WARN, ERROR) |
+
+---
+
+## Umgebungsvariablen
+
+Voracode kann mithilfe von Umgebungsvariablen konfiguriert werden.
+
+| Variable                              | Typ             | Beschreibung                                                                     |
+| ------------------------------------- | --------------- | -------------------------------------------------------------------------------- |
+| `VORACODE_AUTO_SHARE`                 | boolescher Wert | Sitzungen automatisch teilen                                                     |
+| `VORACODE_GIT_BASH_PATH`              | Zeichenfolge    | Pfad zur ausfÃ¼hrbaren Git Bash-Datei unter Windows                               |
+| `VORACODE_CONFIG`                     | Zeichenfolge    | Pfad zur Konfigurationsdatei                                                     |
+| `VORACODE_CONFIG_DIR`                 | Zeichenfolge    | Pfad zum Konfigurationsverzeichnis                                               |
+| `VORACODE_CONFIG_CONTENT`             | Zeichenfolge    | Inline-JSON-Konfigurationsinhalt                                                 |
+| `VORACODE_DISABLE_AUTOUPDATE`         | boolescher Wert | Automatische Update-PrÃ¼fungen deaktivieren                                       |
+| `VORACODE_DISABLE_PRUNE`              | boolescher Wert | Bereinigung alter Daten deaktivieren                                             |
+| `VORACODE_DISABLE_TERMINAL_TITLE`     | boolescher Wert | Deaktivieren Sie die automatische Aktualisierung von Terminaltiteln              |
+| `VORACODE_PERMISSION`                 | Zeichenfolge    | Inline-JSON-Berechtigungskonfiguration                                           |
+| `VORACODE_DISABLE_DEFAULT_PLUGINS`    | boolescher Wert | Standard-Plugins deaktivieren                                                    |
+| `VORACODE_DISABLE_LSP_DOWNLOAD`       | boolescher Wert | Automatische LSP-Server-Downloads deaktivieren                                   |
+| `VORACODE_ENABLE_EXPERIMENTAL_MODELS` | boolescher Wert | Experimentelle Modelle aktivieren                                                |
+| `VORACODE_DISABLE_AUTOCOMPACT`        | boolescher Wert | Automatische Kontextkomprimierung deaktivieren                                   |
+| `VORACODE_DISABLE_CLAUDE_CODE`        | boolescher Wert | Deaktivieren Sie das Lesen von `.claude` (Prompt + Skills)                       |
+| `VORACODE_DISABLE_CLAUDE_CODE_PROMPT` | boolescher Wert | Deaktivieren Sie das Lesen von `~/.claude/CLAUDE.md`                             |
+| `VORACODE_DISABLE_CLAUDE_CODE_SKILLS` | boolescher Wert | Deaktivieren Sie das Laden von `.claude/skills`                                  |
+| `VORACODE_DISABLE_MODELS_FETCH`       | boolescher Wert | Deaktivieren Sie das Abrufen von Modellen aus Remote-Quellen                     |
+| `VORACODE_FAKE_VCS`                   | Zeichenfolge    | GefÃ¤lschter VCS-Anbieter zu Testzwecken                                          |
+| `VORACODE_CLIENT`                     | Zeichenfolge    | Client-ID (standardmÃ¤ÃŸig `cli`)                                                  |
+| `VORACODE_ENABLE_EXA`                 | boolescher Wert | Exa-Websuchtools aktivieren                                                      |
+| `VORACODE_SERVER_PASSWORD`            | Zeichenfolge    | Aktivieren Sie die Basisauthentifizierung fÃ¼r `serve`/`web`                      |
+| `VORACODE_SERVER_USERNAME`            | Zeichenfolge    | Benutzernamen fÃ¼r die Basisauthentifizierung Ã¼berschreiben (Standard `voracode`) |
+| `VORACODE_MODELS_URL`                 | Zeichenfolge    | Benutzerdefinierte URL zum Abrufen der Modellkonfiguration                       |
+
+---
+
+### Experimentell
+
+Diese Umgebungsvariablen ermÃ¶glichen experimentelle Funktionen, die sich Ã¤ndern oder entfernt werden kÃ¶nnen.
+
+| Variable                                        | Typ             | Beschreibung                                              |
+| ----------------------------------------------- | --------------- | --------------------------------------------------------- |
+| `VORACODE_EXPERIMENTAL`                         | boolescher Wert | Experimentelle Funktionen unter dem Sammelflag aktivieren |
+| `VORACODE_EXPERIMENTAL_ICON_DISCOVERY`          | boolescher Wert | Symbolerkennung aktivieren                                |
+| `VORACODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT`  | boolescher Wert | Kopieren bei Auswahl in TUI deaktivieren                  |
+| `VORACODE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS` | Zahl            | Standard-Timeout fÃ¼r Bash-Befehle in ms                   |
+| `VORACODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX`        | Zahl            | Maximale Ausgabetokens fÃ¼r LLM-Antworten                  |
+| `VORACODE_EXPERIMENTAL_FILEWATCHER`             | boolescher Wert | DateiÃ¼berwachung fÃ¼r das gesamte Verzeichnis aktivieren   |
+| `VORACODE_EXPERIMENTAL_OXFMT`                   | boolescher Wert | Oxfmt-Formatierer aktivieren                              |
+| `VORACODE_EXPERIMENTAL_LSP_TOOL`                | boolescher Wert | Experimentelles LSP-Tool aktivieren                       |
+| `VORACODE_EXPERIMENTAL_DISABLE_FILEWATCHER`     | boolescher Wert | DateiÃ¼berwachung deaktivieren                             |
+| `VORACODE_EXPERIMENTAL_EXA`                     | boolescher Wert | Experimentelle Exa-Funktionen aktivieren                  |
+| `VORACODE_EXPERIMENTAL_LSP_TY`                  | boolescher Wert | TY LSP fÃ¼r Python-Dateien aktivieren                      |
+| `VORACODE_EXPERIMENTAL_PLAN_MODE`               | boolescher Wert | Planmodus aktivieren                                      |
+| `VORACODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS`    | boolescher Wert | Hintergrundaufgaben fÃ¼r Subagenten aktivieren             |
+| `VORACODE_EXPERIMENTAL_EVENT_SYSTEM`            | boolescher Wert | Experimentelles Ereignissystem aktivieren                 |
+| `VORACODE_EXPERIMENTAL_NATIVE_LLM`              | boolescher Wert | Nativen LLM-Anfragepfad aktivieren                        |
+| `VORACODE_EXPERIMENTAL_PARALLEL`                | boolescher Wert | Parallele Websuche aktivieren                             |
+| `VORACODE_EXPERIMENTAL_SCOUT`                   | boolescher Wert | Scout-Subagent aktivieren                                 |
+| `VORACODE_EXPERIMENTAL_WORKSPACES`              | boolescher Wert | Workspace-UnterstÃ¼tzung aktivieren                        |

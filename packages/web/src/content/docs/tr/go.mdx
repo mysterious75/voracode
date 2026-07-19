@@ -1,0 +1,197 @@
+---
+title: Go
+description: AÃ§Ä±k kodlama modelleri iÃ§in dÃ¼ÅŸÃ¼k maliyetli abonelik.
+---
+
+import config from "../../../../config.mjs"
+export const console = config.console
+export const email = `mailto:${config.email}`
+
+Voracode Go, popÃ¼ler aÃ§Ä±k kodlama modellerine gÃ¼venilir eriÅŸim saÄŸlayan dÃ¼ÅŸÃ¼k maliyetli bir aboneliktir â€” **ilk ayÄ±nÄ±z iÃ§in 5$**, sonrasÄ±nda **aylÄ±k 10$**.
+
+Go, Voracode'daki diÄŸer saÄŸlayÄ±cÄ±lar gibi Ã§alÄ±ÅŸÄ±r. Voracode Go'ya abone olur ve API anahtarÄ±nÄ±zÄ± alÄ±rsÄ±nÄ±z. Bu **tamamen isteÄŸe baÄŸlÄ±dÄ±r** ve Voracode'u kullanmak iÃ§in bunu kullanmanÄ±za gerek yoktur.
+
+DÃ¼nya Ã§apÄ±nda istikrarlÄ± eriÅŸim iÃ§in ABD, AB ve Singapur'da barÄ±ndÄ±rÄ±lan modellerle temel olarak uluslararasÄ± kullanÄ±cÄ±lar iÃ§in tasarlanmÄ±ÅŸtÄ±r.
+
+---
+
+## Arka Plan
+
+AÃ§Ä±k modeller gerÃ§ekten Ã§ok iyi hale geldi. ArtÄ±k kodlama gÃ¶revleri iÃ§in Ã¶zel mÃ¼lk modellere yakÄ±n bir performansa ulaÅŸÄ±yorlar. Ve birÃ§ok saÄŸlayÄ±cÄ± onlara rekabetÃ§i bir ÅŸekilde hizmet verebildiÄŸi iÃ§in genellikle Ã§ok daha ucuzdurlar.
+
+Ancak, bu modellere gÃ¼venilir, dÃ¼ÅŸÃ¼k gecikmeli eriÅŸim saÄŸlamak zor olabilir. SaÄŸlayÄ±cÄ±lar kalite ve eriÅŸilebilirlik aÃ§Ä±sÄ±ndan farklÄ±lÄ±k gÃ¶sterir.
+
+:::tip
+Voracode ile iyi Ã§alÄ±ÅŸan seÃ§ili bir model ve saÄŸlayÄ±cÄ± grubunu test ettik.
+:::
+
+Bunu Ã§Ã¶zmek iÃ§in birkaÃ§ ÅŸey yaptÄ±k:
+
+1. SeÃ§ili bir grup aÃ§Ä±k modeli test ettik ve bu modelleri en iyi nasÄ±l Ã§alÄ±ÅŸtÄ±rabileceÄŸimizi Ã¶ÄŸrenmek iÃ§in ekipleriyle gÃ¶rÃ¼ÅŸtÃ¼k.
+2. ArdÄ±ndan, bunlarÄ±n doÄŸru ÅŸekilde sunulduÄŸundan emin olmak iÃ§in birkaÃ§ saÄŸlayÄ±cÄ±yla birlikte Ã§alÄ±ÅŸtÄ±k.
+3. Son olarak, model/saÄŸlayÄ±cÄ± kombinasyonunu kÄ±yasladÄ±k (benchmark) ve gÃ¶nÃ¼l rahatlÄ±ÄŸÄ±yla Ã¶nerebileceÄŸimiz bir liste oluÅŸturduk.
+
+Voracode Go, bu modellere **ilk ayÄ±nÄ±z iÃ§in 5$**, ardÄ±ndan **aylÄ±k 10$** karÅŸÄ±lÄ±ÄŸÄ±nda eriÅŸmenizi saÄŸlar.
+
+---
+
+## NasÄ±l Ã§alÄ±ÅŸÄ±r?
+
+Voracode Go, Voracode'daki diÄŸer saÄŸlayÄ±cÄ±lar gibi Ã§alÄ±ÅŸÄ±r.
+
+1. **<a href={console}>Voracode Zen</a>**'e giriÅŸ yapÄ±n, Go'ya abone olun ve API anahtarÄ±nÄ±zÄ± kopyalayÄ±n.
+2. TUI'de `/connect` komutunu Ã§alÄ±ÅŸtÄ±rÄ±n, `Voracode Go`yu seÃ§in ve API anahtarÄ±nÄ±zÄ± yapÄ±ÅŸtÄ±rÄ±n.
+3. Go Ã¼zerinden kullanabileceÄŸiniz modellerin listesini gÃ¶rmek iÃ§in TUI'de `/models` komutunu Ã§alÄ±ÅŸtÄ±rÄ±n.
+
+:::note
+Her Ã§alÄ±ÅŸma alanÄ±ndan yalnÄ±zca bir Ã¼ye Voracode Go'ya abone olabilir.
+:::
+
+Mevcut model listesi ÅŸunlarÄ± iÃ§erir:
+
+- **GLM-5.2**
+- **GLM-5.1**
+- **Kimi K2.7 Code**
+- **Kimi K2.6**
+- **MiMo-V2.5**
+- **MiMo-V2.5-Pro**
+- **MiniMax M3**
+- **MiniMax M2.7**
+- **Qwen3.7 Max**
+- **Qwen3.7 Plus**
+- **Qwen3.6 Plus**
+- **DeepSeek V4 Pro**
+- **DeepSeek V4 Flash**
+
+Test edip yenilerini ekledikÃ§e model listesi deÄŸiÅŸebilir.
+
+---
+
+## KullanÄ±m limitleri
+
+Voracode Go aÅŸaÄŸÄ±daki limitleri iÃ§erir:
+
+- **5 saatlik limit** â€” 12$ kullanÄ±m
+- **HaftalÄ±k limit** â€” 30$ kullanÄ±m
+- **AylÄ±k limit** â€” 60$ kullanÄ±m
+
+Limitler dolar deÄŸeri Ã¼zerinden belirlenmiÅŸtir. Bu, gerÃ§ek istek sayÄ±nÄ±zÄ±n kullandÄ±ÄŸÄ±nÄ±z modele baÄŸlÄ± olduÄŸu anlamÄ±na gelir. DeepSeek V4 Flash gibi daha ucuz modeller daha fazla isteÄŸe izin verirken, GLM-5.2 gibi yÃ¼ksek maliyetli modeller daha azÄ±na izin verir.
+
+AÅŸaÄŸÄ±daki tablo, tipik Go kullanÄ±m modellerine dayalÄ± tahmini bir istek sayÄ±sÄ± sunmaktadÄ±r:
+
+| Model             | 5 saatte bir istek | haftalÄ±k istek | aylÄ±k istek |
+| ----------------- | ------------------ | -------------- | ----------- |
+| GLM-5.2           | 880                | 2,150          | 4,300       |
+| GLM-5.1           | 880                | 2,150          | 4,300       |
+| Kimi K2.6         | 1,150              | 2,880          | 5,750       |
+| Kimi K2.7 Code    | 1,350              | 4,630          | 9,250       |
+| MiMo-V2.5         | 30,100             | 75,200         | 150,400     |
+| MiMo-V2.5-Pro     | 3,250              | 8,150          | 16,300      |
+| MiniMax M3        | 3,200              | 8,000          | 16,000      |
+| MiniMax M2.7      | 3,400              | 8,500          | 17,000      |
+| Qwen3.7 Max       | 950                | 2,390          | 4,770       |
+| Qwen3.7 Plus      | 4,300              | 10,800         | 21,600      |
+| Qwen3.6 Plus      | 3,300              | 8,200          | 16,300      |
+| DeepSeek V4 Pro   | 3,450              | 8,550          | 17,150      |
+| DeepSeek V4 Flash | 31,650             | 79,050         | 158,150     |
+
+Tahminler, gÃ¶zlemlenen ortalama istek modellerine dayanÄ±r:
+
+- GLM-5.2/5.1 â€” Ä°stek baÅŸÄ±na 700 girdi, 52.000 Ã¶nbelleÄŸe alÄ±nmÄ±ÅŸ, 150 Ã§Ä±ktÄ± token'Ä±
+- Kimi K2.7 Code/K2.6 â€” Ä°stek baÅŸÄ±na 870 girdi, 55.000 Ã¶nbelleÄŸe alÄ±nmÄ±ÅŸ, 200 Ã§Ä±ktÄ± token'Ä±
+- DeepSeek V4 Pro â€” Ä°stek baÅŸÄ±na 750 girdi, 82.000 Ã¶nbelleÄŸe alÄ±nmÄ±ÅŸ, 290 Ã§Ä±ktÄ± token'Ä±
+- DeepSeek V4 Flash â€” Ä°stek baÅŸÄ±na 790 girdi, 68.000 Ã¶nbelleÄŸe alÄ±nmÄ±ÅŸ, 280 Ã§Ä±ktÄ± token'Ä±
+- MiniMax M3 â€” Ä°stek baÅŸÄ±na 510 girdi, 56.000 Ã¶nbelleÄŸe alÄ±nmÄ±ÅŸ, 190 Ã§Ä±ktÄ± token'Ä±
+- MiniMax M2.7 â€” Ä°stek baÅŸÄ±na 300 girdi, 55.000 Ã¶nbelleÄŸe alÄ±nmÄ±ÅŸ, 125 Ã§Ä±ktÄ± token'Ä±
+- Qwen3.7 Max â€” Ä°stek baÅŸÄ±na 420 girdi, 66.000 Ã¶nbelleÄŸe alÄ±nmÄ±ÅŸ, 200 Ã§Ä±ktÄ± token'Ä±
+- Qwen3.7 Plus â€” Ä°stek baÅŸÄ±na 500 girdi, 57.000 Ã¶nbelleÄŸe alÄ±nmÄ±ÅŸ, 190 Ã§Ä±ktÄ± token'Ä±
+- Qwen3.6 Plus â€” Ä°stek baÅŸÄ±na 500 girdi, 57.000 Ã¶nbelleÄŸe alÄ±nmÄ±ÅŸ, 190 Ã§Ä±ktÄ± token'Ä±
+- MiMo-V2.5 â€” Ä°stek baÅŸÄ±na 830 girdi, 71.500 Ã¶nbelleÄŸe alÄ±nmÄ±ÅŸ, 295 Ã§Ä±ktÄ± token'Ä±
+- MiMo-V2.5-Pro â€” Ä°stek baÅŸÄ±na 790 girdi, 86.000 Ã¶nbelleÄŸe alÄ±nmÄ±ÅŸ, 305 Ã§Ä±ktÄ± token'Ä±
+
+Tahminler ayrÄ±ca 1M token baÅŸÄ±na aÅŸaÄŸÄ±daki fiyatlara da dayanÄ±r:
+
+| Model                        | Input | Output | Cached Read | Cached Write |
+| ---------------------------- | ----- | ------ | ----------- | ------------ |
+| GLM-5.2                      | $1.40 | $4.40  | $0.26       | -            |
+| GLM-5.1                      | $1.40 | $4.40  | $0.26       | -            |
+| Kimi K2.7 Code               | $0.95 | $4.00  | $0.19       | -            |
+| Kimi K2.6                    | $0.95 | $4.00  | $0.16       | -            |
+| MiMo V2.5                    | $0.14 | $0.28  | $0.0028     | -            |
+| MiMo V2.5 Pro                | $1.74 | $3.48  | $0.0145     | -            |
+| MiniMax M3                   | $0.30 | $1.20  | $0.06       | -            |
+| MiniMax M2.7                 | $0.30 | $1.20  | $0.06       | $0.375       |
+| MiniMax M2.5                 | $0.30 | $1.20  | $0.06       | $0.375       |
+| Qwen3.7 Max                  | $2.50 | $7.50  | $0.50       | $3.125       |
+| Qwen3.7 Plus (â‰¤ 256K tokens) | $0.40 | $1.60  | $0.04       | $0.50        |
+| Qwen3.7 Plus (> 256K tokens) | $1.20 | $4.80  | $0.12       | $1.50        |
+| Qwen3.6 Plus (â‰¤ 256K tokens) | $0.50 | $3.00  | $0.05       | $0.625       |
+| Qwen3.6 Plus (> 256K tokens) | $2.00 | $6.00  | $0.20       | $2.50        |
+| DeepSeek V4 Pro              | $1.74 | $3.48  | $0.0145     | -            |
+| DeepSeek V4 Flash            | $0.14 | $0.28  | $0.0028     | -            |
+
+Mevcut kullanÄ±mÄ±nÄ±zÄ± **<a href={console}>konsoldan</a>** takip edebilirsiniz.
+
+:::tip
+KullanÄ±m sÄ±nÄ±rÄ±na ulaÅŸÄ±rsanÄ±z, Ã¼cretsiz modelleri kullanmaya devam edebilirsiniz.
+:::
+
+Erken kullanÄ±mlardan ve geri bildirimlerden edindiÄŸimiz deneyimlere baÄŸlÄ± olarak kullanÄ±m limitleri deÄŸiÅŸebilir.
+
+---
+
+### Limit dÄ±ÅŸÄ± kullanÄ±m
+
+EÄŸer Zen bakiyenizde kredileriniz varsa, konsoldan **Bakiye kullan (Use balance)** seÃ§eneÄŸini etkinleÅŸtirebilirsiniz. Bu Ã¶zellik etkinleÅŸtirildiÄŸinde, kullanÄ±m limitlerinize ulaÅŸtÄ±ktan sonra Go, istekleri engellemek yerine Zen bakiyenizi kullanmaya devam edecektir.
+
+---
+
+## UÃ§ Noktalar
+
+Go modellerine aÅŸaÄŸÄ±daki API uÃ§ noktalarÄ± aracÄ±lÄ±ÄŸÄ±yla da eriÅŸebilirsiniz.
+
+| Model             | Model ID          | UÃ§ Nokta                                         | AI SDK Paketi               |
+| ----------------- | ----------------- | ------------------------------------------------ | --------------------------- |
+| GLM-5.2           | glm-5.2           | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| GLM-5.1           | glm-5.1           | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| Kimi K2.7 Code    | kimi-k2.7-code    | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| Kimi K2.6         | kimi-k2.6         | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| DeepSeek V4 Pro   | deepseek-v4-pro   | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| DeepSeek V4 Flash | deepseek-v4-flash | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| MiMo-V2.5         | mimo-v2.5         | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| MiMo-V2.5-Pro     | mimo-v2.5-pro     | `https://voracode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| MiniMax M3        | minimax-m3        | `https://voracode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| MiniMax M2.7      | minimax-m2.7      | `https://voracode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| MiniMax M2.5      | minimax-m2.5      | `https://voracode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| Qwen3.7 Max       | qwen3.7-max       | `https://voracode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| Qwen3.7 Plus      | qwen3.7-plus      | `https://voracode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| Qwen3.6 Plus      | qwen3.6-plus      | `https://voracode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+
+Voracode yapÄ±landÄ±rmanÄ±zdaki [model id](/docs/config/#models) formatÄ± `voracode-go/<model-id>` ÅŸeklindedir. Ã–rneÄŸin, Kimi K2.7 Code iÃ§in yapÄ±landÄ±rmanÄ±zda `voracode-go/kimi-k2.7-code` kullanmalÄ±sÄ±nÄ±z.
+
+---
+
+### Modeller
+
+Mevcut modellerin tam listesini ve metadata'larÄ±nÄ± ÅŸuradan alabilirsiniz:
+
+```
+https://voracode.ai/zen/go/v1/models
+```
+
+---
+
+## Gizlilik
+
+Plan, Ã¶ncelikle uluslararasÄ± kullanÄ±cÄ±lar iÃ§in tasarlanmÄ±ÅŸtÄ±r; dÃ¼nya genelinde istikrarlÄ± eriÅŸim saÄŸlamak iÃ§in modeller US, EU ve Singapore'da barÄ±ndÄ±rÄ±lÄ±r. SaÄŸlayÄ±cÄ±larÄ±mÄ±z sÄ±fÄ±r veri saklama politikasÄ± uygular ve verilerinizi model eÄŸitimi iÃ§in kullanmaz.
+
+---
+
+## Hedefler
+
+Voracode Go'yu ÅŸu amaÃ§larla oluÅŸturduk:
+
+1. DÃ¼ÅŸÃ¼k maliyetli bir abonelik ile yapay zeka destekli kodlamayÄ± daha fazla kiÅŸi iÃ§in **eriÅŸilebilir** kÄ±lmak.
+2. En iyi aÃ§Ä±k kodlama modellerine **gÃ¼venilir** eriÅŸim saÄŸlamak.
+3. Kodlama aracÄ±sÄ± (agent) kullanÄ±mÄ± iÃ§in **test edilmiÅŸ ve kÄ±yaslanmÄ±ÅŸ** modelleri bir araya getirmek.
+4. Voracode ile diÄŸer saÄŸlayÄ±cÄ±larÄ± da kullanmanÄ±za olanak tanÄ±yarak **kilitlenme (vendor lock-in) olmamasÄ±nÄ±** saÄŸlamak.

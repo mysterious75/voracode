@@ -1,0 +1,142 @@
+---
+title: Web
+description: Korzystanie z voracode w przeglÄ…darce.
+---
+
+voracode moÅ¼e dziaÅ‚aÄ‡ jako aplikacja internetowa w przeglÄ…darce, zapewniajÄ…c takie same moÅ¼liwoÅ›ci kodowania AI bez koniecznoÅ›ci korzystania z terminala.
+
+![SieÄ‡ voracode - Nowa sesja](../../../assets/web/web-homepage-new-session.png)
+
+## Pierwsze kroki
+
+Uruchom interfejs sieciowy, uruchamiajÄ…c:
+
+```bash
+voracode web
+```
+
+Spowoduje to uruchomienie lokalnego serwera na `127.0.0.1` z losowo dostÄ™pnym portem i automatyczne otwarcie voracode w domyÅ›lnej przeglÄ…darce.
+
+:::caution
+JeÅ›li `VORACODE_SERVER_PASSWORD` nie jest ustawione, serwer bÄ™dzie niezabezpieczony. Jest to dobre rozwiÄ…zanie do uÅ¼ytku lokalnego, ale powinno byÄ‡ ustawione na dostÄ™p do sieci.
+:::
+
+:::tip[Windows Users]
+Aby uzyskaÄ‡ najlepsze wyniki, uruchom `voracode web` z [WSL](/docs/windows-wsl) zamiast programu PowerShell. Zapewnia to prawidÅ‚owy dostÄ™p do systemu plikÃ³w i integracjÄ™ terminala.
+:::
+
+---
+
+## Konfiguracja
+
+MoÅ¼esz skonfigurowaÄ‡ serwer WWW za pomocÄ… flag wiersza poleceÅ„ lub w [pliku konfiguracyjnym] (./config).
+
+### Port
+
+DomyÅ›lnie voracode wybiera dostÄ™pny port. MoÅ¼esz okreÅ›liÄ‡ port:
+
+```bash
+voracode web --port 4096
+```
+
+### Nazwa hosta
+
+DomyÅ›lnie serwer Å‚Ä…czy siÄ™ z `127.0.0.1` (tylko localhost). Aby udostÄ™pniÄ‡ voracode w swojej sieci:
+
+```bash
+voracode web --hostname 0.0.0.0
+```
+
+Podczas korzystania z `0.0.0.0` voracode wyÅ›wietli zarÃ³wno adresy lokalne, jak i sieciowe:
+
+```
+  Local access:       http://localhost:4096
+  Network access:     http://192.168.1.100:4096
+```
+
+### Wykrywanie mDNS
+
+WÅ‚Ä…cz mDNS, aby TwÃ³j serwer byÅ‚ wykrywalny w sieci lokalnej:
+
+```bash
+voracode web --mdns
+```
+
+To automatycznie ustawia nazwÄ™ hosta na `0.0.0.0` i anonsuje serwer jako `voracode.local`.
+
+MoÅ¼esz dostosowaÄ‡ nazwÄ™ domeny mDNS, aby uruchamiaÅ‚a wiele instancji w tej samej sieci:
+
+```bash
+voracode web --mdns --mdns-domain myproject.local
+```
+
+### CORS
+
+Aby zezwoliÄ‡ na dodatkowe domeny dla CORS (przydatne w przypadku niestandardowych interfejsÃ³w):
+
+```bash
+voracode web --cors https://example.com
+```
+
+### Uwierzytelnianie
+
+Aby chroniÄ‡ dostÄ™p, ustaw hasÅ‚o za pomocÄ… zmiennej Å›rodowiskowej `VORACODE_SERVER_PASSWORD`:
+
+```bash
+VORACODE_SERVER_PASSWORD=secret voracode web
+```
+
+DomyÅ›lna nazwa uÅ¼ytkownika to `voracode`, ale moÅ¼na jÄ… zmieniÄ‡ za pomocÄ… `VORACODE_SERVER_USERNAME`.
+
+---
+
+## Korzystanie z interfejsu internetowego
+
+Po uruchomieniu interfejs sieciowy zapewnia dostÄ™p do sesji voracode.
+
+### Sesje
+
+PrzeglÄ…daj sesje i zarzÄ…dzaj nimi ze strony gÅ‚Ã³wnej. MoÅ¼esz zobaczyÄ‡ aktywne sesje i rozpoczÄ…Ä‡ nowe.
+
+![voracode Web - Aktywna sesja](../../../assets/web/web-homepage-active-session.png)
+
+### Stan serwera
+
+Kliknij â€žZobacz serweryâ€, aby wyÅ›wietliÄ‡ podÅ‚Ä…czone serwery i ich status.
+
+![voracode Web - See Servers](../../../assets/web/web-homepage-see-servers.png)
+
+---
+
+## PodÅ‚Ä…czanie terminala
+
+MoÅ¼esz podÅ‚Ä…czyÄ‡ terminal TUI do dziaÅ‚ajÄ…cego serwera WWW:
+
+```bash
+# Start the web server
+voracode web --port 4096
+
+# In another terminal, attach the TUI
+voracode attach http://localhost:4096
+```
+
+UmoÅ¼liwia to jednoczesne korzystanie z interfejsu sieciowego i terminala, wspÃ³Å‚dzielÄ…c te same sesje i stan.
+
+---
+
+## Plik konfiguracyjny
+
+MoÅ¼esz takÅ¼e skonfigurowaÄ‡ ustawienia serwera w pliku konfiguracyjnym `voracode.json`:
+
+```json
+{
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "cors": ["https://example.com"]
+  }
+}
+```
+
+Flagi wiersza poleceÅ„ majÄ… pierwszeÅ„stwo przed ustawieniami pliku konfiguracyjnego.

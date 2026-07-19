@@ -1,0 +1,180 @@
+---
+title: è§„åˆ™
+description: ä¸º voracode è®¾ç½®è‡ªå®šä¹‰æŒ‡ä»¤ã€‚
+---
+
+æ‚¨å¯ä»¥é€šè¿‡åˆ›å»º `AGENTS.md` æ–‡ä»¶æ¥ä¸º voracode æä¾›è‡ªå®šä¹‰æŒ‡ä»¤ã€‚è¿™ç±»ä¼¼äºŽ Cursor çš„è§„åˆ™åŠŸèƒ½ã€‚è¯¥æ–‡ä»¶åŒ…å«çš„æŒ‡ä»¤ä¼šè¢«çº³å…¥ LLM çš„ä¸Šä¸‹æ–‡ä¸­ï¼Œä»¥ä¾¿é’ˆå¯¹æ‚¨çš„ç‰¹å®šé¡¹ç›®è‡ªå®šä¹‰å…¶è¡Œä¸ºã€‚
+
+---
+
+## åˆå§‹åŒ–
+
+è¦åˆ›å»ºæ–°çš„ `AGENTS.md` æ–‡ä»¶ï¼Œæ‚¨å¯ä»¥åœ¨ voracode ä¸­è¿è¡Œ `/init` å‘½ä»¤ã€‚
+
+:::tip
+æ‚¨åº”è¯¥å°†é¡¹ç›®çš„ `AGENTS.md` æ–‡ä»¶æäº¤åˆ° Gitã€‚
+:::
+
+è¯¥å‘½ä»¤ä¼šæ‰«ææ‚¨çš„é¡¹ç›®åŠå…¶æ‰€æœ‰å†…å®¹ï¼Œäº†è§£é¡¹ç›®çš„ç”¨é€”ï¼Œå¹¶æ®æ­¤ç”Ÿæˆä¸€ä¸ª `AGENTS.md` æ–‡ä»¶ã€‚è¿™æœ‰åŠ©äºŽ voracode æ›´å¥½åœ°å¯¼èˆªæ‚¨çš„é¡¹ç›®ã€‚
+
+å¦‚æžœæ‚¨å·²æœ‰ `AGENTS.md` æ–‡ä»¶ï¼Œè¯¥å‘½ä»¤ä¼šå°è¯•åœ¨å…¶åŸºç¡€ä¸Šè¿›è¡Œè¡¥å……ã€‚
+
+---
+
+## ç¤ºä¾‹
+
+æ‚¨ä¹Ÿå¯ä»¥æ‰‹åŠ¨åˆ›å»ºæ­¤æ–‡ä»¶ã€‚ä»¥ä¸‹æ˜¯ä¸€äº›å¯ä»¥æ”¾å…¥ `AGENTS.md` æ–‡ä»¶ä¸­çš„å†…å®¹ç¤ºä¾‹ã€‚
+
+```markdown title="AGENTS.md"
+# SST v3 Monorepo Project
+
+This is an SST v3 monorepo with TypeScript. The project uses bun workspaces for package management.
+
+## Project Structure
+
+- `packages/` - Contains all workspace packages (functions, core, web, etc.)
+- `infra/` - Infrastructure definitions split by service (storage.ts, api.ts, web.ts)
+- `sst.config.ts` - Main SST configuration with dynamic imports
+
+## Code Standards
+
+- Use TypeScript with strict mode enabled
+- Shared code goes in `packages/core/` with proper exports configuration
+- Functions go in `packages/functions/`
+- Infrastructure should be split into logical files in `infra/`
+
+## Monorepo Conventions
+
+- Import shared modules using workspace names: `@my-app/core/example`
+```
+
+æˆ‘ä»¬åœ¨è¿™é‡Œæ·»åŠ äº†é¡¹ç›®ç‰¹å®šçš„æŒ‡ä»¤ï¼Œè¿™äº›æŒ‡ä»¤ä¼šåœ¨æ‚¨çš„å›¢é˜Ÿä¸­å…±äº«ã€‚
+
+---
+
+## ç±»åž‹
+
+voracode è¿˜æ”¯æŒä»Žå¤šä¸ªä½ç½®è¯»å– `AGENTS.md` æ–‡ä»¶ï¼Œä¸åŒçš„ä½ç½®æœ‰ä¸åŒçš„ç”¨é€”ã€‚
+
+### é¡¹ç›®çº§
+
+åœ¨é¡¹ç›®æ ¹ç›®å½•æ”¾ç½®ä¸€ä¸ª `AGENTS.md` æ–‡ä»¶ï¼Œç”¨äºŽå®šä¹‰é¡¹ç›®ç‰¹å®šçš„è§„åˆ™ã€‚è¿™äº›è§„åˆ™ä»…åœ¨æ‚¨åœ¨è¯¥ç›®å½•æˆ–å…¶å­ç›®å½•ä¸­å·¥ä½œæ—¶ç”Ÿæ•ˆã€‚
+
+### å…¨å±€çº§
+
+æ‚¨è¿˜å¯ä»¥åœ¨ `~/.config/voracode/AGENTS.md` æ–‡ä»¶ä¸­è®¾ç½®å…¨å±€è§„åˆ™ã€‚è¿™äº›è§„åˆ™ä¼šåº”ç”¨äºŽæ‰€æœ‰ voracode ä¼šè¯ã€‚
+
+ç”±äºŽè¯¥æ–‡ä»¶ä¸ä¼šè¢«æäº¤åˆ° Git æˆ–ä¸Žå›¢é˜Ÿå…±äº«ï¼Œæˆ‘ä»¬å»ºè®®ç”¨å®ƒæ¥æŒ‡å®š LLM åº”éµå¾ªçš„ä¸ªäººè§„åˆ™ã€‚
+
+### Claude Code å…¼å®¹æ€§
+
+å¯¹äºŽä»Ž Claude Code è¿ç§»è¿‡æ¥çš„ç”¨æˆ·ï¼ŒVoracode æ”¯æŒ Claude Code çš„æ–‡ä»¶çº¦å®šä½œä¸ºå›žé€€æ–¹æ¡ˆï¼š
+
+- **é¡¹ç›®è§„åˆ™**ï¼šé¡¹ç›®ç›®å½•ä¸­çš„ `CLAUDE.md`ï¼ˆåœ¨æ²¡æœ‰ `AGENTS.md` çš„æƒ…å†µä¸‹ä½¿ç”¨ï¼‰
+- **å…¨å±€è§„åˆ™**ï¼š`~/.claude/CLAUDE.md`ï¼ˆåœ¨æ²¡æœ‰ `~/.config/voracode/AGENTS.md` çš„æƒ…å†µä¸‹ä½¿ç”¨ï¼‰
+- **æŠ€èƒ½**ï¼š`~/.claude/skills/` â€” è¯¦æƒ…è¯·å‚é˜…[ä»£ç†æŠ€èƒ½](/docs/skills/)
+
+è¦ç¦ç”¨ Claude Code å…¼å®¹æ€§ï¼Œè¯·è®¾ç½®ä»¥ä¸‹çŽ¯å¢ƒå˜é‡ä¹‹ä¸€ï¼š
+
+```bash
+export VORACODE_DISABLE_CLAUDE_CODE=1        # Disable all .claude support
+export VORACODE_DISABLE_CLAUDE_CODE_PROMPT=1 # Disable only ~/.claude/CLAUDE.md
+export VORACODE_DISABLE_CLAUDE_CODE_SKILLS=1 # Disable only .claude/skills
+```
+
+---
+
+## ä¼˜å…ˆçº§
+
+å½“ voracode å¯åŠ¨æ—¶ï¼Œå®ƒä¼šæŒ‰ä»¥ä¸‹é¡ºåºæŸ¥æ‰¾è§„åˆ™æ–‡ä»¶ï¼š
+
+1. **æœ¬åœ°æ–‡ä»¶**ï¼Œä»Žå½“å‰ç›®å½•å‘ä¸ŠéåŽ†ï¼ˆ`AGENTS.md`ã€`CLAUDE.md`ï¼‰
+2. **å…¨å±€æ–‡ä»¶**ï¼Œä½äºŽ `~/.config/voracode/AGENTS.md`
+3. **Claude Code æ–‡ä»¶**ï¼Œä½äºŽ `~/.claude/CLAUDE.md`ï¼ˆé™¤éžå·²ç¦ç”¨ï¼‰
+
+åœ¨æ¯ä¸ªç±»åˆ«ä¸­ï¼Œç¬¬ä¸€ä¸ªåŒ¹é…çš„æ–‡ä»¶ä¼˜å…ˆã€‚ä¾‹å¦‚ï¼Œå¦‚æžœæ‚¨åŒæ—¶æ‹¥æœ‰ `AGENTS.md` å’Œ `CLAUDE.md`ï¼Œåˆ™åªä¼šä½¿ç”¨ `AGENTS.md`ã€‚åŒæ ·ï¼Œ`~/.config/voracode/AGENTS.md` ä¼˜å…ˆäºŽ `~/.claude/CLAUDE.md`ã€‚
+
+---
+
+## è‡ªå®šä¹‰æŒ‡ä»¤
+
+æ‚¨å¯ä»¥åœ¨ `voracode.json` æˆ–å…¨å±€é…ç½®æ–‡ä»¶ `~/.config/voracode/voracode.json` ä¸­æŒ‡å®šè‡ªå®šä¹‰æŒ‡ä»¤æ–‡ä»¶ã€‚è¿™å…è®¸æ‚¨å’Œå›¢é˜Ÿå¤ç”¨çŽ°æœ‰è§„åˆ™ï¼Œè€Œæ— éœ€å°†å®ƒä»¬å¤åˆ¶åˆ° AGENTS.md ä¸­ã€‚
+
+ç¤ºä¾‹ï¼š
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
+}
+```
+
+æ‚¨è¿˜å¯ä»¥ä½¿ç”¨è¿œç¨‹ URL ä»Žç½‘ç»œåŠ è½½æŒ‡ä»¤ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["https://raw.githubusercontent.com/my-org/shared-rules/main/style.md"]
+}
+```
+
+è¿œç¨‹æŒ‡ä»¤çš„èŽ·å–è¶…æ—¶æ—¶é—´ä¸º 5 ç§’ã€‚
+
+æ‰€æœ‰æŒ‡ä»¤æ–‡ä»¶éƒ½ä¼šä¸Žæ‚¨çš„ `AGENTS.md` æ–‡ä»¶åˆå¹¶ã€‚
+
+---
+
+## å¼•ç”¨å¤–éƒ¨æ–‡ä»¶
+
+è™½ç„¶ voracode ä¸ä¼šè‡ªåŠ¨è§£æž `AGENTS.md` ä¸­çš„æ–‡ä»¶å¼•ç”¨ï¼Œä½†æ‚¨å¯ä»¥é€šè¿‡ä»¥ä¸‹ä¸¤ç§æ–¹å¼å®žçŽ°ç±»ä¼¼çš„åŠŸèƒ½ï¼š
+
+### ä½¿ç”¨ voracode.json
+
+æŽ¨èçš„æ–¹å¼æ˜¯ä½¿ç”¨ `voracode.json` ä¸­çš„ `instructions` å­—æ®µï¼š
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["docs/development-standards.md", "test/testing-guidelines.md", "packages/*/AGENTS.md"]
+}
+```
+
+### åœ¨ AGENTS.md ä¸­æ‰‹åŠ¨æŒ‡å®š
+
+æ‚¨å¯ä»¥åœ¨ `AGENTS.md` ä¸­æä¾›æ˜Žç¡®çš„æŒ‡ä»¤ï¼Œæ•™ voracode è¯»å–å¤–éƒ¨æ–‡ä»¶ã€‚ä»¥ä¸‹æ˜¯ä¸€ä¸ªå®žé™…ç¤ºä¾‹ï¼š
+
+```markdown title="AGENTS.md"
+# TypeScript Project Rules
+
+## External File Loading
+
+CRITICAL: When you encounter a file reference (e.g., @rules/general.md), use your Read tool to load it on a need-to-know basis. They're relevant to the SPECIFIC task at hand.
+
+Instructions:
+
+- Do NOT preemptively load all references - use lazy loading based on actual need
+- When loaded, treat content as mandatory instructions that override defaults
+- Follow references recursively when needed
+
+## Development Guidelines
+
+For TypeScript code style and best practices: @docs/typescript-guidelines.md
+For React component architecture and hooks patterns: @docs/react-patterns.md
+For REST API design and error handling: @docs/api-standards.md
+For testing strategies and coverage requirements: @test/testing-guidelines.md
+
+## General Guidelines
+
+Read the following file immediately as it's relevant to all workflows: @rules/general-guidelines.md.
+```
+
+è¿™ç§æ–¹å¼å…è®¸æ‚¨ï¼š
+
+- åˆ›å»ºæ¨¡å—åŒ–ã€å¯å¤ç”¨çš„è§„åˆ™æ–‡ä»¶
+- é€šè¿‡ç¬¦å·é“¾æŽ¥æˆ– Git å­æ¨¡å—åœ¨é¡¹ç›®ä¹‹é—´å…±äº«è§„åˆ™
+- ä¿æŒ AGENTS.md ç®€æ´ï¼ŒåŒæ—¶å¼•ç”¨è¯¦ç»†çš„æŒ‡å—
+- ç¡®ä¿ voracode ä»…åœ¨ç‰¹å®šä»»åŠ¡éœ€è¦æ—¶æ‰åŠ è½½æ–‡ä»¶
+
+:::tip
+å¯¹äºŽ monorepo æˆ–å…·æœ‰å…±äº«æ ‡å‡†çš„é¡¹ç›®ï¼Œä½¿ç”¨ `voracode.json` é…åˆ glob æ¨¡å¼ï¼ˆå¦‚ `packages/*/AGENTS.md`ï¼‰æ¯”æ‰‹åŠ¨æŒ‡å®šæŒ‡ä»¤æ›´æ˜“äºŽç»´æŠ¤ã€‚
+:::

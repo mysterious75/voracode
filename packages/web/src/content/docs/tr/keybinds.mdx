@@ -1,0 +1,194 @@
+---
+title: TuÅŸ atamalarÄ±
+description: TuÅŸ baÄŸlantÄ±larÄ±nÄ±zÄ± Ã¶zelleÅŸtirin.
+---
+
+voracode, `tui.json` aracÄ±lÄ±ÄŸÄ±yla Ã¶zelleÅŸtirebileceÄŸiniz bir tuÅŸ baÄŸlantÄ±larÄ± listesine sahiptir.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "keybinds": {
+    "leader": "ctrl+x",
+    "app_exit": "ctrl+c,ctrl+d,<leader>q",
+    "editor_open": "<leader>e",
+    "theme_list": "<leader>t",
+    "sidebar_toggle": "<leader>b",
+    "scrollbar_toggle": "none",
+    "username_toggle": "none",
+    "status_view": "<leader>s",
+    "tool_details": "none",
+    "session_export": "<leader>x",
+    "session_new": "<leader>n",
+    "session_list": "<leader>l",
+    "session_timeline": "<leader>g",
+    "session_fork": "none",
+    "session_rename": "none",
+    "session_share": "none",
+    "session_unshare": "none",
+    "session_interrupt": "escape",
+    "session_compact": "<leader>c",
+    "session_child_first": "<leader>down",
+    "session_child_cycle": "<leader>right",
+    "session_child_cycle_reverse": "<leader>left",
+    "session_parent": "<leader>up",
+    "messages_page_up": "pageup,ctrl+alt+b",
+    "messages_page_down": "pagedown,ctrl+alt+f",
+    "messages_line_up": "ctrl+alt+y",
+    "messages_line_down": "ctrl+alt+e",
+    "messages_half_page_up": "ctrl+alt+u",
+    "messages_half_page_down": "ctrl+alt+d",
+    "messages_first": "ctrl+g,home",
+    "messages_last": "ctrl+alt+g,end",
+    "messages_next": "none",
+    "messages_previous": "none",
+    "messages_copy": "<leader>y",
+    "messages_undo": "<leader>u",
+    "messages_redo": "<leader>r",
+    "messages_last_user": "none",
+    "messages_toggle_conceal": "<leader>h",
+    "model_list": "<leader>m",
+    "model_cycle_recent": "f2",
+    "model_cycle_recent_reverse": "shift+f2",
+    "model_cycle_favorite": "none",
+    "model_cycle_favorite_reverse": "none",
+    "variant_cycle": "ctrl+t",
+    "variant_list": "none",
+    "command_list": "ctrl+p",
+    "agent_list": "<leader>a",
+    "agent_cycle": "tab",
+    "agent_cycle_reverse": "shift+tab",
+    "input_clear": "ctrl+c",
+    "input_paste": "ctrl+v",
+    "input_submit": "return",
+    "input_newline": "shift+return,ctrl+return,alt+return,ctrl+j",
+    "input_move_left": "left,ctrl+b",
+    "input_move_right": "right,ctrl+f",
+    "input_move_up": "up",
+    "input_move_down": "down",
+    "input_select_left": "shift+left",
+    "input_select_right": "shift+right",
+    "input_select_up": "shift+up",
+    "input_select_down": "shift+down",
+    "input_line_home": "ctrl+a",
+    "input_line_end": "ctrl+e",
+    "input_select_line_home": "ctrl+shift+a",
+    "input_select_line_end": "ctrl+shift+e",
+    "input_visual_line_home": "alt+a",
+    "input_visual_line_end": "alt+e",
+    "input_select_visual_line_home": "alt+shift+a",
+    "input_select_visual_line_end": "alt+shift+e",
+    "input_buffer_home": "home",
+    "input_buffer_end": "end",
+    "input_select_buffer_home": "shift+home",
+    "input_select_buffer_end": "shift+end",
+    "input_delete_line": "ctrl+shift+d",
+    "input_delete_to_line_end": "ctrl+k",
+    "input_delete_to_line_start": "ctrl+u",
+    "input_backspace": "backspace,shift+backspace",
+    "input_delete": "ctrl+d,delete,shift+delete",
+    "input_undo": "ctrl+-,super+z",
+    "input_redo": "ctrl+.,super+shift+z",
+    "input_word_forward": "alt+f,alt+right,ctrl+right",
+    "input_word_backward": "alt+b,alt+left,ctrl+left",
+    "input_select_word_forward": "alt+shift+f,alt+shift+right",
+    "input_select_word_backward": "alt+shift+b,alt+shift+left",
+    "input_delete_word_forward": "alt+d,alt+delete,ctrl+delete",
+    "input_delete_word_backward": "ctrl+w,ctrl+backspace,alt+backspace",
+    "history_previous": "up",
+    "history_next": "down",
+    "terminal_suspend": "ctrl+z",
+    "terminal_title_toggle": "none",
+    "tips_toggle": "<leader>h",
+    "display_thinking": "none"
+  }
+}
+```
+
+---
+
+## Leader tuÅŸu
+
+voracode Ã§oÄŸu tuÅŸ atamasÄ± iÃ§in `leader` anahtarÄ±nÄ± kullanÄ±r. Bu, terminalinizdeki Ã§akÄ±ÅŸmalarÄ± Ã¶nler.
+
+VarsayÄ±lan olarak `ctrl+x` lider tuÅŸtur ve Ã§oÄŸu eylem Ã¶nce lider tuÅŸa, ardÄ±ndan kÄ±sayola basmanÄ±zÄ± gerektirir. Ã–rneÄŸin, yeni bir oturum baÅŸlatmak iÃ§in Ã¶nce `ctrl+x` tuÅŸuna, ardÄ±ndan `n` tuÅŸuna basarsÄ±nÄ±z.
+
+TuÅŸ atamalarÄ±nÄ±z iÃ§in lider anahtar kullanmanÄ±za gerek yoktur ancak bunu yapmanÄ±zÄ± Ã¶neririz.
+
+---
+
+## TuÅŸ atamasÄ±nÄ± devre dÄ±ÅŸÄ± bÄ±rak
+
+AnahtarÄ± yapÄ±landÄ±rmanÄ±za "none" deÄŸeriyle ekleyerek bir tuÅŸ atamasÄ±nÄ± devre dÄ±ÅŸÄ± bÄ±rakabilirsiniz.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "keybinds": {
+    "session_compact": "none"
+  }
+}
+```
+
+---
+
+## MasaÃ¼stÃ¼ istemi kÄ±sayollarÄ±
+
+voracode masaÃ¼stÃ¼ uygulamasÄ± bilgi istemi giriÅŸi, metni dÃ¼zenlemek iÃ§in yaygÄ±n Readline/Emacs tarzÄ± kÄ±sayollarÄ± destekler. Bunlar yerleÅŸiktir ve ÅŸu anda `voracode.json` aracÄ±lÄ±ÄŸÄ±yla yapÄ±landÄ±rÄ±lamaz.
+
+| Shortcut | Action                                              |
+| -------- | --------------------------------------------------- |
+| `ctrl+a` | GeÃ§erli satÄ±rÄ±n baÅŸÄ±na git                          |
+| `ctrl+e` | GeÃ§erli satÄ±rÄ±n sonuna git                          |
+| `ctrl+b` | Ä°mleci bir karakter geri taÅŸÄ±                       |
+| `ctrl+f` | Ä°mleci bir karakter ileri taÅŸÄ±                      |
+| `alt+b`  | Ä°mleci bir kelime geri taÅŸÄ±                         |
+| `alt+f`  | Ä°mleci bir kelime ileri taÅŸÄ±                        |
+| `ctrl+d` | Ä°mleÃ§ altÄ±ndaki karakteri sil                       |
+| `ctrl+k` | SatÄ±rÄ±n sonuna kadar sil                            |
+| `ctrl+u` | SatÄ±rÄ±n baÅŸÄ±na kadar sil                            |
+| `ctrl+w` | Ã–nceki kelimeyi sil                                 |
+| `alt+d`  | Sonraki kelimeyi sil                                |
+| `ctrl+t` | Karakterlerin yerini deÄŸiÅŸtir                       |
+| `ctrl+g` | AÃ§Ä±lÄ±r pencereleri iptal et / Ã§alÄ±ÅŸan yanÄ±tÄ± durdur |
+
+---
+
+## Shift+Enter
+
+BazÄ± terminaller varsayÄ±lan olarak Enter ile deÄŸiÅŸtirici tuÅŸlar gÃ¶ndermez. Terminalinizi, kaÃ§Ä±ÅŸ dizisi olarak `Shift+Enter` gÃ¶nderecek ÅŸekilde yapÄ±landÄ±rmanÄ±z gerekebilir.
+
+### Windows Terminali
+
+`settings.json` dosyasÄ±nÄ± ÅŸurada aÃ§Ä±n:
+
+```
+%LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
+```
+
+Bunu kÃ¶k dÃ¼zeyindeki `actions` dizisine ekleyin:
+
+```json
+"actions": [
+  {
+    "command": {
+      "action": "sendInput",
+      "input": "\u001b[13;2u"
+    },
+    "id": "User.sendInput.ShiftEnterCustom"
+  }
+]
+```
+
+Bunu kÃ¶k dÃ¼zeyindeki `keybindings` dizisine ekleyin:
+
+```json
+"keybindings": [
+  {
+    "keys": "shift+enter",
+    "id": "User.sendInput.ShiftEnterCustom"
+  }
+]
+```
+
+DosyayÄ± kaydedin ve Windows Terminalini yeniden baÅŸlatÄ±n veya yeni bir sekme aÃ§Ä±n.

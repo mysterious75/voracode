@@ -1,0 +1,511 @@
+---
+title: MCP æœåŠ¡å™¨
+description: æ·»åŠ æœ¬åœ°å’Œè¿œç¨‹ MCP å·¥å…·ã€‚
+---
+
+ä½ å¯ä»¥é€šè¿‡ _Model Context Protocol_ï¼ˆMCPï¼‰ä¸º Voracode æ·»åŠ å¤–éƒ¨å·¥å…·ã€‚Voracode åŒæ—¶æ”¯æŒæœ¬åœ°å’Œè¿œç¨‹æœåŠ¡å™¨ã€‚
+
+æ·»åŠ åŽï¼ŒMCP å·¥å…·ä¼šè‡ªåŠ¨ä¸Žå†…ç½®å·¥å…·ä¸€èµ·æä¾›ç»™ LLM ä½¿ç”¨ã€‚
+
+---
+
+#### æ³¨æ„äº‹é¡¹
+
+ä½¿ç”¨ MCP æœåŠ¡å™¨æ—¶ï¼Œå®ƒä¼šå ç”¨ä¸Šä¸‹æ–‡ç©ºé—´ã€‚å¦‚æžœä½ å¯ç”¨äº†å¤§é‡å·¥å…·ï¼Œä¸Šä¸‹æ–‡æ¶ˆè€—ä¼šè¿…é€Ÿå¢žåŠ ã€‚å› æ­¤ï¼Œæˆ‘ä»¬å»ºè®®è°¨æ…Žé€‰æ‹©è¦ä½¿ç”¨çš„ MCP æœåŠ¡å™¨ã€‚
+
+:::tip
+MCP æœåŠ¡å™¨ä¼šå ç”¨ä½ çš„ä¸Šä¸‹æ–‡ç©ºé—´ï¼Œæ‰€ä»¥è¯·è°¨æ…Žé€‰æ‹©å¯ç”¨å“ªäº›æœåŠ¡å™¨ã€‚
+:::
+
+æŸäº› MCP æœåŠ¡å™¨ï¼ˆä¾‹å¦‚ GitHub MCP æœåŠ¡å™¨ï¼‰å¾€å¾€ä¼šæ¶ˆè€—å¤§é‡ Tokenï¼Œå¾ˆå®¹æ˜“è¶…å‡ºä¸Šä¸‹æ–‡é™åˆ¶ã€‚
+
+---
+
+## å¯ç”¨
+
+ä½ å¯ä»¥åœ¨ [Voracode é…ç½®](https://voracode.ai/docs/config/)çš„ `mcp` å­—æ®µä¸‹å®šä¹‰ MCP æœåŠ¡å™¨ã€‚ä¸ºæ¯ä¸ª MCP æŒ‡å®šä¸€ä¸ªå”¯ä¸€çš„åç§°ï¼Œåœ¨æç¤ºè¯ä¸­å¯ä»¥é€šè¿‡è¯¥åç§°æ¥å¼•ç”¨å¯¹åº”çš„ MCPã€‚
+
+```jsonc title="voracode.jsonc" {6}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "name-of-mcp-server": {
+      // ...
+      "enabled": true,
+    },
+    "name-of-other-mcp-server": {
+      // ...
+    },
+  },
+}
+```
+
+ä½ ä¹Ÿå¯ä»¥å°† `enabled` è®¾ç½®ä¸º `false` æ¥ç¦ç”¨æŸä¸ªæœåŠ¡å™¨ã€‚å½“ä½ æƒ³ä¸´æ—¶ç¦ç”¨æŸä¸ªæœåŠ¡å™¨è€Œä¸å°†å…¶ä»Žé…ç½®ä¸­ç§»é™¤æ—¶ï¼Œè¿™ä¸ªé€‰é¡¹éžå¸¸æœ‰ç”¨ã€‚
+
+---
+
+### è¦†ç›–è¿œç¨‹é»˜è®¤å€¼
+
+ç»„ç»‡å¯ä»¥é€šè¿‡å…¶ `.well-known/voracode` ç«¯ç‚¹æä¾›é»˜è®¤çš„ MCP æœåŠ¡å™¨ã€‚è¿™äº›æœåŠ¡å™¨å¯èƒ½é»˜è®¤å¤„äºŽç¦ç”¨çŠ¶æ€ï¼Œå…è®¸ç”¨æˆ·æŒ‰éœ€å¯ç”¨ã€‚
+
+è¦å¯ç”¨ç»„ç»‡è¿œç¨‹é…ç½®ä¸­çš„æŸä¸ªæœåŠ¡å™¨ï¼Œè¯·åœ¨æœ¬åœ°é…ç½®ä¸­æ·»åŠ è¯¥æœåŠ¡å™¨å¹¶è®¾ç½® `enabled: true`ï¼š
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://jira.example.com/mcp",
+      "enabled": true
+    }
+  }
+}
+```
+
+æœ¬åœ°é…ç½®å€¼ä¼šè¦†ç›–è¿œç¨‹é»˜è®¤å€¼ã€‚è¯¦æƒ…è¯·å‚é˜…[é…ç½®ä¼˜å…ˆçº§](/docs/config#precedence-order)ã€‚
+
+---
+
+## æœ¬åœ°
+
+é€šè¿‡åœ¨ MCP å¯¹è±¡ä¸­å°† `type` è®¾ç½®ä¸º `"local"` æ¥æ·»åŠ æœ¬åœ° MCP æœåŠ¡å™¨ã€‚
+
+```jsonc title="voracode.jsonc" {15}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-local-mcp-server": {
+      "type": "local",
+      // Or ["bun", "x", "my-mcp-command"]
+      "command": ["npx", "-y", "my-mcp-command"],
+      "enabled": true,
+      "environment": {
+        "MY_ENV_VAR": "my_env_var_value",
+      },
+    },
+  },
+}
+```
+
+`command` ç”¨äºŽæŒ‡å®šæœ¬åœ° MCP æœåŠ¡å™¨çš„å¯åŠ¨å‘½ä»¤ã€‚ä½ è¿˜å¯ä»¥ä¼ å…¥ä¸€ç»„çŽ¯å¢ƒå˜é‡ã€‚
+
+ä¾‹å¦‚ï¼Œä»¥ä¸‹æ˜¯æ·»åŠ æµ‹è¯•ç”¨çš„ [`@modelcontextprotocol/server-everything`](https://www.npmjs.com/package/@modelcontextprotocol/server-everything) MCP æœåŠ¡å™¨çš„æ–¹æ³•ã€‚
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "mcp_everything": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-everything"],
+    },
+  },
+}
+```
+
+è¦ä½¿ç”¨å®ƒï¼Œå¯ä»¥åœ¨æç¤ºè¯ä¸­æ·»åŠ  `use the mcp_everything tool`ã€‚
+
+```txt "mcp_everything"
+use the mcp_everything tool to add the number 3 and 4
+```
+
+---
+
+#### é€‰é¡¹
+
+ä»¥ä¸‹æ˜¯é…ç½®æœ¬åœ° MCP æœåŠ¡å™¨çš„æ‰€æœ‰é€‰é¡¹ã€‚
+
+| é€‰é¡¹          | ç±»åž‹   | å¿…å¡« | æè¿°                                                              |
+| ------------- | ------ | ---- | ----------------------------------------------------------------- |
+| `type`        | å­—ç¬¦ä¸² | æ˜¯   | MCP æœåŠ¡å™¨è¿žæŽ¥ç±»åž‹ï¼Œå¿…é¡»ä¸º `"local"`ã€‚                            |
+| `command`     | æ•°ç»„   | æ˜¯   | è¿è¡Œ MCP æœåŠ¡å™¨çš„å‘½ä»¤åŠå‚æ•°ã€‚                                     |
+| `environment` | å¯¹è±¡   |      | è¿è¡ŒæœåŠ¡å™¨æ—¶è®¾ç½®çš„çŽ¯å¢ƒå˜é‡ã€‚                                      |
+| `enabled`     | å¸ƒå°”å€¼ |      | å¯åŠ¨æ—¶å¯ç”¨æˆ–ç¦ç”¨è¯¥ MCP æœåŠ¡å™¨ã€‚                                   |
+| `timeout`     | æ•°å­—   |      | ä»Ž MCP æœåŠ¡å™¨èŽ·å–å·¥å…·çš„è¶…æ—¶æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰ã€‚é»˜è®¤ä¸º 5000ï¼ˆå³ 5 ç§’ï¼‰ã€‚ |
+
+---
+
+## è¿œç¨‹
+
+é€šè¿‡å°† `type` è®¾ç½®ä¸º `"remote"` æ¥æ·»åŠ è¿œç¨‹ MCP æœåŠ¡å™¨ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-remote-mcp": {
+      "type": "remote",
+      "url": "https://my-mcp-server.com",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer MY_API_KEY"
+      }
+    }
+  }
+}
+```
+
+`url` æ˜¯è¿œç¨‹ MCP æœåŠ¡å™¨çš„åœ°å€ï¼Œé€šè¿‡ `headers` é€‰é¡¹å¯ä»¥ä¼ å…¥ä¸€ç»„è¯·æ±‚å¤´ã€‚
+
+---
+
+#### é€‰é¡¹
+
+| é€‰é¡¹      | ç±»åž‹   | å¿…å¡« | æè¿°                                                              |
+| --------- | ------ | ---- | ----------------------------------------------------------------- |
+| `type`    | å­—ç¬¦ä¸² | æ˜¯   | MCP æœåŠ¡å™¨è¿žæŽ¥ç±»åž‹ï¼Œå¿…é¡»ä¸º `"remote"`ã€‚                           |
+| `url`     | å­—ç¬¦ä¸² | æ˜¯   | è¿œç¨‹ MCP æœåŠ¡å™¨çš„ URLã€‚                                           |
+| `enabled` | å¸ƒå°”å€¼ |      | å¯åŠ¨æ—¶å¯ç”¨æˆ–ç¦ç”¨è¯¥ MCP æœåŠ¡å™¨ã€‚                                   |
+| `headers` | å¯¹è±¡   |      | éšè¯·æ±‚å‘é€çš„è¯·æ±‚å¤´ã€‚                                              |
+| `oauth`   | å¯¹è±¡   |      | OAuth èº«ä»½éªŒè¯é…ç½®ã€‚è¯¦è§ä¸‹æ–¹ [OAuth](#oauth) éƒ¨åˆ†ã€‚               |
+| `timeout` | æ•°å­—   |      | ä»Ž MCP æœåŠ¡å™¨èŽ·å–å·¥å…·çš„è¶…æ—¶æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰ã€‚é»˜è®¤ä¸º 5000ï¼ˆå³ 5 ç§’ï¼‰ã€‚ |
+
+---
+
+## OAuth
+
+Voracode ä¼šè‡ªåŠ¨å¤„ç†è¿œç¨‹ MCP æœåŠ¡å™¨çš„ OAuth èº«ä»½éªŒè¯ã€‚å½“æœåŠ¡å™¨éœ€è¦èº«ä»½éªŒè¯æ—¶ï¼ŒVoracode å°†ï¼š
+
+1. æ£€æµ‹ 401 å“åº”å¹¶å¯åŠ¨ OAuth æµç¨‹
+2. åœ¨æœåŠ¡å™¨æ”¯æŒçš„æƒ…å†µä¸‹ä½¿ç”¨**åŠ¨æ€å®¢æˆ·ç«¯æ³¨å†Œï¼ˆRFC 7591ï¼‰**
+3. å®‰å…¨åœ°å­˜å‚¨ Token ä»¥ä¾›åŽç»­è¯·æ±‚ä½¿ç”¨
+
+---
+
+### è‡ªåŠ¨è®¤è¯
+
+å¯¹äºŽå¤§å¤šæ•°æ”¯æŒ OAuth çš„ MCP æœåŠ¡å™¨ï¼Œæ— éœ€ç‰¹æ®Šé…ç½®ã€‚åªéœ€é…ç½®è¿œç¨‹æœåŠ¡å™¨å³å¯ï¼š
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-oauth-server": {
+      "type": "remote",
+      "url": "https://mcp.example.com/mcp"
+    }
+  }
+}
+```
+
+å¦‚æžœæœåŠ¡å™¨éœ€è¦èº«ä»½éªŒè¯ï¼ŒVoracode ä¼šåœ¨ä½ é¦–æ¬¡ä½¿ç”¨æ—¶æç¤ºä½ è¿›è¡Œè®¤è¯ã€‚ä½ ä¹Ÿå¯ä»¥ä½¿ç”¨ `voracode mcp auth <server-name>` [æ‰‹åŠ¨è§¦å‘è®¤è¯æµç¨‹](#authenticating)ã€‚
+
+---
+
+### é¢„æ³¨å†Œ
+
+å¦‚æžœä½ å·²ç»ä»Ž MCP æœåŠ¡å™¨æä¾›å•†å¤„èŽ·å¾—äº†å®¢æˆ·ç«¯å‡­æ®ï¼Œå¯ä»¥ç›´æŽ¥é…ç½®ï¼š
+
+```json title="voracode.json" {7-11}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-oauth-server": {
+      "type": "remote",
+      "url": "https://mcp.example.com/mcp",
+      "oauth": {
+        "clientId": "{env:MY_MCP_CLIENT_ID}",
+        "clientSecret": "{env:MY_MCP_CLIENT_SECRET}",
+        "scope": "tools:read tools:execute"
+      }
+    }
+  }
+}
+```
+
+---
+
+### èº«ä»½éªŒè¯
+
+ä½ å¯ä»¥æ‰‹åŠ¨è§¦å‘èº«ä»½éªŒè¯æˆ–ç®¡ç†å‡­æ®ã€‚
+
+å¯¹ç‰¹å®š MCP æœåŠ¡å™¨è¿›è¡Œèº«ä»½éªŒè¯ï¼š
+
+```bash
+voracode mcp auth my-oauth-server
+```
+
+åˆ—å‡ºæ‰€æœ‰ MCP æœåŠ¡å™¨åŠå…¶è®¤è¯çŠ¶æ€ï¼š
+
+```bash
+voracode mcp list
+```
+
+åˆ é™¤å·²å­˜å‚¨çš„å‡­æ®ï¼š
+
+```bash
+voracode mcp logout my-oauth-server
+```
+
+`mcp auth` å‘½ä»¤ä¼šæ‰“å¼€æµè§ˆå™¨è¿›è¡ŒæŽˆæƒã€‚æŽˆæƒå®ŒæˆåŽï¼ŒVoracode ä¼šå°† Token å®‰å…¨åœ°å­˜å‚¨åœ¨ `~/.local/share/voracode/mcp-auth.json` ä¸­ã€‚
+
+---
+
+#### ç¦ç”¨ OAuth
+
+å¦‚æžœä½ æƒ³ä¸ºæŸä¸ªæœåŠ¡å™¨ç¦ç”¨è‡ªåŠ¨ OAuthï¼ˆä¾‹å¦‚ï¼Œè¯¥æœåŠ¡å™¨ä½¿ç”¨ API å¯†é’¥è€Œéž OAuthï¼‰ï¼Œå¯ä»¥å°† `oauth` è®¾ç½®ä¸º `false`ï¼š
+
+```json title="voracode.json" {7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-api-key-server": {
+      "type": "remote",
+      "url": "https://mcp.example.com/mcp",
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {env:MY_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+---
+
+#### OAuth é€‰é¡¹
+
+| é€‰é¡¹           | ç±»åž‹            | æè¿°                                                   |
+| -------------- | --------------- | ------------------------------------------------------ |
+| `oauth`        | å¯¹è±¡ \| `false` | OAuth é…ç½®å¯¹è±¡ï¼Œæˆ–è®¾ä¸º `false` ä»¥ç¦ç”¨ OAuth è‡ªåŠ¨æ£€æµ‹ã€‚ |
+| `clientId`     | å­—ç¬¦ä¸²          | OAuth å®¢æˆ·ç«¯ IDã€‚å¦‚æžœæœªæä¾›ï¼Œå°†å°è¯•åŠ¨æ€å®¢æˆ·ç«¯æ³¨å†Œã€‚    |
+| `clientSecret` | å­—ç¬¦ä¸²          | OAuth å®¢æˆ·ç«¯å¯†é’¥ï¼ˆå¦‚æžœæŽˆæƒæœåŠ¡å™¨è¦æ±‚æä¾›ï¼‰ã€‚           |
+| `scope`        | å­—ç¬¦ä¸²          | æŽˆæƒæ—¶è¯·æ±‚çš„ OAuth ä½œç”¨åŸŸã€‚                            |
+
+#### è°ƒè¯•
+
+å¦‚æžœè¿œç¨‹ MCP æœåŠ¡å™¨èº«ä»½éªŒè¯å¤±è´¥ï¼Œä½ å¯ä»¥é€šè¿‡ä»¥ä¸‹æ–¹å¼è¯Šæ–­é—®é¢˜ï¼š
+
+```bash
+# æŸ¥çœ‹æ‰€æœ‰æ”¯æŒ OAuth çš„æœåŠ¡å™¨çš„è®¤è¯çŠ¶æ€
+voracode mcp auth list
+
+# è°ƒè¯•ç‰¹å®šæœåŠ¡å™¨çš„è¿žæŽ¥å’Œ OAuth æµç¨‹
+voracode mcp debug my-oauth-server
+```
+
+`mcp debug` å‘½ä»¤ä¼šæ˜¾ç¤ºå½“å‰è®¤è¯çŠ¶æ€ã€æµ‹è¯• HTTP è¿žæŽ¥ï¼Œå¹¶å°è¯•æ‰§è¡Œ OAuth å‘çŽ°æµç¨‹ã€‚
+
+---
+
+## ç®¡ç†
+
+ä½ çš„ MCP åœ¨ Voracode ä¸­ä½œä¸ºå·¥å…·ä½¿ç”¨ï¼Œä¸Žå†…ç½®å·¥å…·å¹¶åˆ—ã€‚å› æ­¤ï¼Œä½ å¯ä»¥åƒç®¡ç†å…¶ä»–å·¥å…·ä¸€æ ·ï¼Œé€šè¿‡ Voracode é…ç½®æ¥ç®¡ç†å®ƒä»¬ã€‚
+
+---
+
+### å…¨å±€
+
+ä½ å¯ä»¥å…¨å±€å¯ç”¨æˆ–ç¦ç”¨ MCP å·¥å…·ã€‚
+
+```json title="voracode.json" {14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-mcp-foo": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-foo"]
+    },
+    "my-mcp-bar": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-bar"]
+    }
+  },
+  "tools": {
+    "my-mcp-foo": false
+  }
+}
+```
+
+ä¹Ÿå¯ä»¥ä½¿ç”¨ glob æ¨¡å¼æ¥ç¦ç”¨æ‰€æœ‰åŒ¹é…çš„ MCPã€‚
+
+```json title="voracode.json" {14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-mcp-foo": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-foo"]
+    },
+    "my-mcp-bar": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-bar"]
+    }
+  },
+  "tools": {
+    "my-mcp*": false
+  }
+}
+```
+
+è¿™é‡Œä½¿ç”¨ glob æ¨¡å¼ `my-mcp*` æ¥ç¦ç”¨æ‰€æœ‰ MCPã€‚
+
+---
+
+### æŒ‰ä»£ç†é…ç½®
+
+å¦‚æžœä½ æœ‰å¤§é‡ MCP æœåŠ¡å™¨ï¼Œå¯ä»¥é€‰æ‹©å…¨å±€ç¦ç”¨å®ƒä»¬ï¼Œç„¶åŽä»…åœ¨ç‰¹å®šä»£ç†ä¸­å¯ç”¨ã€‚å…·ä½“åšæ³•ï¼š
+
+1. å…¨å±€ç¦ç”¨è¯¥å·¥å…·ã€‚
+2. åœ¨[ä»£ç†é…ç½®](/docs/agents#tools)ä¸­ï¼Œå°† MCP æœåŠ¡å™¨ä½œä¸ºå·¥å…·å¯ç”¨ã€‚
+
+```json title="voracode.json" {11, 14-18}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-mcp": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command"],
+      "enabled": true
+    }
+  },
+  "tools": {
+    "my-mcp*": false
+  },
+  "agent": {
+    "my-agent": {
+      "tools": {
+        "my-mcp*": true
+      }
+    }
+  }
+}
+```
+
+---
+
+#### Glob æ¨¡å¼
+
+glob æ¨¡å¼ä½¿ç”¨ç®€å•çš„æ­£åˆ™é€šé…ç¬¦è§„åˆ™ï¼š
+
+- `*` åŒ¹é…é›¶ä¸ªæˆ–å¤šä¸ªä»»æ„å­—ç¬¦ï¼ˆä¾‹å¦‚ï¼Œ`"my-mcp*"` åŒ¹é… `my-mcp_search`ã€`my-mcp_list` ç­‰ï¼‰
+- `?` åŒ¹é…æ°å¥½ä¸€ä¸ªå­—ç¬¦
+- å…¶ä»–å­—ç¬¦æŒ‰å­—é¢å€¼åŒ¹é…
+
+:::note
+MCP æœåŠ¡å™¨å·¥å…·åœ¨æ³¨å†Œæ—¶ä»¥æœåŠ¡å™¨åç§°ä½œä¸ºå‰ç¼€ï¼Œå› æ­¤è¦ç¦ç”¨æŸä¸ªæœåŠ¡å™¨çš„æ‰€æœ‰å·¥å…·ï¼Œåªéœ€ä½¿ç”¨ï¼š
+
+```
+"mymcpservername_*": false
+```
+
+:::
+
+---
+
+## ç¤ºä¾‹
+
+ä»¥ä¸‹æ˜¯ä¸€äº›å¸¸è§ MCP æœåŠ¡å™¨çš„é…ç½®ç¤ºä¾‹ã€‚å¦‚æžœä½ æƒ³è®°å½•å…¶ä»–æœåŠ¡å™¨çš„ç”¨æ³•ï¼Œæ¬¢è¿Žæäº¤ PRã€‚
+
+---
+
+### Sentry
+
+æ·»åŠ  [Sentry MCP æœåŠ¡å™¨](https://mcp.sentry.dev) ä»¥ä¸Žä½ çš„ Sentry é¡¹ç›®å’Œé—®é¢˜è¿›è¡Œäº¤äº’ã€‚
+
+```json title="voracode.json" {4-8}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "sentry": {
+      "type": "remote",
+      "url": "https://mcp.sentry.dev/mcp",
+      "oauth": {}
+    }
+  }
+}
+```
+
+æ·»åŠ é…ç½®åŽï¼Œä½¿ç”¨ Sentry è¿›è¡Œèº«ä»½éªŒè¯ï¼š
+
+```bash
+voracode mcp auth sentry
+```
+
+è¿™ä¼šæ‰“å¼€æµè§ˆå™¨çª—å£å®Œæˆ OAuth æµç¨‹ï¼Œå°† Voracode è¿žæŽ¥åˆ°ä½ çš„ Sentry è´¦æˆ·ã€‚
+
+è®¤è¯å®ŒæˆåŽï¼Œä½ å¯ä»¥åœ¨æç¤ºè¯ä¸­ä½¿ç”¨ Sentry å·¥å…·æ¥æŸ¥è¯¢é—®é¢˜ã€é¡¹ç›®å’Œé”™è¯¯æ•°æ®ã€‚
+
+```txt "use sentry"
+Show me the latest unresolved issues in my project. use sentry
+```
+
+---
+
+### Context7
+
+æ·»åŠ  [Context7 MCP æœåŠ¡å™¨](https://github.com/upstash/context7) ä»¥æœç´¢æ–‡æ¡£ã€‚
+
+```json title="voracode.json" {4-7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp"
+    }
+  }
+}
+```
+
+å¦‚æžœä½ æ³¨å†Œäº†å…è´¹è´¦æˆ·ï¼Œå¯ä»¥ä½¿ç”¨ API å¯†é’¥æ¥èŽ·å¾—æ›´é«˜çš„é€ŸçŽ‡é™åˆ¶ã€‚
+
+```json title="voracode.json" {7-9}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+è¿™é‡Œå‡è®¾ä½ å·²ç»è®¾ç½®äº† `CONTEXT7_API_KEY` çŽ¯å¢ƒå˜é‡ã€‚
+
+åœ¨æç¤ºè¯ä¸­æ·»åŠ  `use context7` å³å¯ä½¿ç”¨ Context7 MCP æœåŠ¡å™¨ã€‚
+
+```txt "use context7"
+Configure a Cloudflare Worker script to cache JSON API responses for five minutes. use context7
+```
+
+ä½ ä¹Ÿå¯ä»¥åœ¨ [AGENTS.md](/docs/rules/) ä¸­æ·»åŠ ç±»ä¼¼çš„è§„åˆ™ã€‚
+
+```md title="AGENTS.md"
+When you need to search docs, use `context7` tools.
+```
+
+---
+
+### Grep by Vercel
+
+æ·»åŠ  [Grep by Vercel](https://grep.app) MCP æœåŠ¡å™¨ä»¥æœç´¢ GitHub ä¸Šçš„ä»£ç ç‰‡æ®µã€‚
+
+```json title="voracode.json" {4-7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app"
+    }
+  }
+}
+```
+
+ç”±äºŽæˆ‘ä»¬å°† MCP æœåŠ¡å™¨å‘½åä¸º `gh_grep`ï¼Œä½ å¯ä»¥åœ¨æç¤ºè¯ä¸­æ·»åŠ  `use the gh_grep tool` æ¥è®©ä»£ç†ä½¿ç”¨å®ƒã€‚
+
+```txt "use the gh_grep tool"
+What's the right way to set a custom domain in an SST Astro component? use the gh_grep tool
+```
+
+ä½ ä¹Ÿå¯ä»¥åœ¨ [AGENTS.md](/docs/rules/) ä¸­æ·»åŠ ç±»ä¼¼çš„è§„åˆ™ã€‚
+
+```md title="AGENTS.md"
+If you are unsure how to do something, use `gh_grep` to search code examples from GitHub.
+```

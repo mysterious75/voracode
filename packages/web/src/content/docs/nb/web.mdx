@@ -1,0 +1,105 @@
+---
+title: Web
+description: Bruke Voracode i nettleseren din.
+---
+
+Voracode kan kjÃ¸res som en nettapplikasjon i nettleseren din, og gir den samme kraftige AI-kodingsopplevelsen uten at du trenger en terminal.
+
+![Voracode Web - Ny Ã¸kt](../../../assets/web/web-homepage-new-session.png)
+
+## Komme i gang
+
+Start web-grensesnittet ved Ã¥ kjÃ¸re:
+
+```bash
+voracode web
+```
+
+Dette starter en lokal server pÃ¥ `127.0.0.1` med en tilfeldig tilgjengelig port og Ã¥pner automatisk Voracode i standard nettleser.
+
+---
+
+## Konfigurasjon
+
+Du kan konfigurere webserveren ved Ã¥ bruke kommandolinjeflagg eller i [konfigurasjonsfilen](/docs/config).
+
+### Port
+
+Som standard velger Voracode en tilgjengelig port. Du kan spesifisere en port:
+
+```bash
+voracode web --port 4096
+```
+
+### Vertsnavn
+
+Som standard binder serveren seg til `127.0.0.1` (kun localhost). Slik gjÃ¸r du Voracode tilgjengelig pÃ¥ nettverket ditt:
+
+```bash
+voracode web --hostname 0.0.0.0
+```
+
+---
+
+### Autentisering
+
+For Ã¥ beskytte tilgang, angi et passord ved hjelp av miljÃ¸variabelen `VORACODE_SERVER_PASSWORD`:
+
+```bash
+VORACODE_SERVER_PASSWORD=secret voracode web
+```
+
+Brukernavnet er satt til `voracode` som standard, men kan endres med `VORACODE_SERVER_USERNAME`.
+
+---
+
+## Bruke webgrensesnittet
+
+NÃ¥r den er startet, gir nettgrensesnittet tilgang til dine Voracode-Ã¸kter.
+
+### Sesjoner
+
+Se og administrer Ã¸ktene dine fra hjemmesiden. Du kan se aktive Ã¸kter og starte nye.
+
+![Voracode Web - Active Session](../../../assets/web/web-homepage-active-session.png)
+
+### Serverstatus
+
+Klikk pÃ¥ "Se servere" for Ã¥ se tilkoblede servere og deres status.
+
+![Voracode Web - Se servere](../../../assets/web/web-homepage-see-servers.png)
+
+---
+
+## Koble til en terminal
+
+Du kan koble en terminal TUI til en kjÃ¸rende webserver:
+
+```bash
+# Start the web server
+voracode web --port 4096
+
+# In another terminal, attach the TUI
+voracode attach http://localhost:4096
+```
+
+Dette lar deg bruke bÃ¥de nettgrensesnittet og terminalen samtidig, og deler samme Ã¸kter og tilstand.
+
+---
+
+## Konfigurasjonsfil
+
+Du kan ogsÃ¥ konfigurere serverinnstillinger i `voracode.json` konfigurasjonsfilen:
+
+```json
+{
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "cors": ["https://example.com"]
+  }
+}
+```
+
+Kommandolinjeflagg har forrang over konfigurasjonsfilinnstillinger.

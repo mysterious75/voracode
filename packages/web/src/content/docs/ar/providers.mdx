@@ -1,0 +1,1983 @@
+---
+title: Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯ÙˆÙ†
+description: Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø£ÙŠ Ù…ÙˆÙÙ‘Ø± LLM ÙÙŠ Voracode.
+---
+
+import config from "../../../../config.mjs"
+export const console = config.console
+
+ÙŠØ³ØªØ®Ø¯Ù… Voracode â€[AI SDK](https://ai-sdk.dev/) Ùˆ[Models.dev](https://models.dev) Ù„Ø¯Ø¹Ù… **Ø£ÙƒØ«Ø± Ù…Ù† 75 Ù…ÙˆÙÙ‘Ø± LLM**ØŒ ÙƒÙ…Ø§ ÙŠØ¯Ø¹Ù… ØªØ´ØºÙŠÙ„ Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„Ù…Ø­Ù„ÙŠØ©.
+
+Ù„Ø¥Ø¶Ø§ÙØ© Ù…Ø²ÙˆÙ‘Ø¯ ØªØ­ØªØ§Ø¬ Ø¥Ù„Ù‰:
+
+1. Ø£Ø¶Ù Ù…ÙØ§ØªÙŠØ­ API Ø§Ù„Ø®Ø§ØµØ© Ø¨Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯ Ø¨Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ø£Ù…Ø± `/connect`.
+2. Ø§Ø¶Ø¨Ø· Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯ ÙÙŠ Ù…Ù„Ù Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Voracode.
+
+---
+
+### Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ø§Ø¹ØªÙ…Ø§Ø¯
+
+Ø¹Ù†Ø¯ Ø¥Ø¶Ø§ÙØ© Ù…ÙØ§ØªÙŠØ­ API Ø§Ù„Ø®Ø§ØµØ© Ø¨Ù…Ø²ÙˆÙ‘Ø¯ Ø¹Ø¨Ø± Ø§Ù„Ø£Ù…Ø± `/connect`ØŒ ÙŠØªÙ… ØªØ®Ø²ÙŠÙ†Ù‡Ø§
+ÙÙŠ `~/.local/share/voracode/auth.json`.
+
+---
+
+### Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª
+
+ÙŠÙ…ÙƒÙ†Ùƒ ØªØ®ØµÙŠØµ Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯Ø§Øª Ø¹Ø¨Ø± Ù‚Ø³Ù… `provider` ÙÙŠ Ù…Ù„Ù Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Voracode.
+
+---
+
+#### Ø¹Ù†ÙˆØ§Ù† URL Ø§Ù„Ø£Ø³Ø§Ø³ÙŠ
+
+ÙŠÙ…ÙƒÙ†Ùƒ ØªØ®ØµÙŠØµ Ø¹Ù†ÙˆØ§Ù† URL Ø§Ù„Ø£Ø³Ø§Ø³ÙŠ Ù„Ø£ÙŠ Ù…Ø²ÙˆÙ‘Ø¯ Ø¹Ø¨Ø± Ø®ÙŠØ§Ø± `baseURL`. ÙŠÙÙŠØ¯ Ø°Ù„Ùƒ Ø¹Ù†Ø¯ Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø®Ø¯Ù…Ø§Øª ÙˆØ³ÙŠØ·Ø© (proxy) Ø£Ùˆ Ù†Ù‚Ø§Ø· Ù†Ù‡Ø§ÙŠØ© Ù…Ø®ØµÙ‘ØµØ©.
+
+```json title="voracode.json" {6}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "anthropic": {
+      "options": {
+        "baseURL": "https://api.anthropic.com/v1"
+      }
+    }
+  }
+}
+```
+
+---
+
+## Voracode Zen
+
+Voracode Zen Ù‡ÙŠ Ù‚Ø§Ø¦Ù…Ø© Ù†Ù…Ø§Ø°Ø¬ ÙŠÙˆÙÙ‘Ø±Ù‡Ø§ ÙØ±ÙŠÙ‚ Voracode ÙˆÙ‚Ø¯ ØªÙ…
+Ø§Ø®ØªØ¨Ø§Ø±Ù‡Ø§ ÙˆØ§Ù„ØªØ­Ù‚Ù‚ Ù…Ù† Ø£Ù†Ù‡Ø§ ØªØ¹Ù…Ù„ Ø¨Ø´ÙƒÙ„ Ø¬ÙŠØ¯ Ù…Ø¹ Voracode. [Ø§Ø¹Ø±Ù Ø§Ù„Ù…Ø²ÙŠØ¯](/docs/zen).
+
+:::tip
+Ø¥Ø°Ø§ ÙƒÙ†Øª Ø¬Ø¯ÙŠØ¯Ø§ØŒ ÙÙ†Ù†ØµØ­ Ø¨Ø§Ù„Ø¨Ø¯Ø¡ Ù…Ø¹ Voracode Zen.
+:::
+
+1. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙÙŠ TUIØŒ ÙˆØ§Ø®ØªØ± voracodeØŒ Ø«Ù… Ø§Ù†ØªÙ‚Ù„ Ø¥Ù„Ù‰ [voracode.ai/auth](https://voracode.ai/auth).
+
+   ```txt
+   /connect
+   ```
+
+2. Ø³Ø¬Ù‘Ù„ Ø§Ù„Ø¯Ø®ÙˆÙ„ØŒ ÙˆØ£Ø¶Ù ØªÙØ§ØµÙŠÙ„ Ø§Ù„ÙÙˆØªØ±Ø©ØŒ Ø«Ù… Ø§Ù†Ø³Ø® Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ùƒ.
+
+3. Ø§Ù„ØµÙ‚ Ù…ÙØªØ§Ø­ API.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ `/models` ÙÙŠ TUI Ù„Ø¹Ø±Ø¶ Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„ØªÙŠ Ù†ÙˆØµÙŠ Ø¨Ù‡Ø§.
+
+   ```txt
+   /models
+   ```
+
+ÙŠØ¹Ù…Ù„ Ù…Ø«Ù„ Ø£ÙŠ Ù…Ø²ÙˆÙ‘Ø¯ Ø¢Ø®Ø± ÙÙŠ Voracode ÙˆØ§Ø³ØªØ®Ø¯Ø§Ù…Ù‡ Ø§Ø®ØªÙŠØ§Ø±ÙŠ Ø¨Ø§Ù„ÙƒØ§Ù…Ù„.
+
+---
+
+## Voracode Go
+
+Voracode Go Ù‡ÙŠ Ø®Ø·Ø© Ø§Ø´ØªØ±Ø§Ùƒ Ù…Ù†Ø®ÙØ¶Ø© Ø§Ù„ØªÙƒÙ„ÙØ© ØªÙˆÙÙ‘Ø± ÙˆØµÙˆÙ„Ø§ Ù…ÙˆØ«ÙˆÙ‚Ø§ Ø¥Ù„Ù‰ Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„Ø¨Ø±Ù…Ø¬Ø© Ø§Ù„Ù…ÙØªÙˆØ­Ø© Ø§Ù„Ø´Ù‡ÙŠØ±Ø© Ø§Ù„Ù…Ù‚Ø¯Ù‘Ù…Ø© Ù…Ù† ÙØ±ÙŠÙ‚ VoracodeØŒ ÙˆØ§Ù„ØªÙŠ ØªÙ… Ø§Ø®ØªØ¨Ø§Ø±Ù‡Ø§ ÙˆØ§Ù„ØªØ­Ù‚Ù‚ Ù…Ù† Ø£Ù†Ù‡Ø§ ØªØ¹Ù…Ù„ Ø¨Ø´ÙƒÙ„ Ø¬ÙŠØ¯ Ù…Ø¹ Voracode.
+
+1. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙÙŠ TUIØŒ ÙˆØ§Ø®ØªØ± `Voracode Go`ØŒ Ø«Ù… Ø§Ù†ØªÙ‚Ù„ Ø¥Ù„Ù‰ [voracode.ai/auth](https://voracode.ai/zen).
+
+   ```txt
+   /connect
+   ```
+
+2. Ø³Ø¬Ù‘Ù„ Ø§Ù„Ø¯Ø®ÙˆÙ„ØŒ ÙˆØ£Ø¶Ù ØªÙØ§ØµÙŠÙ„ Ø§Ù„ÙÙˆØªØ±Ø©ØŒ Ø«Ù… Ø§Ù†Ø³Ø® Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ùƒ.
+
+3. Ø§Ù„ØµÙ‚ Ù…ÙØªØ§Ø­ API.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ `/models` ÙÙŠ TUI Ù„Ø¹Ø±Ø¶ Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„ØªÙŠ Ù†ÙˆØµÙŠ Ø¨Ù‡Ø§.
+
+   ```txt
+   /models
+   ```
+
+ÙŠØ¹Ù…Ù„ Ù…Ø«Ù„ Ø£ÙŠ Ù…Ø²ÙˆÙ‘Ø¯ Ø¢Ø®Ø± ÙÙŠ Voracode ÙˆØ§Ø³ØªØ®Ø¯Ø§Ù…Ù‡ Ø§Ø®ØªÙŠØ§Ø±ÙŠ Ø¨Ø§Ù„ÙƒØ§Ù…Ù„.
+
+---
+
+## Ø§Ù„Ø¯Ù„ÙŠÙ„
+
+Ù„Ù†Ù„Ù‚Ù Ù†Ø¸Ø±Ø© Ø¹Ù„Ù‰ Ø¨Ø¹Ø¶ Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯Ø§Øª Ø¨Ø§Ù„ØªÙØµÙŠÙ„. Ø¥Ø°Ø§ Ø±ØºØ¨Øª ÙÙŠ Ø¥Ø¶Ø§ÙØ© Ù…Ø²ÙˆÙ‘Ø¯ Ø¥Ù„Ù‰ Ø§Ù„Ù‚Ø§Ø¦Ù…Ø©ØŒ
+ÙÙ„Ø§ ØªØªØ±Ø¯Ø¯ ÙÙŠ ÙØªØ­ PR.
+
+:::note
+Ù„Ù… ØªØ¬Ø¯ Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯ Ø§Ù„Ø°ÙŠ ØªØ¨Ø­Ø« Ø¹Ù†Ù‡ØŸ Ø£Ø±Ø³Ù„ PR.
+:::
+
+---
+
+### 302.AI
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [302.AI console](https://302.ai/)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø£Ù†Ø´Ø¦ Ù…ÙØªØ§Ø­ API.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **302.AI**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ 302.AI.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Amazon Bedrock
+
+Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Amazon Bedrock Ù…Ø¹ Voracode:
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ **Model catalog** ÙÙŠ Amazon Bedrock console ÙˆØ§Ø·Ù„Ø¨
+   Ø§Ù„ÙˆØµÙˆÙ„ Ø¥Ù„Ù‰ Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„ØªÙŠ ØªØ±ÙŠØ¯Ù‡Ø§.
+
+   :::tip
+   ÙŠØ¬Ø¨ Ø£Ù† ÙŠÙƒÙˆÙ† Ù„Ø¯ÙŠÙƒ ÙˆØµÙˆÙ„ Ø¥Ù„Ù‰ Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø°ÙŠ ØªØ±ÙŠØ¯Ù‡ ÙÙŠ Amazon Bedrock.
+   :::
+
+2. **Ø§Ø¶Ø¨Ø· Ø§Ù„Ù…ØµØ§Ø¯Ù‚Ø©** Ø¨Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø¥Ø­Ø¯Ù‰ Ø§Ù„Ø·Ø±Ù‚ Ø§Ù„ØªØ§Ù„ÙŠØ©:
+
+   #### Ù…ØªØºÙŠØ±Ø§Øª Ø§Ù„Ø¨ÙŠØ¦Ø© (Ø¨Ø¯Ø¡ Ø³Ø±ÙŠØ¹)
+
+   Ø¹ÙŠÙ‘Ù† Ø£Ø­Ø¯ Ù…ØªØºÙŠØ±Ø§Øª Ø§Ù„Ø¨ÙŠØ¦Ø© Ø§Ù„ØªØ§Ù„ÙŠØ© Ø£Ø«Ù†Ø§Ø¡ ØªØ´ØºÙŠÙ„ voracode:
+
+   ```bash
+   # Ø§Ù„Ø®ÙŠØ§Ø± 1: Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù…ÙØ§ØªÙŠØ­ ÙˆØµÙˆÙ„ AWS
+   AWS_ACCESS_KEY_ID=XXX AWS_SECRET_ACCESS_KEY=YYY voracode
+
+   # Ø§Ù„Ø®ÙŠØ§Ø± 2: Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù…Ù„Ù ØªØ¹Ø±ÙŠÙ AWS Ù…Ø³Ù…Ù‘Ù‰
+   AWS_PROFILE=my-profile voracode
+
+   # Ø§Ù„Ø®ÙŠØ§Ø± 3: Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø±Ù…Ø² Bedrock Ø§Ù„Ù…Ù…ÙŠØ² (bearer token)
+   AWS_BEARER_TOKEN_BEDROCK=XXX voracode
+   ```
+
+   Ø£Ùˆ Ø£Ø¶ÙÙ‡Ø§ Ø¥Ù„Ù‰ bash profile:
+
+   ```bash title="~/.bash_profile"
+   export AWS_PROFILE=my-dev-profile
+   export AWS_REGION=us-east-1
+   ```
+
+   #### Ù…Ù„Ù Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª (Ù…ÙˆØµÙ‰ Ø¨Ù‡)
+
+   Ù„Ù„Ø¥Ø¹Ø¯Ø§Ø¯ Ø§Ù„Ø®Ø§Øµ Ø¨Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ø£Ùˆ Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯ Ø§Ù„Ø¯Ø§Ø¦Ù…ØŒ Ø§Ø³ØªØ®Ø¯Ù… `voracode.json`:
+
+   ```json title="voracode.json"
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "provider": {
+       "amazon-bedrock": {
+         "options": {
+           "region": "us-east-1",
+           "profile": "my-aws-profile"
+         }
+       }
+     }
+   }
+   ```
+
+   **Ø§Ù„Ø®ÙŠØ§Ø±Ø§Øª Ø§Ù„Ù…ØªØ§Ø­Ø©:**
+   - `region` - Ù…Ù†Ø·Ù‚Ø© AWS (Ù…Ø«Ù„ `us-east-1`ØŒ `eu-west-1`)
+   - `profile` - Ù…Ù„Ù ØªØ¹Ø±ÙŠÙ AWS Ø§Ù„Ù…Ø³Ù…Ù‘Ù‰ Ù…Ù† `~/.aws/credentials`
+   - `endpoint` - Ø¹Ù†ÙˆØ§Ù† URL Ù„Ù†Ù‚Ø·Ø© Ù†Ù‡Ø§ÙŠØ© Ù…Ø®ØµÙ‘ØµØ© Ù„Ù†Ù‚Ø§Ø· Ù†Ù‡Ø§ÙŠØ© VPC (Ø§Ø³Ù… Ø¨Ø¯ÙŠÙ„ Ù„Ø®ÙŠØ§Ø± `baseURL` Ø§Ù„Ø¹Ø§Ù…)
+
+   :::tip
+   Ø®ÙŠØ§Ø±Ø§Øª Ù…Ù„Ù Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ù„Ù‡Ø§ Ø£ÙˆÙ„ÙˆÙŠØ© Ø¹Ù„Ù‰ Ù…ØªØºÙŠØ±Ø§Øª Ø§Ù„Ø¨ÙŠØ¦Ø©.
+   :::
+
+   #### Ù…ØªÙ‚Ø¯Ù…: Ù†Ù‚Ø§Ø· Ù†Ù‡Ø§ÙŠØ© VPC
+
+   Ø¥Ø°Ø§ ÙƒÙ†Øª ØªØ³ØªØ®Ø¯Ù… Ù†Ù‚Ø§Ø· Ù†Ù‡Ø§ÙŠØ© VPC Ù„Ù€ Bedrock:
+
+   ```json title="voracode.json"
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "provider": {
+       "amazon-bedrock": {
+         "options": {
+           "region": "us-east-1",
+           "profile": "production",
+           "endpoint": "https://bedrock-runtime.us-east-1.vpce-xxxxx.amazonaws.com"
+         }
+       }
+     }
+   }
+   ```
+
+   :::note
+   Ø®ÙŠØ§Ø± `endpoint` Ù‡Ùˆ Ø§Ø³Ù… Ø¨Ø¯ÙŠÙ„ Ù„Ø®ÙŠØ§Ø± `baseURL` Ø§Ù„Ø¹Ø§Ù… Ø¨Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù…ØµØ·Ù„Ø­Ø§Øª AWS. Ø¥Ø°Ø§ ØªÙ… ØªØ­Ø¯ÙŠØ¯ ÙƒÙ„ Ù…Ù† `endpoint` Ùˆ`baseURL`ØŒ ÙØ³ØªÙƒÙˆÙ† Ø§Ù„Ø£ÙˆÙ„ÙˆÙŠØ© Ù„Ù€ `endpoint`.
+   :::
+
+   #### Ø·Ø±Ù‚ Ø§Ù„Ù…ØµØ§Ø¯Ù‚Ø© - **`AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY`**: Ø£Ù†Ø´Ø¦ Ù…Ø³ØªØ®Ø¯Ù… IAM ÙˆØ£Ù†Ø´Ø¦ Ù…ÙØ§ØªÙŠØ­ ÙˆØµÙˆÙ„ Ù…Ù† AWS Console
+   - **`AWS_PROFILE`**: Ø§Ø³ØªØ®Ø¯Ù… Ù…Ù„ÙØ§Øª ØªØ¹Ø±ÙŠÙ Ù…Ø³Ù…Ù‘Ø§Ø© Ù…Ù† `~/.aws/credentials`. Ø§Ø¶Ø¨Ø· Ø£ÙˆÙ„Ø§ Ø¹Ø¨Ø± `aws configure --profile my-profile` Ø£Ùˆ `aws sso login`
+   - **`AWS_BEARER_TOKEN_BEDROCK`**: Ø£Ù†Ø´Ø¦ Ù…ÙØ§ØªÙŠØ­ API Ø·ÙˆÙŠÙ„Ø© Ø§Ù„Ø£Ø¬Ù„ Ù…Ù† Amazon Bedrock console
+   - **`AWS_WEB_IDENTITY_TOKEN_FILE` / `AWS_ROLE_ARN`**: Ù„Ù€ EKS IRSA (IAM Roles for Service Accounts) Ø£Ùˆ Ø¨ÙŠØ¦Ø§Øª Kubernetes Ø£Ø®Ø±Ù‰ Ù…Ø¹ Ø§ØªØ­Ø§Ø¯ OIDC. ÙŠØªÙ… Ø­Ù‚Ù† Ù…ØªØºÙŠØ±Ø§Øª Ø§Ù„Ø¨ÙŠØ¦Ø© Ù‡Ø°Ù‡ ØªÙ„Ù‚Ø§Ø¦ÙŠØ§ Ø¨ÙˆØ§Ø³Ø·Ø© Kubernetes Ø¹Ù†Ø¯ Ø§Ø³ØªØ®Ø¯Ø§Ù… ØªØ¹Ù„ÙŠÙ‚Ø§Øª Ø­Ø³Ø§Ø¨ Ø§Ù„Ø®Ø¯Ù…Ø©.
+
+   #### Ø£ÙˆÙ„ÙˆÙŠØ© Ø§Ù„Ù…ØµØ§Ø¯Ù‚Ø©
+
+   ÙŠØ³ØªØ®Ø¯Ù… Amazon Bedrock Ø£ÙˆÙ„ÙˆÙŠØ© Ø§Ù„Ù…ØµØ§Ø¯Ù‚Ø© Ø§Ù„ØªØ§Ù„ÙŠØ©:
+   1. **Bearer Token** - Ù…ØªØºÙŠØ± Ø§Ù„Ø¨ÙŠØ¦Ø© `AWS_BEARER_TOKEN_BEDROCK` Ø£Ùˆ Ø§Ù„Ø±Ù…Ø² Ù…Ù† Ø§Ù„Ø£Ù…Ø± `/connect`
+   2. **AWS Credential Chain** - Ø§Ù„Ù…Ù„Ù Ø§Ù„Ø´Ø®ØµÙŠØŒ Ù…ÙØ§ØªÙŠØ­ Ø§Ù„ÙˆØµÙˆÙ„ØŒ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ù…Ø´ØªØ±ÙƒØ©ØŒ Ø£Ø¯ÙˆØ§Ø± IAMØŒ Ø±Ù…ÙˆØ² Web Identity (EKS IRSA)ØŒ Ø¨ÙŠØ§Ù†Ø§Øª ØªØ¹Ø±ÙŠÙ Ø§Ù„Ù…Ø«ÙŠÙ„
+
+   :::note
+   Ø¹Ù†Ø¯ ØªØ¹ÙŠÙŠÙ† bearer token (Ø¹Ø¨Ø± `/connect` Ø£Ùˆ `AWS_BEARER_TOKEN_BEDROCK`)ØŒ Ø³ØªÙƒÙˆÙ† Ù„Ù‡ Ø£ÙˆÙ„ÙˆÙŠØ© Ø¹Ù„Ù‰ Ø¬Ù…ÙŠØ¹ Ø·Ø±Ù‚ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ø¹ØªÙ…Ø§Ø¯ AWS Ø¨Ù…Ø§ ÙÙŠ Ø°Ù„Ùƒ Ù…Ù„ÙØ§Øª Ø§Ù„ØªØ¹Ø±ÙŠÙ Ø§Ù„Ù…Ø¶Ø¨ÙˆØ·Ø©.
+   :::
+
+3. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø°ÙŠ ØªØ±ÙŠØ¯Ù‡.
+
+   ```txt
+   /models
+   ```
+
+:::note
+Ø¨Ø§Ù„Ù†Ø³Ø¨Ø© Ø¥Ù„Ù‰ Ù…Ù„ÙØ§Øª ØªØ¹Ø±ÙŠÙ Ø§Ù„Ø§Ø³ØªØ¯Ù„Ø§Ù„ Ø§Ù„Ù…Ø®ØµÙ‘ØµØ©ØŒ Ø§Ø³ØªØ®Ø¯Ù… Ø§Ø³Ù… Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ ÙˆØ§Ø³Ù… Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯ ÙÙŠ Ø§Ù„Ù…ÙØªØ§Ø­ ÙˆØ¹ÙŠÙ‘Ù† Ø§Ù„Ø®Ø§ØµÙŠØ© `id` Ø¥Ù„Ù‰ arn. ÙŠØ¶Ù…Ù† Ø°Ù„Ùƒ Ø§Ù„ØªØ®Ø²ÙŠÙ† Ø§Ù„Ù…Ø¤Ù‚Øª Ø§Ù„ØµØ­ÙŠØ­:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "amazon-bedrock": {
+      // ...
+      "models": {
+        "anthropic-claude-sonnet-4.5": {
+          "id": "arn:aws:bedrock:us-east-1:xxx:application-inference-profile/yyy"
+        }
+      }
+    }
+  }
+}
+```
+
+:::
+
+---
+
+### Anthropic
+
+1. Ø¨Ø¹Ø¯ Ø¥Ù†Ø´Ø§Ø¡ Ø­Ø³Ø§Ø¨ÙƒØŒ Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø®ØªØ± Anthropic.
+
+   ```txt
+   /connect
+   ```
+
+2. Ù‡Ù†Ø§ ÙŠÙ…ÙƒÙ†Ùƒ Ø§Ø®ØªÙŠØ§Ø± Ø®ÙŠØ§Ø± **Claude Pro/Max** ÙˆØ³ÙŠØªÙ… ÙØªØ­ Ø§Ù„Ù…ØªØµÙØ­
+   ÙˆØ³ÙŠØ·Ù„Ø¨ Ù…Ù†Ùƒ Ø§Ù„Ù…ØµØ§Ø¯Ù‚Ø©.
+
+   ```txt
+   â”Œ Select auth method
+   â”‚
+   â”‚ Claude Pro/Max
+   â”‚ Create an API Key
+   â”‚ Manually enter API Key
+   â””
+   ```
+
+3. Ø§Ù„Ø¢Ù† ÙŠØ¬Ø¨ Ø£Ù† ØªÙƒÙˆÙ† Ø¬Ù…ÙŠØ¹ Ù†Ù…Ø§Ø°Ø¬ Anthropic Ù…ØªØ§Ø­Ø© Ø¹Ù†Ø¯ Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ø£Ù…Ø± `/models`.
+
+   ```txt
+   /models
+   ```
+
+:::info
+Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ø´ØªØ±Ø§Ùƒ Claude Pro/Max Ø¯Ø§Ø®Ù„ Voracode ØºÙŠØ± Ù…Ø¯Ø¹ÙˆÙ… Ø±Ø³Ù…ÙŠØ§ Ù…Ù† [Anthropic](https://anthropic.com).
+:::
+
+##### Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù…ÙØ§ØªÙŠØ­ API
+
+ÙŠÙ…ÙƒÙ†Ùƒ Ø£ÙŠØ¶Ø§ Ø§Ø®ØªÙŠØ§Ø± **Create an API Key** Ø¥Ø°Ø§ Ù„Ù… ÙŠÙƒÙ† Ù„Ø¯ÙŠÙƒ Ø§Ø´ØªØ±Ø§Ùƒ Pro/Max. Ø³ÙŠÙØªØ­ Ø°Ù„Ùƒ Ø§Ù„Ù…ØªØµÙØ­ Ø£ÙŠØ¶Ø§ ÙˆÙŠØ·Ù„Ø¨ Ù…Ù†Ùƒ ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø¯Ø®ÙˆÙ„ Ø¥Ù„Ù‰ Anthropic ÙˆÙŠØ¹Ø·ÙŠÙƒ Ø±Ù…Ø²Ø§ ÙŠÙ…ÙƒÙ†Ùƒ Ù„ØµÙ‚Ù‡ ÙÙŠ terminal.
+
+Ø£Ùˆ Ø¥Ø°Ø§ ÙƒØ§Ù† Ù„Ø¯ÙŠÙƒ Ù…ÙØªØ§Ø­ API Ø¨Ø§Ù„ÙØ¹Ù„ØŒ ÙŠÙ…ÙƒÙ†Ùƒ Ø§Ø®ØªÙŠØ§Ø± **Manually enter API Key** ÙˆÙ„ØµÙ‚Ù‡ ÙÙŠ terminal.
+
+---
+
+### Atomic Chat
+
+ÙŠÙ…ÙƒÙ†Ùƒ ØªÙƒÙˆÙŠÙ† voracode Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„Ù…Ø­Ù„ÙŠØ© Ø¹Ø¨Ø± [Atomic Chat](https://atomic.chat)ØŒ ÙˆÙ‡Ùˆ ØªØ·Ø¨ÙŠÙ‚ Ø³Ø·Ø­ Ù…ÙƒØªØ¨ ÙŠÙ‚ÙˆÙ… Ø¨ØªØ´ØºÙŠÙ„ LLMs Ø§Ù„Ù…Ø­Ù„ÙŠØ© Ø®Ù„Ù Ø®Ø§Ø¯Ù… API Ù…ØªÙˆØ§ÙÙ‚ Ù…Ø¹ OpenAI (Ù†Ù‚Ø·Ø© Ø§Ù„Ù†Ù‡Ø§ÙŠØ© Ø§Ù„Ø§ÙØªØ±Ø§Ø¶ÙŠØ© `http://127.0.0.1:1337/v1`).
+
+```json title="voracode.json" "atomic-chat" {5, 6, 8, 10-14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "atomic-chat": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Atomic Chat (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:1337/v1"
+      },
+      "models": {
+        "<your-model-id>": {
+          "name": "<your-model-name>"
+        }
+      }
+    }
+  }
+}
+```
+
+ÙÙŠ Ù‡Ø°Ø§ Ø§Ù„Ù…Ø«Ø§Ù„:
+
+- `atomic-chat` Ù‡Ùˆ Ù…Ø¹Ø±Ù Ø§Ù„Ù…ÙˆÙØ± Ø§Ù„Ù…Ø®ØµØµ. ÙŠÙ…ÙƒÙ† Ø£Ù† ÙŠÙƒÙˆÙ† Ø£ÙŠ Ø³Ù„Ø³Ù„Ø© Ù†ØµÙŠØ©.
+- `npm` ÙŠØ­Ø¯Ø¯ Ø§Ù„Ø­Ø²Ù…Ø© Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…Ø© Ù„Ù‡Ø°Ø§ Ø§Ù„Ù…ÙˆÙØ±. Ù‡Ù†Ø§ ÙŠÙØ³ØªØ®Ø¯Ù… `@ai-sdk/openai-compatible` Ù„Ø£ÙŠ ÙˆØ§Ø¬Ù‡Ø© Ø¨Ø±Ù…Ø¬Ø© ØªØ·Ø¨ÙŠÙ‚Ø§Øª Ù…ØªÙˆØ§ÙÙ‚Ø© Ù…Ø¹ OpenAI.
+- `name` Ù‡Ùˆ Ø§Ù„Ø§Ø³Ù… Ø§Ù„Ù…Ø¹Ø±ÙˆØ¶ Ù„Ù„Ù…ÙˆÙØ± ÙÙŠ Ø§Ù„ÙˆØ§Ø¬Ù‡Ø©.
+- `options.baseURL` Ù‡Ùˆ Ù†Ù‚Ø·Ø© Ù†Ù‡Ø§ÙŠØ© Ø§Ù„Ø®Ø§Ø¯Ù… Ø§Ù„Ù…Ø­Ù„ÙŠ. ØºÙŠÙ‘Ø± Ø§Ù„Ù…Ø¶ÙŠÙ ÙˆØ§Ù„Ù…Ù†ÙØ° Ù„ØªØªØ·Ø§Ø¨Ù‚ Ù…Ø¹ Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Atomic Chat Ø§Ù„Ø®Ø§ØµØ© Ø¨Ùƒ.
+- `models` Ù‡Ùˆ Ø®Ø±ÙŠØ·Ø© Ù„Ù…Ø¹Ø±ÙØ§Øª Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø¥Ù„Ù‰ Ø£Ø³Ù…Ø§Ø¦Ù‡Ø§ Ø§Ù„Ù…Ø¹Ø±ÙˆØ¶Ø©. ÙŠØ¬Ø¨ Ø£Ù† ÙŠØªØ·Ø§Ø¨Ù‚ ÙƒÙ„ Ù…Ø¹Ø±Ù Ù…Ø¹ `id` Ø§Ù„Ø°ÙŠ ÙŠØ±Ø¬Ø¹Ù‡ `GET /v1/models` â€” Ù‚Ù… Ø¨ØªØ´ØºÙŠÙ„ `curl http://127.0.0.1:1337/v1/models` Ù„Ø¥Ø¯Ø±Ø§Ø¬ Ø§Ù„Ù…Ø¹Ø±ÙØ§Øª Ø§Ù„Ù…Ø­Ù…Ù„Ø© Ø­Ø§Ù„ÙŠÙ‹Ø§ ÙÙŠ Atomic Chat.
+
+:::tip
+Ø¥Ø°Ø§ Ù„Ù… ØªØ¹Ù…Ù„ Ø§Ø³ØªØ¯Ø¹Ø§Ø¡Ø§Øª Ø§Ù„Ø£Ø¯ÙˆØ§Øª Ø¨Ø´ÙƒÙ„ Ø¬ÙŠØ¯ØŒ ÙØ§Ø®ØªØ± Ù†Ù…ÙˆØ°Ø¬Ù‹Ø§ Ù…Ø­Ù…Ù„Ù‹Ø§ Ø¨Ø¯Ø¹Ù… Ù‚ÙˆÙŠ Ù„Ø§Ø³ØªØ¯Ø¹Ø§Ø¡ Ø§Ù„Ø£Ø¯ÙˆØ§Øª (Ø¹Ù„Ù‰ Ø³Ø¨ÙŠÙ„ Ø§Ù„Ù…Ø«Ø§Ù„ØŒ Ù…ØªØºÙŠØ± Qwen-Coder Ø£Ùˆ DeepSeek-Coder).
+:::
+
+---
+
+### Azure OpenAI
+
+:::note
+Ø¥Ø°Ø§ ÙˆØ§Ø¬Ù‡Øª Ø£Ø®Ø·Ø§Ø¡ "I'm sorry, but I cannot assist with that request"ØŒ ÙØ¬Ø±Ù‘Ø¨ ØªØºÙŠÙŠØ± Ù…Ø±Ø´Ø­ Ø§Ù„Ù…Ø­ØªÙˆÙ‰ Ù…Ù† **DefaultV2** Ø¥Ù„Ù‰ **Default** ÙÙŠ Ù…ÙˆØ±Ø¯ Azure Ø§Ù„Ø®Ø§Øµ Ø¨Ùƒ.
+:::
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Azure portal](https://portal.azure.com/) ÙˆØ£Ù†Ø´Ø¦ Ù…ÙˆØ±Ø¯Ø§ Ù…Ù† Ù†ÙˆØ¹ **Azure OpenAI**. Ø³ØªØ­ØªØ§Ø¬ Ø¥Ù„Ù‰:
+   - **Resource name**: ÙŠØµØ¨Ø­ Ø¬Ø²Ø¡Ø§ Ù…Ù† Ù†Ù‚Ø·Ø© Ù†Ù‡Ø§ÙŠØ© API Ù„Ø¯ÙŠÙƒ (`https://RESOURCE_NAME.openai.azure.com/`)
+   - **API key**: Ø¥Ù…Ø§ `KEY 1` Ø£Ùˆ `KEY 2` Ù…Ù† Ù…ÙˆØ±Ø¯Ùƒ
+
+2. Ø§Ø°Ù‡Ø¨ Ø¥Ù„Ù‰ [Azure AI Foundry](https://ai.azure.com/) ÙˆØ§Ù†Ø´Ø± Ù†Ù…ÙˆØ°Ø¬Ø§.
+
+   :::note
+   ÙŠØ¬Ø¨ Ø£Ù† ÙŠØ·Ø§Ø¨Ù‚ Ø§Ø³Ù… Ø§Ù„Ù†Ø´Ø± Ø§Ø³Ù… Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ ÙƒÙŠ ÙŠØ¹Ù…Ù„ voracode Ø¨Ø´ÙƒÙ„ ØµØ­ÙŠØ­.
+   :::
+
+3. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Azure**.
+
+   ```txt
+   /connect
+   ```
+
+4. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+5. Ø¹ÙŠÙ‘Ù† Ø§Ø³Ù… Ø§Ù„Ù…ÙˆØ±Ø¯ ÙƒÙ…ØªØºÙŠØ± Ø¨ÙŠØ¦Ø©:
+
+   ```bash
+   AZURE_RESOURCE_NAME=XXX voracode
+   ```
+
+   Ø£Ùˆ Ø£Ø¶ÙÙ‡ Ø¥Ù„Ù‰ bash profile:
+
+   ```bash title="~/.bash_profile"
+   export AZURE_RESOURCE_NAME=XXX
+   ```
+
+6. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø°ÙŠ Ù‚Ù…Øª Ø¨Ù†Ø´Ø±Ù‡.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Azure Cognitive Services
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Azure portal](https://portal.azure.com/) ÙˆØ£Ù†Ø´Ø¦ Ù…ÙˆØ±Ø¯Ø§ Ù…Ù† Ù†ÙˆØ¹ **Azure OpenAI**. Ø³ØªØ­ØªØ§Ø¬ Ø¥Ù„Ù‰:
+   - **Resource name**: ÙŠØµØ¨Ø­ Ø¬Ø²Ø¡Ø§ Ù…Ù† Ù†Ù‚Ø·Ø© Ù†Ù‡Ø§ÙŠØ© API Ù„Ø¯ÙŠÙƒ (`https://AZURE_COGNITIVE_SERVICES_RESOURCE_NAME.cognitiveservices.azure.com/`)
+   - **API key**: Ø¥Ù…Ø§ `KEY 1` Ø£Ùˆ `KEY 2` Ù…Ù† Ù…ÙˆØ±Ø¯Ùƒ
+
+2. Ø§Ø°Ù‡Ø¨ Ø¥Ù„Ù‰ [Azure AI Foundry](https://ai.azure.com/) ÙˆØ§Ù†Ø´Ø± Ù†Ù…ÙˆØ°Ø¬Ø§.
+
+   :::note
+   ÙŠØ¬Ø¨ Ø£Ù† ÙŠØ·Ø§Ø¨Ù‚ Ø§Ø³Ù… Ø§Ù„Ù†Ø´Ø± Ø§Ø³Ù… Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ ÙƒÙŠ ÙŠØ¹Ù…Ù„ voracode Ø¨Ø´ÙƒÙ„ ØµØ­ÙŠØ­.
+   :::
+
+3. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Azure Cognitive Services**.
+
+   ```txt
+   /connect
+   ```
+
+4. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+5. Ø¹ÙŠÙ‘Ù† Ø§Ø³Ù… Ø§Ù„Ù…ÙˆØ±Ø¯ ÙƒÙ…ØªØºÙŠØ± Ø¨ÙŠØ¦Ø©:
+
+   ```bash
+   AZURE_COGNITIVE_SERVICES_RESOURCE_NAME=XXX voracode
+   ```
+
+   Ø£Ùˆ Ø£Ø¶ÙÙ‡ Ø¥Ù„Ù‰ bash profile:
+
+   ```bash title="~/.bash_profile"
+   export AZURE_COGNITIVE_SERVICES_RESOURCE_NAME=XXX
+   ```
+
+6. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø°ÙŠ Ù‚Ù…Øª Ø¨Ù†Ø´Ø±Ù‡.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Baseten
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Baseten](https://app.baseten.co/)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø£Ù†Ø´Ø¦ Ù…ÙØªØ§Ø­ API.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Baseten**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Baseten.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Cerebras
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Cerebras console](https://inference.cerebras.ai/)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø£Ù†Ø´Ø¦ Ù…ÙØªØ§Ø­ API.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Cerebras**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Cerebras.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ù…Ø«Ù„ _Qwen 3 Coder 480B_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Cloudflare AI Gateway
+
+ØªØªÙŠØ­ Cloudflare AI Gateway Ø§Ù„ÙˆØµÙˆÙ„ Ø¥Ù„Ù‰ Ù†Ù…Ø§Ø°Ø¬ Ù…Ù† OpenAI ÙˆAnthropic ÙˆWorkers AI ÙˆØºÙŠØ±Ù‡Ø§ Ø¹Ø¨Ø± Ù†Ù‚Ø·Ø© Ù†Ù‡Ø§ÙŠØ© Ù…ÙˆØ­Ù‘Ø¯Ø©. Ù…Ø¹ [Unified Billing](https://developers.cloudflare.com/ai-gateway/features/unified-billing/) Ù„Ù† ØªØ­ØªØ§Ø¬ Ø¥Ù„Ù‰ Ù…ÙØ§ØªÙŠØ­ API Ù…Ù†ÙØµÙ„Ø© Ù„ÙƒÙ„ Ù…Ø²ÙˆÙ‘Ø¯.
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Cloudflare dashboard](https://dash.cloudflare.com/)ØŒ ÙˆØ§Ù†ØªÙ‚Ù„ Ø¥Ù„Ù‰ **AI** > **AI Gateway**ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø¨ÙˆØ§Ø¨Ø© Ø¬Ø¯ÙŠØ¯Ø©.
+
+2. Ø¹ÙŠÙ‘Ù† Account ID ÙˆGateway ID ÙƒÙ…ØªØºÙŠØ±Ø§Øª Ø¨ÙŠØ¦Ø©.
+
+   ```bash title="~/.bash_profile"
+   export CLOUDFLARE_ACCOUNT_ID=your-32-character-account-id
+   export CLOUDFLARE_GATEWAY_ID=your-gateway-id
+   ```
+
+3. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Cloudflare AI Gateway**.
+
+   ```txt
+   /connect
+   ```
+
+4. Ø£Ø¯Ø®Ù„ Cloudflare API token.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+   Ø£Ùˆ Ø¹ÙŠÙ‘Ù†Ù‡ ÙƒÙ…ØªØºÙŠØ± Ø¨ÙŠØ¦Ø©.
+
+   ```bash title="~/.bash_profile"
+   export CLOUDFLARE_API_TOKEN=your-api-token
+   ```
+
+5. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬.
+
+   ```txt
+   /models
+   ```
+
+   ÙŠÙ…ÙƒÙ†Ùƒ Ø£ÙŠØ¶Ø§ Ø¥Ø¶Ø§ÙØ© Ù†Ù…Ø§Ø°Ø¬ Ø¹Ø¨Ø± Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª voracode.
+
+   ```json title="voracode.json"
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "provider": {
+       "cloudflare-ai-gateway": {
+         "models": {
+           "openai/gpt-4o": {},
+           "anthropic/claude-sonnet-4": {}
+         }
+       }
+     }
+   }
+   ```
+
+---
+
+### Cortecs
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Cortecs console](https://cortecs.ai/)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø£Ù†Ø´Ø¦ Ù…ÙØªØ§Ø­ API.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Cortecs**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Cortecs.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ù…Ø«Ù„ _Kimi K2 Instruct_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### DeepSeek
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [DeepSeek console](https://platform.deepseek.com/)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø§Ù†Ù‚Ø± **Create new API key**.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **DeepSeek**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ DeepSeek.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ù…Ù† DeepSeek Ù…Ø«Ù„ _DeepSeek V4 Pro_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Deep Infra
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Deep Infra dashboard](https://deepinfra.com/dash)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø£Ù†Ø´Ø¦ Ù…ÙØªØ§Ø­ API.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Deep Infra**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Deep Infra.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### FrogBot
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [FrogBot dashboard](https://app.frogbot.ai/signup)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø£Ù†Ø´Ø¦ Ù…ÙØªØ§Ø­ API.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **FrogBot**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ FrogBot.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Fireworks AI
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Fireworks AI console](https://app.fireworks.ai/)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø§Ù†Ù‚Ø± **Create API Key**.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Fireworks AI**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Fireworks AI.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ù…Ø«Ù„ _Kimi K2 Instruct_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### GitLab Duo
+
+ÙŠÙˆÙÙ‘Ø± GitLab Duo Ø¯Ø±Ø¯Ø´Ø© ÙˆÙƒÙŠÙ„Ø© (agentic) Ù…Ø¯Ø¹ÙˆÙ…Ø© Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ù…Ø¹ Ù‚Ø¯Ø±Ø§Øª Ø§Ø³ØªØ¯Ø¹Ø§Ø¡ Ø£Ø¯ÙˆØ§Øª Ø¨Ø´ÙƒÙ„ Ù…Ø¯Ù…Ø¬ Ø¹Ø¨Ø± Anthropic proxy Ø§Ù„Ø®Ø§ØµØ© Ø¨Ù€ GitLab.
+
+1. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø®ØªØ± GitLab.
+
+   ```txt
+   /connect
+   ```
+
+2. Ø§Ø®ØªØ± Ø·Ø±ÙŠÙ‚Ø© Ø§Ù„Ù…ØµØ§Ø¯Ù‚Ø©:
+
+   ```txt
+   â”Œ Select auth method
+   â”‚
+   â”‚ OAuth (Recommended)
+   â”‚ Personal Access Token
+   â””
+   ```
+
+   #### Ø§Ø³ØªØ®Ø¯Ø§Ù… OAuth (Ù…ÙˆØµÙ‰ Ø¨Ù‡)
+
+   Ø§Ø®ØªØ± **OAuth** ÙˆØ³ÙŠÙØªØ­ Ø§Ù„Ù…ØªØµÙØ­ Ù„Ø¥ØªÙ…Ø§Ù… Ø§Ù„ØªÙÙˆÙŠØ¶.
+
+   #### Ø§Ø³ØªØ®Ø¯Ø§Ù… Personal Access Token 1. Ø§Ø°Ù‡Ø¨ Ø¥Ù„Ù‰ [GitLab User Settings > Access Tokens](https://gitlab.com/-/user_settings/personal_access_tokens)
+   2. Ø§Ù†Ù‚Ø± **Add new token**
+   3. Name: `Voracode`ØŒ Scopes: `api`
+   4. Ø§Ù†Ø³Ø® Ø§Ù„Ø±Ù…Ø² (ÙŠØ¨Ø¯Ø£ Ø¨Ù€ `glpat-`)
+   5. Ø£Ø¯Ø®Ù„Ù‡ ÙÙŠ terminal
+
+3. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø¹Ø±Ø¶ Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„Ù…ØªØ§Ø­Ø©.
+
+   ```txt
+   /models
+   ```
+
+   ØªØªÙˆÙØ± Ø«Ù„Ø§Ø«Ø© Ù†Ù…Ø§Ø°Ø¬ Ù…Ø¨Ù†ÙŠØ© Ø¹Ù„Ù‰ Claude:
+   - **duo-chat-haiku-4-5** (Default) - Ø§Ø³ØªØ¬Ø§Ø¨Ø§Øª Ø³Ø±ÙŠØ¹Ø© Ù„Ù„Ù…Ù‡Ø§Ù… Ø§Ù„Ø³Ø±ÙŠØ¹Ø©
+   - **duo-chat-sonnet-4-5** - Ø£Ø¯Ø§Ø¡ Ù…ØªÙˆØ§Ø²Ù† Ù„Ù…Ø¹Ø¸Ù… Ø³ÙŠØ± Ø§Ù„Ø¹Ù…Ù„
+   - **duo-chat-opus-4-5** - Ø§Ù„Ø£ÙƒØ«Ø± Ù‚Ø¯Ø±Ø© Ù„Ù„ØªØ­Ù„ÙŠÙ„ Ø§Ù„Ù…Ø¹Ù‚Ù‘Ø¯
+
+:::note
+ÙŠÙ…ÙƒÙ†Ùƒ Ø£ÙŠØ¶Ø§ ØªØ¹ÙŠÙŠÙ† Ù…ØªØºÙŠØ± Ø§Ù„Ø¨ÙŠØ¦Ø© 'GITLAB_TOKEN' Ø¥Ø°Ø§ Ù„Ù… ØªÙƒÙ† ØªØ±ÙŠØ¯
+ØªØ®Ø²ÙŠÙ† Ø§Ù„Ø±Ù…Ø² ÙÙŠ Ù…Ø³Ø§Ø­Ø© ØªØ®Ø²ÙŠÙ† Ù…ØµØ§Ø¯Ù‚Ø© voracode.
+:::
+
+##### GitLab Ù…Ø³ØªØ¶Ø§Ù Ø°Ø§ØªÙŠØ§
+
+:::note[Ù…Ù„Ø§Ø­Ø¸Ø© Ø§Ù…ØªØ«Ø§Ù„]
+ÙŠØ³ØªØ®Ø¯Ù… Voracode Ù†Ù…ÙˆØ°Ø¬Ø§ ØµØºÙŠØ±Ø§ Ù„Ø¨Ø¹Ø¶ Ù…Ù‡Ø§Ù… Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ù…Ø«Ù„ Ø¥Ù†Ø´Ø§Ø¡ Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ø¬Ù„Ø³Ø©.
+ØªÙ… Ø¶Ø¨Ø·Ù‡ Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… gpt-5-nano Ø§ÙØªØ±Ø§Ø¶ÙŠØ§ØŒ Ù…Ø³ØªØ¶Ø§ÙØ§ Ø¹Ø¨Ø± Zen. Ù„Ø­ØµØ± Voracode
+Ø¹Ù„Ù‰ Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù…Ø«ÙŠÙ„ GitLab Ø§Ù„Ù…Ø³ØªØ¶Ø§Ù Ù„Ø¯ÙŠÙƒ ÙÙ‚Ø·ØŒ Ø£Ø¶Ù Ù…Ø§ ÙŠÙ„ÙŠ Ø¥Ù„Ù‰ Ù…Ù„Ù
+`voracode.json` Ù„Ø¯ÙŠÙƒ. ÙŠÙˆØµÙ‰ Ø£ÙŠØ¶Ø§ Ø¨ØªØ¹Ø·ÙŠÙ„ Ù…Ø´Ø§Ø±ÙƒØ© Ø§Ù„Ø¬Ù„Ø³Ø§Øª.
+
+```json
+{
+  "$schema": "https://voracode.ai/config.json",
+  "small_model": "gitlab/duo-chat-haiku-4-5",
+  "share": "disabled"
+}
+```
+
+:::
+
+Ù„Ù…Ø«ÙŠÙ„Ø§Øª GitLab Ø§Ù„Ù…Ø³ØªØ¶Ø§ÙØ© Ø°Ø§ØªÙŠØ§:
+
+```bash
+export GITLAB_INSTANCE_URL=https://gitlab.company.com
+export GITLAB_TOKEN=glpat-...
+```
+
+Ø¥Ø°Ø§ ÙƒØ§Ù† Ù…Ø«ÙŠÙ„Ùƒ ÙŠØ´ØºÙ‘Ù„ AI Gateway Ù…Ø®ØµÙ‘ØµØ©:
+
+```bash
+GITLAB_AI_GATEWAY_URL=https://ai-gateway.company.com
+```
+
+Ø£Ùˆ Ø£Ø¶ÙÙ‡Ø§ Ø¥Ù„Ù‰ bash profile:
+
+```bash title="~/.bash_profile"
+export GITLAB_INSTANCE_URL=https://gitlab.company.com
+export GITLAB_AI_GATEWAY_URL=https://ai-gateway.company.com
+export GITLAB_TOKEN=glpat-...
+```
+
+:::note
+ÙŠØ¬Ø¨ Ø¹Ù„Ù‰ Ù…Ø¯ÙŠØ± GitLab Ù„Ø¯ÙŠÙƒ ØªÙØ¹ÙŠÙ„ Ù…Ø§ ÙŠÙ„ÙŠ:
+
+1. [Duo Agent Platform](https://docs.gitlab.com/user/duo_agent_platform/turn_on_off/) Ù„Ù„Ù…Ø³ØªØ®Ø¯Ù… Ø£Ùˆ Ø§Ù„Ù…Ø¬Ù…ÙˆØ¹Ø© Ø£Ùˆ Ø§Ù„Ù…Ø«ÙŠÙ„
+2. Feature flags (Ø¹Ø¨Ø± Rails console):
+   - `agent_platform_claude_code`
+   - `third_party_agents_enabled`
+     :::
+
+##### OAuth Ù„Ù„Ù…Ø«ÙŠÙ„Ø§Øª Ø§Ù„Ù…Ø³ØªØ¶Ø§ÙØ© Ø°Ø§ØªÙŠØ§
+
+Ù„ÙƒÙŠ ÙŠØ¹Ù…Ù„ Oauth Ù…Ø¹ Ù…Ø«ÙŠÙ„Ùƒ Ø§Ù„Ù…Ø³ØªØ¶Ø§Ù Ø°Ø§ØªÙŠØ§ØŒ ØªØ­ØªØ§Ø¬ Ø¥Ù„Ù‰ Ø¥Ù†Ø´Ø§Ø¡
+ØªØ·Ø¨ÙŠÙ‚ Ø¬Ø¯ÙŠØ¯ (Settings â†’ Applications) Ù…Ø¹
+callback URL â€`http://127.0.0.1:8080/callback` ÙˆÙ†Ø·Ø§Ù‚Ø§Øª Ø§Ù„ØµÙ„Ø§Ø­ÙŠØ§Øª Ø§Ù„ØªØ§Ù„ÙŠØ©:
+
+- api (Access the API on your behalf)
+- read_user (Read your personal information)
+- read_repository (Allows read-only access to the repository)
+
+Ø«Ù… Ø¹Ø±Ù‘Ø¶ application ID ÙƒÙ…ØªØºÙŠØ± Ø¨ÙŠØ¦Ø©:
+
+```bash
+export GITLAB_OAUTH_CLIENT_ID=your_application_id_here
+```
+
+Ù…Ø²ÙŠØ¯ Ù…Ù† Ø§Ù„ØªÙˆØ«ÙŠÙ‚ Ø¹Ù„Ù‰ ØµÙØ­Ø© [voracode-gitlab-auth](https://www.npmjs.com/package/voracode-gitlab-auth).
+
+##### Ø§Ù„ØªÙ‡ÙŠØ¦Ø©
+
+Ø®ØµÙ‘Øµ Ø¹Ø¨Ø± `voracode.json`:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "gitlab": {
+      "options": {
+        "instanceUrl": "https://gitlab.com"
+      }
+    }
+  }
+}
+```
+
+##### Ø£Ø¯ÙˆØ§Øª GitLab API (Ø§Ø®ØªÙŠØ§Ø±ÙŠØŒ Ù„ÙƒÙ† Ù…ÙˆØµÙ‰ Ø¨Ù‡ Ø¨Ø´Ø¯Ø©)
+
+Ù„Ù„ÙˆØµÙˆÙ„ Ø¥Ù„Ù‰ Ø£Ø¯ÙˆØ§Øª GitLab (merge requests Ùˆissues Ùˆpipelines ÙˆCI/CD ÙˆØºÙŠØ±Ù‡Ø§):
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "plugin": ["voracode-gitlab-plugin"]
+}
+```
+
+ÙŠÙˆÙÙ‘Ø± Ù‡Ø°Ø§ Ø§Ù„Ù…Ù„Ø­Ù‚ Ù‚Ø¯Ø±Ø§Øª Ø´Ø§Ù…Ù„Ø© Ù„Ø¥Ø¯Ø§Ø±Ø© Ù…Ø³ØªÙˆØ¯Ø¹Ø§Øª GitLab Ø¨Ù…Ø§ ÙÙŠ Ø°Ù„Ùƒ Ù…Ø±Ø§Ø¬Ø¹Ø§Øª MR ÙˆØªØªØ¨Ø¹ issues ÙˆÙ…Ø±Ø§Ù‚Ø¨Ø© pipelines ÙˆØºÙŠØ± Ø°Ù„Ùƒ.
+
+---
+
+### GitHub Copilot
+
+Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ø´ØªØ±Ø§Ùƒ GitHub Copilot Ù…Ø¹ voracode:
+
+:::note
+Ù‚Ø¯ ØªØªØ·Ù„Ø¨ Ø¨Ø¹Ø¶ Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø§Ø´ØªØ±Ø§Ùƒ [Pro+](https://github.com/features/copilot/plans) Ù„Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù….
+
+ØªØ­ØªØ§Ø¬ Ø¨Ø¹Ø¶ Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø¥Ù„Ù‰ ØªÙØ¹ÙŠÙ„ ÙŠØ¯ÙˆÙŠ Ù…Ù† [Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª GitHub Copilot](https://docs.github.com/en/copilot/how-tos/use-ai-models/configure-access-to-ai-models#setup-for-individual-use).
+:::
+
+1. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† GitHub Copilot.
+
+   ```txt
+   /connect
+   ```
+
+2. Ø§Ù†ØªÙ‚Ù„ Ø¥Ù„Ù‰ [github.com/login/device](https://github.com/login/device) ÙˆØ£Ø¯Ø®Ù„ Ø§Ù„Ø±Ù…Ø².
+
+   ```txt
+   â”Œ Login with GitHub Copilot
+   â”‚
+   â”‚ https://github.com/login/device
+   â”‚
+   â”‚ Enter code: 8F43-6FCF
+   â”‚
+   â”” Waiting for authorization...
+   ```
+
+3. Ø§Ù„Ø¢Ù† Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø°ÙŠ ØªØ±ÙŠØ¯Ù‡.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Google Vertex AI
+
+Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Google Vertex AI Ù…Ø¹ Voracode:
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ **Model Garden** ÙÙŠ Google Cloud Console ÙˆØªØ­Ù‚Ù‚ Ù…Ù†
+   Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„Ù…ØªØ§Ø­Ø© ÙÙŠ Ù…Ù†Ø·Ù‚ØªÙƒ.
+
+   :::note
+   ØªØ­ØªØ§Ø¬ Ø¥Ù„Ù‰ Ù…Ø´Ø±ÙˆØ¹ Google Cloud Ù…Ø¹ ØªÙØ¹ÙŠÙ„ Vertex AI API.
+   :::
+
+2. Ø¹ÙŠÙ‘Ù† Ù…ØªØºÙŠØ±Ø§Øª Ø§Ù„Ø¨ÙŠØ¦Ø© Ø§Ù„Ù…Ø·Ù„ÙˆØ¨Ø©:
+   - `GOOGLE_CLOUD_PROJECT`: Ù…Ø¹Ø±Ù‘Ù Ù…Ø´Ø±ÙˆØ¹ Google Cloud Ù„Ø¯ÙŠÙƒ
+   - `VERTEX_LOCATION` (Ø§Ø®ØªÙŠØ§Ø±ÙŠ): Ù…Ù†Ø·Ù‚Ø© Vertex AI (Ø§Ù„Ø§ÙØªØ±Ø§Ø¶ÙŠ `global`)
+   - Ø§Ù„Ù…ØµØ§Ø¯Ù‚Ø© (Ø§Ø®ØªØ± ÙˆØ§Ø­Ø¯Ø§):
+     - `GOOGLE_APPLICATION_CREDENTIALS`: Ù…Ø³Ø§Ø± Ù…Ù„Ù Ù…ÙØªØ§Ø­ Ø­Ø³Ø§Ø¨ Ø§Ù„Ø®Ø¯Ù…Ø© Ø¨ØµÙŠØºØ© JSON
+     - Ø§Ù„Ù…ØµØ§Ø¯Ù‚Ø© Ø¹Ø¨Ø± gcloud CLI: â€`gcloud auth application-default login`
+
+   Ø¹ÙŠÙ‘Ù†Ù‡Ø§ Ø£Ø«Ù†Ø§Ø¡ ØªØ´ØºÙŠÙ„ voracode.
+
+   ```bash
+   GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json GOOGLE_CLOUD_PROJECT=your-project-id voracode
+   ```
+
+   Ø£Ùˆ Ø£Ø¶ÙÙ‡Ø§ Ø¥Ù„Ù‰ bash profile.
+
+   ```bash title="~/.bash_profile"
+   export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
+   export GOOGLE_CLOUD_PROJECT=your-project-id
+   export VERTEX_LOCATION=global
+   ```
+
+:::tip
+ØªØ³Ø§Ø¹Ø¯ Ù…Ù†Ø·Ù‚Ø© `global` Ø¹Ù„Ù‰ ØªØ­Ø³ÙŠÙ† Ø§Ù„ØªÙˆÙØ± ÙˆØªÙ‚Ù„ÙŠÙ„ Ø§Ù„Ø£Ø®Ø·Ø§Ø¡ Ø¯ÙˆÙ† ØªÙƒÙ„ÙØ© Ø¥Ø¶Ø§ÙÙŠØ©. Ø§Ø³ØªØ®Ø¯Ù… Ù†Ù‚Ø§Ø· Ù†Ù‡Ø§ÙŠØ© Ø¥Ù‚Ù„ÙŠÙ…ÙŠØ© (Ù…Ø«Ù„ `us-central1`) Ù„Ù…ØªØ·Ù„Ø¨Ø§Øª Ù…ÙˆØ¶Ø¹ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª. [Ø§Ø¹Ø±Ù Ø§Ù„Ù…Ø²ÙŠØ¯](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-partner-models#regional_and_global_endpoints)
+:::
+
+3. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø°ÙŠ ØªØ±ÙŠØ¯Ù‡.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Groq
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Groq console](https://console.groq.com/)ØŒ ÙˆØ§Ù†Ù‚Ø± **Create API Key**ØŒ Ø«Ù… Ø§Ù†Ø³Ø® Ø§Ù„Ù…ÙØªØ§Ø­.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† Groq.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù…Ø§ ØªØ±ÙŠØ¯Ù‡.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Hugging Face
+
+ØªÙˆÙÙ‘Ø± [Hugging Face Inference Providers](https://huggingface.co/docs/inference-providers) ÙˆØµÙˆÙ„Ø§ Ø¥Ù„Ù‰ Ù†Ù…Ø§Ø°Ø¬ Ù…ÙØªÙˆØ­Ø© Ù…Ø¯Ø¹ÙˆÙ…Ø© Ù…Ù† Ø£ÙƒØ«Ø± Ù…Ù† 17 Ù…Ø²ÙˆÙ‘Ø¯Ø§.
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Hugging Face settings](https://huggingface.co/settings/tokens/new?ownUserPermissions=inference.serverless.write&tokenType=fineGrained) Ù„Ø¥Ù†Ø´Ø§Ø¡ Ø±Ù…Ø² (token) Ø¨ØµÙ„Ø§Ø­ÙŠØ© Ø¥Ø¬Ø±Ø§Ø¡ Ø·Ù„Ø¨Ø§Øª Ø¥Ù„Ù‰ Inference Providers.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Hugging Face**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ token Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Hugging Face.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ù…Ø«Ù„ _Kimi-K2-Instruct_ Ø£Ùˆ _GLM-4.6_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Helicone
+
+[Helicone](https://helicone.ai) Ù…Ù†ØµØ© Ù„Ù…Ù„Ø§Ø­Ø¸Ø© LLM (observability) ØªÙˆÙÙ‘Ø± Ø§Ù„ØªØ³Ø¬ÙŠÙ„ ÙˆØ§Ù„Ù…Ø±Ø§Ù‚Ø¨Ø© ÙˆØ§Ù„ØªØ­Ù„ÙŠÙ„Ø§Øª Ù„ØªØ·Ø¨ÙŠÙ‚Ø§Øª Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ù„Ø¯ÙŠÙƒ. ØªÙ‚ÙˆÙ… Helicone AI Gateway Ø¨ØªÙˆØ¬ÙŠÙ‡ Ø·Ù„Ø¨Ø§ØªÙƒ ØªÙ„Ù‚Ø§Ø¦ÙŠØ§ Ø¥Ù„Ù‰ Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯ Ø§Ù„Ù…Ù†Ø§Ø³Ø¨ Ø¨Ù†Ø§Ø¡ Ø¹Ù„Ù‰ Ø§Ù„Ù†Ù…ÙˆØ°Ø¬.
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Helicone](https://helicone.ai)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø£Ù†Ø´Ø¦ Ù…ÙØªØ§Ø­ API Ù…Ù† Ù„ÙˆØ­Ø© Ø§Ù„ØªØ­ÙƒÙ….
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Helicone**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Helicone.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬.
+
+   ```txt
+   /models
+   ```
+
+Ù„Ù…Ø²ÙŠØ¯ Ù…Ù† Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯Ø§Øª ÙˆØ§Ù„Ù…ÙŠØ²Ø§Øª Ø§Ù„Ù…ØªÙ‚Ø¯Ù…Ø© Ù…Ø«Ù„ Ø§Ù„ØªØ®Ø²ÙŠÙ† Ø§Ù„Ù…Ø¤Ù‚Øª (caching) ÙˆØªØ­Ø¯ÙŠØ¯ Ø§Ù„Ù…Ø¹Ø¯Ù‘Ù„ (rate limiting)ØŒ Ø±Ø§Ø¬Ø¹ [ØªÙˆØ«ÙŠÙ‚ Helicone](https://docs.helicone.ai).
+
+#### Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ø®ØªÙŠØ§Ø±ÙŠØ©
+
+Ø¥Ø°Ø§ Ø±Ø£ÙŠØª Ù…ÙŠØ²Ø© Ø£Ùˆ Ù†Ù…ÙˆØ°Ø¬Ø§ ÙÙŠ Helicone Ù„Ù… ÙŠØªÙ… Ø¶Ø¨Ø·Ù‡ ØªÙ„Ù‚Ø§Ø¦ÙŠØ§ Ø¹Ø¨Ø± voracodeØŒ ÙÙŠÙ…ÙƒÙ†Ùƒ Ø¯Ø§Ø¦Ù…Ø§ Ø¶Ø¨Ø·Ù‡ Ø¨Ù†ÙØ³Ùƒ.
+
+Ù‡Ø°Ù‡ Ù‡ÙŠ [Helicone's Model Directory](https://helicone.ai/models)ØŒ ÙˆØ³ØªØ­ØªØ§Ø¬Ù‡Ø§ Ù„Ù„Ø­ØµÙˆÙ„ Ø¹Ù„Ù‰ IDs Ø§Ù„Ø®Ø§ØµØ© Ø¨Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„ØªÙŠ ØªØ±ÙŠØ¯ Ø¥Ø¶Ø§ÙØªÙ‡Ø§.
+
+```jsonc title="~/.config/voracode/voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "helicone": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Helicone",
+      "options": {
+        "baseURL": "https://ai-gateway.helicone.ai",
+      },
+      "models": {
+        "gpt-4o": {
+          // Model ID (from Helicone's model directory page)
+          "name": "GPT-4o", // Your own custom name for the model
+        },
+        "claude-sonnet-4-20250514": {
+          "name": "Claude Sonnet 4",
+        },
+      },
+    },
+  },
+}
+```
+
+#### ØªØ±ÙˆÙŠØ³Ø§Øª Ù…Ø®ØµÙ‘ØµØ©
+
+ØªØ¯Ø¹Ù… Helicone ØªØ±ÙˆÙŠØ³Ø§Øª Ù…Ø®ØµÙ‘ØµØ© Ù„Ù…ÙŠØ²Ø§Øª Ù…Ø«Ù„ Ø§Ù„ØªØ®Ø²ÙŠÙ† Ø§Ù„Ù…Ø¤Ù‚Øª ÙˆØªØªØ¨Ø¹ Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù… ÙˆØ¥Ø¯Ø§Ø±Ø© Ø§Ù„Ø¬Ù„Ø³Ø§Øª. Ø£Ø¶ÙÙ‡Ø§ Ø¥Ù„Ù‰ Ø¥Ø¹Ø¯Ø§Ø¯ Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯ Ø¹Ø¨Ø± `options.headers`:
+
+```jsonc title="~/.config/voracode/voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "helicone": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Helicone",
+      "options": {
+        "baseURL": "https://ai-gateway.helicone.ai",
+        "headers": {
+          "Helicone-Cache-Enabled": "true",
+          "Helicone-User-Id": "voracode",
+        },
+      },
+    },
+  },
+}
+```
+
+##### ØªØªØ¨Ø¹ Ø§Ù„Ø¬Ù„Ø³Ø§Øª
+
+ØªØªÙŠØ­ Ù…ÙŠØ²Ø© [Sessions](https://docs.helicone.ai/features/sessions) ÙÙŠ Helicone ØªØ¬Ù…ÙŠØ¹ Ø·Ù„Ø¨Ø§Øª LLM Ø§Ù„Ù…Ø±ØªØ¨Ø·Ø© Ù…Ø¹Ø§. Ø§Ø³ØªØ®Ø¯Ù… Ù…Ù„Ø­Ù‚ [voracode-helicone-session](https://github.com/H2Shami/voracode-helicone-session) Ù„ØªØ³Ø¬ÙŠÙ„ ÙƒÙ„ Ù…Ø­Ø§Ø¯Ø«Ø© Voracode ØªÙ„Ù‚Ø§Ø¦ÙŠØ§ ÙƒØ¬Ù„Ø³Ø© ÙÙŠ Helicone.
+
+```bash
+npm install -g voracode-helicone-session
+```
+
+Ø£Ø¶ÙÙ‡ Ø¥Ù„Ù‰ Ø¥Ø¹Ø¯Ø§Ø¯Ø§ØªÙƒ.
+
+```json title="voracode.json"
+{
+  "plugin": ["voracode-helicone-session"]
+}
+```
+
+ÙŠÙ‚ÙˆÙ… Ø§Ù„Ù…Ù„Ø­Ù‚ Ø¨Ø­Ù‚Ù† ØªØ±ÙˆÙŠØ³Ø§Øª `Helicone-Session-Id` Ùˆ`Helicone-Session-Name` Ø¶Ù…Ù† Ø·Ù„Ø¨Ø§ØªÙƒ. ÙÙŠ ØµÙØ­Ø© Sessions Ø¯Ø§Ø®Ù„ HeliconeØŒ Ø³ØªØ±Ù‰ ÙƒÙ„ Ù…Ø­Ø§Ø¯Ø«Ø© Voracode Ù…Ø¯Ø±Ø¬Ø© ÙƒØ¬Ù„Ø³Ø© Ù…Ø³ØªÙ‚Ù„Ø©.
+
+##### ØªØ±ÙˆÙŠØ³Ø§Øª Helicone Ø§Ù„Ø´Ø§Ø¦Ø¹Ø©
+
+| Header                     | Ø§Ù„ÙˆØµÙ                                                    |
+| -------------------------- | -------------------------------------------------------- |
+| `Helicone-Cache-Enabled`   | ØªÙØ¹ÙŠÙ„ Ø§Ù„ØªØ®Ø²ÙŠÙ† Ø§Ù„Ù…Ø¤Ù‚Øª Ù„Ù„Ø§Ø³ØªØ¬Ø§Ø¨Ø§Øª (`true`/`false`)         |
+| `Helicone-User-Id`         | ØªØªØ¨Ø¹ Ø§Ù„Ù…Ù‚Ø§ÙŠÙŠØ³ Ø­Ø³Ø¨ Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…                               |
+| `Helicone-Property-[Name]` | Ø¥Ø¶Ø§ÙØ© Ø®ØµØ§Ø¦Øµ Ù…Ø®ØµÙ‘ØµØ© (Ù…Ø«Ù„ `Helicone-Property-Environment`) |
+| `Helicone-Prompt-Id`       | Ø±Ø¨Ø· Ø§Ù„Ø·Ù„Ø¨Ø§Øª Ø¨Ø¥ØµØ¯Ø§Ø±Ø§Øª prompt                              |
+
+Ø±Ø§Ø¬Ø¹ [Helicone Header Directory](https://docs.helicone.ai/helicone-headers/header-directory) Ù„Ø¹Ø±Ø¶ Ø¬Ù…ÙŠØ¹ Ø§Ù„ØªØ±ÙˆÙŠØ³Ø§Øª Ø§Ù„Ù…ØªØ§Ø­Ø©.
+
+---
+
+### llama.cpp
+
+ÙŠÙ…ÙƒÙ†Ùƒ Ø¶Ø¨Ø· voracode Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù†Ù…Ø§Ø°Ø¬ Ù…Ø­Ù„ÙŠØ© Ø¹Ø¨Ø± Ø£Ø¯Ø§Ø© llama-server Ø¶Ù…Ù† [llama.cpp](https://github.com/ggml-org/llama.cpp)
+
+```json title="voracode.json" "llama.cpp" {5, 6, 8, 10-15}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "llama.cpp": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama-server (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:8080/v1"
+      },
+      "models": {
+        "qwen3-coder:a3b": {
+          "name": "Qwen3-Coder: a3b-30b (local)",
+          "limit": {
+            "context": 128000,
+            "output": 65536
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+ÙÙŠ Ù‡Ø°Ø§ Ø§Ù„Ù…Ø«Ø§Ù„:
+
+- `llama.cpp` Ù‡Ùˆ ID Ù…Ø²ÙˆÙ‘Ø¯ Ù…Ø®ØµÙ‘Øµ. ÙŠÙ…ÙƒÙ† Ø£Ù† ÙŠÙƒÙˆÙ† Ø£ÙŠ Ø³Ù„Ø³Ù„Ø© Ù†ØµÙŠØ© ØªØ±ÙŠØ¯Ù‡Ø§.
+- `npm` ÙŠØ­Ø¯Ø¯ Ø§Ù„Ø­Ø²Ù…Ø© Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…Ø© Ù„Ù‡Ø°Ø§ Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯. Ù‡Ù†Ø§ ÙŠØªÙ… Ø§Ø³ØªØ®Ø¯Ø§Ù… `@ai-sdk/openai-compatible` Ù„Ø£ÙŠ API Ù…ØªÙˆØ§ÙÙ‚ Ù…Ø¹ OpenAI.
+- `name` Ù‡Ùˆ Ø§Ø³Ù… Ø§Ù„Ø¹Ø±Ø¶ Ù„Ù„Ù…Ø²ÙˆÙ‘Ø¯ ÙÙŠ ÙˆØ§Ø¬Ù‡Ø© Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù….
+- `options.baseURL` Ù‡Ùˆ Ù†Ù‚Ø·Ø© Ù†Ù‡Ø§ÙŠØ© Ø§Ù„Ø®Ø§Ø¯Ù… Ø§Ù„Ù…Ø­Ù„ÙŠ.
+- `models` Ù‡Ùˆ Ø®Ø±ÙŠØ·Ø© Ù…Ù† IDs Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø¥Ù„Ù‰ Ø¥Ø¹Ø¯Ø§Ø¯Ø§ØªÙ‡Ø§. Ø³ÙŠØªÙ… Ø¹Ø±Ø¶ Ø§Ø³Ù… Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø¶Ù…Ù† Ù‚Ø§Ø¦Ù…Ø© Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù†Ù…Ø§Ø°Ø¬.
+
+---
+
+### IO.NET
+
+ØªÙ‚Ø¯Ù‘Ù… IO.NET â€17 Ù†Ù…ÙˆØ°Ø¬Ø§ Ù…Ø­Ø³Ù‘Ù†Ø§ Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù…Ø§Øª Ù…ØªØ¹Ø¯Ø¯Ø©:
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [IO.NET console](https://ai.io.net/)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø£Ù†Ø´Ø¦ Ù…ÙØªØ§Ø­ API.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **IO.NET**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ IO.NET.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### LM Studio
+
+ÙŠÙ…ÙƒÙ†Ùƒ Ø¶Ø¨Ø· voracode Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù†Ù…Ø§Ø°Ø¬ Ù…Ø­Ù„ÙŠØ© Ø¹Ø¨Ø± LM Studio.
+
+```json title="voracode.json" "lmstudio" {5, 6, 8, 10-14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "lmstudio": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "LM Studio (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:1234/v1"
+      },
+      "models": {
+        "google/gemma-3n-e4b": {
+          "name": "Gemma 3n-e4b (local)"
+        }
+      }
+    }
+  }
+}
+```
+
+ÙÙŠ Ù‡Ø°Ø§ Ø§Ù„Ù…Ø«Ø§Ù„:
+
+- `lmstudio` Ù‡Ùˆ ID Ù…Ø²ÙˆÙ‘Ø¯ Ù…Ø®ØµÙ‘Øµ. ÙŠÙ…ÙƒÙ† Ø£Ù† ÙŠÙƒÙˆÙ† Ø£ÙŠ Ø³Ù„Ø³Ù„Ø© Ù†ØµÙŠØ© ØªØ±ÙŠØ¯Ù‡Ø§.
+- `npm` ÙŠØ­Ø¯Ø¯ Ø§Ù„Ø­Ø²Ù…Ø© Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…Ø© Ù„Ù‡Ø°Ø§ Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯. Ù‡Ù†Ø§ ÙŠØªÙ… Ø§Ø³ØªØ®Ø¯Ø§Ù… `@ai-sdk/openai-compatible` Ù„Ø£ÙŠ API Ù…ØªÙˆØ§ÙÙ‚ Ù…Ø¹ OpenAI.
+- `name` Ù‡Ùˆ Ø§Ø³Ù… Ø§Ù„Ø¹Ø±Ø¶ Ù„Ù„Ù…Ø²ÙˆÙ‘Ø¯ ÙÙŠ ÙˆØ§Ø¬Ù‡Ø© Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù….
+- `options.baseURL` Ù‡Ùˆ Ù†Ù‚Ø·Ø© Ù†Ù‡Ø§ÙŠØ© Ø§Ù„Ø®Ø§Ø¯Ù… Ø§Ù„Ù…Ø­Ù„ÙŠ.
+- `models` Ù‡Ùˆ Ø®Ø±ÙŠØ·Ø© Ù…Ù† IDs Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø¥Ù„Ù‰ Ø¥Ø¹Ø¯Ø§Ø¯Ø§ØªÙ‡Ø§. Ø³ÙŠØªÙ… Ø¹Ø±Ø¶ Ø§Ø³Ù… Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø¶Ù…Ù† Ù‚Ø§Ø¦Ù…Ø© Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù†Ù…Ø§Ø°Ø¬.
+
+---
+
+### Moonshot AI
+
+Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Kimi K2 Ù…Ù† Moonshot AI:
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Moonshot AI console](https://platform.moonshot.ai/console)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø§Ù†Ù‚Ø± **Create API key**.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Moonshot AI**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Moonshot.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± _Kimi K2_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### MiniMax
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [MiniMax API Console](https://platform.minimax.io/login)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø£Ù†Ø´Ø¦ Ù…ÙØªØ§Ø­ API.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **MiniMax**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ MiniMax.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ù…Ø«Ù„ _M2.1_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Nebius Token Factory
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Nebius Token Factory console](https://tokenfactory.nebius.com/)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø§Ù†Ù‚Ø± **Add Key**.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Nebius Token Factory**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Nebius Token Factory.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ù…Ø«Ù„ _Kimi K2 Instruct_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Ollama
+
+ÙŠÙ…ÙƒÙ†Ùƒ Ø¶Ø¨Ø· voracode Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù†Ù…Ø§Ø°Ø¬ Ù…Ø­Ù„ÙŠØ© Ø¹Ø¨Ø± Ollama.
+
+:::tip
+ÙŠÙ…ÙƒÙ† Ù„Ù€ Ollama Ø¶Ø¨Ø· Ù†ÙØ³Ù‡ ØªÙ„Ù‚Ø§Ø¦ÙŠØ§ Ù„Ù„Ø¹Ù…Ù„ Ù…Ø¹ Voracode. Ø±Ø§Ø¬Ø¹ [ØªÙˆØ«ÙŠÙ‚ ØªÙƒØ§Ù…Ù„ Ollama](https://docs.ollama.com/integrations/voracode) Ù„Ù„ØªÙØ§ØµÙŠÙ„.
+:::
+
+```json title="voracode.json" "ollama" {5, 6, 8, 10-14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "llama2": {
+          "name": "Llama 2"
+        }
+      }
+    }
+  }
+}
+```
+
+ÙÙŠ Ù‡Ø°Ø§ Ø§Ù„Ù…Ø«Ø§Ù„:
+
+- `ollama` Ù‡Ùˆ ID Ù…Ø²ÙˆÙ‘Ø¯ Ù…Ø®ØµÙ‘Øµ. ÙŠÙ…ÙƒÙ† Ø£Ù† ÙŠÙƒÙˆÙ† Ø£ÙŠ Ø³Ù„Ø³Ù„Ø© Ù†ØµÙŠØ© ØªØ±ÙŠØ¯Ù‡Ø§.
+- `npm` ÙŠØ­Ø¯Ø¯ Ø§Ù„Ø­Ø²Ù…Ø© Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…Ø© Ù„Ù‡Ø°Ø§ Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯. Ù‡Ù†Ø§ ÙŠØªÙ… Ø§Ø³ØªØ®Ø¯Ø§Ù… `@ai-sdk/openai-compatible` Ù„Ø£ÙŠ API Ù…ØªÙˆØ§ÙÙ‚ Ù…Ø¹ OpenAI.
+- `name` Ù‡Ùˆ Ø§Ø³Ù… Ø§Ù„Ø¹Ø±Ø¶ Ù„Ù„Ù…Ø²ÙˆÙ‘Ø¯ ÙÙŠ ÙˆØ§Ø¬Ù‡Ø© Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù….
+- `options.baseURL` Ù‡Ùˆ Ù†Ù‚Ø·Ø© Ù†Ù‡Ø§ÙŠØ© Ø§Ù„Ø®Ø§Ø¯Ù… Ø§Ù„Ù…Ø­Ù„ÙŠ.
+- `models` Ù‡Ùˆ Ø®Ø±ÙŠØ·Ø© Ù…Ù† IDs Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø¥Ù„Ù‰ Ø¥Ø¹Ø¯Ø§Ø¯Ø§ØªÙ‡Ø§. Ø³ÙŠØªÙ… Ø¹Ø±Ø¶ Ø§Ø³Ù… Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø¶Ù…Ù† Ù‚Ø§Ø¦Ù…Ø© Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù†Ù…Ø§Ø°Ø¬.
+
+:::tip
+Ø¥Ø°Ø§ Ù„Ù… ØªÙƒÙ† tool calls ØªØ¹Ù…Ù„ØŒ Ø¬Ø±Ù‘Ø¨ Ø²ÙŠØ§Ø¯Ø© `num_ctx` ÙÙŠ Ollama. Ø§Ø¨Ø¯Ø£ Ø¨Ù†Ø­Ùˆ 16k - 32k.
+:::
+
+---
+
+### Ollama Cloud
+
+Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Ollama Cloud Ù…Ø¹ Voracode:
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [https://ollama.com/](https://ollama.com/) ÙˆØ³Ø¬Ù‘Ù„ Ø§Ù„Ø¯Ø®ÙˆÙ„ Ø£Ùˆ Ø£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§.
+
+2. Ø§Ù†ØªÙ‚Ù„ Ø¥Ù„Ù‰ **Settings** > **Keys** ÙˆØ§Ù†Ù‚Ø± **Add API Key** Ù„Ø¥Ù†Ø´Ø§Ø¡ Ù…ÙØªØ§Ø­ API Ø¬Ø¯ÙŠØ¯.
+
+3. Ø§Ù†Ø³Ø® Ù…ÙØªØ§Ø­ API Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù…Ù‡ ÙÙŠ Voracode.
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Ollama Cloud**.
+
+   ```txt
+   /connect
+   ```
+
+5. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Ollama Cloud.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+6. **Ù…Ù‡Ù…**: Ù‚Ø¨Ù„ Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„Ø³Ø­Ø§Ø¨Ø© ÙÙŠ VoracodeØŒ ÙŠØ¬Ø¨ Ø³Ø­Ø¨ Ù…Ø¹Ù„ÙˆÙ…Ø§Øª Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ù…Ø­Ù„ÙŠØ§:
+
+   ```bash
+   ollama pull gpt-oss:20b-cloud
+   ```
+
+7. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ollama Cloud.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### OpenAI
+
+Ù†ÙˆØµÙŠ Ø¨Ø§Ù„Ø§Ø´ØªØ±Ø§Ùƒ ÙÙŠ [ChatGPT Plus Ø£Ùˆ Pro](https://chatgpt.com/pricing).
+
+1. Ø¨Ø¹Ø¯ Ø§Ù„Ø§Ø´ØªØ±Ø§ÙƒØŒ Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø®ØªØ± OpenAI.
+
+   ```txt
+   /connect
+   ```
+
+2. Ù‡Ù†Ø§ ÙŠÙ…ÙƒÙ†Ùƒ Ø§Ø®ØªÙŠØ§Ø± Ø®ÙŠØ§Ø± **ChatGPT Plus/Pro** ÙˆØ³ÙŠØªÙ… ÙØªØ­ Ø§Ù„Ù…ØªØµÙØ­
+   ÙˆØ³ÙŠØ·Ù„Ø¨ Ù…Ù†Ùƒ Ø§Ù„Ù…ØµØ§Ø¯Ù‚Ø©.
+
+   ```txt
+   â”Œ Select auth method
+   â”‚
+   â”‚ ChatGPT Plus/Pro
+   â”‚ Manually enter API Key
+   â””
+   ```
+
+3. Ø§Ù„Ø¢Ù† ÙŠØ¬Ø¨ Ø£Ù† ØªÙƒÙˆÙ† Ø¬Ù…ÙŠØ¹ Ù†Ù…Ø§Ø°Ø¬ OpenAI Ù…ØªØ§Ø­Ø© Ø¹Ù†Ø¯ Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ø£Ù…Ø± `/models`.
+
+   ```txt
+   /models
+   ```
+
+##### Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù…ÙØ§ØªÙŠØ­ API
+
+Ø¥Ø°Ø§ ÙƒØ§Ù† Ù„Ø¯ÙŠÙƒ Ù…ÙØªØ§Ø­ API Ø¨Ø§Ù„ÙØ¹Ù„ØŒ ÙŠÙ…ÙƒÙ†Ùƒ Ø§Ø®ØªÙŠØ§Ø± **Manually enter API Key** ÙˆÙ„ØµÙ‚Ù‡ ÙÙŠ terminal.
+
+---
+
+### Voracode Zen
+
+Voracode Zen Ù‡ÙŠ Ù‚Ø§Ø¦Ù…Ø© Ù…Ù† Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„ØªÙŠ ØªÙ… Ø§Ø®ØªØ¨Ø§Ø±Ù‡Ø§ ÙˆØ§Ù„ØªØ­Ù‚Ù‚ Ù…Ù†Ù‡Ø§ Ù…Ù‚Ø¯Ù‘Ù…Ø© Ù…Ù† ÙØ±ÙŠÙ‚ Voracode. [Ø§Ø¹Ø±Ù Ø§Ù„Ù…Ø²ÙŠØ¯](/docs/zen).
+
+1. Ø³Ø¬Ù‘Ù„ Ø§Ù„Ø¯Ø®ÙˆÙ„ Ø¥Ù„Ù‰ **<a href={console}>Voracode Zen</a>** ÙˆØ§Ù†Ù‚Ø± **Create API Key**.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Voracode Zen**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Voracode.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ù…Ø«Ù„ _Qwen 3 Coder 480B_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### OpenRouter
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [OpenRouter dashboard](https://openrouter.ai/settings/keys)ØŒ ÙˆØ§Ù†Ù‚Ø± **Create API Key**ØŒ Ø«Ù… Ø§Ù†Ø³Ø® Ø§Ù„Ù…ÙØªØ§Ø­.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† OpenRouter.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. ÙŠØªÙ… ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø¹Ø¯ÙŠØ¯ Ù…Ù† Ù†Ù…Ø§Ø°Ø¬ OpenRouter Ù…Ø³Ø¨Ù‚Ø§ Ø¨Ø´ÙƒÙ„ Ø§ÙØªØ±Ø§Ø¶ÙŠØ› Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù…Ø§ ØªØ±ÙŠØ¯Ù‡.
+
+   ```txt
+   /models
+   ```
+
+   ÙŠÙ…ÙƒÙ†Ùƒ Ø£ÙŠØ¶Ø§ Ø¥Ø¶Ø§ÙØ© Ù†Ù…Ø§Ø°Ø¬ Ø¥Ø¶Ø§ÙÙŠØ© Ø¹Ø¨Ø± Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª voracode.
+
+   ```json title="voracode.json" {6}
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "provider": {
+       "openrouter": {
+         "models": {
+           "somecoolnewmodel": {}
+         }
+       }
+     }
+   }
+   ```
+
+5. ÙŠÙ…ÙƒÙ†Ùƒ Ø£ÙŠØ¶Ø§ ØªØ®ØµÙŠØµÙ‡Ø§ Ø¹Ø¨Ø± Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª voracode. Ø¥Ù„ÙŠÙƒ Ù…Ø«Ø§Ù„Ø§ Ø¹Ù„Ù‰ ØªØ­Ø¯ÙŠØ¯ Ù…Ø²ÙˆÙ‘Ø¯
+
+   ```json title="voracode.json"
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "provider": {
+       "openrouter": {
+         "models": {
+           "moonshotai/kimi-k2": {
+             "options": {
+               "provider": {
+                 "order": ["baseten"],
+                 "allow_fallbacks": false
+               }
+             }
+           }
+         }
+       }
+     }
+   }
+   ```
+
+---
+
+### SAP AI Core
+
+ÙŠÙˆÙÙ‘Ø± SAP AI Core ÙˆØµÙˆÙ„Ø§ Ø¥Ù„Ù‰ Ø£ÙƒØ«Ø± Ù…Ù† 40 Ù†Ù…ÙˆØ°Ø¬Ø§ Ù…Ù† OpenAI ÙˆAnthropic ÙˆGoogle ÙˆAmazon ÙˆMeta ÙˆMistral ÙˆAI21 Ø¹Ø¨Ø± Ù…Ù†ØµØ© Ù…ÙˆØ­Ù‘Ø¯Ø©.
+
+1. Ø§Ø°Ù‡Ø¨ Ø¥Ù„Ù‰ [SAP BTP Cockpit](https://account.hana.ondemand.com/)ØŒ ÙˆØ§Ù†ØªÙ‚Ù„ Ø¥Ù„Ù‰ Ù…Ø«ÙŠÙ„ Ø®Ø¯Ù…Ø© SAP AI Core Ù„Ø¯ÙŠÙƒØŒ Ø«Ù… Ø£Ù†Ø´Ø¦ service key.
+
+   :::tip
+   service key Ù‡Ùˆ ÙƒØ§Ø¦Ù† JSON ÙŠØ­ØªÙˆÙŠ Ø¹Ù„Ù‰ `clientid` Ùˆ`clientsecret` Ùˆ`url` Ùˆ`serviceurls.AI_API_URL`. ÙŠÙ…ÙƒÙ†Ùƒ Ø§Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ Ù…Ø«ÙŠÙ„ AI Core Ø¶Ù…Ù† **Services** > **Instances and Subscriptions** ÙÙŠ BTP Cockpit.
+   :::
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **SAP AI Core**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ JSON Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ service key.
+
+   ```txt
+   â”Œ Service key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+   Ø£Ùˆ Ø¹ÙŠÙ‘Ù† Ù…ØªØºÙŠØ± Ø§Ù„Ø¨ÙŠØ¦Ø© `AICORE_SERVICE_KEY`:
+
+   ```bash
+   AICORE_SERVICE_KEY='{"clientid":"...","clientsecret":"...","url":"...","serviceurls":{"AI_API_URL":"..."}}' voracode
+   ```
+
+   Ø£Ùˆ Ø£Ø¶ÙÙ‡ Ø¥Ù„Ù‰ bash profile:
+
+   ```bash title="~/.bash_profile"
+   export AICORE_SERVICE_KEY='{"clientid":"...","clientsecret":"...","url":"...","serviceurls":{"AI_API_URL":"..."}}'
+   ```
+
+4. Ø§Ø®ØªÙŠØ§Ø±ÙŠØ§ØŒ Ø¹ÙŠÙ‘Ù† deployment ID Ùˆresource group:
+
+   ```bash
+   AICORE_DEPLOYMENT_ID=your-deployment-id AICORE_RESOURCE_GROUP=your-resource-group voracode
+   ```
+
+   :::note
+   Ù‡Ø°Ù‡ Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ø®ØªÙŠØ§Ø±ÙŠØ© ÙˆÙŠØ¬Ø¨ Ø¶Ø¨Ø·Ù‡Ø§ ÙˆÙÙ‚Ø§ Ù„Ø¥Ø¹Ø¯Ø§Ø¯ SAP AI Core Ù„Ø¯ÙŠÙƒ.
+   :::
+
+5. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ù„Ø§Ø®ØªÙŠØ§Ø± Ù…Ù† Ø¨ÙŠÙ† Ø£ÙƒØ«Ø± Ù…Ù† 40 Ù†Ù…ÙˆØ°Ø¬Ø§ Ù…ØªØ§Ø­Ø§.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### STACKIT
+
+ØªÙˆÙÙ‘Ø± Ø®Ø¯Ù…Ø© STACKIT AI Model Serving Ø¨ÙŠØ¦Ø© Ø§Ø³ØªØ¶Ø§ÙØ© Ø³ÙŠØ§Ø¯ÙŠØ© Ù…ÙØ¯Ø§Ø±Ø© Ø¨Ø§Ù„ÙƒØ§Ù…Ù„ Ù„Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠØŒ Ù…Ø¹ Ø§Ù„ØªØ±ÙƒÙŠØ² Ø¹Ù„Ù‰ Ù†Ù…Ø§Ø°Ø¬ LLM Ù…Ø«Ù„ Llama ÙˆMistral ÙˆQwenØŒ Ù…Ø¹ Ø£Ù‚ØµÙ‰ Ø¯Ø±Ø¬Ø§Øª Ø³ÙŠØ§Ø¯Ø© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø¹Ù„Ù‰ Ø¨Ù†ÙŠØ© ØªØ­ØªÙŠØ© Ø£ÙˆØ±ÙˆØ¨ÙŠØ©.
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [STACKIT Portal](https://portal.stackit.cloud)ØŒ ÙˆØ§Ù†ØªÙ‚Ù„ Ø¥Ù„Ù‰ **AI Model Serving**ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø±Ù…Ø² Ù…ØµØ§Ø¯Ù‚Ø© (auth token) Ù„Ù…Ø´Ø±ÙˆØ¹Ùƒ.
+
+   :::tip
+   ØªØ­ØªØ§Ø¬ Ø¥Ù„Ù‰ Ø­Ø³Ø§Ø¨ Ø¹Ù…ÙŠÙ„ STACKIT ÙˆØ­Ø³Ø§Ø¨ Ù…Ø³ØªØ®Ø¯Ù… ÙˆÙ…Ø´Ø±ÙˆØ¹ Ù‚Ø¨Ù„ Ø¥Ù†Ø´Ø§Ø¡ Ø±Ù…ÙˆØ² Ø§Ù„Ù…ØµØ§Ø¯Ù‚Ø©.
+   :::
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **STACKIT**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ø±Ù…Ø² Ù…ØµØ§Ø¯Ù‚Ø© STACKIT AI Model Serving.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ù„Ø§Ø®ØªÙŠØ§Ø± Ù…Ù† Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„Ù…ØªØ§Ø­Ø© Ù…Ø«Ù„ _Qwen3-VL 235B_ Ø£Ùˆ _Llama 3.3 70B_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### OVHcloud AI Endpoints
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [OVHcloud panel](https://ovh.com/manager). Ø§Ù†ØªÙ‚Ù„ Ø¥Ù„Ù‰ Ù‚Ø³Ù… `Public Cloud`ØŒ Ø«Ù… `AI & Machine Learning` > `AI Endpoints`ØŒ ÙˆÙÙŠ ØªØ¨ÙˆÙŠØ¨ `API Keys` Ø§Ù†Ù‚Ø± **Create a new API key**.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **OVHcloud AI Endpoints**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ OVHcloud AI Endpoints.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ù…Ø«Ù„ _gpt-oss-120b_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Scaleway
+
+Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… [Scaleway Generative APIs](https://www.scaleway.com/en/docs/generative-apis/) Ù…Ø¹ Voracode:
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Scaleway Console IAM settings](https://console.scaleway.com/iam/api-keys) Ù„Ø¥Ù†Ø´Ø§Ø¡ Ù…ÙØªØ§Ø­ API Ø¬Ø¯ÙŠØ¯.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Scaleway**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Scaleway.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ù…Ø«Ù„ _devstral-2-123b-instruct-2512_ Ø£Ùˆ _gpt-oss-120b_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Together AI
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Together AI console](https://api.together.ai)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø§Ù†Ù‚Ø± **Add Key**.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Together AI**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Together AI.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ù…Ø«Ù„ _Kimi K2 Instruct_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Venice AI
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Venice AI console](https://venice.ai)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø£Ù†Ø´Ø¦ Ù…ÙØªØ§Ø­ API.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Venice AI**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Venice AI.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ù…Ø«Ù„ _Llama 3.3 70B_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Vercel AI Gateway
+
+ØªØªÙŠØ­ Vercel AI Gateway Ø§Ù„ÙˆØµÙˆÙ„ Ø¥Ù„Ù‰ Ù†Ù…Ø§Ø°Ø¬ Ù…Ù† OpenAI ÙˆAnthropic ÙˆGoogle ÙˆxAI ÙˆØºÙŠØ±Ù‡Ø§ Ø¹Ø¨Ø± Ù†Ù‚Ø·Ø© Ù†Ù‡Ø§ÙŠØ© Ù…ÙˆØ­Ù‘Ø¯Ø©. ØªÙÙ‚Ø¯Ù‘Ù… Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø¨Ø³Ø¹Ø± Ø§Ù„Ù‚Ø§Ø¦Ù…Ø© Ø¯ÙˆÙ† Ø£ÙŠ Ø²ÙŠØ§Ø¯Ø©.
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Vercel dashboard](https://vercel.com/)ØŒ ÙˆØ§Ù†ØªÙ‚Ù„ Ø¥Ù„Ù‰ ØªØ¨ÙˆÙŠØ¨ **AI Gateway**ØŒ Ø«Ù… Ø§Ù†Ù‚Ø± **API keys** Ù„Ø¥Ù†Ø´Ø§Ø¡ Ù…ÙØªØ§Ø­ API Ø¬Ø¯ÙŠØ¯.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Vercel AI Gateway**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Vercel AI Gateway.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬.
+
+   ```txt
+   /models
+   ```
+
+ÙŠÙ…ÙƒÙ†Ùƒ Ø£ÙŠØ¶Ø§ ØªØ®ØµÙŠØµ Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø¹Ø¨Ø± Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª voracode. Ø¥Ù„ÙŠÙƒ Ù…Ø«Ø§Ù„Ø§ Ø¹Ù„Ù‰ ØªØ­Ø¯ÙŠØ¯ ØªØ±ØªÙŠØ¨ ØªÙˆØ¬ÙŠÙ‡ Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯Ø§Øª.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "vercel": {
+      "models": {
+        "anthropic/claude-sonnet-4": {
+          "options": {
+            "order": ["anthropic", "vertex"]
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Ø¨Ø¹Ø¶ Ø®ÙŠØ§Ø±Ø§Øª Ø§Ù„ØªÙˆØ¬ÙŠÙ‡ Ø§Ù„Ù…ÙÙŠØ¯Ø©:
+
+| Option              | Ø§Ù„ÙˆØµÙ                                           |
+| ------------------- | ----------------------------------------------- |
+| `order`             | ØªØ³Ù„Ø³Ù„ Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯Ø§Øª Ø§Ù„ØªÙŠ Ø³ÙŠØªÙ… ØªØ¬Ø±Ø¨ØªÙ‡Ø§               |
+| `only`              | ØªÙ‚ÙŠÙŠØ¯ Ø§Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø¹Ù„Ù‰ Ù…Ø²ÙˆÙ‘Ø¯Ø§Øª Ù…Ø­Ø¯Ø¯Ø©               |
+| `zeroDataRetention` | Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù…Ø²ÙˆÙ‘Ø¯Ø§Øª Ø¨Ø³ÙŠØ§Ø³Ø§Øª Ø§Ø­ØªÙØ§Ø¸ Ø¨ÙŠØ§Ù†Ø§Øª ØµÙØ±ÙŠØ© ÙÙ‚Ø· |
+
+---
+
+### xAI
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [xAI console](https://console.x.ai/)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø£Ù†Ø´Ø¦ Ù…ÙØªØ§Ø­ API.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **xAI**.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ xAI.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ù…Ø«Ù„ _Grok Beta_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Z.AI
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [Z.AI API console](https://z.ai/manage-apikey/apikey-list)ØŒ ÙˆØ£Ù†Ø´Ø¦ Ø­Ø³Ø§Ø¨Ø§ØŒ Ø«Ù… Ø§Ù†Ù‚Ø± **Create a new API key**.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† **Z.AI**.
+
+   ```txt
+   /connect
+   ```
+
+   Ø¥Ø°Ø§ ÙƒÙ†Øª Ù…Ø´ØªØ±ÙƒØ§ ÙÙŠ **GLM Coding Plan**ØŒ ÙØ§Ø®ØªØ± **Z.AI Coding Plan**.
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Z.AI.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù†Ù…ÙˆØ°Ø¬ Ù…Ø«Ù„ _GLM-4.7_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### ZenMux
+
+1. ØªÙˆØ¬Ù‘Ù‡ Ø¥Ù„Ù‰ [ZenMux dashboard](https://zenmux.ai/settings/keys)ØŒ ÙˆØ§Ù†Ù‚Ø± **Create API Key**ØŒ Ø«Ù… Ø§Ù†Ø³Ø® Ø§Ù„Ù…ÙØªØ§Ø­.
+
+2. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆØ§Ø¨Ø­Ø« Ø¹Ù† ZenMux.
+
+   ```txt
+   /connect
+   ```
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. ÙŠØªÙ… ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø¹Ø¯ÙŠØ¯ Ù…Ù† Ù†Ù…Ø§Ø°Ø¬ ZenMux Ù…Ø³Ø¨Ù‚Ø§ Ø¨Ø´ÙƒÙ„ Ø§ÙØªØ±Ø§Ø¶ÙŠØ› Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` Ù„Ø§Ø®ØªÙŠØ§Ø± Ù…Ø§ ØªØ±ÙŠØ¯Ù‡.
+
+   ```txt
+   /models
+   ```
+
+   ÙŠÙ…ÙƒÙ†Ùƒ Ø£ÙŠØ¶Ø§ Ø¥Ø¶Ø§ÙØ© Ù†Ù…Ø§Ø°Ø¬ Ø¥Ø¶Ø§ÙÙŠØ© Ø¹Ø¨Ø± Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª voracode.
+
+   ```json title="voracode.json" {6}
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "provider": {
+       "zenmux": {
+         "models": {
+           "somecoolnewmodel": {}
+         }
+       }
+     }
+   }
+   ```
+
+---
+
+## Ù…ÙˆÙÙ‘Ø± Ù…Ø®ØµÙ‘Øµ
+
+Ù„Ø¥Ø¶Ø§ÙØ© Ø£ÙŠ Ù…Ø²ÙˆÙ‘Ø¯ **OpenAI-compatible** ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯ Ø¶Ù…Ù† Ø§Ù„Ø£Ù…Ø± `/connect`:
+
+:::tip
+ÙŠÙ…ÙƒÙ†Ùƒ Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø£ÙŠ Ù…Ø²ÙˆÙ‘Ø¯ OpenAI-compatible Ù…Ø¹ voracode. Ù…Ø¹Ø¸Ù… Ù…Ø²ÙˆÙ‘Ø¯ÙŠ Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ Ø§Ù„Ø­Ø¯ÙŠØ«Ø© ÙŠÙ‚Ø¯Ù‘Ù…ÙˆÙ† APIs Ù…ØªÙˆØ§ÙÙ‚Ø© Ù…Ø¹ OpenAI.
+:::
+
+1. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/connect` ÙˆÙ…Ø±Ù‘Ø± Ù„Ù„Ø£Ø³ÙÙ„ Ø­ØªÙ‰ **Other**.
+
+   ```bash
+   $ /connect
+
+   â”Œ  Add credential
+   â”‚
+   â—†  Select provider
+   â”‚  ...
+   â”‚  â— Other
+   â””
+   ```
+
+2. Ø£Ø¯Ø®Ù„ ID ÙØ±ÙŠØ¯Ø§ Ù„Ù„Ù…Ø²ÙˆÙ‘Ø¯.
+
+   ```bash
+   $ /connect
+
+   â”Œ  Add credential
+   â”‚
+   â—‡  Enter provider id
+   â”‚  myprovider
+   â””
+   ```
+
+   :::note
+   Ø§Ø®ØªØ± ID Ø³Ù‡Ù„ Ø§Ù„ØªØ°ÙƒØ±Ø› Ø³ØªØ³ØªØ®Ø¯Ù…Ù‡ ÙÙŠ Ù…Ù„Ù Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª.
+   :::
+
+3. Ø£Ø¯Ø®Ù„ Ù…ÙØªØ§Ø­ API Ø§Ù„Ø®Ø§Øµ Ø¨Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯.
+
+   ```bash
+   $ /connect
+
+   â”Œ  Add credential
+   â”‚
+   â–²  This only stores a credential for myprovider - you will need to configure it in voracode.json, check the docs for examples.
+   â”‚
+   â—‡  Enter your API key
+   â”‚  sk-...
+   â””
+   ```
+
+4. Ø£Ù†Ø´Ø¦ Ø£Ùˆ Ø­Ø¯Ù‘Ø« Ù…Ù„Ù `voracode.json` ÙÙŠ Ø¯Ù„ÙŠÙ„ Ù…Ø´Ø±ÙˆØ¹Ùƒ:
+
+   ```json title="voracode.json" ""myprovider"" {5-15}
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "provider": {
+       "myprovider": {
+         "npm": "@ai-sdk/openai-compatible",
+         "name": "My AI ProviderDisplay Name",
+         "options": {
+           "baseURL": "https://api.myprovider.com/v1"
+         },
+         "models": {
+           "my-model-name": {
+             "name": "My Model Display Name"
+           }
+         }
+       }
+     }
+   }
+   ```
+
+   Ø®ÙŠØ§Ø±Ø§Øª Ø§Ù„ØªÙ‡ÙŠØ¦Ø© Ù‡ÙŠ:
+   - **npm**: Ø­Ø²Ù…Ø© AI SDK Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…Ø©Ø› Ø§Ø³ØªØ®Ø¯Ù… `@ai-sdk/openai-compatible` Ù„Ù„Ù…Ø²ÙˆÙ‘Ø¯Ø§Øª OpenAI-compatible
+   - **name**: Ø§Ø³Ù… Ø§Ù„Ø¹Ø±Ø¶ ÙÙŠ ÙˆØ§Ø¬Ù‡Ø© Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù….
+   - **models**: Ø§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„Ù…ØªØ§Ø­Ø©.
+   - **options.baseURL**: Ø¹Ù†ÙˆØ§Ù† URL Ù„Ù†Ù‚Ø·Ø© Ù†Ù‡Ø§ÙŠØ© API.
+   - **options.apiKey**: ØªØ¹ÙŠÙŠÙ† Ù…ÙØªØ§Ø­ API Ø§Ø®ØªÙŠØ§Ø±ÙŠØ§ Ø¥Ø°Ø§ Ù„Ù… ØªÙƒÙ† ØªØ³ØªØ®Ø¯Ù… auth.
+   - **options.headers**: ØªØ¹ÙŠÙŠÙ† ØªØ±ÙˆÙŠØ³Ø§Øª Ù…Ø®ØµÙ‘ØµØ© Ø§Ø®ØªÙŠØ§Ø±ÙŠØ§.
+
+   Ù…Ø²ÙŠØ¯ Ù…Ù† Ø§Ù„ØªÙØ§ØµÙŠÙ„ Ø­ÙˆÙ„ Ø§Ù„Ø®ÙŠØ§Ø±Ø§Øª Ø§Ù„Ù…ØªÙ‚Ø¯Ù…Ø© ÙÙŠ Ø§Ù„Ù…Ø«Ø§Ù„ Ø§Ù„ØªØ§Ù„ÙŠ.
+
+5. Ø´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `/models` ÙˆØ³ØªØ¸Ù‡Ø± Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯Ø§Øª ÙˆØ§Ù„Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„Ù…Ø®ØµÙ‘ØµØ© ÙÙŠ Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ø§Ø®ØªÙŠØ§Ø±.
+
+---
+
+##### Ù…Ø«Ø§Ù„
+
+Ø¥Ù„ÙŠÙƒ Ù…Ø«Ø§Ù„Ø§ ÙŠØ¶Ø¨Ø· Ø®ÙŠØ§Ø±Ø§Øª `apiKey` Ùˆ`headers` ÙˆØ®ÙŠØ§Ø±Ø§Øª `limit` Ø§Ù„Ø®Ø§ØµØ© Ø¨Ø§Ù„Ù†Ù…ÙˆØ°Ø¬.
+
+```json title="voracode.json" {9,11,17-20}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "myprovider": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "My AI ProviderDisplay Name",
+      "options": {
+        "baseURL": "https://api.myprovider.com/v1",
+        "apiKey": "{env:ANTHROPIC_API_KEY}",
+        "headers": {
+          "Authorization": "Bearer custom-token"
+        }
+      },
+      "models": {
+        "my-model-name": {
+          "name": "My Model Display Name",
+          "limit": {
+            "context": 200000,
+            "output": 65536
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+ØªÙØ§ØµÙŠÙ„ Ø§Ù„ØªÙ‡ÙŠØ¦Ø©:
+
+- **apiKey**: ÙŠØªÙ… ØªØ¹ÙŠÙŠÙ†Ù‡ Ø¹Ø¨Ø± ØµÙŠØºØ© Ù…ØªØºÙŠØ±Ø§Øª `env`ØŒ [Ø§Ø¹Ø±Ù Ø§Ù„Ù…Ø²ÙŠØ¯](/docs/config#env-vars).
+- **headers**: ØªØ±ÙˆÙŠØ³Ø§Øª Ù…Ø®ØµÙ‘ØµØ© ØªÙØ±Ø³Ù„ Ù…Ø¹ ÙƒÙ„ Ø·Ù„Ø¨.
+- **limit.context**: Ø§Ù„Ø­Ø¯ Ø§Ù„Ø£Ù‚ØµÙ‰ Ù„Ø±Ù…ÙˆØ² Ø§Ù„Ø¥Ø¯Ø®Ø§Ù„ Ø§Ù„ØªÙŠ ÙŠÙ‚Ø¨Ù„Ù‡Ø§ Ø§Ù„Ù†Ù…ÙˆØ°Ø¬.
+- **limit.output**: Ø§Ù„Ø­Ø¯ Ø§Ù„Ø£Ù‚ØµÙ‰ Ù„Ù„Ø±Ù…ÙˆØ² Ø§Ù„ØªÙŠ ÙŠÙ…ÙƒÙ† Ù„Ù„Ù†Ù…ÙˆØ°Ø¬ ØªÙˆÙ„ÙŠØ¯Ù‡Ø§.
+
+ØªØ³Ù…Ø­ Ø­Ù‚ÙˆÙ„ `limit` Ù„Ù€ Voracode Ø¨ÙÙ‡Ù… Ù…Ù‚Ø¯Ø§Ø± Ø§Ù„Ø³ÙŠØ§Ù‚ Ø§Ù„Ù…ØªØ¨Ù‚ÙŠ Ù„Ø¯ÙŠÙƒ. ØªØ³Ø­Ø¨ Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯Ø§Øª Ø§Ù„Ù‚ÙŠØ§Ø³ÙŠØ© Ù‡Ø°Ù‡ Ø§Ù„Ù‚ÙŠÙ… ØªÙ„Ù‚Ø§Ø¦ÙŠØ§ Ù…Ù† models.dev.
+
+---
+
+## Ø§Ø³ØªÙƒØ´Ø§Ù Ø§Ù„Ø£Ø®Ø·Ø§Ø¡ ÙˆØ¥ØµÙ„Ø§Ø­Ù‡Ø§
+
+Ø¥Ø°Ø§ ÙƒÙ†Øª ØªÙˆØ§Ø¬Ù‡ Ù…Ø´ÙƒÙ„Ø© ÙÙŠ ØªÙ‡ÙŠØ¦Ø© Ù…Ø²ÙˆÙ‘Ø¯ØŒ ÙØªØ­Ù‚Ù‚ Ù…Ù…Ø§ ÙŠÙ„ÙŠ:
+
+1. **ØªØ­Ù‚Ù‚ Ù…Ù† Ø¥Ø¹Ø¯Ø§Ø¯ auth**: Ø´ØºÙ‘Ù„ `voracode auth list` Ù„Ù…Ø¹Ø±ÙØ© Ù…Ø§ Ø¥Ø°Ø§ ÙƒØ§Ù†Øª Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ø§Ø¹ØªÙ…Ø§Ø¯
+   Ø§Ù„Ø®Ø§ØµØ© Ø¨Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯ Ù‚Ø¯ Ø£Ø¶ÙŠÙØª Ø¥Ù„Ù‰ Ø¥Ø¹Ø¯Ø§Ø¯Ø§ØªÙƒ.
+
+   Ù„Ø§ ÙŠÙ†Ø·Ø¨Ù‚ Ù‡Ø°Ø§ Ø¹Ù„Ù‰ Ù…Ø²ÙˆÙ‘Ø¯Ø§Øª Ù…Ø«Ù„ Amazon Bedrock Ø§Ù„ØªÙŠ ØªØ¹ØªÙ…Ø¯ Ø¹Ù„Ù‰ Ù…ØªØºÙŠØ±Ø§Øª Ø§Ù„Ø¨ÙŠØ¦Ø© Ù„Ù€ auth.
+
+2. Ù„Ù„Ù…Ø²ÙˆÙ‘Ø¯Ø§Øª Ø§Ù„Ù…Ø®ØµÙ‘ØµØ©ØŒ Ø±Ø§Ø¬Ø¹ Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª voracode ÙˆØªØ£ÙƒØ¯ Ù…Ù†:
+   - Ø£Ù† provider ID Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù… ÙÙŠ Ø§Ù„Ø£Ù…Ø± `/connect` ÙŠØ·Ø§Ø¨Ù‚ Ø§Ù„Ù€ ID ÙÙŠ Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª voracode.
+   - Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø­Ø²Ù…Ø© npm Ø§Ù„ØµØ­ÙŠØ­Ø© Ù„Ù„Ù…Ø²ÙˆÙ‘Ø¯. Ø¹Ù„Ù‰ Ø³Ø¨ÙŠÙ„ Ø§Ù„Ù…Ø«Ø§Ù„ Ø§Ø³ØªØ®Ø¯Ù… `@ai-sdk/cerebras` Ù„Ù€ Cerebras. ÙˆÙ„ÙƒÙ„ Ø§Ù„Ù…Ø²ÙˆÙ‘Ø¯Ø§Øª Ø§Ù„Ø£Ø®Ø±Ù‰ Ø§Ù„Ù…ØªÙˆØ§ÙÙ‚Ø© Ù…Ø¹ OpenAI Ø§Ø³ØªØ®Ø¯Ù… `@ai-sdk/openai-compatible`.
+   - Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù†Ù‚Ø·Ø© Ù†Ù‡Ø§ÙŠØ© API Ø§Ù„ØµØ­ÙŠØ­Ø© ÙÙŠ Ø§Ù„Ø­Ù‚Ù„ `options.baseURL`.

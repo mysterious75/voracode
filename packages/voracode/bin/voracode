@@ -1,0 +1,54 @@
+#!/usr/bin/env node
+
+import { spawn } from "child_process"
+import { resolve, dirname } from "path"
+import { fileURLToPath } from "url"
+import { existsSync } from "fs"
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const voracodeRoot = resolve(__dirname, "..")
+
+function findBun() {
+  if (process.env.BUN_BIN && existsSync(process.env.BUN_BIN)) return process.env.BUN_BIN
+
+  const isWin = process.platform === "win32"
+
+  const paths = [
+    process.env.npm_config_bun,
+    // npm global install path
+    resolve(process.env.APPDATA || "", "npm", "node_modules", "bun", "bin", "bun.exe"),
+    // Local bun install path
+    resolve(process.env.LOCALAPPDATA || "", "bun", "bin", "bun.exe"),
+    // nodejs directory
+    "C:\\Program Files\\nodejs\\bun.exe",
+    // Fallback: let system PATH resolve it via cmd
+    isWin ? undefined : "bun",
+  ].filter(Boolean)
+
+  for (const p of paths) {
+    try { if (existsSync(p)) return p } catch {}
+  }
+
+  return "bun"
+}
+
+const bun = findBun()
+const args = ["run", "--cwd", voracodeRoot, "src/index.ts", ...process.argv.slice(2)]
+
+const child = spawn(bun, args, {
+  stdio: "inherit",
+  env: { ...process.env, VORACODE_DEV: "1" },
+})
+
+child.on("error", (err) => {
+  console.error("Failed to start voracode:", err.message)
+  process.exit(1)
+})
+
+child.on("exit", (code, signal) => {
+  if (signal) {
+    process.kill(process.pid, signal)
+    return
+  }
+  process.exit(typeof code === "number" ? code : 0)
+})

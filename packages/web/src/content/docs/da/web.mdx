@@ -1,0 +1,142 @@
+---
+title: Web
+description: Brug af Voracode i din browser.
+---
+
+Voracode kan kÃ¸re som en webapplikation i din browser, hvilket giver den samme kraftfulde AI-kodningsoplevelse uden behov for en terminal.
+
+![Voracode Web - Ny session](../../../assets/web/web-homepage-new-session.png)
+
+## Kom godt i gang
+
+Start webgrÃ¦nsefladen ved at kÃ¸re:
+
+```bash
+voracode web
+```
+
+Dette starter en lokal server pÃ¥ `127.0.0.1` med en tilfÃ¦ldig tilgÃ¦ngelig port og Ã¥bner automatisk Voracode i din standardbrowser.
+
+:::caution
+Hvis `VORACODE_SERVER_PASSWORD` ikke er indstillet, vil serveren vÃ¦re usikret. Dette er fint til lokal brug, men bÃ¸r indstilles til netvÃ¦rksadgang.
+:::
+
+:::tip[Windows-brugere]
+For den bedste oplevelse skal du kÃ¸re `voracode web` fra [WSL](/docs/windows-wsl) i stedet for PowerShell. Dette sikrer korrekt filsystemadgang og terminalintegration.
+:::
+
+---
+
+## Konfiguration
+
+Du kan konfigurere webserveren ved hjÃ¦lp af kommandolinjeflag eller i din [config-fil](/docs/config).
+
+### Port
+
+Som standard vÃ¦lger Voracode en tilgÃ¦ngelig port. Du kan angive en port:
+
+```bash
+voracode web --port 4096
+```
+
+### VÃ¦rtsnavn
+
+Som standard binder serveren til `127.0.0.1` (kun lokal vÃ¦rt). SÃ¥dan gÃ¸r du Voracode tilgÃ¦ngelig pÃ¥ dit netvÃ¦rk:
+
+```bash
+voracode web --hostname 0.0.0.0
+```
+
+NÃ¥r du bruger `0.0.0.0`, vil Voracode vise bÃ¥de lokale adresser og netvÃ¦rksadresser:
+
+```
+  Local access:       http://localhost:4096
+  Network access:     http://192.168.1.100:4096
+```
+
+### mDNS-opdagelse
+
+Aktiver mDNS for at gÃ¸re din server synlig pÃ¥ det lokale netvÃ¦rk:
+
+```bash
+voracode web --mdns
+```
+
+Dette indstiller automatisk vÃ¦rtsnavnet til `0.0.0.0` og annoncerer serveren som `voracode.local`.
+
+Du kan tilpasse mDNS-domÃ¦nenavnet til at kÃ¸re flere forekomster pÃ¥ det samme netvÃ¦rk:
+
+```bash
+voracode web --mdns --mdns-domain myproject.local
+```
+
+### CORS
+
+For at tillade yderligere domÃ¦ner til CORS (nyttigt til brugerdefinerede frontends):
+
+```bash
+voracode web --cors https://example.com
+```
+
+### Godkendelse
+
+For at beskytte adgangen skal du angive en adgangskode ved hjÃ¦lp af `VORACODE_SERVER_PASSWORD` miljÃ¸variablen:
+
+```bash
+VORACODE_SERVER_PASSWORD=secret voracode web
+```
+
+Brugernavnet er som standard `voracode`, men kan Ã¦ndres med `VORACODE_SERVER_USERNAME`.
+
+---
+
+## Brug af webgrÃ¦nsefladen
+
+NÃ¥r den er startet, giver webgrÃ¦nsefladen adgang til dine Voracode-sessioner.
+
+### Sessioner
+
+Se og administrer dine sessioner fra hjemmesiden. Du kan se aktive sessioner og starte nye.
+
+![Voracode Web - Active Session](../../../assets/web/web-homepage-active-session.png)
+
+### Serverstatus
+
+Klik pÃ¥ "Se servere" for at se tilsluttede servere og deres status.
+
+![Voracode Web - Se servere](../../../assets/web/web-homepage-see-servers.png)
+
+---
+
+## Tilslutning af en terminal
+
+Du kan vedhÃ¦fte en terminal TUI til en kÃ¸rende webserver:
+
+```bash
+# Start the web server
+voracode web --port 4096
+
+# In another terminal, attach the TUI
+voracode attach http://localhost:4096
+```
+
+Dette giver dig mulighed for at bruge bÃ¥de webgrÃ¦nsefladen og terminalen samtidigt og dele de samme sessioner og tilstand.
+
+---
+
+## Konfigurationsfil
+
+Du kan ogsÃ¥ konfigurere serverindstillinger i din `voracode.json`-konfigurationsfil:
+
+```json
+{
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "cors": ["https://example.com"]
+  }
+}
+```
+
+Kommandolinjeflag har forrang over konfigurationsfilindstillinger.

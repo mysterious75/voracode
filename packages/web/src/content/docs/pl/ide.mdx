@@ -1,0 +1,48 @@
+---
+title: IDE
+description: Rozszerzenie voracode dla VS Code, Cursor i innych IDE
+---
+
+voracode integruje siÄ™ z VS Code, Cursorem lub obsÅ‚ugujÄ…cym terminal IDE. Aby uruchomiÄ‡, po prostu uruchom `voracode` w terminalu.
+
+---
+
+## Stosowanie
+
+- **Szybkie uruchomienie**: uÅ¼ycie `Cmd+Esc` (Mac) lub `Ctrl+Esc` (Windows/Linux), aby uruchomiÄ‡ voracode w uruchamianiu terminala lub skoncentruj siÄ™ na uruchamianiu terminala, jeÅ›li jest juÅ¼ uruchomiony.
+- **Nowa sesja**: `Cmd+Shift+Esc` (Mac) lub `Ctrl+Shift+Esc` (Windows/Linux), aby zostaÅ‚a nowa konfiguracja terminala voracode, nawet jeÅ›li jest juÅ¼ otwarta. MoÅ¼esz takÅ¼e kliknÄ…Ä‡ przycisk voracode w interfejsie uÅ¼ytkownika.
+- **ÅšwiadomoÅ›Ä‡ kontekstu**: Automatycznie udostÄ™pnia wybÃ³r lub kartÄ™ za pomocÄ… voracode.
+- **SkrÃ³ty do odwoÅ‚ania do plikÃ³w**: `Cmd+Option+K` (Mac) lub `Alt+Ctrl+K` (Linux/Windows), aby wstawiÄ‡ odnoÅ›nik do plikÃ³w. Na przykÅ‚ad `@File#L37-42`.
+
+---
+
+## Instalacja
+
+Aby poznaÄ‡ voracode na VS Code w forkach, takich jak Cursor, Windsurf, VSCodium:
+
+1. OtwÃ³rz kod VS
+2. OtwÃ³rz innowacyjny terminal
+3. Uruchom `voracode` â€” rozszerzenie instaluje siÄ™ automatycznie
+
+JeÅ›li z drugiej strony chcesz zainstalowaÄ‡ wÅ‚asne IDE po uruchomieniu `/editor` lub `/export` z TUI, naleÅ¼y zainstalowaÄ‡ `export EDITOR="code --wait"`. [Dowiedz siÄ™ wiÄ™cej](/docs/tui/#editor-setup).
+
+---
+
+### Instalacja rÄ™czna
+
+Wyszukaj **voracode** na rynku rozszerzonym i kliknij **Zainstaluj**.
+
+---
+
+### RozwiÄ…zywanie problemÃ³w
+
+JeÅ›li rozwiÄ…zanie nie zostanie zainstalowane automatycznie:
+
+- zastosowanie siÄ™, Å¼e uÅ¼ycie `voracode` w terminalu.
+- zadziaÅ‚anie, Å¼e CLI dla Twojego IDE jest zainstalowane:
+  - Dla kodu VS: polecenie `code`
+  - Dla kura: polecenie `cursor`
+  - Dla windsurfingu: decyzja `windsurf`
+  - Dla VSCodium: decyzja `codium`
+  - JeÅ›li nie, uruchom `Cmd+Shift+P` (Mac) lub `Ctrl+Shift+P` (Windows/Linux) i wyszukaj â€žPolecenie: zastosowanie decyzjiâ€ž kod â€w PATHâ€ (lub wÅ‚aÅ›ciwyk dla twojego IDE)
+- zadziaÅ‚anie, Å¼e VS Code ma pozwolenie na instalacjÄ™ rozszerzonÄ…

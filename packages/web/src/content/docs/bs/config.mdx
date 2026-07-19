@@ -1,0 +1,685 @@
+---
+title: Konfiguracija
+description: KoriÅ¡tenje Voracode JSON konfiguracije.
+---
+
+MoÅ¾ete konfigurirati Voracode koristeÄ‡i JSON konfiguracijski fajl.
+
+---
+
+## Format
+
+Voracode podrÅ¾ava i **JSON** i **JSONC** (JSON sa komentarima) formate.
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "model": "anthropic/claude-sonnet-4-5",
+  "autoupdate": true,
+  "server": {
+    "port": 4096,
+  },
+}
+```
+
+---
+
+## Lokacije
+
+MoÅ¾ete postaviti svoju konfiguraciju na nekoliko razliÄitih lokacija i one imaju drugaÄiji redoslijed prioriteta.
+
+:::note
+Konfiguracijski fajlovi se **spajaju**, ne zamjenjuju.
+:::
+
+Konfiguracijski fajlovi se spajaju, ne zamjenjuju. Kombiniraju se postavke sa sljedeÄ‡ih konfiguracijskih lokacija. Kasnije konfiguracije poniÅ¡tavaju prethodne samo za konfliktne kljuÄeve. Nekonfliktne postavke iz svih konfiguracija su saÄuvane.
+
+Na primjer, ako vaÅ¡a globalna konfiguracija postavlja `autoupdate: true`, a vaÅ¡a projektna konfiguracija postavlja `model: "anthropic/claude-sonnet-4-5"`, konaÄna konfiguracija Ä‡e ukljuÄivati â€‹â€‹obje postavke.
+
+---
+
+### Redoslijed prioriteta
+
+Izvori konfiguracije se uÄitavaju ovim redoslijedom (kasniji izvori poniÅ¡tavaju ranije):
+
+1. **Udaljena konfiguracija** (od `.well-known/voracode`) - organizacijske postavke
+2. **Globalna konfiguracija** (`~/.config/voracode/voracode.json`) - korisniÄke preferencije
+3. **PrilagoÄ‘ena konfiguracija** (`VORACODE_CONFIG` env var) - prilagoÄ‘ena preinaÄenja
+4. **Konfiguracija projekta** (`voracode.json` u projektu) - postavke specifiÄne za projekat
+5. **`.voracode` direktoriji** - agenti, komande, dodaci
+6. **Inline konfiguracija** (`VORACODE_CONFIG_CONTENT` env var) - runtime preinaÄenja
+
+To znaÄi da konfiguracije projekta mogu nadjaÄati globalne zadane postavke, a globalne konfiguracije mogu nadjaÄati postavke udaljene organizacije.
+
+:::note
+Direktoriji `.voracode` i `~/.config/voracode` koriste **imena u mnoÅ¾ini** za poddirektorije: `agents/`, `commands/`, `modes/`, `plugins/`, `skills/`, `tools/` i `themes/`. PojedinaÄna imena (npr. `agent/`) su takoÄ‘er podrÅ¾ana za kompatibilnost unatrag.
+:::
+
+---
+
+### Udaljeno (Remote)
+
+Organizacije mogu pruÅ¾iti zadanu konfiguraciju preko `.well-known/voracode` krajnje taÄke. Ovo se automatski preuzima kada se autentifikujete kod provajdera koji to podrÅ¾ava.
+
+Prvo se uÄitava udaljena konfiguracija koja sluÅ¾i kao osnovni sloj. Svi ostali izvori konfiguracije (globalni, projektni) mogu nadjaÄati ove zadane postavke.
+
+Na primjer, ako vaÅ¡a organizacija nudi MCP servere koji su po defaultu onemoguÄ‡eni:
+
+```json title="Remote config from .well-known/voracode"
+{
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://jira.example.com/mcp",
+      "enabled": false
+    }
+  }
+}
+```
+
+MoÅ¾ete omoguÄ‡iti odreÄ‘ene servere u vaÅ¡oj lokalnoj konfiguraciji:
+
+```json title="voracode.json"
+{
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://jira.example.com/mcp",
+      "enabled": true
+    }
+  }
+}
+```
+
+---
+
+### Globalno
+
+Postavite svoju globalnu Voracode konfiguraciju u `~/.config/voracode/voracode.json`. Koristite globalnu konfiguraciju za korisniÄke preferencije kao Å¡to su provajderi, modeli i dozvole.
+
+Za postavke specifiÄne za TUI, koristite `~/.config/voracode/tui.json`.
+
+Globalna konfiguracija poniÅ¡tava zadane postavke udaljene organizacije.
+
+---
+
+### Projekt
+
+Dodajte `voracode.json` u korijen projekta. Konfiguracija projekta ima najveÄ‡i prioritet meÄ‘u standardnim konfiguracijskim datotekama - ona nadjaÄava globalne i udaljene konfiguracije.
+
+Za TUI postavke specifiÄne za projekat, dodajte `tui.json` pored njega.
+
+:::tip
+Postavite specifiÄnu konfiguraciju projekta u korijen vaÅ¡eg projekta.
+:::
+
+Kada se Voracode pokrene, traÅ¾i konfiguracijsku datoteku u trenutnom direktoriju ili prelazi do najbliÅ¾eg Git direktorija.
+
+Ovo je takoÄ‘er sigurno provjeriti u Git i koristi istu shemu kao globalna.
+
+---
+
+### PrilagoÄ‘ena konfiguracija
+
+Navedite prilagoÄ‘enu putanju konfiguracijske datoteke koristeÄ‡i varijablu okruÅ¾enja `VORACODE_CONFIG`.
+
+```bash
+export VORACODE_CONFIG=/path/to/my/custom-config.json
+voracode run "Hello world"
+```
+
+PrilagoÄ‘ena konfiguracija se uÄitava izmeÄ‘u globalne i projektne konfiguracije po redoslijedu prioriteta.
+
+---
+
+### PrilagoÄ‘eni direktorij
+
+Navedite prilagoÄ‘eni konfiguracijski direktorij koristeÄ‡i `VORACODE_CONFIG_DIR` varijablu okruÅ¾enja. U ovom direktoriju Ä‡e se traÅ¾iti agenti, komande, modovi i dodaci baÅ¡ kao standardni `.voracode` direktorij, i trebali bi pratiti istu strukturu.
+
+```bash
+export VORACODE_CONFIG_DIR=/path/to/my/config-directory
+voracode run "Hello world"
+```
+
+PrilagoÄ‘eni direktorij se uÄitava nakon direktorija globalne konfiguracije i `.voracode`, tako da **moÅ¾e nadjaÄati** njihove postavke.
+
+---
+
+## Å ema
+
+Konfiguracijski fajl ima Å¡emu koja je definirana u [**`voracode.ai/config.json`**](https://voracode.ai/config.json).
+
+TUI konfiguracija koristi [**`voracode.ai/tui.json`**](https://voracode.ai/tui.json).
+
+VaÅ¡ editor bi trebao biti u moguÄ‡nosti da validira i autodovrÅ¡ava na osnovu Å¡eme.
+
+---
+
+### TUI
+
+Koristite namjenski `tui.json` (ili `tui.jsonc`) fajl za postavke specifiÄne za TUI.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "scroll_speed": 3,
+  "scroll_acceleration": {
+    "enabled": true
+  },
+  "diff_style": "auto"
+}
+```
+
+Koristite `VORACODE_TUI_CONFIG` da pokaÅ¾ete na prilagoÄ‘eni TUI konfiguracijski fajl.
+
+Stari `theme`, `keybinds`, i `tui` kljuÄevi u `voracode.json` su zastarjeli i automatski Ä‡e se migrirati kada je to moguÄ‡e.
+
+[Saznajte viÅ¡e o koriÅ¡tenju TUI ovdje](/docs/tui#configure).
+
+---
+
+### Server
+
+MoÅ¾ete konfigurirati postavke servera za naredbe `voracode serve` i `voracode web` putem opcije `server`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "mdnsDomain": "myproject.local",
+    "cors": ["http://localhost:5173"]
+  }
+}
+```
+
+Dostupne opcije:
+
+- `port` - Port za sluÅ¡anje.
+- `hostname` - Hostname za sluÅ¡anje. Kada je `mdns` omoguÄ‡en i nije postavljeno ime hosta, podrazumevano je `0.0.0.0`.
+- `mdns` - OmoguÄ‡i mDNS otkrivanje servisa. Ovo omoguÄ‡ava drugim ureÄ‘ajima na mreÅ¾i da otkriju vaÅ¡ Voracode server.
+- `mdnsDomain` - PrilagoÄ‘eno ime domene za mDNS servis. Zadano je `voracode.local`. Korisno za pokretanje viÅ¡e instanci na istoj mreÅ¾i.
+- `cors` - Dodatni origini koji omoguÄ‡avaju CORS kada koristite HTTP server iz klijenta baziranog na pretraÅ¾ivaÄu. Vrijednosti moraju biti puni origin (shema + host + opcijski port), npr. `https://app.example.com`.
+
+[Saznajte viÅ¡e o serveru ovdje](/docs/server).
+
+---
+
+### Alati
+
+MoÅ¾ete upravljati alatima koje LLM moÅ¾e koristiti putem opcije `tools`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "tools": {
+    "write": false,
+    "bash": false
+  }
+}
+```
+
+[Saznajte viÅ¡e o alatima ovdje](/docs/tools).
+
+---
+
+### Model
+
+MoÅ¾ete konfigurirati dobavljaÄe i modele koje Å¾elite koristiti u svojoj Voracode konfiguraciji kroz opcije `provider`, `model` i `small_model`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {},
+  "model": "anthropic/claude-sonnet-4-5",
+  "small_model": "anthropic/claude-haiku-4-5"
+}
+```
+
+Opcija `small_model` konfigurira poseban model za lagane zadatke poput generiranja naslova. Podrazumevano, Voracode pokuÅ¡ava da koristi jeftiniji model ako je dostupan od vaÅ¡eg provajdera, inaÄe se vraÄ‡a na vaÅ¡ glavni model.
+
+Opcije provajdera mogu ukljuÄivati â€‹â€‹`timeout` i `setCacheKey`:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "anthropic": {
+      "options": {
+        "timeout": 600000,
+        "setCacheKey": true
+      }
+    }
+  }
+}
+```
+
+- `timeout` - Vrijeme Äekanja zahtjeva u milisekundama (podrazumevano: 300000). Postavite na `false` da onemoguÄ‡ite.
+- `setCacheKey` - Osigurajte da je kljuÄ keÅ¡ memorije uvijek postavljen za odreÄ‘enog provajdera.
+
+TakoÄ‘er moÅ¾ete konfigurirati [lokalne modele](/docs/models#local). [Saznajte viÅ¡e](/docs/models).
+
+---
+
+#### Opcije specifiÄne za provajdere
+
+Neki provajderi podrÅ¾avaju dodatne opcije konfiguracije osim generiÄkih postavki `timeout` i `apiKey`.
+
+##### Amazon Bedrock
+
+Amazon Bedrock podrÅ¾ava konfiguraciju specifiÄnu za AWS:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "amazon-bedrock": {
+      "options": {
+        "region": "us-east-1",
+        "profile": "my-aws-profile",
+        "endpoint": "https://bedrock-runtime.us-east-1.vpce-xxxxx.amazonaws.com"
+      }
+    }
+  }
+}
+```
+
+- `region` - AWS regija za Bedrock (zadano na `AWS_REGION` env var ili `us-east-1`)
+- `profile` - AWS imenovani profil iz `~/.aws/credentials` (zadano na `AWS_PROFILE` env var)
+- `endpoint` - URL prilagoÄ‘ene krajnje taÄke za VPC krajnje taÄke. Ovo je alias za generiÄku opciju `baseURL` koristeÄ‡i terminologiju specifiÄnu za AWS. Ako su oba navedena, `endpoint` ima prednost.
+
+:::note
+Tokeni nosioca (`AWS_BEARER_TOKEN_BEDROCK` ili `/connect`) imaju prednost nad autentifikacijom zasnovanom na profilu. Pogledajte [prednost autentifikacije](/docs/providers#authentication-precedence) za detalje.
+:::
+
+[Saznajte viÅ¡e o konfiguraciji Amazon Bedrock](/docs/providers#amazon-bedrock).
+
+---
+
+### Teme
+
+Postavite vaÅ¡u UI temu u `tui.json`.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "theme": "tokyonight"
+}
+```
+
+[Saznajte viÅ¡e ovdje](/docs/themes).
+
+---
+
+### Agenti
+
+MoÅ¾ete konfigurirati specijalizirane agente za odreÄ‘ene zadatke putem opcije `agent`.
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "code-reviewer": {
+      "description": "Reviews code for best practices and potential issues",
+      "model": "anthropic/claude-sonnet-4-5",
+      "prompt": "You are a code reviewer. Focus on security, performance, and maintainability.",
+      "tools": {
+        // Disable file modification tools for review-only agent
+        "write": false,
+        "edit": false,
+      },
+    },
+  },
+}
+```
+
+TakoÄ‘er moÅ¾ete definirati agente koristeÄ‡i markdown datoteke u `~/.config/voracode/agents/` ili `.voracode/agents/`. [Saznajte viÅ¡e ovdje](/docs/agents).
+
+---
+
+### Zadani agent
+
+MoÅ¾ete postaviti zadanog agenta koristeÄ‡i opciju `default_agent`. Ovo odreÄ‘uje koji se agent koristi kada nijedan nije eksplicitno specificiran.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "default_agent": "plan"
+}
+```
+
+Zadani agent mora biti primarni agent (ne podagent). Ovo moÅ¾e biti ugraÄ‘eni agent kao Å¡to je `"build"` ili `"plan"`, ili [prilagoÄ‘eni agent](/docs/agents) koji ste definirali. Ako navedeni agent ne postoji ili je podagent, Voracode Ä‡e se vratiti na `"build"` s upozorenjem.
+
+Ova postavka se primjenjuje na sva suÄelja: TUI, CLI (`voracode run`), desktop aplikaciju i GitHub Action.
+
+---
+
+### Dijeljenje
+
+MoÅ¾ete konfigurirati funkciju [share](/docs/share) putem opcije `share`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "manual"
+}
+```
+
+Ovo prihvata:
+
+- `"manual"` - Dozvoli ruÄno dijeljenje putem naredbi (podrazumevano)
+- `"auto"` - Automatski dijelite nove razgovore
+- `"disabled"` - OnemoguÄ‡i dijeljenje u potpunosti
+
+Podrazumevano, dijeljenje je postavljeno na ruÄni naÄin rada gdje trebate eksplicitno dijeliti razgovore pomoÄ‡u naredbe `/share`.
+
+---
+
+### Naredbe
+
+MoÅ¾ete konfigurirati prilagoÄ‘ene naredbe za ponavljanje zadataka putem opcije `command`.
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "command": {
+    "test": {
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
+      "description": "Run tests with coverage",
+      "agent": "build",
+      "model": "anthropic/claude-haiku-4-5",
+    },
+    "component": {
+      "template": "Create a new React component named $ARGUMENTS with TypeScript support.\nInclude proper typing and basic structure.",
+      "description": "Create a new component",
+    },
+  },
+}
+```
+
+TakoÄ‘er moÅ¾ete definirati naredbe koristeÄ‡i markdown fajlove u `~/.config/voracode/commands/` ili `.voracode/commands/`. [Saznajte viÅ¡e ovdje](/docs/commands).
+
+---
+
+### PreÄice tipki
+
+Prilagodite preÄice tipki u `tui.json`.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "keybinds": {}
+}
+```
+
+[Saznajte viÅ¡e ovdje](/docs/keybinds).
+
+---
+
+### Automatsko aÅ¾uriranje
+
+Voracode Ä‡e automatski preuzeti sva nova aÅ¾uriranja kada se pokrene. Ovo moÅ¾ete onemoguÄ‡iti opcijom `autoupdate`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "autoupdate": false
+}
+```
+
+Ako ne Å¾elite aÅ¾uriranja, ali Å¾elite biti obavijeÅ¡teni kada nova verzija bude dostupna, postavite `autoupdate` na `"notify"`.
+Imajte na umu da ovo funkcionira samo ako nije instalirano pomoÄ‡u upravitelja paketa kao Å¡to je Homebrew.
+
+---
+
+### Formateri
+
+MoÅ¾ete konfigurirati formatere koda putem opcije `formatter`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {
+    "prettier": {
+      "disabled": true
+    },
+    "custom-prettier": {
+      "command": ["npx", "prettier", "--write", "$FILE"],
+      "environment": {
+        "NODE_ENV": "development"
+      },
+      "extensions": [".js", ".ts", ".jsx", ".tsx"]
+    }
+  }
+}
+```
+
+[Saznajte viÅ¡e o formaterima](/docs/formatters) ovdje.
+
+---
+
+### Dozvole
+
+Prema zadanim postavkama, Voracode **dopuÅ¡ta sve operacije** bez potrebe za eksplicitnim dopuÅ¡tenjem. Ovo moÅ¾ete promijeniti koristeÄ‡i opciju `permission`.
+
+Na primjer, da osigurate da alati `edit` i `bash` zahtijevaju odobrenje korisnika:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "ask",
+    "bash": "ask"
+  }
+}
+```
+
+[Saznajte viÅ¡e o dozvolama](/docs/permissions) ovdje.
+
+---
+
+### SaÅ¾imanje
+
+MoÅ¾ete kontrolirati ponaÅ¡anje saÅ¾imanja konteksta putem opcije `compaction`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "compaction": {
+    "auto": true,
+    "prune": false,
+    "reserved": 10000
+  }
+}
+```
+
+- `auto` - Automatski saÅ¾imanje sesije kada je kontekst pun (podrazumevano: `true`).
+- `prune` - Uklonite stare izlaze alata da saÄuvate tokene (podrazumevano: `false`).
+- `reserved` - Token buffer za saÅ¾imanje. Ostavlja dovoljno prostora da se izbjegne prelijevanje tokom saÅ¾imanja
+
+---
+
+### PromatraÄ (Watcher)
+
+MoÅ¾ete konfigurirati obrasce ignoriranja promatraÄa datoteka putem opcije `watcher`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "watcher": {
+    "ignore": ["node_modules/**", "dist/**", ".git/**"]
+  }
+}
+```
+
+Obrasci prate glob sintaksu. Koristite ovo da iskljuÄite buÄne direktorije iz pregleda datoteka.
+
+---
+
+### MCP serveri
+
+MoÅ¾ete konfigurirati MCP servere koje Å¾elite koristiti putem opcije `mcp`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {}
+}
+```
+
+[Saznajte viÅ¡e ovdje](/docs/mcp-servers).
+
+---
+
+### Dodaci
+
+[Plugins](/docs/plugins) proÅ¡iruju Voracode sa prilagoÄ‘enim alatima, kukicama i integracijama.
+
+Postavite datoteke dodataka u `.voracode/plugins/` ili `~/.config/voracode/plugins/`. TakoÄ‘er moÅ¾ete uÄitati dodatke iz npm-a preko opcije `plugin`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "plugin": ["voracode-helicone-session", "@my-org/custom-plugin"]
+}
+```
+
+[Saznajte viÅ¡e ovdje](/docs/plugins).
+
+---
+
+### Uputstva
+
+MoÅ¾ete konfigurirati upute za model koji koristite putem opcije `instructions`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
+}
+```
+
+Ovo uzima niz putanja i glob uzoraka do datoteka instrukcija. [Saznajte viÅ¡e o pravilima ovdje](/docs/rules).
+
+---
+
+### OnemoguÄ‡eni provajderi
+
+MoÅ¾ete onemoguÄ‡iti dobavljaÄe koji se automatski uÄitavaju preko opcije `disabled_providers`. Ovo je korisno kada Å¾elite sprijeÄiti uÄitavanje odreÄ‘enih provajdera Äak i ako su njihovi vjerodajnici dostupni.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "disabled_providers": ["openai", "gemini"]
+}
+```
+
+:::note
+`disabled_providers` ima prioritet nad `enabled_providers`.
+:::
+
+Opcija `disabled_providers` prihvata niz ID-ova provajdera. Kada je provajder onemoguÄ‡en:
+
+- NeÄ‡e se uÄitati Äak i ako su varijable okruÅ¾enja postavljene.
+- NeÄ‡e se uÄitati Äak i ako su API kljuÄevi konfigurirani putem `/connect` naredbe.
+- Modeli dobavljaÄa se neÄ‡e pojaviti na listi za odabir modela.
+
+---
+
+### OmoguÄ‡eni provajderi
+
+MoÅ¾ete odrediti listu dozvoljenih dobavljaÄa putem opcije `enabled_providers`. Kada se podesi, samo navedeni provajderi Ä‡e biti omoguÄ‡eni, a svi ostali Ä‡e biti zanemareni.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "enabled_providers": ["anthropic", "openai"]
+}
+```
+
+Ovo je korisno kada Å¾elite da ograniÄite Voracode da koristi samo odreÄ‘ene provajdere umjesto da ih onemoguÄ‡avate jednog po jednog.
+
+:::note
+`disabled_providers` ima prioritet nad `enabled_providers`.
+:::
+
+Ako se provajder pojavljuje i u `enabled_providers` i `disabled_providers`, `disabled_providers` ima prioritet za kompatibilnost unatrag.
+
+---
+
+### Eksperimentalno
+
+KljuÄ `experimental` sadrÅ¾i opcije koje su u aktivnom razvoju.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "experimental": {}
+}
+```
+
+:::caution
+Eksperimentalne opcije nisu stabilne. Mogu se promijeniti ili ukloniti bez prethodne najave.
+:::
+
+---
+
+## Varijable
+
+MoÅ¾ete koristiti zamjenu varijabli u vaÅ¡im konfiguracijskim datotekama da biste referencirali varijable okruÅ¾enja i sadrÅ¾aj datoteke.
+
+---
+
+### Varijable okruÅ¾enja
+
+Koristite `{env:VARIABLE_NAME}` za zamjenu varijabli okruÅ¾enja:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "model": "{env:VORACODE_MODEL}",
+  "provider": {
+    "anthropic": {
+      "models": {},
+      "options": {
+        "apiKey": "{env:ANTHROPIC_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+Ako varijabla okruÅ¾enja nije postavljena, bit Ä‡e zamijenjena praznim nizom.
+
+---
+
+### Datoteke
+
+Koristite `{file:path/to/file}` da zamijenite sadrÅ¾aj fajla:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["./custom-instructions.md"],
+  "provider": {
+    "openai": {
+      "options": {
+        "apiKey": "{file:~/.secrets/openai-key}"
+      }
+    }
+  }
+}
+```
+
+Putanja fajla mogu biti:
+
+- U odnosu na direktorij konfiguracijskih datoteka
+- Ili apsolutne staze koje poÄinju sa `/` ili `~`
+
+Ovo je korisno za:
+
+- Pohranjivanje osjetljivih podataka poput API kljuÄeva u odvojenim datotekama.
+- UkljuÄujuÄ‡i velike datoteke instrukcija bez zatrpavanja vaÅ¡e konfiguracije.
+- Dijeljenje zajedniÄkih isjeÄaka konfiguracije u viÅ¡e konfiguracijskih datoteka.

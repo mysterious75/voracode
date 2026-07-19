@@ -1,0 +1,156 @@
+---
+title: Suporte ACP
+description: Use o voracode em qualquer editor compatÃ­vel com ACP.
+---
+
+O voracode suporta o [Agent Client Protocol](https://agentclientprotocol.com) ou (ACP), permitindo que vocÃª o utilize diretamente em editores e IDEs compatÃ­veis.
+
+:::tip
+Para uma lista de editores e ferramentas que suportam ACP, confira o [relatÃ³rio de progresso do ACP](https://zed.dev/blog/acp-progress-report#available-now).
+:::
+
+O ACP Ã© um protocolo aberto que padroniza a comunicaÃ§Ã£o entre editores de cÃ³digo e agentes de codificaÃ§Ã£o de IA.
+
+---
+
+## ConfiguraÃ§Ã£o
+
+Para usar voracode via ACP, configure seu editor para executar o comando `voracode acp`.
+
+Este comando inicia o voracode como um subprocesso compatÃ­vel com ACP que se comunica com seu editor via JSON-RPC atravÃ©s do stdio.
+
+Abaixo estÃ£o exemplos para editores populares que suportam ACP.
+
+---
+
+### Zed
+
+Adicione Ã  sua configuraÃ§Ã£o do [Zed](https://zed.dev) (`~/.config/zed/settings.json`):
+
+```json title="~/.config/zed/settings.json"
+{
+  "agent_servers": {
+    "Voracode": {
+      "command": "voracode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+Para abri-lo, use a aÃ§Ã£o `agent: new thread` na **Paleta de Comandos**.
+
+VocÃª tambÃ©m pode vincular um atalho de teclado editando seu `keymap.json`:
+
+```json title="keymap.json"
+[
+  {
+    "bindings": {
+      "cmd-alt-o": [
+        "agent::NewExternalAgentThread",
+        {
+          "agent": {
+            "custom": {
+              "name": "Voracode",
+              "command": {
+                "command": "voracode",
+                "args": ["acp"]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+]
+```
+
+---
+
+### IDEs JetBrains
+
+Adicione ao seu acp.json do [JetBrains IDE](https://www.jetbrains.com/) de acordo com a [documentaÃ§Ã£o](https://www.jetbrains.com/help/ai-assistant/acp.html):
+
+```json title="acp.json"
+{
+  "agent_servers": {
+    "Voracode": {
+      "command": "/absolute/path/bin/voracode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+Para abri-lo, use o novo agente 'voracode' no seletor de agentes do AI Chat.
+
+---
+
+### Avante.nvim
+
+Adicione Ã  sua configuraÃ§Ã£o do [Avante.nvim](https://github.com/yetone/avante.nvim):
+
+```lua
+{
+  acp_providers = {
+    ["voracode"] = {
+      command = "voracode",
+      args = { "acp" }
+    }
+  }
+}
+```
+
+Se vocÃª precisar passar variÃ¡veis de ambiente:
+
+```lua {6-8}
+{
+  acp_providers = {
+    ["voracode"] = {
+      command = "voracode",
+      args = { "acp" },
+      env = {
+        VORACODE_API_KEY = os.getenv("VORACODE_API_KEY")
+      }
+    }
+  }
+}
+```
+
+---
+
+### CodeCompanion.nvim
+
+Para usar voracode como um agente ACP no [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim), adicione o seguinte Ã  sua configuraÃ§Ã£o do Neovim:
+
+```lua
+require("codecompanion").setup({
+  interactions = {
+    chat = {
+      adapter = {
+        name = "voracode",
+        model = "claude-sonnet-4",
+      },
+    },
+  },
+})
+```
+
+Esta configuraÃ§Ã£o configura o CodeCompanion para usar voracode como o agente ACP para chat.
+
+Se vocÃª precisar passar variÃ¡veis de ambiente (como `VORACODE_API_KEY`), consulte [Configurando Adaptadores: VariÃ¡veis de Ambiente](https://codecompanion.olimorris.dev/getting-started#setting-an-api-key) na documentaÃ§Ã£o do CodeCompanion.nvim para detalhes completos.
+
+## Suporte
+
+O voracode funciona da mesma forma via ACP como funciona no terminal. Todos os recursos sÃ£o suportados:
+
+:::note
+Alguns comandos de barra integrados, como `/undo` e `/redo`, atualmente nÃ£o sÃ£o suportados.
+:::
+
+- Ferramentas integradas (operaÃ§Ãµes de arquivo, comandos de terminal, etc.)
+- Ferramentas personalizadas e comandos de barra
+- Servidores MCP configurados na sua configuraÃ§Ã£o do voracode
+- Regras especÃ­ficas do projeto do `AGENTS.md`
+- Formatadores e linters personalizados
+- Sistema de agentes e permissÃµes

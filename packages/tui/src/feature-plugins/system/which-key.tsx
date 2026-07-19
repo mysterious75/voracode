@@ -416,9 +416,9 @@ function WhichKeyPanel(props: {
                   fallback={
                     <box flexShrink={0}>
                       <text wrapMode="none">
-                        <span style={{ fg: upActive() ? look().text : look().muted }}>â†‘</span>
+                        <span style={{ fg: upActive() ? look().text : look().muted }}>↑</span>
                         <span style={{ fg: look().muted }}> </span>
-                        <span style={{ fg: downActive() ? look().text : look().muted }}>â†“</span>
+                        <span style={{ fg: downActive() ? look().text : look().muted }}>↓</span>
                       </text>
                     </box>
                   }

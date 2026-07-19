@@ -1,0 +1,194 @@
+---
+title: Ð¡Ð¾Ñ‡ÐµÑ‚Ð°Ð½Ð¸Ñ ÐºÐ»Ð°Ð²Ð¸Ñˆ
+description: ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹Ñ‚Ðµ ÑÐ²Ð¾Ð¸ ÑÐ¾Ñ‡ÐµÑ‚Ð°Ð½Ð¸Ñ ÐºÐ»Ð°Ð²Ð¸Ñˆ.
+---
+
+voracode Ð¸Ð¼ÐµÐµÑ‚ ÑÐ¿Ð¸ÑÐ¾Ðº ÑÐ¾Ñ‡ÐµÑ‚Ð°Ð½Ð¸Ð¹ ÐºÐ»Ð°Ð²Ð¸Ñˆ, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð²Ñ‹ Ð¼Ð¾Ð¶ÐµÑ‚Ðµ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¸Ñ‚ÑŒ Ñ‡ÐµÑ€ÐµÐ· `tui.json`.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "keybinds": {
+    "leader": "ctrl+x",
+    "app_exit": "ctrl+c,ctrl+d,<leader>q",
+    "editor_open": "<leader>e",
+    "theme_list": "<leader>t",
+    "sidebar_toggle": "<leader>b",
+    "scrollbar_toggle": "none",
+    "username_toggle": "none",
+    "status_view": "<leader>s",
+    "tool_details": "none",
+    "session_export": "<leader>x",
+    "session_new": "<leader>n",
+    "session_list": "<leader>l",
+    "session_timeline": "<leader>g",
+    "session_fork": "none",
+    "session_rename": "none",
+    "session_share": "none",
+    "session_unshare": "none",
+    "session_interrupt": "escape",
+    "session_compact": "<leader>c",
+    "session_child_first": "<leader>down",
+    "session_child_cycle": "<leader>right",
+    "session_child_cycle_reverse": "<leader>left",
+    "session_parent": "<leader>up",
+    "messages_page_up": "pageup,ctrl+alt+b",
+    "messages_page_down": "pagedown,ctrl+alt+f",
+    "messages_line_up": "ctrl+alt+y",
+    "messages_line_down": "ctrl+alt+e",
+    "messages_half_page_up": "ctrl+alt+u",
+    "messages_half_page_down": "ctrl+alt+d",
+    "messages_first": "ctrl+g,home",
+    "messages_last": "ctrl+alt+g,end",
+    "messages_next": "none",
+    "messages_previous": "none",
+    "messages_copy": "<leader>y",
+    "messages_undo": "<leader>u",
+    "messages_redo": "<leader>r",
+    "messages_last_user": "none",
+    "messages_toggle_conceal": "<leader>h",
+    "model_list": "<leader>m",
+    "model_cycle_recent": "f2",
+    "model_cycle_recent_reverse": "shift+f2",
+    "model_cycle_favorite": "none",
+    "model_cycle_favorite_reverse": "none",
+    "variant_cycle": "ctrl+t",
+    "variant_list": "none",
+    "command_list": "ctrl+p",
+    "agent_list": "<leader>a",
+    "agent_cycle": "tab",
+    "agent_cycle_reverse": "shift+tab",
+    "input_clear": "ctrl+c",
+    "input_paste": "ctrl+v",
+    "input_submit": "return",
+    "input_newline": "shift+return,ctrl+return,alt+return,ctrl+j",
+    "input_move_left": "left,ctrl+b",
+    "input_move_right": "right,ctrl+f",
+    "input_move_up": "up",
+    "input_move_down": "down",
+    "input_select_left": "shift+left",
+    "input_select_right": "shift+right",
+    "input_select_up": "shift+up",
+    "input_select_down": "shift+down",
+    "input_line_home": "ctrl+a",
+    "input_line_end": "ctrl+e",
+    "input_select_line_home": "ctrl+shift+a",
+    "input_select_line_end": "ctrl+shift+e",
+    "input_visual_line_home": "alt+a",
+    "input_visual_line_end": "alt+e",
+    "input_select_visual_line_home": "alt+shift+a",
+    "input_select_visual_line_end": "alt+shift+e",
+    "input_buffer_home": "home",
+    "input_buffer_end": "end",
+    "input_select_buffer_home": "shift+home",
+    "input_select_buffer_end": "shift+end",
+    "input_delete_line": "ctrl+shift+d",
+    "input_delete_to_line_end": "ctrl+k",
+    "input_delete_to_line_start": "ctrl+u",
+    "input_backspace": "backspace,shift+backspace",
+    "input_delete": "ctrl+d,delete,shift+delete",
+    "input_undo": "ctrl+-,super+z",
+    "input_redo": "ctrl+.,super+shift+z",
+    "input_word_forward": "alt+f,alt+right,ctrl+right",
+    "input_word_backward": "alt+b,alt+left,ctrl+left",
+    "input_select_word_forward": "alt+shift+f,alt+shift+right",
+    "input_select_word_backward": "alt+shift+b,alt+shift+left",
+    "input_delete_word_forward": "alt+d,alt+delete,ctrl+delete",
+    "input_delete_word_backward": "ctrl+w,ctrl+backspace,alt+backspace",
+    "history_previous": "up",
+    "history_next": "down",
+    "terminal_suspend": "ctrl+z",
+    "terminal_title_toggle": "none",
+    "tips_toggle": "<leader>h",
+    "display_thinking": "none"
+  }
+}
+```
+
+---
+
+## ÐšÐ»Ð°Ð²Ð¸ÑˆÐ° Leader
+
+voracode Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ ÐºÐ»Ð°Ð²Ð¸ÑˆÑƒ `leader` Ð´Ð»Ñ Ð±Ð¾Ð»ÑŒÑˆÐ¸Ð½ÑÑ‚Ð²Ð° ÑÐ¾Ñ‡ÐµÑ‚Ð°Ð½Ð¸Ð¹ ÐºÐ»Ð°Ð²Ð¸Ñˆ. Ð­Ñ‚Ð¾ Ð¿Ð¾Ð·Ð²Ð¾Ð»ÑÐµÑ‚ Ð¸Ð·Ð±ÐµÐ¶Ð°Ñ‚ÑŒ ÐºÐ¾Ð½Ñ„Ð»Ð¸ÐºÑ‚Ð¾Ð² Ð² Ð²Ð°ÑˆÐµÐ¼ Ñ‚ÐµÑ€Ð¼Ð¸Ð½Ð°Ð»Ðµ.
+
+ÐŸÐ¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ `ctrl+x` ÑÐ²Ð»ÑÐµÑ‚ÑÑ ÐºÐ»Ð°Ð²Ð¸ÑˆÐµÐ¹ leader, Ð¸ Ð´Ð»Ñ Ð±Ð¾Ð»ÑŒÑˆÐ¸Ð½ÑÑ‚Ð²Ð° Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ð¹ Ñ‚Ñ€ÐµÐ±ÑƒÐµÑ‚ÑÑ ÑÐ½Ð°Ñ‡Ð°Ð»Ð° Ð½Ð°Ð¶Ð°Ñ‚ÑŒ ÐºÐ»Ð°Ð²Ð¸ÑˆÑƒ leader, Ð° Ð·Ð°Ñ‚ÐµÐ¼ ÑÐ¾Ñ‡ÐµÑ‚Ð°Ð½Ð¸Ðµ ÐºÐ»Ð°Ð²Ð¸Ñˆ. ÐÐ°Ð¿Ñ€Ð¸Ð¼ÐµÑ€, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð½Ð°Ñ‡Ð°Ñ‚ÑŒ Ð½Ð¾Ð²Ñ‹Ð¹ ÑÐµÐ°Ð½Ñ, ÑÐ½Ð°Ñ‡Ð°Ð»Ð° Ð½Ð°Ð¶Ð¼Ð¸Ñ‚Ðµ `ctrl+x`, Ð° Ð·Ð°Ñ‚ÐµÐ¼ Ð½Ð°Ð¶Ð¼Ð¸Ñ‚Ðµ `n`.
+
+Ð’Ð°Ð¼ Ð½Ðµ Ð¾Ð±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ ÐºÐ»Ð°Ð²Ð¸ÑˆÑƒ leader Ð´Ð»Ñ Ð¿Ñ€Ð¸Ð²ÑÐ·Ð¾Ðº ÐºÐ»Ð°Ð²Ð¸Ñˆ, Ð½Ð¾ Ð¼Ñ‹ Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´ÑƒÐµÐ¼ ÑÑ‚Ð¾ ÑÐ´ÐµÐ»Ð°Ñ‚ÑŒ.
+
+---
+
+## ÐžÑ‚ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ð¿Ñ€Ð¸Ð²ÑÐ·ÐºÐ¸ ÐºÐ»Ð°Ð²Ð¸Ñˆ
+
+Ð’Ñ‹ Ð¼Ð¾Ð¶ÐµÑ‚Ðµ Ð¾Ñ‚ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ Ð¿Ñ€Ð¸Ð²ÑÐ·ÐºÑƒ ÐºÐ»Ð°Ð²Ð¸Ñˆ, Ð´Ð¾Ð±Ð°Ð²Ð¸Ð² ÐºÐ»ÑŽÑ‡ Ð² `tui.json` ÑÐ¾ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸ÐµÐ¼ Â«noneÂ».
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "keybinds": {
+    "session_compact": "none"
+  }
+}
+```
+
+---
+
+## Ð¨Ð¾Ñ€Ñ‚ÐºÐ°Ñ‚Ñ‹ Ð² Desktop-Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸Ð¸
+
+Ð’Ð²Ð¾Ð´ Ð¿Ñ€Ð¸Ð³Ð»Ð°ÑˆÐµÐ½Ð¸Ñ Ð½Ð°ÑÑ‚Ð¾Ð»ÑŒÐ½Ð¾Ð³Ð¾ Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸Ñ voracode Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð¸Ð²Ð°ÐµÑ‚ Ñ€Ð°ÑÐ¿Ñ€Ð¾ÑÑ‚Ñ€Ð°Ð½ÐµÐ½Ð½Ñ‹Ðµ ÑÐ¾Ñ‡ÐµÑ‚Ð°Ð½Ð¸Ñ ÐºÐ»Ð°Ð²Ð¸Ñˆ Ð² ÑÑ‚Ð¸Ð»Ðµ Readline/Emacs Ð´Ð»Ñ Ñ€ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ñ‚ÐµÐºÑÑ‚Ð°. ÐžÐ½Ð¸ Ð²ÑÑ‚Ñ€Ð¾ÐµÐ½Ñ‹ Ð¸ Ð² Ð½Ð°ÑÑ‚Ð¾ÑÑ‰ÐµÐµ Ð²Ñ€ÐµÐ¼Ñ Ð½Ðµ Ð½Ð°ÑÑ‚Ñ€Ð°Ð¸Ð²Ð°ÑŽÑ‚ÑÑ Ñ‡ÐµÑ€ÐµÐ· `voracode.json`.
+
+| Ð¯Ñ€Ð»Ñ‹Ðº    | Ð”ÐµÐ¹ÑÑ‚Ð²Ð¸Ðµ                                             |
+| -------- | ---------------------------------------------------- |
+| `ctrl+a` | ÐŸÐµÑ€ÐµÐ¹Ñ‚Ð¸ Ðº Ð½Ð°Ñ‡Ð°Ð»Ñƒ Ñ‚ÐµÐºÑƒÑ‰ÐµÐ¹ ÑÑ‚Ñ€Ð¾ÐºÐ¸                      |
+| `ctrl+e` | ÐŸÐµÑ€ÐµÐ¹Ñ‚Ð¸ Ðº ÐºÐ¾Ð½Ñ†Ñƒ Ñ‚ÐµÐºÑƒÑ‰ÐµÐ¹ ÑÑ‚Ñ€Ð¾ÐºÐ¸                       |
+| `ctrl+b` | ÐŸÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑŒ ÐºÑƒÑ€ÑÐ¾Ñ€ Ð½Ð° Ð¾Ð´Ð¸Ð½ ÑÐ¸Ð¼Ð²Ð¾Ð» Ð½Ð°Ð·Ð°Ð´              |
+| `ctrl+f` | ÐŸÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑŒ ÐºÑƒÑ€ÑÐ¾Ñ€ Ð½Ð° Ð¾Ð´Ð¸Ð½ ÑÐ¸Ð¼Ð²Ð¾Ð» Ð²Ð¿ÐµÑ€ÐµÐ´             |
+| `alt+b`  | ÐŸÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑŒ ÐºÑƒÑ€ÑÐ¾Ñ€ Ð½Ð° Ð¾Ð´Ð½Ð¾ ÑÐ»Ð¾Ð²Ð¾ Ð½Ð°Ð·Ð°Ð´               |
+| `alt+f`  | ÐŸÐµÑ€ÐµÐ¼ÐµÑÑ‚Ð¸Ñ‚ÑŒ ÐºÑƒÑ€ÑÐ¾Ñ€ Ð²Ð¿ÐµÑ€ÐµÐ´ Ð½Ð° Ð¾Ð´Ð½Ð¾ ÑÐ»Ð¾Ð²Ð¾              |
+| `ctrl+d` | Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ ÑÐ¸Ð¼Ð²Ð¾Ð» Ð¿Ð¾Ð´ ÐºÑƒÑ€ÑÐ¾Ñ€Ð¾Ð¼                          |
+| `ctrl+k` | Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ð´Ð¾ ÐºÐ¾Ð½Ñ†Ð° ÑÑ‚Ñ€Ð¾ÐºÐ¸                              |
+| `ctrl+u` | Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ð´Ð¾ Ð½Ð°Ñ‡Ð°Ð»Ð° ÑÑ‚Ñ€Ð¾ÐºÐ¸                             |
+| `ctrl+w` | Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ð¿Ñ€ÐµÐ´Ñ‹Ð´ÑƒÑ‰ÐµÐµ ÑÐ»Ð¾Ð²Ð¾                             |
+| `alt+d`  | Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ ÑÐ»ÐµÐ´ÑƒÑŽÑ‰ÐµÐµ ÑÐ»Ð¾Ð²Ð¾                              |
+| `ctrl+t` | ÐŸÐ¾Ð¼ÐµÐ½ÑÑ‚ÑŒ Ð¼ÐµÑÑ‚Ð°Ð¼Ð¸ ÑÐ¸Ð¼Ð²Ð¾Ð»Ñ‹                             |
+| `ctrl+g` | ÐžÑ‚Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð²ÑÐ¿Ð»Ñ‹Ð²Ð°ÑŽÑ‰Ð¸Ðµ Ð¾ÐºÐ½Ð°/Ð¿Ñ€ÐµÑ€Ð²Ð°Ñ‚ÑŒ Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ðµ Ð¾Ñ‚Ð²ÐµÑ‚Ð° |
+
+---
+
+## Shift+Enter
+
+ÐÐµÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ñ‚ÐµÑ€Ð¼Ð¸Ð½Ð°Ð»Ñ‹ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ Ð½Ðµ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÑÑŽÑ‚ ÐºÐ»Ð°Ð²Ð¸ÑˆÐ¸-Ð¼Ð¾Ð´Ð¸Ñ„Ð¸ÐºÐ°Ñ‚Ð¾Ñ€Ñ‹ Ñ Enter. Ð’Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾, Ð²Ð°Ð¼ Ð¿Ñ€Ð¸Ð´ÐµÑ‚ÑÑ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¸Ñ‚ÑŒ Ñ‚ÐµÑ€Ð¼Ð¸Ð½Ð°Ð» Ð½Ð° Ð¾Ñ‚Ð¿Ñ€Ð°Ð²ÐºÑƒ `Shift+Enter` Ð² ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ðµ escape-Ð¿Ð¾ÑÐ»ÐµÐ´Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸.
+
+### Windows Terminal
+
+ÐžÑ‚ÐºÑ€Ð¾Ð¹Ñ‚Ðµ ÑÐ²Ð¾Ð¹ `settings.json` Ð¿Ð¾ Ð°Ð´Ñ€ÐµÑÑƒ:
+
+```
+%LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
+```
+
+Ð”Ð¾Ð±Ð°Ð²ÑŒÑ‚Ðµ ÑÑ‚Ð¾ Ð² Ð¼Ð°ÑÑÐ¸Ð² `actions` ÐºÐ¾Ñ€Ð½ÐµÐ²Ð¾Ð³Ð¾ ÑƒÑ€Ð¾Ð²Ð½Ñ:
+
+```json
+"actions": [
+  {
+    "command": {
+      "action": "sendInput",
+      "input": "\u001b[13;2u"
+    },
+    "id": "User.sendInput.ShiftEnterCustom"
+  }
+]
+```
+
+Ð”Ð¾Ð±Ð°Ð²ÑŒÑ‚Ðµ ÑÑ‚Ð¾ Ð² Ð¼Ð°ÑÑÐ¸Ð² `keybindings` ÐºÐ¾Ñ€Ð½ÐµÐ²Ð¾Ð³Ð¾ ÑƒÑ€Ð¾Ð²Ð½Ñ:
+
+```json
+"keybindings": [
+  {
+    "keys": "shift+enter",
+    "id": "User.sendInput.ShiftEnterCustom"
+  }
+]
+```
+
+Ð¡Ð¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚Ðµ Ñ„Ð°Ð¹Ð» Ð¸ Ð¿ÐµÑ€ÐµÐ·Ð°Ð¿ÑƒÑÑ‚Ð¸Ñ‚Ðµ Windows Terminal Ð¸Ð»Ð¸ Ð¾Ñ‚ÐºÑ€Ð¾Ð¹Ñ‚Ðµ Ð½Ð¾Ð²ÑƒÑŽ Ð²ÐºÐ»Ð°Ð´ÐºÑƒ.

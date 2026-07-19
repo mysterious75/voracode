@@ -1,0 +1,128 @@
+---
+title: UdostÄ™pnianie
+description: UdostÄ™pnij swoje rozmowy dotyczÄ…ce voracode.
+---
+
+Funkcja udostÄ™pniania voracode umoÅ¼liwia tworzenie publicznych linkÃ³w do konwersacji voracode, dziÄ™ki czemu moÅ¼esz wspÃ³Å‚pracowaÄ‡ z czÅ‚onkami zespoÅ‚u lub uzyskaÄ‡ pomoc od innych.
+
+:::note
+UdostÄ™pnione konwersacje sÄ… publicznie dostÄ™pne dla kaÅ¼dej osoby majÄ…cej link.
+:::
+
+---
+
+## Jak to dziaÅ‚a
+
+Kiedy udostÄ™pniasz rozmowÄ™, voracode:
+
+1. Tworzy unikalny publiczny adres URL sesji
+2. Synchronizuje historiÄ™ rozmÃ³w z naszymi serwerami
+3. UdostÄ™pnia rozmowÄ™ za poÅ›rednictwem Å‚Ä…cza do udostÄ™pniania â€” `opncd.ai/s/<share-id>`
+
+---
+
+## UdostÄ™pnianie
+
+voracode obsÅ‚uguje trzy tryby udostÄ™pniania, ktÃ³re kontrolujÄ… sposÃ³b udostÄ™pniania rozmÃ³w:
+
+---
+
+### RÄ™czne (domyÅ›lne)
+
+DomyÅ›lnie voracode korzysta z rÄ™cznego trybu udostÄ™pniania. Sesje nie sÄ… udostÄ™pniane automatycznie, ale moÅ¼esz je udostÄ™pniÄ‡ rÄ™cznie za pomocÄ… polecenia `/share`:
+
+```
+/share
+```
+
+Spowoduje to wygenerowanie unikalnego adresu URL, ktÃ³ry zostanie skopiowany do schowka.
+
+Aby jawnie ustawiÄ‡ tryb rÄ™czny w [pliku konfiguracyjnym] (./config):
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "manual"
+}
+```
+
+---
+
+### Automatyczne udostÄ™pnianie
+
+MoÅ¼esz wÅ‚Ä…czyÄ‡ automatyczne udostÄ™pnianie dla wszystkich nowych rozmÃ³w, ustawiajÄ…c opcjÄ™ `share` na `"auto"` w [pliku konfiguracyjnym] (./config):
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "auto"
+}
+```
+
+Po wÅ‚Ä…czeniu automatycznego udostÄ™pniania kaÅ¼da nowa rozmowa bÄ™dzie automatycznie udostÄ™pniana i generowany bÄ™dzie link.
+
+---
+
+### WyÅ‚Ä…czone
+
+MoÅ¼esz caÅ‚kowicie wyÅ‚Ä…czyÄ‡ udostÄ™pnianie, ustawiajÄ…c opcjÄ™ `share` na `"disabled"` w [pliku konfiguracyjnym] (./config):
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "disabled"
+}
+```
+
+Aby wymusiÄ‡ to w caÅ‚ym zespole dla danego projektu, dodaj go do `voracode.json` w swoim projekcie i sprawdÅº w Git.
+
+---
+
+## CofniÄ™cie udostÄ™pnienia
+
+Aby zatrzymaÄ‡ udostÄ™pnianie rozmowy i usunÄ…Ä‡ jÄ… z dostÄ™pu publicznego:
+
+```
+/unshare
+```
+
+Spowoduje to usuniÄ™cie Å‚Ä…cza udostÄ™pniania i danych zwiÄ…zanych z rozmowÄ….
+
+---
+
+## PrywatnoÅ›Ä‡
+
+Podczas udostÄ™pniania rozmowy naleÅ¼y pamiÄ™taÄ‡ o kilku rzeczach.
+
+---
+
+### Przechowywanie danych
+
+UdostÄ™pnione rozmowy pozostajÄ… dostÄ™pne, dopÃ³ki wyraÅºnie ich nie udostÄ™pnisz. Ten
+includes:
+
+- PeÅ‚na historia rozmÃ³w
+- Wszystkie wiadomoÅ›ci i odpowiedzi
+- Metadane sesji
+
+---
+
+### Zalecenia
+
+- UdostÄ™pniaj tylko rozmowy, ktÃ³re nie zawierajÄ… poufnych informacji.
+- Przejrzyj treÅ›Ä‡ rozmowy przed udostÄ™pnieniem.
+- Cofnij udostÄ™pnianie rozmÃ³w po zakoÅ„czeniu wspÃ³Å‚pracy.
+- Unikaj udostÄ™pniania rozmÃ³w zawierajÄ…cych zastrzeÅ¼ony kod lub poufne dane.
+- W przypadku wraÅ¼liwych projektÃ³w caÅ‚kowicie wyÅ‚Ä…cz udostÄ™pnianie.
+
+---
+
+## Dla przedsiÄ™biorstw
+
+W przypadku wdroÅ¼eÅ„ korporacyjnych funkcjÄ… udostÄ™pniania moÅ¼e byÄ‡:
+
+- **WyÅ‚Ä…czone** caÅ‚kowicie ze wzglÄ™du na bezpieczeÅ„stwo
+- **Restricted** to users authenticated through SSO only
+- **WÅ‚asny hosting** na wÅ‚asnej infrastrukturze
+
+[Dowiedz siÄ™ wiÄ™cej](/docs/enterprise) o uÅ¼ywaniu voracode w Twojej organizacji.

@@ -1,0 +1,188 @@
+---
+title: GitLab
+description: Koristite Voracode u GitLab problemima i zahtjevima za spajanje.
+---
+
+Voracode se integriÅ¡e sa vaÅ¡im GitLab radnim tokom kroz vaÅ¡ GitLab CI/CD cevovod ili sa GitLab Duo.
+U oba sluÄaja, Voracode Ä‡e se pokrenuti na vaÅ¡im GitLab pokretaÄima.
+
+---
+
+## GitLab CI
+
+Voracode radi u redovnom GitLab cevovodu. MoÅ¾ete ga ugraditi u cjevovod kao [CI komponenta](https://docs.gitlab.com/ee/ci/components/)
+Ovdje koristimo CI/CD komponentu kreiranu u zajednici za Voracode â€” [nagyv/gitlab-voracode](https://gitlab.com/nagyv/gitlab-voracode).
+
+---
+
+### Funkcije
+
+- **Koristite prilagoÄ‘enu konfiguraciju po poslu**: Konfigurirajte Voracode s prilagoÄ‘enim konfiguracijskim direktorijem, na primjer `./config/#custom-directory` da omoguÄ‡ite ili onemoguÄ‡ite funkcionalnost po Voracode pozivanju.
+- **Minimalno podeÅ¡avanje**: CI komponenta postavlja Voracode u pozadini, samo trebate kreirati Voracode konfiguraciju i poÄetnu prompt.
+- **Fleksibilno**: CI komponenta podrÅ¾ava nekoliko ulaza za prilagoÄ‘avanje njenog ponaÅ¡anja
+
+---
+
+### PodeÅ¡avanje
+
+1. SaÄuvajte JSON za autentifikaciju Voracode kao CI varijable okruÅ¾enja tipa datoteke pod **Postavke** > **CI/CD** > **Varijable**. Obavezno ih oznaÄite kao "Maskirane i skrivene".
+2. Dodajte sljedeÄ‡e u svoju `.gitlab-ci.yml` datoteku.
+
+```yaml title=".gitlab-ci.yml"
+include:
+  - component: $CI_SERVER_FQDN/nagyv/gitlab-voracode/voracode@2
+    inputs:
+      config_dir: ${CI_PROJECT_DIR}/voracode-config
+      auth_json: $VORACODE_AUTH_JSON # The variable name for your Voracode authentication JSON
+      command: optional-custom-command
+      message: "Your prompt here"
+```
+
+Za viÅ¡e unosa i sluÄajeva upotrebe [pogledajte dokumente docs](https://gitlab.com/explore/catalog/nagyv/gitlab-voracode) za ovu komponentu.
+
+---
+
+## GitLab Duo
+
+Voracode se integriÅ¡e sa vaÅ¡im GitLab tokovom rada.
+Spomenite `@voracode` u komentaru i Voracode Ä‡e izvrÅ¡iti zadatke unutar vaÅ¡eg GitLab CI cevovoda.
+
+---
+
+### Funkcije
+
+- **Problemi trijaÅ¾e**: Zamolite Voracode da ispita problem i objasni vam ga.
+- **Popravi i implementiraj**: Zamolite Voracode da popravi problem ili implementira funkciju.
+  To Ä‡e kreirati novu granu i pokrenuti zahtjev za spajanje s promjenama.
+- **Secure**: Voracode radi na vaÅ¡im GitLab pokretaÄima.
+
+---
+
+### PodeÅ¡avanje
+
+Voracode radi u vaÅ¡em GitLab CI/CD cevovodu, evo Å¡ta Ä‡e vam trebati da ga postavite:
+:::tip
+Pogledajte [**GitLab dokumente**](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/) za aÅ¾urirane upute.
+:::
+
+1.  Konfigurirajte svoje GitLab okruÅ¾enje
+2.  Postavite CI/CD
+3.  Nabavite API kljuÄ dobavljaÄa AI modela
+4.  Kreirajte nalog usluge
+5.  Konfigurirajte CI/CD varijable
+6.  Kreirajte konfiguracijski fajl toka, evo primjera:
+
+        <details>
+
+    <summary>Konfiguracija toka</summary>
+
+    ```yaml
+    image: node:22-slim
+    commands:
+      - echo "Installing voracode"
+      - npm install --global voracode-ai
+      - echo "Installing glab"
+      - export GITLAB_TOKEN=$GITLAB_TOKEN_VORACODE
+      - apt-get update --quiet && apt-get install --yes curl wget gpg git && rm --recursive --force /var/lib/apt/lists/*
+      - curl --silent --show-error --location "https://raw.githubusercontent.com/upciti/wakemeops/main/assets/install_repository" | bash
+      - apt-get install --yes glab
+      - echo "Configuring glab"
+      - echo $GITLAB_HOST
+      - echo "Creating Voracode auth configuration"
+      - mkdir --parents ~/.local/share/voracode
+      - |
+        cat > ~/.local/share/voracode/auth.json << EOF
+        {
+          "anthropic": {
+            "type": "api",
+            "key": "$ANTHROPIC_API_KEY"
+          }
+        }
+        EOF
+      - echo "Configuring git"
+      - git config --global user.email "voracode@gitlab.com"
+      - git config --global user.name "Voracode"
+      - echo "Testing glab"
+      - glab issue list
+      - echo "Running Voracode"
+      - |
+        voracode run "
+        You are an AI assistant helping with GitLab operations.
+
+        Context: $AI_FLOW_CONTEXT
+        Task: $AI_FLOW_INPUT
+        Event: $AI_FLOW_EVENT
+
+        Please execute the requested task using the available GitLab tools.
+        Be thorough in your analysis and provide clear explanations.
+
+        <important>
+        Please use the glab CLI to access data from GitLab. The glab CLI has already been authenticated. You can run the corresponding commands.
+
+        If you are asked to summarize an MR or issue or asked to provide more information then please post back a note to the MR/Issue so that the user can see it.
+        You don't need to commit or push up changes, those will be done automatically based on the file changes you make.
+        </important>
+        "
+      - git checkout --branch $CI_WORKLOAD_REF origin/$CI_WORKLOAD_REF
+      - echo "Checking for git changes and pushing if any exist"
+      - |
+        if ! git diff --quiet || ! git diff --cached --quiet || [ --not --zero "$(git ls-files --others --exclude-standard)" ]; then
+          echo "Git changes detected, adding and pushing..."
+          git add .
+          if git diff --cached --quiet; then
+            echo "No staged changes to commit"
+          else
+            echo "Committing changes to branch: $CI_WORKLOAD_REF"
+            git commit --message "Codex changes"
+            echo "Pushing changes up to $CI_WORKLOAD_REF"
+            git push https://gitlab-ci-token:$GITLAB_TOKEN@$GITLAB_HOST/gl-demo-ultimate-dev-ai-epic-17570/test-java-project.git $CI_WORKLOAD_REF
+            echo "Changes successfully pushed"
+          fi
+        else
+          echo "No git changes detected, skipping push"
+        fi
+    variables:
+      - ANTHROPIC_API_KEY
+      - GITLAB_TOKEN_VORACODE
+      - GITLAB_HOST
+    ```
+
+        </details>
+
+MoÅ¾ete vidjeti [GitLab CLI agenti docs](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/) za detaljna uputstva.
+
+---
+
+### Primjeri
+
+Evo nekoliko primjera kako moÅ¾ete koristiti Voracode u GitLab.
+:::tip
+MoÅ¾ete konfigurirati da koristite drugu frazu okidaÄa od `@voracode`.
+:::
+
+- **Objasnite problem**
+  Dodajte ovaj komentar u izdanje GitLaba.
+
+```
+  @voracode explain this issue
+```
+
+Voracode Ä‡e proÄitati problem i odgovoriti jasnim objaÅ¡njenjem.
+
+- **ReÅ¡i problem**
+  U izdanju GitLaba recite:
+
+```
+  @voracode fix this
+```
+
+Voracode Ä‡e kreirati novu granu, implementirati promjene i otvoriti zahtjev za spajanje s promjenama.
+
+- **Pregledajte zahtjeve za pridruÅ¾ivanje**
+  Ostavite sljedeÄ‡i komentar na zahtjev za spajanje GitLab-a.
+
+```
+  @voracode review this merge request
+```
+
+Voracode Ä‡e pregledati zahtjev za spajanje i dati povratne informacije.

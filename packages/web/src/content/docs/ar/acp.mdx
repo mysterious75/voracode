@@ -1,0 +1,156 @@
+---
+title: Ø¯Ø¹Ù… ACP
+description: Ø§Ø³ØªØ®Ø¯Ù… Voracode ÙÙŠ Ø£ÙŠ Ù…Ø­Ø±Ø± Ù…ØªÙˆØ§ÙÙ‚ Ù…Ø¹ ACP.
+---
+
+ÙŠØ¯Ø¹Ù… Voracode Ø¨Ø±ÙˆØªÙˆÙƒÙˆÙ„ [Agent Client Protocol](https://agentclientprotocol.com) Ø£Ùˆ (ACP)ØŒ Ù…Ù…Ø§ ÙŠØªÙŠØ­ Ù„Ùƒ Ø§Ø³ØªØ®Ø¯Ø§Ù…Ù‡ Ù…Ø¨Ø§Ø´Ø±Ø© ÙÙŠ Ø§Ù„Ù…Ø­Ø±Ø±Ø§Øª ÙˆØ¨ÙŠØ¦Ø§Øª Ø§Ù„ØªØ·ÙˆÙŠØ± Ø§Ù„Ù…ØªÙƒØ§Ù…Ù„Ø© (IDEs) Ø§Ù„Ù…ØªÙˆØ§ÙÙ‚Ø©.
+
+:::tip
+Ù„Ù„Ø§Ø·Ù„Ø§Ø¹ Ø¹Ù„Ù‰ Ù‚Ø§Ø¦Ù…Ø© Ø¨Ø§Ù„Ù…Ø­Ø±Ø±Ø§Øª ÙˆØ§Ù„Ø£Ø¯ÙˆØ§Øª Ø§Ù„ØªÙŠ ØªØ¯Ø¹Ù… ACPØŒ Ø±Ø§Ø¬Ø¹ [ACP progress report](https://zed.dev/blog/acp-progress-report#available-now).
+:::
+
+ACP Ø¨Ø±ÙˆØªÙˆÙƒÙˆÙ„ Ù…ÙØªÙˆØ­ ÙŠÙˆØ­Ù‘Ø¯ Ø¢Ù„ÙŠØ© Ø§Ù„ØªÙˆØ§ØµÙ„ Ø¨ÙŠÙ† Ù…Ø­Ø±Ø±Ø§Øª Ø§Ù„Ø´ÙŠÙØ±Ø© ÙˆÙˆÙƒÙ„Ø§Ø¡ Ø§Ù„Ø¨Ø±Ù…Ø¬Ø© Ø¨Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ.
+
+---
+
+## Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯
+
+Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Voracode Ø¹Ø¨Ø± ACPØŒ Ø§Ø¶Ø¨Ø· Ù…Ø­Ø±Ø±Ùƒ Ù„ÙŠØ´ØºÙ‘Ù„ Ø§Ù„Ø£Ù…Ø± `voracode acp`.
+
+ÙŠØ´ØºÙ‘Ù„ Ù‡Ø°Ø§ Ø§Ù„Ø£Ù…Ø± Voracode ÙƒØ¹Ù…Ù„ÙŠØ© ÙØ±Ø¹ÙŠØ© Ù…ØªÙˆØ§ÙÙ‚Ø© Ù…Ø¹ ACP ØªØªÙˆØ§ØµÙ„ Ù…Ø¹ Ù…Ø­Ø±Ø±Ùƒ Ø¹Ø¨Ø± JSON-RPC Ø¨Ø§Ø³ØªØ®Ø¯Ø§Ù… stdio.
+
+ÙÙŠÙ…Ø§ ÙŠÙ„ÙŠ Ø£Ù…Ø«Ù„Ø© Ù„Ù…Ø­Ø±Ø±Ø§Øª Ø´Ø§Ø¦Ø¹Ø© ØªØ¯Ø¹Ù… ACP.
+
+---
+
+### Zed
+
+Ø£Ø¶Ù Ø¥Ù„Ù‰ Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª [Zed](https://zed.dev) (`~/.config/zed/settings.json`):
+
+```json title="~/.config/zed/settings.json"
+{
+  "agent_servers": {
+    "Voracode": {
+      "command": "voracode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+Ù„ÙØªØ­Ù‡ØŒ Ø§Ø³ØªØ®Ø¯Ù… Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡ `agent: new thread` ÙÙŠ **Command Palette**.
+
+ÙŠÙ…ÙƒÙ†Ùƒ Ø£ÙŠØ¶Ø§ Ø±Ø¨Ø· Ø§Ø®ØªØµØ§Ø± Ù„ÙˆØ­Ø© Ù…ÙØ§ØªÙŠØ­ Ø¹Ø¨Ø± ØªØ¹Ø¯ÙŠÙ„ `keymap.json`:
+
+```json title="keymap.json"
+[
+  {
+    "bindings": {
+      "cmd-alt-o": [
+        "agent::NewExternalAgentThread",
+        {
+          "agent": {
+            "custom": {
+              "name": "Voracode",
+              "command": {
+                "command": "voracode",
+                "args": ["acp"]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+]
+```
+
+---
+
+### JetBrains IDEs
+
+Ø£Ø¶Ù Ø¥Ù„Ù‰ Ù…Ù„Ù acp.json Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ [JetBrains IDE](https://www.jetbrains.com/) ÙˆÙÙ‚Ø§ Ù„Ù€ [documentation](https://www.jetbrains.com/help/ai-assistant/acp.html):
+
+```json title="acp.json"
+{
+  "agent_servers": {
+    "Voracode": {
+      "command": "/absolute/path/bin/voracode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+Ù„ÙØªØ­Ù‡ØŒ Ø§Ø®ØªØ± Ø§Ù„ÙˆÙƒÙŠÙ„ Ø§Ù„Ø¬Ø¯ÙŠØ¯ 'Voracode' Ù…Ù† Ù…Ø­Ø¯Ø¯ Ø§Ù„ÙˆÙƒÙ„Ø§Ø¡ ÙÙŠ AI Chat.
+
+---
+
+### Avante.nvim
+
+Ø£Ø¶Ù Ø¥Ù„Ù‰ Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª [Avante.nvim](https://github.com/yetone/avante.nvim):
+
+```lua
+{
+  acp_providers = {
+    ["voracode"] = {
+      command = "voracode",
+      args = { "acp" }
+    }
+  }
+}
+```
+
+Ø¥Ø°Ø§ Ø§Ø­ØªØ¬Øª Ø¥Ù„Ù‰ ØªÙ…Ø±ÙŠØ± Ù…ØªØºÙŠØ±Ø§Øª Ø§Ù„Ø¨ÙŠØ¦Ø©:
+
+```lua {6-8}
+{
+  acp_providers = {
+    ["voracode"] = {
+      command = "voracode",
+      args = { "acp" },
+      env = {
+        VORACODE_API_KEY = os.getenv("VORACODE_API_KEY")
+      }
+    }
+  }
+}
+```
+
+---
+
+### CodeCompanion.nvim
+
+Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Voracode ÙƒÙˆÙƒÙŠÙ„ ACP ÙÙŠ [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim)ØŒ Ø£Ø¶Ù Ø§Ù„ØªØ§Ù„ÙŠ Ø¥Ù„Ù‰ Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Neovim:
+
+```lua
+require("codecompanion").setup({
+  interactions = {
+    chat = {
+      adapter = {
+        name = "voracode",
+        model = "claude-sonnet-4",
+      },
+    },
+  },
+})
+```
+
+ÙŠØ¶Ø¨Ø· Ù‡Ø°Ø§ Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯ CodeCompanion Ù„Ø§Ø³ØªØ®Ø¯Ø§Ù… Voracode ÙƒÙˆÙƒÙŠÙ„ ACP Ù„Ù„Ø¯Ø±Ø¯Ø´Ø©.
+
+Ø¥Ø°Ø§ Ø§Ø­ØªØ¬Øª Ø¥Ù„Ù‰ ØªÙ…Ø±ÙŠØ± Ù…ØªØºÙŠØ±Ø§Øª Ø§Ù„Ø¨ÙŠØ¦Ø© (Ù…Ø«Ù„ `VORACODE_API_KEY`)ØŒ ÙØ§Ø±Ø¬Ø¹ Ø¥Ù„Ù‰ [Configuring Adapters: Environment Variables](https://codecompanion.olimorris.dev/getting-started#setting-an-api-key) Ø¶Ù…Ù† ØªÙˆØ«ÙŠÙ‚ CodeCompanion.nvim Ù„Ù„Ø§Ø·Ù„Ø§Ø¹ Ø¹Ù„Ù‰ Ø§Ù„ØªÙØ§ØµÙŠÙ„ ÙƒØ§Ù…Ù„Ø©.
+
+## Ø§Ù„Ø¯Ø¹Ù…
+
+ÙŠØ¹Ù…Ù„ Voracode Ø¹Ø¨Ø± ACP Ø¨Ø§Ù„Ø·Ø±ÙŠÙ‚Ø© Ù†ÙØ³Ù‡Ø§ Ø§Ù„ØªÙŠ ÙŠØ¹Ù…Ù„ Ø¨Ù‡Ø§ ÙÙŠ terminal. Ø¬Ù…ÙŠØ¹ Ø§Ù„Ù…ÙŠØ²Ø§Øª Ù…Ø¯Ø¹ÙˆÙ…Ø©:
+
+:::note
+Ø¨Ø¹Ø¶ Ø£ÙˆØ§Ù…Ø± Ø§Ù„Ø´Ø±Ø·Ø© Ø§Ù„Ù…Ø§Ø¦Ù„Ø© Ø§Ù„Ù…Ø¶Ù…Ù†Ø© Ù…Ø«Ù„ `/undo` Ùˆ`/redo` ØºÙŠØ± Ù…Ø¯Ø¹ÙˆÙ…Ø© Ø­Ø§Ù„ÙŠØ§.
+:::
+
+- Ø§Ù„Ø£Ø¯ÙˆØ§Øª Ø§Ù„Ù…Ø¶Ù…Ù†Ø© (Ø¹Ù…Ù„ÙŠØ§Øª Ø§Ù„Ù…Ù„ÙØ§ØªØŒ Ø£ÙˆØ§Ù…Ø± terminalØŒ Ø¥Ù„Ø®.)
+- Ø§Ù„Ø£Ø¯ÙˆØ§Øª Ø§Ù„Ù…Ø®ØµØµØ© ÙˆØ£ÙˆØ§Ù…Ø± Ø§Ù„Ø´Ø±Ø·Ø© Ø§Ù„Ù…Ø§Ø¦Ù„Ø©
+- Ø®ÙˆØ§Ø¯Ù… MCP Ø§Ù„Ù…Ø¶Ø¨ÙˆØ·Ø© ÙÙŠ Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Voracode
+- Ù‚ÙˆØ§Ø¹Ø¯ Ø®Ø§ØµØ© Ø¨Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ù…Ù† `AGENTS.md`
+- Ø§Ù„Ù…Ù†Ø³Ù‚Ø§Øª (formatters) ÙˆØ§Ù„Ù…Ø¯Ù‚Ù‚Ø§Øª (linters) Ø§Ù„Ù…Ø®ØµØµØ©
+- Ù†Ø¸Ø§Ù… Ø§Ù„ÙˆÙƒÙ„Ø§Ø¡ ÙˆØ§Ù„Ø£Ø°ÙˆÙ†Ø§Øª

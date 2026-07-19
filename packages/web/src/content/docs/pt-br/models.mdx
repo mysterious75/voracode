@@ -1,0 +1,222 @@
+---
+title: Modelos
+description: Configurando um provedor e modelo LLM.
+---
+
+O voracode usa o [AI SDK](https://ai-sdk.dev/) e [Models.dev](https://models.dev) para suportar **75+ provedores LLM** e suporta a execuÃ§Ã£o de modelos locais.
+
+---
+
+## Provedores
+
+Os provedores mais populares sÃ£o prÃ©-carregados por padrÃ£o. Se vocÃª adicionou as credenciais para um provedor atravÃ©s do comando `/connect`, elas estarÃ£o disponÃ­veis quando vocÃª iniciar o voracode.
+
+Saiba mais sobre [provedores](/docs/providers).
+
+---
+
+## Selecionando um modelo
+
+Depois de configurar seu provedor, vocÃª pode selecionar o modelo que deseja digitando:
+
+```bash frame="none"
+/models
+```
+
+---
+
+## Modelos recomendados
+
+Existem muitos modelos disponÃ­veis, com novos modelos sendo lanÃ§ados toda semana.
+
+:::tip
+Considere usar um dos modelos que recomendamos.
+:::
+
+No entanto, hÃ¡ apenas alguns deles que sÃ£o bons tanto em gerar cÃ³digo quanto em chamar ferramentas.
+
+Aqui estÃ£o vÃ¡rios modelos que funcionam bem com o voracode, em nenhuma ordem especÃ­fica. (Esta nÃ£o Ã© uma lista exaustiva nem necessariamente atualizada):
+
+- GPT 5.2
+- GPT 5.1 Codex
+- Claude Opus 4.5
+- Claude Sonnet 4.5
+- Minimax M2.1
+- Gemini 3 Pro
+
+---
+
+## Definindo um padrÃ£o
+
+Para definir um desses como o modelo padrÃ£o, vocÃª pode definir a chave `model` na sua configuraÃ§Ã£o do voracode.
+
+```json title="voracode.json" {3}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "model": "lmstudio/google/gemma-3n-e4b"
+}
+```
+
+Aqui, o ID completo Ã© `provider_id/model_id`. Por exemplo, se vocÃª estiver usando [Voracode Zen](/docs/zen), vocÃª usaria `voracode/gpt-5.1-codex` para GPT 5.1 Codex.
+
+Se vocÃª configurou um [provedor personalizado](/docs/providers#custom), o `provider_id` Ã© a chave da parte `provider` da sua configuraÃ§Ã£o, e o `model_id` Ã© a chave de `provider.models`.
+
+---
+
+## Configurando modelos
+
+VocÃª pode configurar globalmente as opÃ§Ãµes de um modelo atravÃ©s da configuraÃ§Ã£o.
+
+```jsonc title="voracode.jsonc" {7-12,19-24}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "openai": {
+      "models": {
+        "gpt-5": {
+          "options": {
+            "reasoningEffort": "high",
+            "textVerbosity": "low",
+            "reasoningSummary": "auto",
+            "include": ["reasoning.encrypted_content"],
+          },
+        },
+      },
+    },
+    "anthropic": {
+      "models": {
+        "claude-sonnet-4-5-20250929": {
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 16000,
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+Aqui estamos configurando as configuraÃ§Ãµes globais para dois modelos integrados: `gpt-5` quando acessado via o provedor `openai`, e `claude-sonnet-4-20250514` quando acessado via o provedor `anthropic`.
+Os nomes dos provedores e modelos integrados podem ser encontrados em [Models.dev](https://models.dev).
+
+VocÃª tambÃ©m pode configurar essas opÃ§Ãµes para quaisquer agentes que estiver usando. A configuraÃ§Ã£o do agente substitui quaisquer opÃ§Ãµes globais aqui. [Saiba mais](/docs/agents/#additional).
+
+VocÃª tambÃ©m pode definir variantes personalizadas que estendem as integradas. As variantes permitem que vocÃª configure diferentes configuraÃ§Ãµes para o mesmo modelo sem criar entradas duplicadas:
+
+```jsonc title="voracode.jsonc" {6-21}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "voracode": {
+      "models": {
+        "gpt-5": {
+          "variants": {
+            "high": {
+              "reasoningEffort": "high",
+              "textVerbosity": "low",
+              "reasoningSummary": "auto",
+            },
+            "low": {
+              "reasoningEffort": "low",
+              "textVerbosity": "low",
+              "reasoningSummary": "auto",
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+---
+
+## Variantes
+
+Muitos modelos suportam vÃ¡rias variantes com diferentes configuraÃ§Ãµes. O voracode vem com variantes padrÃ£o integradas para provedores populares.
+
+### Variantes integradas
+
+O voracode vem com variantes padrÃ£o para muitos provedores:
+
+**Anthropic**:
+
+- `high` - OrÃ§amento de pensamento alto (padrÃ£o)
+- `max` - OrÃ§amento de pensamento mÃ¡ximo
+
+**OpenAI**:
+
+Varia por modelo, mas aproximadamente:
+
+- `none` - Sem raciocÃ­nio
+- `minimal` - EsforÃ§o de raciocÃ­nio mÃ­nimo
+- `low` - Baixo esforÃ§o de raciocÃ­nio
+- `medium` - EsforÃ§o de raciocÃ­nio mÃ©dio
+- `high` - Alto esforÃ§o de raciocÃ­nio
+- `xhigh` - EsforÃ§o de raciocÃ­nio extra alto
+
+**Google**:
+
+- `low` - OrÃ§amento de esforÃ§o/token mais baixo
+- `high` - OrÃ§amento de esforÃ§o/token mais alto
+
+:::tip
+Esta lista nÃ£o Ã© abrangente. Muitos outros provedores tambÃ©m tÃªm padrÃµes integrados.
+:::
+
+### Variantes personalizadas
+
+VocÃª pode substituir variantes existentes ou adicionar as suas:
+
+```jsonc title="voracode.jsonc" {7-18}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "openai": {
+      "models": {
+        "gpt-5": {
+          "variants": {
+            "thinking": {
+              "reasoningEffort": "high",
+              "textVerbosity": "low",
+            },
+            "fast": {
+              "disabled": true,
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+### Ciclo de variantes
+
+Use a tecla de atalho `variant_cycle` para alternar rapidamente entre variantes. [Saiba mais](/docs/keybinds).
+
+---
+
+## Carregando modelos
+
+Quando o voracode Ã© iniciado, ele verifica modelos na seguinte ordem de prioridade:
+
+1. A flag de linha de comando `--model` ou `-m`. O formato Ã© o mesmo que no arquivo de configuraÃ§Ã£o: `provider_id/model_id`.
+
+2. A lista de modelos na configuraÃ§Ã£o do voracode.
+
+   ```json title="voracode.json"
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "model": "anthropic/claude-sonnet-4-20250514"
+   }
+   ```
+
+   O formato aqui Ã© `provider/model`.
+
+3. O Ãºltimo modelo usado.
+
+4. O primeiro modelo usando uma prioridade interna.

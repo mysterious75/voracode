@@ -63,7 +63,7 @@ export function cliErrorMessage(input: unknown): string | undefined {
       : []
     return [
       `Configuration is invalid${path && path !== "config" ? ` at ${path}` : ""}` + (message ? `: ${message}` : ""),
-      ...issues.map((issue) => "â†³ " + issue.message + " " + issue.path.join(".")),
+      ...issues.map((issue) => "↳ " + issue.message + " " + issue.path.join(".")),
     ].join("\n")
   }
 

@@ -1,0 +1,132 @@
+---
+title: í¬ë§¤í„°
+description: VoracodeëŠ” ì–¸ì–´ë³„ í¬ë§¤í„°ë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+---
+
+VoracodeëŠ” íŒŒì¼ì„ writeí•˜ê±°ë‚˜ edití•œ ë’¤, ì–¸ì–´ë³„ í¬ë§¤í„°ë¥¼ ì‚¬ìš©í•´ ìžë™ìœ¼ë¡œ í¬ë§·í•©ë‹ˆë‹¤. ì´ë¥¼ í†µí•´ ìƒì„±ëœ ì½”ë“œê°€ í”„ë¡œì íŠ¸ì˜ ì½”ë“œ ìŠ¤íƒ€ì¼ì„ ë”°ë¥´ë„ë¡ ë³´ìž¥í•©ë‹ˆë‹¤.
+
+---
+
+## ë‚´ìž¥
+
+VoracodeëŠ” ì£¼ìš” ì–¸ì–´ì™€ í”„ë ˆìž„ì›Œí¬ë¥¼ ìœ„í•œ ì—¬ëŸ¬ ë‚´ìž¥ í¬ë§¤í„°ë¥¼ ì œê³µí•©ë‹ˆë‹¤. ì•„ëž˜ëŠ” í¬ë§¤í„° ëª©ë¡, ì§€ì› í™•ìž¥ìž, í•„ìš”í•œ ëª…ë ¹ ë˜ëŠ” config ì˜µì…˜ìž…ë‹ˆë‹¤.
+
+| í¬ë§¤í„°               | í™•ìž¥ìž                                                                                               | ìš”êµ¬ ì‚¬í•­                                                                                             |
+| -------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| air                  | .R                                                                                                   | `air` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                                  |
+| biome                | .js, .jsx, .ts, .tsx, .html, .css, .md, .json, .yaml, [ê¸°íƒ€](https://biomejs.dev/)                   | `biome.json(c)` config íŒŒì¼                                                                           |
+| cargofmt             | .rs                                                                                                  | `cargo fmt` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                            |
+| clang-format         | .c, .cpp, .h, .hpp, .ino, [ê¸°íƒ€](https://clang.llvm.org/docs/ClangFormat.html)                       | `.clang-format` config íŒŒì¼                                                                           |
+| cljfmt               | .clj, .cljs, .cljc, .edn                                                                             | `cljfmt` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                               |
+| dart                 | .dart                                                                                                | `dart` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                                 |
+| dfmt                 | .d                                                                                                   | `dfmt` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                                 |
+| gleam                | .gleam                                                                                               | `gleam` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                                |
+| gofmt                | .go                                                                                                  | `gofmt` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                                |
+| htmlbeautifier       | .erb, .html.erb                                                                                      | `htmlbeautifier` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                       |
+| ktlint               | .kt, .kts                                                                                            | `ktlint` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                               |
+| mix                  | .ex, .exs, .eex, .heex, .leex, .neex, .sface                                                         | `mix` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                                  |
+| nixfmt               | .nix                                                                                                 | `nixfmt` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                               |
+| ocamlformat          | .ml, .mli                                                                                            | `ocamlformat` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥ ë° `.ocamlformat` config íŒŒì¼ í•„ìš”                                       |
+| ormolu               | .hs                                                                                                  | `ormolu` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                               |
+| oxfmt (Experimental) | .js, .jsx, .ts, .tsx                                                                                 | `package.json`ì— `oxfmt` dependency í•„ìš” ë° [experimental env variable flag](/docs/cli/#experimental) |
+| pint                 | .php                                                                                                 | `composer.json`ì— `laravel/pint` dependency í•„ìš”                                                      |
+| prettier             | .js, .jsx, .ts, .tsx, .html, .css, .md, .json, .yaml, [ê¸°íƒ€](https://prettier.io/docs/en/index.html) | `package.json`ì— `prettier` dependency í•„ìš”                                                           |
+| rubocop              | .rb, .rake, .gemspec, .ru                                                                            | `rubocop` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                              |
+| ruff                 | .py, .pyi                                                                                            | `ruff` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥ ë° ê´€ë ¨ config í•„ìš”                                                             |
+| rustfmt              | .rs                                                                                                  | `rustfmt` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                              |
+| shfmt                | .sh, .bash                                                                                           | `shfmt` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                                |
+| standardrb           | .rb, .rake, .gemspec, .ru                                                                            | `standardrb` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                           |
+| terraform            | .tf, .tfvars                                                                                         | `terraform` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                            |
+| uv                   | .py, .pyi                                                                                            | `uv` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                                   |
+| zig                  | .zig, .zon                                                                                           | `zig` ëª…ë ¹ ì‚¬ìš© ê°€ëŠ¥                                                                                  |
+
+ì˜ˆë¥¼ ë“¤ì–´ í”„ë¡œì íŠ¸ `package.json`ì— `prettier`ê°€ ìžˆìœ¼ë©´ Voracodeê°€ ìžë™ìœ¼ë¡œ í•´ë‹¹ í¬ë§¤í„°ë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+
+---
+
+## ìž‘ë™ ë°©ì‹
+
+Voracodeê°€ íŒŒì¼ì„ writeí•˜ê±°ë‚˜ edití•  ë•Œ ë‹¤ìŒ ìˆœì„œë¡œ ë™ìž‘í•©ë‹ˆë‹¤.
+
+1. í™œì„±í™”ëœ ëª¨ë“  í¬ë§¤í„°ì™€ íŒŒì¼ í™•ìž¥ìžë¥¼ ëŒ€ì¡°í•©ë‹ˆë‹¤.
+2. íŒŒì¼ì— ë§žëŠ” í¬ë§¤í„° ëª…ë ¹ì„ ì‹¤í–‰í•©ë‹ˆë‹¤.
+3. í¬ë§· ë³€ê²½ ì‚¬í•­ì„ ìžë™ìœ¼ë¡œ ì ìš©í•©ë‹ˆë‹¤.
+
+ì´ ê³¼ì •ì€ backgroundì—ì„œ ì‹¤í–‰ë˜ë©°, ìˆ˜ë™ ìž‘ì—… ì—†ì´ ì½”ë“œ ìŠ¤íƒ€ì¼ì´ ìœ ì§€ë©ë‹ˆë‹¤.
+
+---
+
+## êµ¬ì„±
+
+Voracode configì˜ `formatter` ì„¹ì…˜ì—ì„œ í¬ë§¤í„°ë¥¼ ì»¤ìŠ¤í„°ë§ˆì´ì¦ˆí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {}
+}
+```
+
+ê° formatter ì„¤ì •ì—ì„œ ì§€ì›í•˜ëŠ” í•­ëª©ì€ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.
+
+| ì†ì„±          | íƒ€ìž…     | ì„¤ëª…                                           |
+| ------------- | -------- | ---------------------------------------------- |
+| `disabled`    | boolean  | `true`ë¡œ ì„¤ì •í•˜ë©´ í•´ë‹¹ í¬ë§¤í„°ë¥¼ ë¹„í™œì„±í™”í•©ë‹ˆë‹¤ |
+| `command`     | string[] | í¬ë§· ì‹¤í–‰ ëª…ë ¹ìž…ë‹ˆë‹¤                           |
+| `environment` | object   | í¬ë§¤í„° ì‹¤í–‰ ì‹œ ì„¤ì •í•  í™˜ê²½ ë³€ìˆ˜ìž…ë‹ˆë‹¤          |
+| `extensions`  | string[] | í•´ë‹¹ í¬ë§¤í„°ê°€ ì²˜ë¦¬í•  íŒŒì¼ í™•ìž¥ìžìž…ë‹ˆë‹¤         |
+
+ì•„ëž˜ ì˜ˆì‹œë¥¼ ì°¸ê³ í•˜ì„¸ìš”.
+
+---
+
+### í¬ë§¤í„° ë¹„í™œì„±í™”
+
+ì „ì²´ í¬ë§¤í„°ë¥¼ ì „ì—­ì—ì„œ ë¹„í™œì„±í™”í•˜ë ¤ë©´ `formatter`ë¥¼ `false`ë¡œ ì„¤ì •í•˜ì„¸ìš”.
+
+```json title="voracode.json" {3}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": false
+}
+```
+
+íŠ¹ì • í¬ë§¤í„°ë§Œ ë¹„í™œì„±í™”í•˜ë ¤ë©´ `disabled`ë¥¼ `true`ë¡œ ì„¤ì •í•˜ì„¸ìš”.
+
+```json title="voracode.json" {5}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {
+    "prettier": {
+      "disabled": true
+    }
+  }
+}
+```
+
+---
+
+### ì‚¬ìš©ìž ì •ì˜ í¬ë§¤í„°
+
+ëª…ë ¹, í™˜ê²½ ë³€ìˆ˜, íŒŒì¼ í™•ìž¥ìžë¥¼ ì§€ì •í•´ ë‚´ìž¥ í¬ë§¤í„°ë¥¼ overrideí•˜ê±°ë‚˜ ìƒˆ í¬ë§¤í„°ë¥¼ ì¶”ê°€í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json" {4-14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {
+    "prettier": {
+      "command": ["npx", "prettier", "--write", "$FILE"],
+      "environment": {
+        "NODE_ENV": "development"
+      },
+      "extensions": [".js", ".ts", ".jsx", ".tsx"]
+    },
+    "custom-markdown-formatter": {
+      "command": ["deno", "fmt", "$FILE"],
+      "extensions": [".md"]
+    }
+  }
+}
+```
+
+ëª…ë ¹ì˜ **`$FILE` placeholder**ëŠ” í¬ë§· ëŒ€ìƒ íŒŒì¼ ê²½ë¡œë¡œ ì¹˜í™˜ë©ë‹ˆë‹¤.

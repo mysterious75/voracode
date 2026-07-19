@@ -1,0 +1,131 @@
+---
+title: Formatadores
+description: O voracode usa formatadores especÃ­ficos de linguagem.
+---
+
+O voracode formata automaticamente arquivos apÃ³s serem escritos ou editados usando formatadores especÃ­ficos de linguagem. Isso garante que o cÃ³digo gerado siga os estilos de cÃ³digo do seu projeto.
+
+---
+
+## Integrados
+
+O voracode vem com vÃ¡rios formatadores integrados para linguagens e frameworks populares. Abaixo estÃ¡ uma lista dos formatadores, extensÃµes de arquivo suportadas e comandos ou opÃ§Ãµes de configuraÃ§Ã£o necessÃ¡rias.
+
+| Formatador           | ExtensÃµes                                                                                              | Requisitos                                                                                               |
+| -------------------- | ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| gofmt                | .go                                                                                                    | Comando `gofmt` disponÃ­vel                                                                               |
+| mix                  | .ex, .exs, .eex, .heex, .leex, .neex, .sface                                                           | Comando `mix` disponÃ­vel                                                                                 |
+| prettier             | .js, .jsx, .ts, .tsx, .html, .css, .md, .json, .yaml, e [mais](https://prettier.io/docs/en/index.html) | DependÃªncia `prettier` em `package.json`                                                                 |
+| biome                | .js, .jsx, .ts, .tsx, .html, .css, .md, .json, .yaml, e [mais](https://biomejs.dev/)                   | Arquivo de configuraÃ§Ã£o `biome.json(c)`                                                                  |
+| zig                  | .zig, .zon                                                                                             | Comando `zig` disponÃ­vel                                                                                 |
+| clang-format         | .c, .cpp, .h, .hpp, .ino, e [mais](https://clang.llvm.org/docs/ClangFormat.html)                       | Arquivo de configuraÃ§Ã£o `.clang-format`                                                                  |
+| ktlint               | .kt, .kts                                                                                              | Comando `ktlint` disponÃ­vel                                                                              |
+| ruff                 | .py, .pyi                                                                                              | Comando `ruff` disponÃ­vel com configuraÃ§Ã£o                                                               |
+| rustfmt              | .rs                                                                                                    | Comando `rustfmt` disponÃ­vel                                                                             |
+| cargofmt             | .rs                                                                                                    | Comando `cargo fmt` disponÃ­vel                                                                           |
+| uv                   | .py, .pyi                                                                                              | Comando `uv` disponÃ­vel                                                                                  |
+| rubocop              | .rb, .rake, .gemspec, .ru                                                                              | Comando `rubocop` disponÃ­vel                                                                             |
+| standardrb           | .rb, .rake, .gemspec, .ru                                                                              | Comando `standardrb` disponÃ­vel                                                                          |
+| htmlbeautifier       | .erb, .html.erb                                                                                        | Comando `htmlbeautifier` disponÃ­vel                                                                      |
+| air                  | .R                                                                                                     | Comando `air` disponÃ­vel                                                                                 |
+| dart                 | .dart                                                                                                  | Comando `dart` disponÃ­vel                                                                                |
+| dfmt                 | .d                                                                                                     | Comando `dfmt` disponÃ­vel                                                                                |
+| ocamlformat          | .ml, .mli                                                                                              | Comando `ocamlformat` disponÃ­vel e arquivo de configuraÃ§Ã£o `.ocamlformat`                                |
+| terraform            | .tf, .tfvars                                                                                           | Comando `terraform` disponÃ­vel                                                                           |
+| gleam                | .gleam                                                                                                 | Comando `gleam` disponÃ­vel                                                                               |
+| nixfmt               | .nix                                                                                                   | Comando `nixfmt` disponÃ­vel                                                                              |
+| shfmt                | .sh, .bash                                                                                             | Comando `shfmt` disponÃ­vel                                                                               |
+| pint                 | .php                                                                                                   | DependÃªncia `laravel/pint` em `composer.json`                                                            |
+| oxfmt (Experimental) | .js, .jsx, .ts, .tsx                                                                                   | DependÃªncia `oxfmt` em `package.json` e uma [variÃ¡vel de ambiente experimental](/docs/cli/#experimental) |
+| ormolu               | .hs                                                                                                    | Comando `ormolu` disponÃ­vel                                                                              |
+
+Portanto, se seu projeto tiver `prettier` em seu `package.json`, o voracode o usarÃ¡ automaticamente.
+
+---
+
+## Como funciona
+
+Quando o voracode escreve ou edita um arquivo, ele:
+
+1. Verifica a extensÃ£o do arquivo em relaÃ§Ã£o a todos os formatadores habilitados.
+2. Executa o comando do formatador apropriado no arquivo.
+3. Aplica as alteraÃ§Ãµes de formataÃ§Ã£o automaticamente.
+
+Esse processo acontece em segundo plano, garantindo que seus estilos de cÃ³digo sejam mantidos sem etapas manuais.
+
+---
+
+## ConfiguraÃ§Ã£o
+
+VocÃª pode personalizar os formatadores atravÃ©s da seÃ§Ã£o `formatter` em sua configuraÃ§Ã£o do voracode.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {}
+}
+```
+
+Cada configuraÃ§Ã£o de formatador suporta o seguinte:
+
+| Propriedade   | Tipo     | DescriÃ§Ã£o                                                        |
+| ------------- | -------- | ---------------------------------------------------------------- |
+| `disabled`    | boolean  | Defina como `true` para desabilitar o formatador                 |
+| `command`     | string[] | O comando a ser executado para formataÃ§Ã£o                        |
+| `environment` | object   | VariÃ¡veis de ambiente a serem definidas ao executar o formatador |
+| `extensions`  | string[] | ExtensÃµes de arquivo que este formatador deve tratar             |
+
+Vamos ver alguns exemplos.
+
+---
+
+### Desabilitando formatadores
+
+Para desabilitar **todos** os formatadores globalmente, defina `formatter` como `false`:
+
+```json title="voracode.json" {3}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": false
+}
+```
+
+Para desabilitar um **formatador especÃ­fico**, defina `disabled` como `true`:
+
+```json title="voracode.json" {5}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {
+    "prettier": {
+      "disabled": true
+    }
+  }
+}
+```
+
+---
+
+### Formatadores personalizados
+
+VocÃª pode substituir os formatadores integrados ou adicionar novos especificando o comando, variÃ¡veis de ambiente e extensÃµes de arquivo:
+
+```json title="voracode.json" {4-14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {
+    "prettier": {
+      "command": ["npx", "prettier", "--write", "$FILE"],
+      "environment": {
+        "NODE_ENV": "development"
+      },
+      "extensions": [".js", ".ts", ".jsx", ".tsx"]
+    },
+    "custom-markdown-formatter": {
+      "command": ["deno", "fmt", "$FILE"],
+      "extensions": [".md"]
+    }
+  }
+}
+```
+
+O **placeholder `$FILE`** no comando serÃ¡ substituÃ­do pelo caminho do arquivo que estÃ¡ sendo formatado.

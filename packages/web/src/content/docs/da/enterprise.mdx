@@ -1,0 +1,170 @@
+---
+title: Enterprise
+description: Brug af Voracode sikkert i din organisation.
+---
+
+import config from "../../../../config.mjs"
+export const email = `mailto:${config.email}`
+
+Voracode Enterprise er for organisationer, der Ã¸nsker at sikre, at deres kode og data aldrig forlader deres infrastruktur. Det kan gÃ¸re dette ved at bruge en centraliseret konfiguration, der integreres med din SSO og interne AI-gateway.
+
+:::note
+Voracode gemmer ingen af â€‹â€‹din kode eller kontekstdata.
+:::
+
+SÃ¥dan kommer du i gang med Voracode Enterprise:
+
+1. Lav en prÃ¸vetur internt med dit team.
+2. **<a href={email}>Kontakt os</a>** for at diskutere priser og implementeringsmuligheder.
+
+---
+
+## PrÃ¸veperiode
+
+Voracode er open source og gemmer ingen af â€‹â€‹din kode eller kontekstdata, sÃ¥ dine udviklere kan simpelthen [get started](/docs/) og udfÃ¸re en prÃ¸veversion.
+
+---
+
+### DatahÃ¥ndtering
+
+**Voracode gemmer ikke din kode eller kontekstdata.** Al behandling sker lokalt eller gennem direkte API-opkald til din AI-udbyder.
+
+Det betyder, at sÃ¥ lÃ¦nge du bruger en udbyder, du stoler pÃ¥, eller en intern
+AI-gateway, du kan bruge Voracode sikkert.
+
+Den eneste advarsel her er den valgfrie `/share`-funktion.
+
+---
+
+#### Deling af samtaler
+
+Hvis en bruger aktiverer funktionen `/share`, sender samtalen og de data, der er knyttet til den, til den tjeneste, vi bruger til at hoste disse delesider pÃ¥ voracode.ai.
+
+Dataene serveres i Ã¸jeblikket gennem vores CDN's edge-netvÃ¦rk og cachelagres pÃ¥ kanten nÃ¦r dine brugere.
+
+Vi anbefaler, at du deaktiverer dette for din prÃ¸veperiode.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "disabled"
+}
+```
+
+[Learn more about sharing](/docs/share).
+
+---
+
+### Kodeejerskab
+
+**Du ejer al kode produceret af Voracode.** Der er ingen licensbegrÃ¦nsninger eller ejerskabskrav.
+
+---
+
+## Priser
+
+Vi bruger en per-sÃ¦de-model til Voracode Enterprise. Hvis du har din egen LLM-gateway, krÃ¦ver vi ikke betaling for brugte tokens. For yderligere oplysninger om priser og implementeringsmuligheder, **<a href={email}>kontakt os</a>**.
+
+---
+
+## Implementering
+
+NÃ¥r du har afsluttet din prÃ¸veperiode, og du er klar til at bruge Voracode kl
+din organisation, kan du **<a href={email}>kontakte os</a>** for at diskutere
+prissÃ¦tning og implementeringsmuligheder.
+
+---
+
+### Central konfiguration
+
+Vi kan konfigurere Voracode til at bruge en enkelt central konfiguration for hele din organisation.
+
+Denne centraliserede konfiguration kan integreres med din SSO-udbyder og sikrer, at alle brugere kan fÃ¥ adgang til din interne AI-gateway.
+
+---
+
+### SSO-integration
+
+Gennem den centrale konfiguration kan Voracode integreres med din organisationer SSO-udbyder til godkendelse.
+
+Denne giver Voracode mulighed for at fÃ¥ legitimationsoplysninger til din interne AI-gateway gennem dette eksisterende identitetsadministrationssystem.
+
+---
+
+### Intern AI-gateway
+
+Med den centrale konfiguration kan Voracode ogsÃ¥ konfigureres til kun at bruge din interne AI-gateway.
+
+Du kan ogsÃ¥ deaktivere alle andre AI-udbydere og sikre, at alle anmodninger gÃ¥r gennem din organisations godkendte infrastruktur.
+
+---
+
+### Selv-hosting
+
+Selvom vi anbefaler at deaktivere delesiderne for at sikre, at dine data aldrig forsvinder
+din organisation, kan vi ogsÃ¥ hjÃ¦lpe dig med at selv hoste dem pÃ¥ din infrastruktur.
+
+Dette er i Ã¸jeblikket pÃ¥ vores kÃ¸replan. Hvis du er interesseret, **<a href={email}>giv os besked</a>**.
+
+---
+
+## FAQ
+
+<details>
+<summary>Hvad er Voracode Enterprise?</summary>
+
+Voracode Enterprise er for organisationer, der Ã¸nsker at sikre, at deres kode og data aldrig forlader deres infrastruktur. Det kan gÃ¸re dette ved at bruge en centraliseret konfiguration, der integreres med din SSO og interne AI-gateway.
+
+</details>
+
+<details>
+<summary>Hvordan kommer jeg i gang med Voracode Enterprise?</summary>
+
+Du skal blot starte med en intern prÃ¸veperiode med dit team. Voracode gemmer som standard ikke din kode eller kontekstdata, hvilket gÃ¸r det nemt at komme i gang.
+
+SÃ¥ **<a href={email}>kontakt os</a>** for at diskutere priser og implementeringsmuligheder.
+
+</details>
+
+<details>
+<summary>Hvordan fungerer virksomhedspriser?</summary>
+
+Vi tilbyder virksomhedspriser pr. sÃ¦de. Hvis du har din egen LLM-gateway, krÃ¦ver vi ikke betaling for brugte tokens. For yderligere detaljer, **<a href={email}>kontakt os</a>** for et brugerdefineret tilbud baseret pÃ¥ din organisations behov.
+
+</details>
+
+<details>
+<summary>Er mine data sikret med Voracode Enterprise?</summary>
+
+Ja. Voracode gemmer ikke din kode eller kontekstdata. Al behandling sker lokalt eller gennem direkte API-opkald til din AI-udbyder. Med central konfiguration og SSO-integration forbliver dine data sikre i din organisationers infrastruktur.
+
+</details>
+
+<details>
+<summary>Kan vi bruge vores eget private NPM-register?</summary>
+
+Voracode understÃ¸tter private npm registre gennem Buns oprindelige `.npmrc` filunderstÃ¸ttelse. Hvis din organisation bruger et privat register, sÃ¥som JFrog Artifactory, Nexus eller lignende, skal du sikre dig, at udviklerne er godkendt, fÃ¸r de kÃ¸rer Voracode.
+
+SÃ¥dan konfigurerer du godkendelse med dit private register:
+
+```bash
+npm login --registry=https://your-company.jfrog.io/api/npm/npm-virtual/
+```
+
+Dette opretter `~/.npmrc` med godkendelsesdetaljer. Voracode vil automatisk
+samle dette op.
+
+:::caution
+Du skal vÃ¦re logget ind i det private register, fÃ¸r du kÃ¸rer Voracode.
+:::
+
+Alternativt kan du manuelt konfigurere en `.npmrc` fil:
+
+```bash title="~/.npmrc"
+registry=https://your-company.jfrog.io/api/npm/npm-virtual/
+//your-company.jfrog.io/api/npm/npm-virtual/:_authToken=${NPM_AUTH_TOKEN}
+```
+
+Udviklere skal vÃ¦re logget ind pÃ¥ det private register, fÃ¸r de kÃ¸rer Voracode for at sikre, at pakker kan installeres fra din virksomhedsregistrering.
+
+</details>

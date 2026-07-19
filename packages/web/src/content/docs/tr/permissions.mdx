@@ -1,0 +1,235 @@
+---
+title: Ä°zinler
+description: Hangi iÅŸlemlerin Ã§alÄ±ÅŸtÄ±rÄ±lmasÄ± iÃ§in onay sÃ¼recini kontrol edin.
+---
+
+voracode, belirli bir eylemin otomatik olarak mÄ± Ã§alÄ±ÅŸtÄ±rÄ±lacaÄŸÄ±na, size sorulacaÄŸÄ±na veya engelleneceÄŸine karar vermek iÃ§in `permission` yapÄ±landÄ±rmasÄ±nÄ± kullanÄ±r.
+
+`v1.1.1` itibarÄ±yla eski `tools` boolean yapÄ±landÄ±rmasÄ± kullanÄ±mdan kaldÄ±rÄ±ldÄ± ve `permission` ile birleÅŸtirildi. Eski `tools` yapÄ±landÄ±rmasÄ± geriye dÃ¶nÃ¼k uyumluluk aÃ§Ä±sÄ±ndan hÃ¢lÃ¢ desteklenmektedir.
+
+---
+
+## Eylemler
+
+Her izin kuralÄ± ÅŸunlardan birine Ã§Ã¶zÃ¼mlenir:
+
+- `"allow"` â€” onay olmadan Ã§alÄ±ÅŸtÄ±r
+- `"ask"` â€” onay istemi
+- `"deny"` â€” eylemi engelle
+
+---
+
+## YapÄ±landÄ±rma
+
+Ä°zinleri genel olarak (`*` ile) ayarlayabilir ve belirli araÃ§larÄ± geÃ§ersiz kÄ±labilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "*": "ask",
+    "bash": "allow",
+    "edit": "deny"
+  }
+}
+```
+
+AyrÄ±ca tÃ¼m izinleri aynÄ± anda ayarlayabilirsiniz:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": "allow"
+}
+```
+
+---
+
+## AyrÄ±ntÄ±lÄ± Kurallar (Nesne SÃ¶zdizimi)
+
+Ã‡oÄŸu izin iÃ§in, araÃ§ giriÅŸine baÄŸlÄ± olarak farklÄ± eylemleri uygulamak iÃ§in bir nesneyi kullanabilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "git *": "allow",
+      "npm *": "allow",
+      "rm *": "deny",
+      "grep *": "allow"
+    },
+    "edit": {
+      "*": "deny",
+      "packages/web/src/content/docs/*.mdx": "allow"
+    }
+  }
+}
+```
+
+Kurallar, **son eÅŸleÅŸen kuralÄ±n kazanmasÄ±** ile kalÄ±p eÅŸleÅŸmesine gÃ¶re deÄŸerlendirilir. YaygÄ±n bir model, tÃ¼mÃ¼nÃ¼ yakala `"*"` kuralÄ±nÄ± ilk sÄ±raya koymak ve daha spesifik kurallarÄ± ondan sonra koymaktÄ±r.
+
+### Joker Karakterler
+
+Ä°zin kalÄ±plarÄ± basit joker karakter eÅŸleÅŸtirmesini kullanÄ±r:
+
+- `*` herhangi bir karakterin sÄ±fÄ±r veya daha fazlasÄ±yla eÅŸleÅŸir
+- `?` tam olarak bir karakterle eÅŸleÅŸir
+- DiÄŸer tÃ¼m karakterler birebir eÅŸleÅŸir
+
+### Ana Dizin GeniÅŸletme
+
+Ana dizininize referans vermek iÃ§in bir modelin baÅŸlangÄ±cÄ±nda `~` veya `$HOME` kullanabilirsiniz. Bu Ã¶zellikle [`external_directory`](#external-directories) kurallarÄ± iÃ§in kullanÄ±ÅŸlÄ±dÄ±r.
+
+- `~/projects/*` -> `/Users/username/projects/*`
+- `$HOME/projects/*` -> `/Users/username/projects/*`
+- `~` -> `/Users/username`
+
+### Harici Dizinler
+
+voracode'un baÅŸlatÄ±ldÄ±ÄŸÄ± Ã§alÄ±ÅŸma dizini dÄ±ÅŸÄ±ndaki yollara dokunan araÃ§ Ã§aÄŸrÄ±larÄ±na izin vermek iÃ§in `external_directory` kullanÄ±n. Bu, girdi olarak bir yolu alan tÃ¼m araÃ§lar iÃ§in geÃ§erlidir (Ã¶rneÄŸin `read`, `edit`, `glob`, `grep` ve birÃ§ok `bash` komutu).
+
+Ana sayfa geniÅŸletmesi (`~/...` gibi) yalnÄ±zca bir kalÄ±bÄ±n nasÄ±l yazÄ±ldÄ±ÄŸÄ±nÄ± etkiler. GeÃ§erli Ã§alÄ±ÅŸma alanÄ±nÄ±n harici bir yolunu oluÅŸturmaz, dolayÄ±sÄ±yla Ã§alÄ±ÅŸma dizini dÄ±ÅŸÄ±ndaki yollara yine de `external_directory` aracÄ±lÄ±ÄŸÄ±yla izin verilmesi gerekir.
+
+Ã–rneÄŸin bu, `~/projects/personal/` altÄ±ndaki her ÅŸeye eriÅŸime izin verir:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "external_directory": {
+      "~/projects/personal/**": "allow"
+    }
+  }
+}
+```
+
+Burada izin verilen herhangi bir dizin, geÃ§erli Ã§alÄ±ÅŸma alanÄ±yla aynÄ± varsayÄ±lanlarÄ± devralÄ±r. [`read` defaults to `allow`](#defaults)'dan bu yana, geÃ§ersiz kÄ±lÄ±nmadÄ±ÄŸÄ± sÃ¼rece `external_directory` altÄ±ndaki giriÅŸler iÃ§in okumalara da izin verilir. Bir aracÄ±n bu yollarda kÄ±sÄ±tlanmasÄ± gerektiÄŸinde (okumalarÄ± tutarken dÃ¼zenlemeleri engellemek gibi) aÃ§Ä±k kurallar ekleyin:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "external_directory": {
+      "~/projects/personal/**": "allow"
+    },
+    "edit": {
+      "~/projects/personal/**": "deny"
+    }
+  }
+}
+```
+
+Listeyi gÃ¼venilir yollara odaklÄ± tutun ve diÄŸer araÃ§lar iÃ§in gereken ekstra izin verme veya reddetme kurallarÄ±nÄ± katmanlayÄ±n (Ã¶rneÄŸin `bash`).
+
+---
+
+## Mevcut Ä°zinler
+
+voracode izinleri araÃ§ adÄ±na ve birkaÃ§ gÃ¼venlik Ã¶nlemine gÃ¶re anahtarlanÄ±r:
+
+- `read` â€” bir dosyayÄ± okumak (dosya yoluyla eÅŸleÅŸir)
+- `edit` â€” tÃ¼m dosya deÄŸiÅŸiklikleri (`edit`, `write`, `patch`'i kapsar)
+- `glob` â€” dosya genellemesi (glob dÃ¼zeniyle eÅŸleÅŸir)
+- `grep` â€” iÃ§erik arama (regex modeliyle eÅŸleÅŸir)
+- `bash` â€” kabuk komutlarÄ±nÄ± Ã§alÄ±ÅŸtÄ±rma (`git status --porcelain` gibi ayrÄ±ÅŸtÄ±rÄ±lmÄ±ÅŸ komutlarla eÅŸleÅŸir)
+- `task` â€” alt agent'larÄ±n baÅŸlatÄ±lmasÄ± (alt agent tÃ¼rÃ¼yle eÅŸleÅŸir)
+- `skill` â€” bir skill yÃ¼kleniyor (skill adÄ±yla eÅŸleÅŸir)
+- `lsp` â€” LSP sorgularÄ±nÄ± Ã§alÄ±ÅŸtÄ±rÄ±yor (ÅŸu anda ayrÄ±ntÄ±lÄ± deÄŸil)
+- `webfetch` â€” URL getiriliyor (URL ile eÅŸleÅŸiyor)
+- `websearch` â€” web arama (sorguyla eÅŸleÅŸir)
+- `external_directory` â€” bir araÃ§ proje Ã§alÄ±ÅŸma dizini dÄ±ÅŸÄ±ndaki yollara dokunduÄŸunda tetiklenir
+- `doom_loop` â€” aynÄ± araÃ§ Ã§aÄŸrÄ±sÄ± aynÄ± girdiyle 3 kez tekrarlandÄ±ÄŸÄ±nda tetiklenir
+
+---
+
+## VarsayÄ±lanlar
+
+HiÃ§bir ÅŸey belirtmezseniz voracode izin verilen varsayÄ±lanlardan baÅŸlar:
+
+- Ã‡oÄŸu izin varsayÄ±lan olarak `"allow"` ÅŸeklindedir.
+- `doom_loop` ve `external_directory` varsayÄ±lan olarak `"ask"`'dir.
+- `read`, `"allow"`'dÄ±r, ancak `.env` dosyalarÄ± varsayÄ±lan olarak reddedilir:
+
+```json title="voracode.json"
+{
+  "permission": {
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow"
+    }
+  }
+}
+```
+
+---
+
+## â€œSorâ€ Ne Yapar?
+
+voracode onay istediÄŸinde kullanÄ±cÄ± arayÃ¼zÃ¼ Ã¼Ã§ sonuÃ§ sunar:
+
+- `once` â€” yalnÄ±zca bu isteÄŸi onayla
+- `always` â€” Ã¶nerilen kalÄ±plarla eÅŸleÅŸen gelecekteki istekleri onaylayÄ±n (geÃ§erli voracode oturumunun geri kalanÄ± iÃ§in)
+- `reject` â€” isteÄŸi reddet
+
+`always`'Ä±n onaylayacaÄŸÄ± kalÄ±p seti araÃ§ tarafÄ±ndan saÄŸlanÄ±r (Ã¶rneÄŸin, bash onaylarÄ± genellikle `git status*` gibi gÃ¼venli bir komut Ã¶nekini beyaz listeye alÄ±r).
+
+---
+
+## Agent'lar
+
+Agent bazÄ±nda izinleri geÃ§ersiz kÄ±labilirsiniz. Agent izinleri global yapÄ±landÄ±rmayla birleÅŸtirilir ve agent kurallarÄ± Ã¶nceliklidir. [Daha fazla bilgi](/docs/agents#permissions).
+
+:::note
+Daha ayrÄ±ntÄ±lÄ± desen eÅŸleÅŸtirme Ã¶rnekleri iÃ§in yukarÄ±daki [AyrÄ±ntÄ±lÄ± kurallar (nesne sÃ¶z dizimi)](#granular-rules-object-syntax) bÃ¶lÃ¼mÃ¼ne bakÄ±n.
+:::
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "git *": "allow",
+      "git commit *": "deny",
+      "git push *": "deny",
+      "grep *": "allow"
+    }
+  },
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "git *": "allow",
+          "git commit *": "ask",
+          "git push *": "deny",
+          "grep *": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+Agent izinlerini Markdown'da da yapÄ±landÄ±rabilirsiniz:
+
+```markdown title="~/.config/voracode/agents/review.md"
+---
+description: Code review without edits
+mode: subagent
+permission:
+  edit: deny
+  bash: ask
+  webfetch: deny
+---
+
+Only analyze code and suggest changes.
+```
+
+:::tip
+BaÄŸÄ±msÄ±z deÄŸiÅŸken iÃ§eren komutlar iÃ§in kalÄ±p eÅŸleÅŸtirmeyi kullanÄ±n. `"grep *"`, `grep pattern file.txt`'ye izin verir, ancak `"grep"` tek baÅŸÄ±na onu engeller. `git status` gibi komutlar varsayÄ±lan davranÄ±ÅŸ iÃ§in Ã§alÄ±ÅŸÄ±r ancak argÃ¼manlar aktarÄ±ldÄ±ÄŸÄ±nda aÃ§Ä±k izin (`"git status *"` gibi) gerektirir.
+:::

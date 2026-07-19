@@ -1,0 +1,48 @@
+---
+title: IDE
+description: Voracode-utvidelsen for VS Code, Cursor og andre IDE-er
+---
+
+Voracode integreres med VS Code, Cursor eller en hvilken som helst IDE som stÃ¸tter en terminal. Bare kjÃ¸r `voracode` i terminalen for Ã¥ komme i gang.
+
+---
+
+## Bruk
+
+- **Hurtigstart**: Bruk `Cmd+Esc` (Mac) eller `Ctrl+Esc` (Windows/Linux) for Ã¥ Ã¥pne Voracode i en delt terminalvisning, eller fokuser en eksisterende terminalÃ¸kt hvis en allerede kjÃ¸rer.
+- **Ny Ã¸kt**: Bruk `Cmd+Shift+Esc` (Mac) eller `Ctrl+Shift+Esc` (Windows/Linux) for Ã¥ starte en ny Voracode-terminalÃ¸kt, selv om en allerede er Ã¥pen. Du kan ogsÃ¥ klikke pÃ¥ Voracode-knappen i UI.
+- **Kontekstbevissthet**: Del automatisk ditt nÃ¥vÃ¦rende valg eller fane med Voracode.
+- **Snarveier for filreferanser**: Bruk `Cmd+Option+K` (Mac) eller `Alt+Ctrl+K` (Linux/Windows) for Ã¥ sette inn filreferanser. For eksempel `@File#L37-42`.
+
+---
+
+## Installasjon
+
+For Ã¥ installere Voracode pÃ¥ VS Code og populÃ¦re varianter som Cursor, Windsurf, VSCodium:
+
+1. Ã…pne VS Code
+2. Ã…pne den integrerte terminalen
+3. KjÃ¸r `voracode` - utvidelsen installeres automatisk
+
+Hvis du derimot vil bruke din egen IDE nÃ¥r du kjÃ¸rer `/editor` eller `/export` fra TUI, mÃ¥ du angi `export EDITOR="code --wait"`. [Finn ut mer](/docs/tui/#editor-setup).
+
+---
+
+### Manuell installasjon
+
+SÃ¸k etter **Voracode** i Extension Marketplace og klikk pÃ¥ **Install**.
+
+---
+
+### FeilsÃ¸king
+
+Hvis utvidelsen ikke kan installeres automatisk:
+
+- SÃ¸rg for at du kjÃ¸rer `voracode` i den integrerte terminalen.
+- Bekreft at CLI for IDE er installert:
+  - For VS Code: `code` kommando
+  - For Cursor: `cursor` kommando
+  - For Windsurf: `windsurf` kommando
+  - For VSCodium: `codium` kommando
+  - Hvis ikke, kjÃ¸r `Cmd+Shift+P` (Mac) eller `Ctrl+Shift+P` (Windows/Linux) og sÃ¸k etter "Shell Command: Install 'code' command in PATH" (eller tilsvarende for din IDE)
+- SÃ¸rg for at VS Code har tillatelse til Ã¥ installere utvidelser

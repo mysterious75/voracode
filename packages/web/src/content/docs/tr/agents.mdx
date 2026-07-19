@@ -1,0 +1,754 @@
+﻿---
+title: Agent'lar
+description: Ã–zel agent'larÄ± yapÄ±landÄ±rÄ±n ve kullanÄ±n.
+---
+
+Agent'lar, belirli gÃ¶revler ve iÅŸ akÄ±ÅŸlarÄ± iÃ§in yapÄ±landÄ±rÄ±labilen uzmanlaÅŸmÄ±ÅŸ AI asistanlarÄ±dÄ±r. Ã–zel istemler, modeller ve araÃ§ eriÅŸimiyle odaklanmÄ±ÅŸ araÃ§lar oluÅŸturmanÄ±za olanak tanÄ±r.
+
+:::tip
+Herhangi bir kod deÄŸiÅŸikliÄŸi yapmadan kodu analiz etmek ve Ã¶nerileri gÃ¶zden geÃ§irmek iÃ§in Plan agent'Ä±nÄ± kullanÄ±n.
+:::
+
+Bir oturum sÄ±rasÄ±nda agent'lar arasÄ±nda geÃ§iÅŸ yapabilir veya onlarÄ± `@` ifadesi ile Ã§aÄŸÄ±rabilirsiniz.
+
+---
+
+## TÃ¼rler
+
+voracode'da iki tÃ¼r agent vardÄ±r; birincil agent'lar ve alt agent'lar.
+
+---
+
+### Birincil agent'lar
+
+Birincil agent'lar, doÄŸrudan etkileÅŸim kurduÄŸunuz ana yardÄ±mcÄ±lardÄ±r. **Sekme** tuÅŸunu veya yapÄ±landÄ±rÄ±lmÄ±ÅŸ `switch_agent` tuÅŸ atamanÄ±zÄ± kullanarak bunlar arasÄ±nda geÃ§iÅŸ yapabilirsiniz. Bu agent'lar ana gÃ¶rÃ¼ÅŸmenizi yÃ¶netir. AraÃ§ eriÅŸimi, izinler aracÄ±lÄ±ÄŸÄ±yla yapÄ±landÄ±rÄ±lÄ±r; Ã¶rneÄŸin, Build'de tÃ¼m araÃ§lar etkindir ancak Plan kÄ±sÄ±tlÄ±dÄ±r.
+
+:::tip
+Bir oturum sÄ±rasÄ±nda birincil agent'lar arasÄ±nda geÃ§iÅŸ yapmak iÃ§in **Sekme** tuÅŸunu kullanabilirsiniz.
+:::
+
+voracode, **Build** ve **Plan** olmak Ã¼zere iki yerleÅŸik birincil agent ile birlikte gelir. Bunlara aÅŸaÄŸÄ±da bakacaÄŸÄ±z.
+
+---
+
+### Alt agent'lar
+
+Alt agent'lar, birincil agent'larÄ±n belirli gÃ¶revler iÃ§in Ã§aÄŸÄ±rabileceÄŸi uzman yardÄ±mcÄ±lardÄ±r. AyrÄ±ca mesajlarÄ±nÄ±zda **@ bahsederek** bunlarÄ± manuel olarak da Ã§aÄŸÄ±rabilirsiniz.
+
+Voracode, **General**, **Explore** ve **Scout** olmak Ã¼zere Ã¼Ã§ yerleÅŸik alt agent ile birlikte gelir. Buna aÅŸaÄŸÄ±da bakacaÄŸÄ±z.
+
+---
+
+## YerleÅŸik
+
+Voracode iki yerleÅŸik birincil agent ve Ã¼Ã§ yerleÅŸik alt agent ile birlikte gelir.
+
+---
+
+### Build KullanÄ±mÄ±
+
+_Mod_: `primary`
+
+Build, tÃ¼m araÃ§larÄ±n etkin olduÄŸu **varsayÄ±lan** birincil agent'tÄ±r. Bu, dosya iÅŸlemlerine ve sistem komutlarÄ±na tam eriÅŸime ihtiyaÃ§ duyduÄŸunuz geliÅŸtirme Ã§alÄ±ÅŸmalarÄ± iÃ§in standart agent'tÄ±r.
+
+---
+
+### Plan KullanÄ±mÄ±
+
+_Mod_: `primary`
+
+Planlama ve analiz iÃ§in tasarlanmÄ±ÅŸ kÄ±sÄ±tlÄ± bir agent. Size daha fazla kontrol saÄŸlamak ve istenmeyen deÄŸiÅŸiklikleri Ã¶nlemek iÃ§in bir izin sistemi kullanÄ±yoruz.
+VarsayÄ±lan olarak aÅŸaÄŸÄ±dakilerin tÃ¼mÃ¼ `ask` olarak ayarlanmÄ±ÅŸtÄ±r:
+
+- `file edits`: TÃ¼m yazmalar, yamalar ve dÃ¼zenler
+- `bash`: TÃ¼m bash komutlarÄ±
+
+Bu agent, LLM'in kodu analiz etmesini, deÄŸiÅŸiklik Ã¶nermesini veya kod tabanÄ±nÄ±zda herhangi bir gerÃ§ek deÄŸiÅŸiklik yapmadan plan oluÅŸturmasÄ±nÄ± istediÄŸinizde kullanÄ±ÅŸlÄ±dÄ±r.
+
+---
+
+### General KullanÄ±mÄ±
+
+_Mod_: `subagent`
+
+KarmaÅŸÄ±k sorularÄ± araÅŸtÄ±rmak ve Ã§ok adÄ±mlÄ± gÃ¶revleri yÃ¼rÃ¼tmek iÃ§in genel amaÃ§lÄ± bir agent. Tam araÃ§ eriÅŸimine sahiptir (yapÄ±lacaklar hariÃ§), bÃ¶ylece gerektiÄŸinde dosya deÄŸiÅŸiklikleri yapabilir. Birden fazla iÅŸ birimini paralel olarak Ã§alÄ±ÅŸtÄ±rmak iÃ§in bunu kullanÄ±n.
+
+---
+
+### Explore KullanÄ±mÄ±
+
+_Mod_: `subagent`
+
+Kod tabanlarÄ±nÄ± keÅŸfetmeye yÃ¶nelik hÄ±zlÄ±, salt okunur bir agent. Dosyalar deÄŸiÅŸtirilemiyor. DosyalarÄ± kalÄ±plara gÃ¶re hÄ±zla bulmanÄ±z, anahtar sÃ¶zcÃ¼kler iÃ§in kod aramanÄ±z veya kod tabanÄ±yla ilgili sorularÄ± yanÄ±tlamanÄ±z gerektiÄŸinde bunu kullanÄ±n.
+
+---
+
+### Scout KullanÄ±mÄ±
+
+_Mod_: `subagent`
+
+Harici dokÃ¼manlar ve baÄŸÄ±mlÄ±lÄ±k araÅŸtÄ±rmalarÄ± iÃ§in salt okunur bir agent. Bir baÄŸÄ±mlÄ±lÄ±k repository'sini Voracode'un yÃ¶netilen cache'ine clone etmeniz, kÃ¼tÃ¼phane kaynak kodunu incelemeniz veya workspace'inizi deÄŸiÅŸtirmeden yerel kodu upstream implementasyonlarla karÅŸÄ±laÅŸtÄ±rmanÄ±z gerektiÄŸinde bunu kullanÄ±n.
+
+---
+
+### Compaction KullanÄ±mÄ±
+
+_Mod_: `primary`
+
+Uzun baÄŸlamÄ± daha kÃ¼Ã§Ã¼k bir Ã¶zete sÄ±kÄ±ÅŸtÄ±ran gizli sistem agent'Ä±. GerektiÄŸinde otomatik olarak Ã§alÄ±ÅŸÄ±r ve kullanÄ±cÄ± arayÃ¼zÃ¼nde seÃ§ilemez.
+
+---
+
+### Title KullanÄ±mÄ±
+
+_Mod_: `primary`
+
+KÄ±sa oturum baÅŸlÄ±klarÄ± oluÅŸturan gizli sistem agent'Ä±. Otomatik olarak Ã§alÄ±ÅŸÄ±r ve kullanÄ±cÄ± arayÃ¼zÃ¼nde seÃ§ilemez.
+
+---
+
+### Summary KullanÄ±mÄ±
+
+_Mod_: `primary`
+
+Oturum Ã¶zetleri oluÅŸturan gizli sistem agent'Ä±. Otomatik olarak Ã§alÄ±ÅŸÄ±r ve kullanÄ±cÄ± arayÃ¼zÃ¼nde seÃ§ilemez.
+
+---
+
+## KullanÄ±m
+
+1. Birincil agent'lar iÃ§in, oturum sÄ±rasÄ±nda bunlar arasÄ±nda geÃ§iÅŸ yapmak iÃ§in **Sekme** tuÅŸunu kullanÄ±n. YapÄ±landÄ±rÄ±lmÄ±ÅŸ `switch_agent` tuÅŸ baÄŸÄ±nÄ±zÄ± da kullanabilirsiniz.
+
+2. Alt agent'lar Ã§aÄŸrÄ±labilir:
+   - AÃ§Ä±klamalarÄ±na gÃ¶re Ã¶zel gÃ¶revler iÃ§in birincil agent'lar tarafÄ±ndan **otomatik olarak**.
+   - MesajÄ±nÄ±zda bir alt agent'tan **@ bahsederek** manuel olarak. Ã–rneÄŸin.
+
+     ```txt frame="none"
+     @general help me search for this function
+     ```
+
+3. **Oturumlar arasÄ±nda gezinme**: Alt agent'lar kendi alt oturumlarÄ±nÄ± oluÅŸturduÄŸunda, aÅŸaÄŸÄ±dakileri kullanarak ana oturum ile tÃ¼m alt oturumlar arasÄ±nda gezinebilirsiniz:
+   - **\<Leader>+Right** (veya yapÄ±landÄ±rÄ±lmÄ±ÅŸ `session_child_cycle` tuÅŸ atamanÄ±z) ebeveyn â†’ Ã§ocuk1 â†’ Ã§ocuk2 â†’ ... â†’ ebeveyn arasÄ±nda ileri doÄŸru geÃ§iÅŸ yapmak iÃ§in
+   - **\<Leader>+Left** (veya yapÄ±landÄ±rÄ±lmÄ±ÅŸ `session_child_cycle_reverse` tuÅŸ atamanÄ±z) ebeveyn â† Ã§ocuk1 â† Ã§ocuk2 â† ... â† ebeveyn arasÄ±nda geriye doÄŸru geÃ§iÅŸ yapmak iÃ§in
+
+   Bu, ana gÃ¶rÃ¼ÅŸme ile Ã¶zel alt agent Ã§alÄ±ÅŸmasÄ± arasÄ±nda sorunsuz bir ÅŸekilde geÃ§iÅŸ yapmanÄ±za olanak tanÄ±r.
+
+---
+
+## YapÄ±landÄ±rma
+
+YerleÅŸik agent'larÄ± Ã¶zelleÅŸtirebilir veya yapÄ±landÄ±rma yoluyla kendinizinkini oluÅŸturabilirsiniz. Agent'lar iki ÅŸekilde yapÄ±landÄ±rÄ±labilir:
+
+---
+
+### JSON
+
+Agent'larÄ± `voracode.json` yapÄ±landÄ±rma dosyanÄ±zda yapÄ±landÄ±rÄ±n:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "mode": "primary",
+      "model": "anthropic/claude-sonnet-4-20250514",
+      "prompt": "{file:./prompts/build.txt}",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true
+      }
+    },
+    "plan": {
+      "mode": "primary",
+      "model": "anthropic/claude-haiku-4-20250514",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
+    },
+    "code-reviewer": {
+      "description": "Reviews code for best practices and potential issues",
+      "mode": "subagent",
+      "model": "anthropic/claude-sonnet-4-20250514",
+      "prompt": "You are a code reviewer. Focus on security, performance, and maintainability.",
+      "tools": {
+        "write": false,
+        "edit": false
+      }
+    }
+  }
+}
+```
+
+---
+
+### Markdown
+
+AyrÄ±ca agent'larÄ± Markdown dosyalarÄ±nÄ± kullanarak da tanÄ±mlayabilirsiniz. BunlarÄ± ÅŸuraya yerleÅŸtirin:
+
+- Global: `~/.config/voracode/agents/`
+- Proje baÅŸÄ±na: `.voracode/agents/`
+
+```markdown title="~/.config/voracode/agents/review.md"
+---
+description: Reviews code for quality and best practices
+mode: subagent
+model: anthropic/claude-sonnet-4-20250514
+temperature: 0.1
+tools:
+  write: false
+  edit: false
+  bash: false
+---
+
+You are in code review mode. Focus on:
+
+- Code quality and best practices
+- Potential bugs and edge cases
+- Performance implications
+- Security considerations
+
+Provide constructive feedback without making direct changes.
+```
+
+Markdown dosyasÄ±nÄ±n adÄ± agent'Ä±n adÄ± olur. Ã–rneÄŸin, `review.md` bir `review` agent'Ä± oluÅŸturur.
+
+---
+
+## SeÃ§enekler
+
+Bu yapÄ±landÄ±rma seÃ§eneklerine ayrÄ±ntÄ±lÄ± olarak bakalÄ±m.
+
+---
+
+### AÃ§Ä±klama
+
+Agent'Ä±n ne yaptÄ±ÄŸÄ±na ve ne zaman kullanÄ±lacaÄŸÄ±na iliÅŸkin kÄ±sa bir aÃ§Ä±klama saÄŸlamak iÃ§in `description` seÃ§eneÄŸini kullanÄ±n.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "description": "Reviews code for best practices and potential issues"
+    }
+  }
+}
+```
+
+Bu **gerekli** bir yapÄ±landÄ±rma seÃ§eneÄŸidir.
+
+---
+
+### SÄ±caklÄ±k
+
+LLM'in yanÄ±tlarÄ±nÄ±n rastgeleliÄŸini ve yaratÄ±cÄ±lÄ±ÄŸÄ±nÄ± `temperature` yapÄ±landÄ±rmasÄ±yla kontrol edin.
+
+DÃ¼ÅŸÃ¼k deÄŸerler yanÄ±tlarÄ± daha odaklÄ± ve belirleyici hale getirirken, yÃ¼ksek deÄŸerler yaratÄ±cÄ±lÄ±ÄŸÄ± ve deÄŸiÅŸkenliÄŸi artÄ±rÄ±r.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "plan": {
+      "temperature": 0.1
+    },
+    "creative": {
+      "temperature": 0.8
+    }
+  }
+}
+```
+
+SÄ±caklÄ±k deÄŸerleri tipik olarak 0,0 ila 1,0 arasÄ±ndadÄ±r:
+
+- **0,0-0,2**: Ã‡ok odaklÄ± ve belirleyici yanÄ±tlar, kod analizi ve planlama iÃ§in idealdir
+- **0,3-0,5**: Biraz yaratÄ±cÄ±lÄ±k iÃ§eren dengeli yanÄ±tlar, genel geliÅŸim gÃ¶revleri iÃ§in iyi
+- **0,6-1,0**: Daha yaratÄ±cÄ± ve Ã§eÅŸitli yanÄ±tlar, beyin fÄ±rtÄ±nasÄ± ve keÅŸif iÃ§in yararlÄ±
+
+```json title="voracode.json"
+{
+  "agent": {
+    "analyze": {
+      "temperature": 0.1,
+      "prompt": "{file:./prompts/analysis.txt}"
+    },
+    "build": {
+      "temperature": 0.3
+    },
+    "brainstorm": {
+      "temperature": 0.7,
+      "prompt": "{file:./prompts/creative.txt}"
+    }
+  }
+}
+```
+
+SÄ±caklÄ±k belirtilmezse voracode modeline Ã¶zgÃ¼ varsayÄ±lanlarÄ± kullanÄ±r; Ã§oÄŸu model iÃ§in genellikle 0, Qwen modelleri iÃ§in 0,55.
+
+---
+
+### Maksimum adÄ±m
+
+Bir agent'Ä±n yalnÄ±zca metinle yanÄ±t vermeye zorlanmadan Ã¶nce gerÃ§ekleÅŸtirebileceÄŸi maksimum agent yineleme sayÄ±sÄ±nÄ± kontrol edin. Bu, maliyetleri kontrol etmek isteyen kullanÄ±cÄ±larÄ±n agent eylemlerine bir sÄ±nÄ±r koymasÄ±na olanak tanÄ±r.
+
+Bu ayarlanmazsa, model durmayÄ± seÃ§ene veya kullanÄ±cÄ± oturumu kesene kadar agent yinelemeye devam edecektir.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "quick-thinker": {
+      "description": "Fast reasoning with limited iterations",
+      "prompt": "You are a quick thinker. Solve problems with minimal steps.",
+      "steps": 5
+    }
+  }
+}
+```
+
+SÄ±nÄ±ra ulaÅŸÄ±ldÄ±ÄŸÄ±nda, agent, iÅŸinin Ã¶zeti ve Ã¶nerilen kalan gÃ¶revlerin bir Ã¶zetiyle yanÄ±t vermesi talimatÄ±nÄ± veren Ã¶zel bir sistem prompt'u alÄ±r.
+
+:::caution
+Eski `maxSteps` alanÄ± kullanÄ±mdan kaldÄ±rÄ±ldÄ±. Bunun yerine `steps` kullanÄ±n.
+:::
+
+---
+
+### Devre dÄ±ÅŸÄ± bÄ±rakma
+
+Agent'Ä± devre dÄ±ÅŸÄ± bÄ±rakmak iÃ§in `true` olarak ayarlayÄ±n.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "disable": true
+    }
+  }
+}
+```
+
+---
+
+### Ä°stem
+
+Bu agent iÃ§in `prompt` yapÄ±landÄ±rmasÄ±yla Ã¶zel bir sistem prompt dosyasÄ± belirtin. Prompt dosyasÄ±, agent'Ä±n amacÄ±na Ã¶zel talimatlar iÃ§ermelidir.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "prompt": "{file:./prompts/code-review.txt}"
+    }
+  }
+}
+```
+
+Bu yol, yapÄ±landÄ±rma dosyasÄ±nÄ±n bulunduÄŸu yere gÃ¶redir. Yani bu hem global voracode yapÄ±landÄ±rmasÄ± hem de projeye Ã¶zel yapÄ±landÄ±rma iÃ§in iÅŸe yarar.
+
+---
+
+### Model
+
+Bu agent'Ä±n modelini geÃ§ersiz kÄ±lmak iÃ§in `model` ayarÄ±nÄ± kullanÄ±n. FarklÄ± bÃ¶lÃ¼mler iÃ§in optimize edilmiÅŸ farklÄ± modelleri kullanmak iÃ§in kullanÄ±ÅŸlÄ±dÄ±r. Ã–rneÄŸin planlama iÃ§in daha hÄ±zlÄ± bir model, uygulama iÃ§in daha yetenekli bir model.
+
+:::tip
+Bir model belirtmezseniz, birincil agent'lar [kÃ¼resel olarak yapÄ±landÄ±rÄ±lmÄ±ÅŸ modeli](/docs/config#models) kullanÄ±rken alt agent'lar, alt agent'Ä± Ã§aÄŸÄ±ran birincil agent'Ä±n modelini kullanÄ±r.
+:::
+
+```json title="voracode.json"
+{
+  "agent": {
+    "plan": {
+      "model": "anthropic/claude-haiku-4-20250514"
+    }
+  }
+}
+```
+
+voracode yapÄ±landÄ±rmanÄ±zdaki model kimliÄŸi `provider/model-id` biÃ§imini kullanÄ±r. Ã–rneÄŸin, [Voracode Zen](/docs/zen) kullanÄ±yorsanÄ±z, GPT 5.1 Codex iÃ§in `voracode/gpt-5.1-codex` kullanÄ±rsÄ±nÄ±z.
+
+---
+
+### AraÃ§lar
+
+`tools` yapÄ±landÄ±rmasÄ±yla bu agent'ta hangi araÃ§larÄ±n mevcut olduÄŸunu kontrol edin. Belirli araÃ§larÄ± `true` veya `false` olarak ayarlayarak etkinleÅŸtirebilir veya devre dÄ±ÅŸÄ± bÄ±rakabilirsiniz.
+
+```json title="voracode.json" {3-6,9-12}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "tools": {
+    "write": true,
+    "bash": true
+  },
+  "agent": {
+    "plan": {
+      "tools": {
+        "write": false,
+        "bash": false
+      }
+    }
+  }
+}
+```
+
+:::note
+Agent'a Ã¶zgÃ¼ yapÄ±landÄ±rma, genel yapÄ±landÄ±rmayÄ± geÃ§ersiz kÄ±lar.
+:::
+
+AynÄ± anda birden fazla aracÄ± kontrol etmek iÃ§in joker karakterleri de kullanabilirsiniz. Ã–rneÄŸin, bir MCP sunucusundaki tÃ¼m araÃ§larÄ± devre dÄ±ÅŸÄ± bÄ±rakmak iÃ§in:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "readonly": {
+      "tools": {
+        "mymcp_*": false,
+        "write": false,
+        "edit": false
+      }
+    }
+  }
+}
+```
+
+[AraÃ§lar hakkÄ±nda daha fazla bilgi](/docs/tools).
+
+---
+
+### Ä°zinler
+
+Bir agent'Ä±n gerÃ§ekleÅŸtirebileceÄŸi eylemleri yÃ¶netmek iÃ§in izinleri yapÄ±landÄ±rabilirsiniz. Åžu anda `edit`, `bash` ve `webfetch` araÃ§larÄ±nÄ±n izinleri ÅŸu ÅŸekilde yapÄ±landÄ±rÄ±labilir:
+
+- `"ask"` â€” Agent Ã§alÄ±ÅŸtÄ±rmadan Ã¶nce onay iste
+- `"allow"` â€” Onay olmadan tÃ¼m iÅŸlemlere izin ver
+- `"deny"` â€” Agent'Ä± devre dÄ±ÅŸÄ± bÄ±rakÄ±r
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "deny"
+  }
+}
+```
+
+Bu izinleri agent baÅŸÄ±na geÃ§ersiz kÄ±labilirsiniz.
+
+```json title="voracode.json" {3-5,8-10}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "deny"
+  },
+  "agent": {
+    "build": {
+      "permission": {
+        "edit": "ask"
+      }
+    }
+  }
+}
+```
+
+Ä°zinleri Markdown agent'larÄ±nda da ayarlayabilirsiniz.
+
+```markdown title="~/.config/voracode/agents/review.md"
+---
+description: Code review without edits
+mode: subagent
+permission:
+  edit: deny
+  bash:
+    "*": ask
+    "git diff": allow
+    "git log*": allow
+    "grep *": allow
+  webfetch: deny
+---
+
+Only analyze code and suggest changes.
+```
+
+Belirli bash komutlarÄ± iÃ§in izinleri ayarlayabilirsiniz.
+
+```json title="voracode.json" {7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "git push": "ask",
+          "grep *": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+Bu kÃ¼resel bir desen alabilir.
+
+```json title="voracode.json" {7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "git *": "ask"
+        }
+      }
+    }
+  }
+}
+```
+
+AyrÄ±ca tÃ¼m komutlarÄ±n izinlerini yÃ¶netmek iÃ§in `*` joker karakterini de kullanabilirsiniz.
+Son eÅŸleÅŸen kural Ã¶ncelikli olduÄŸundan, `*` joker karakterini ilk sÄ±raya ve belirli kurallarÄ± sonraya koyun.
+
+```json title="voracode.json" {8}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "git status *": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+[Ä°zinler hakkÄ±nda daha fazla bilgi](/docs/permissions).
+
+---
+
+### Mod
+
+Agent'Ä±n modunu `mode` yapÄ±landÄ±rmasÄ±yla kontrol edin. `mode` seÃ§eneÄŸi agent'Ä±n nasÄ±l kullanÄ±labileceÄŸini belirlemek iÃ§in kullanÄ±lÄ±r.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "mode": "subagent"
+    }
+  }
+}
+```
+
+`mode` seÃ§eneÄŸi `primary`, `subagent` veya `all` olarak ayarlanabilir. `mode` belirtilmezse varsayÄ±lan olarak `all` olur.
+
+---
+
+### Gizli
+
+`@` otomatik tamamlama menÃ¼sÃ¼nden bir alt agent'Ä± `hidden: true` ile gizleyin. YalnÄ±zca diÄŸer agent'lar tarafÄ±ndan Task aracÄ± aracÄ±lÄ±ÄŸÄ±yla programlÄ± olarak Ã§aÄŸrÄ±lmasÄ± gereken dahili alt agent'lar iÃ§in kullanÄ±ÅŸlÄ±dÄ±r.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "internal-helper": {
+      "mode": "subagent",
+      "hidden": true
+    }
+  }
+}
+```
+
+Bu yalnÄ±zca otomatik menÃ¼deki gÃ¶rÃ¼nÃ¼rlÃ¼ÄŸÃ¼ etkiler. Ä°zinler izin verirse, gizli agent'lar model tarafÄ±ndan Task aracÄ± aracÄ±lÄ±ÄŸÄ±yla Ã§aÄŸrÄ±lmaya devam edilebilir.
+
+:::note
+YalnÄ±zca `mode: subagent` agent'larÄ± iÃ§in geÃ§erlidir.
+:::
+
+---
+
+### GÃ¶rev izinleri
+
+`permission.task` ile bir agent'Ä±n Task aracÄ± aracÄ±lÄ±ÄŸÄ±yla hangi alt agent'larÄ± Ã§aÄŸÄ±rabileceÄŸini kontrol edin. Esnek eÅŸleÅŸtirme iÃ§in kÃ¼resel desenleri kullanÄ±r.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "orchestrator": {
+      "mode": "primary",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "orchestrator-*": "allow",
+          "code-reviewer": "ask"
+        }
+      }
+    }
+  }
+}
+```
+
+`deny` olarak ayarlandÄ±ÄŸÄ±nda, alt agent Task aracÄ± aÃ§Ä±klamasÄ±ndan tamamen kaldÄ±rÄ±lÄ±r, bÃ¶ylece model onu Ã§aÄŸÄ±rmaya Ã§alÄ±ÅŸmaz.
+
+:::tip
+Kurallar sÄ±rayla deÄŸerlendirilir ve **son eÅŸleÅŸen kural kazanÄ±r**. YukarÄ±daki Ã¶rnekte `orchestrator-planner`, hem `*` (reddet) hem de `orchestrator-*` (izin ver) ile eÅŸleÅŸir, ancak `orchestrator-*`, `*`'den sonra geldiÄŸinden sonuÃ§ `allow` olur.
+:::
+
+:::tip
+KullanÄ±cÄ±lar, agent'Ä±n gÃ¶rev izinleri bunu reddetse bile, her zaman herhangi bir alt agent'Ä± `@` otomatik tamamlama menÃ¼sÃ¼ aracÄ±lÄ±ÄŸÄ±yla doÄŸrudan Ã§aÄŸÄ±rabilir.
+:::
+
+---
+
+### Renk
+
+Agent'Ä±n kullanÄ±cÄ± arayÃ¼zÃ¼ndeki gÃ¶rsel gÃ¶rÃ¼nÃ¼mÃ¼nÃ¼ `color` seÃ§eneÄŸiyle Ã¶zelleÅŸtirin. Bu, agent'Ä±n arayÃ¼zde nasÄ±l gÃ¶rÃ¼ndÃ¼ÄŸÃ¼nÃ¼ etkiler.
+
+GeÃ§erli bir onaltÄ±lÄ±k renk (Ã¶r. `#FF5733`) veya tema rengini kullanÄ±n: `primary`, `secondary`, `accent`, `success`, `warning`, `error`, `info`.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "creative": {
+      "color": "#ff6b6b"
+    },
+    "code-reviewer": {
+      "color": "accent"
+    }
+  }
+}
+```
+
+---
+
+### Top P
+
+`top_p` seÃ§eneÄŸiyle yanÄ±t Ã§eÅŸitliliÄŸini kontrol edin. RastgeleliÄŸi kontrol etmek iÃ§in sÄ±caklÄ±ÄŸa alternatif.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "brainstorm": {
+      "top_p": 0.9
+    }
+  }
+}
+```
+
+DeÄŸerler 0,0 ile 1,0 arasÄ±nda deÄŸiÅŸir. DÃ¼ÅŸÃ¼k deÄŸerler daha odaklÄ±dÄ±r, yÃ¼ksek deÄŸerler ise daha Ã§eÅŸitlidir.
+
+---
+
+### Ek
+
+Agent yapÄ±landÄ±rmanÄ±zdaki diÄŸer seÃ§enekler, model seÃ§enekleri olarak **doÄŸrudan saÄŸlayÄ±cÄ±ya** iletilecektir. Bu, saÄŸlayÄ±cÄ±ya Ã¶zgÃ¼ Ã¶zelliklerin ve parametrelerin kullanÄ±lmasÄ±nÄ± saÄŸlar.
+
+Ã–rneÄŸin OpenAI'nin akÄ±l yÃ¼rÃ¼tme modelleriyle akÄ±l yÃ¼rÃ¼tme Ã§abasÄ±nÄ± kontrol edebilirsiniz:
+
+```json title="voracode.json" {6,7}
+{
+  "agent": {
+    "deep-thinker": {
+      "description": "Agent that uses high reasoning effort for complex problems",
+      "model": "openai/gpt-5",
+      "reasoningEffort": "high",
+      "textVerbosity": "low"
+    }
+  }
+}
+```
+
+Bu ek seÃ§enekler modele ve saÄŸlayÄ±cÄ±ya Ã¶zeldir. KullanÄ±labilir parametreler iÃ§in saÄŸlayÄ±cÄ±nÄ±zÄ±n belgelerine bakÄ±n.
+
+:::tip
+Mevcut modellerin listesini gÃ¶rmek iÃ§in `voracode models` komutunu Ã§alÄ±ÅŸtÄ±rÄ±n.
+:::
+
+---
+
+## Agent OluÅŸturma
+
+AÅŸaÄŸÄ±daki komutu kullanarak yeni agent'lar oluÅŸturabilirsiniz:
+
+```bash
+voracode agent create
+```
+
+Bu etkileÅŸimli komut ÅŸunlarÄ± saÄŸlayacaktÄ±r:
+
+1. Agent'Ä± nereye kaydedeceÄŸinizi sorar; kÃ¼resel veya projeye Ã¶zel.
+2. Agent'Ä±n ne yapmasÄ± gerektiÄŸinin aÃ§Ä±klamasÄ±nÄ± ister.
+3. Uygun bir sistem prompt'u ve tanÄ±mlayÄ±cÄ± oluÅŸturur.
+4. Agent'Ä±n hangi araÃ§lara eriÅŸebileceÄŸini seÃ§menize izin verir.
+5. Son olarak agent yapÄ±landÄ±rmasÄ±yla bir Markdown dosyasÄ± oluÅŸturur.
+
+---
+
+## KullanÄ±m SenaryolarÄ±
+
+FarklÄ± agent'lara yÃ¶nelik bazÄ± yaygÄ±n kullanÄ±m senaryolarÄ± aÅŸaÄŸÄ±da verilmiÅŸtir.
+
+- **Build agent**: TÃ¼m araÃ§larÄ±n etkinleÅŸtirildiÄŸi tam geliÅŸtirme Ã§alÄ±ÅŸmasÄ±
+- **Plan agent**: DeÄŸiÅŸiklik yapmadan analiz ve planlama
+- **Review agent**: Salt okunur eriÅŸim ve belgeleme araÃ§larÄ±yla kod incelemesi
+- **Debug agent**: Bash ve okuma araÃ§larÄ± etkinken araÅŸtÄ±rmaya odaklanmÄ±ÅŸtÄ±r
+- **Docs agent**: Dosya iÅŸlemleriyle ancak sistem komutlarÄ± olmadan belge yazma
+
+---
+
+## Ã–rnekler
+
+YararlÄ± bulabileceÄŸiniz bazÄ± Ã¶rnek agent'larÄ± burada bulabilirsiniz.
+
+:::tip
+PaylaÅŸmak istediÄŸiniz bir agent'Ä±nÄ±z var mÄ±? [Submit a PR](https://github.com/mysterious75/voracode).
+:::
+
+---
+
+### DokÃ¼mantasyon agent'Ä±
+
+```markdown title="~/.config/voracode/agents/docs-writer.md"
+---
+description: Writes and maintains project documentation
+mode: subagent
+tools:
+  bash: false
+---
+
+You are a technical writer. Create clear, comprehensive documentation.
+
+Focus on:
+
+- Clear explanations
+- Proper structure
+- Code examples
+- User-friendly language
+```
+
+---
+
+### GÃ¼venlik denetÃ§isi
+
+```markdown title="~/.config/voracode/agents/security-auditor.md"
+---
+description: Performs security audits and identifies vulnerabilities
+mode: subagent
+tools:
+  write: false
+  edit: false
+---
+
+You are a security expert. Focus on identifying potential security issues.
+
+Look for:
+
+- Input validation vulnerabilities
+- Authentication and authorization flaws
+- Data exposure risks
+- Dependency vulnerabilities
+- Configuration security issues
+```

@@ -1,0 +1,617 @@
+---
+title: CLI
+description: Voracode CLI é€‰é¡¹å’Œå‘½ä»¤ã€‚
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
+Voracode CLI åœ¨ä¸å¸¦ä»»ä½•å‚æ•°è¿è¡Œæ—¶ï¼Œé»˜è®¤å¯åŠ¨ [TUI](/docs/tui)ã€‚
+
+```bash
+voracode
+```
+
+ä½†å®ƒä¹ŸæŽ¥å—æœ¬é¡µé¢ä¸­è®°å½•çš„å‘½ä»¤ï¼Œä½¿æ‚¨å¯ä»¥é€šè¿‡ç¼–ç¨‹æ–¹å¼ä¸Ž Voracode è¿›è¡Œäº¤äº’ã€‚
+
+```bash
+voracode run "Explain how closures work in JavaScript"
+```
+
+---
+
+### tui
+
+å¯åŠ¨ Voracode ç»ˆç«¯ç”¨æˆ·ç•Œé¢ã€‚
+
+```bash
+voracode [project]
+```
+
+#### æ ‡å¿—
+
+| æ ‡å¿—                                     | ç®€å†™ | æè¿°                                                      |
+| ---------------------------------------- | ---- | --------------------------------------------------------- |
+| <nobr><code>{"--continue"}</code></nobr> | `-c` | ç»§ç»­ä¸Šä¸€ä¸ªä¼šè¯                                            |
+| <nobr><code>{"--session"}</code></nobr>  | `-s` | è¦ç»§ç»­çš„ä¼šè¯ ID                                           |
+| <nobr><code>{"--fork"}</code></nobr>     |      | ç»§ç»­æ—¶åˆ†å‰ä¼šè¯ï¼ˆä¸Ž `--continue` æˆ– `--session` é…åˆä½¿ç”¨ï¼‰ |
+| <nobr><code>{"--prompt"}</code></nobr>   |      | è¦ä½¿ç”¨çš„æç¤ºè¯                                            |
+| <nobr><code>{"--model"}</code></nobr>    | `-m` | è¦ä½¿ç”¨çš„æ¨¡åž‹ï¼Œæ ¼å¼ä¸º provider/model                       |
+| <nobr><code>{"--agent"}</code></nobr>    |      | è¦ä½¿ç”¨çš„ä»£ç†                                              |
+| <nobr><code>{"--port"}</code></nobr>     |      | ç›‘å¬ç«¯å£                                                  |
+| <nobr><code>{"--hostname"}</code></nobr> |      | ç›‘å¬ä¸»æœºå                                                |
+
+---
+
+## å‘½ä»¤
+
+Voracode CLI è¿˜æä¾›ä»¥ä¸‹å‘½ä»¤ã€‚
+
+---
+
+### agent
+
+ç®¡ç† Voracode çš„ä»£ç†ã€‚
+
+```bash
+voracode agent [command]
+```
+
+---
+
+### attach
+
+å°†ç»ˆç«¯è¿žæŽ¥åˆ°å·²é€šè¿‡ `serve` æˆ– `web` å‘½ä»¤å¯åŠ¨çš„ Voracode åŽç«¯æœåŠ¡å™¨ã€‚
+
+```bash
+voracode attach [url]
+```
+
+è¿™å…è®¸å°† TUI ä¸Žè¿œç¨‹ Voracode åŽç«¯é…åˆä½¿ç”¨ã€‚ä¾‹å¦‚ï¼š
+
+```bash
+# Start the backend server for web/mobile access
+voracode web --port 4096 --hostname 0.0.0.0
+
+# In another terminal, attach the TUI to the running backend
+voracode attach http://10.20.30.40:4096
+```
+
+#### æ ‡å¿—
+
+| æ ‡å¿—                                     | ç®€å†™ | æè¿°                                                                |
+| ---------------------------------------- | ---- | ------------------------------------------------------------------- |
+| <nobr><code>{"--dir"}</code></nobr>      |      | å¯åŠ¨ TUI çš„å·¥ä½œç›®å½•                                                 |
+| <nobr><code>{"--continue"}</code></nobr> | `-c` | ç»§ç»­ä¸Šä¸€ä¸ªä¼šè¯                                                      |
+| <nobr><code>{"--session"}</code></nobr>  | `-s` | è¦ç»§ç»­çš„ä¼šè¯ ID                                                     |
+| <nobr><code>{"--fork"}</code></nobr>     |      | ç»§ç»­æ—¶æ´¾ç”Ÿä¼šè¯ï¼ˆä¸Ž `--continue` æˆ– `--session` ä¸€èµ·ä½¿ç”¨ï¼‰           |
+| <nobr><code>{"--password"}</code></nobr> | `-p` | åŸºæœ¬è®¤è¯å¯†ç ï¼ˆé»˜è®¤ä½¿ç”¨ `VORACODE_SERVER_PASSWORD`ï¼‰                 |
+| <nobr><code>{"--username"}</code></nobr> | `-u` | åŸºæœ¬è®¤è¯ç”¨æˆ·åï¼ˆé»˜è®¤ä½¿ç”¨ `VORACODE_SERVER_USERNAME` æˆ– `voracode`ï¼‰ |
+
+---
+
+#### create
+
+ä½¿ç”¨è‡ªå®šä¹‰é…ç½®åˆ›å»ºæ–°çš„ä»£ç†ã€‚
+
+```bash
+voracode agent create
+```
+
+æ­¤å‘½ä»¤å°†å¼•å¯¼æ‚¨ä½¿ç”¨è‡ªå®šä¹‰ç³»ç»Ÿæç¤ºè¯å’Œå·¥å…·é…ç½®æ¥åˆ›å»ºæ–°çš„ä»£ç†ã€‚
+
+---
+
+#### list
+
+åˆ—å‡ºæ‰€æœ‰å¯ç”¨çš„ä»£ç†ã€‚
+
+```bash
+voracode agent list
+```
+
+---
+
+### auth
+
+ç®¡ç†æä¾›å•†çš„å‡­æ®å’Œç™»å½•ä¿¡æ¯çš„å‘½ä»¤ã€‚
+
+```bash
+voracode auth [command]
+```
+
+---
+
+#### login
+
+Voracode åŸºäºŽ [Models.dev](https://models.dev) çš„æä¾›å•†åˆ—è¡¨è¿è¡Œï¼Œå› æ­¤æ‚¨å¯ä»¥ä½¿ç”¨ `voracode auth login` ä¸ºä»»ä½•æƒ³è¦ä½¿ç”¨çš„æä¾›å•†é…ç½® API å¯†é’¥ã€‚å¯†é’¥å­˜å‚¨åœ¨ `~/.local/share/voracode/auth.json` ä¸­ã€‚
+
+```bash
+voracode auth login
+```
+
+Voracode å¯åŠ¨æ—¶ä¼šä»Žå‡­æ®æ–‡ä»¶åŠ è½½æä¾›å•†ä¿¡æ¯ï¼ŒåŒæ—¶ä¹Ÿä¼šåŠ è½½çŽ¯å¢ƒå˜é‡æˆ–é¡¹ç›®ä¸­ `.env` æ–‡ä»¶ä¸­å®šä¹‰çš„å¯†é’¥ã€‚
+
+---
+
+#### list
+
+åˆ—å‡ºå‡­æ®æ–‡ä»¶ä¸­å­˜å‚¨çš„æ‰€æœ‰å·²è®¤è¯æä¾›å•†ã€‚
+
+```bash
+voracode auth list
+```
+
+æˆ–ä½¿ç”¨ç®€å†™ç‰ˆæœ¬ã€‚
+
+```bash
+voracode auth ls
+```
+
+---
+
+#### logout
+
+ä»Žå‡­æ®æ–‡ä»¶ä¸­æ¸…é™¤æä¾›å•†ä¿¡æ¯ä»¥å®Œæˆç™»å‡ºã€‚
+
+```bash
+voracode auth logout
+```
+
+---
+
+### github
+
+ç®¡ç†ç”¨äºŽä»“åº“è‡ªåŠ¨åŒ–çš„ GitHub ä»£ç†ã€‚
+
+```bash
+voracode github [command]
+```
+
+---
+
+#### install
+
+åœ¨æ‚¨çš„ä»“åº“ä¸­å®‰è£… GitHub ä»£ç†ã€‚
+
+```bash
+voracode github install
+```
+
+æ­¤å‘½ä»¤ä¼šè®¾ç½®å¿…è¦çš„ GitHub Actions å·¥ä½œæµå¹¶å¼•å¯¼æ‚¨å®Œæˆé…ç½®è¿‡ç¨‹ã€‚[äº†è§£æ›´å¤š](/docs/github)ã€‚
+
+---
+
+#### run
+
+è¿è¡Œ GitHub ä»£ç†ã€‚é€šå¸¸åœ¨ GitHub Actions ä¸­ä½¿ç”¨ã€‚
+
+```bash
+voracode github run
+```
+
+##### æ ‡å¿—
+
+| æ ‡å¿—                                  | æè¿°                           |
+| ------------------------------------- | ------------------------------ |
+| <nobr><code>{"--event"}</code></nobr> | ç”¨äºŽè¿è¡Œä»£ç†çš„ GitHub æ¨¡æ‹Ÿäº‹ä»¶ |
+| <nobr><code>{"--token"}</code></nobr> | GitHub ä¸ªäººè®¿é—®ä»¤ç‰Œ            |
+
+---
+
+### mcp
+
+ç®¡ç† Model Context Protocol æœåŠ¡å™¨ã€‚
+
+```bash
+voracode mcp [command]
+```
+
+---
+
+#### add
+
+å°† MCP æœåŠ¡å™¨æ·»åŠ åˆ°æ‚¨çš„é…ç½®ä¸­ã€‚
+
+```bash
+voracode mcp add
+```
+
+æ­¤å‘½ä»¤å°†å¼•å¯¼æ‚¨æ·»åŠ æœ¬åœ°æˆ–è¿œç¨‹ MCP æœåŠ¡å™¨ã€‚
+
+---
+
+#### list
+
+åˆ—å‡ºæ‰€æœ‰å·²é…ç½®çš„ MCP æœåŠ¡å™¨åŠå…¶è¿žæŽ¥çŠ¶æ€ã€‚
+
+```bash
+voracode mcp list
+```
+
+æˆ–ä½¿ç”¨ç®€å†™ç‰ˆæœ¬ã€‚
+
+```bash
+voracode mcp ls
+```
+
+---
+
+#### auth
+
+å¯¹æ”¯æŒ OAuth çš„ MCP æœåŠ¡å™¨è¿›è¡Œè®¤è¯ã€‚
+
+```bash
+voracode mcp auth [name]
+```
+
+å¦‚æžœæ‚¨ä¸æä¾›æœåŠ¡å™¨åç§°ï¼Œç³»ç»Ÿå°†æç¤ºæ‚¨ä»Žå¯ç”¨çš„æ”¯æŒ OAuth çš„æœåŠ¡å™¨ä¸­è¿›è¡Œé€‰æ‹©ã€‚
+
+æ‚¨è¿˜å¯ä»¥åˆ—å‡ºæ”¯æŒ OAuth çš„æœåŠ¡å™¨åŠå…¶è®¤è¯çŠ¶æ€ã€‚
+
+```bash
+voracode mcp auth list
+```
+
+æˆ–ä½¿ç”¨ç®€å†™ç‰ˆæœ¬ã€‚
+
+```bash
+voracode mcp auth ls
+```
+
+---
+
+#### logout
+
+ç§»é™¤ MCP æœåŠ¡å™¨çš„ OAuth å‡­æ®ã€‚
+
+```bash
+voracode mcp logout [name]
+```
+
+---
+
+#### debug
+
+è°ƒè¯• MCP æœåŠ¡å™¨çš„ OAuth è¿žæŽ¥é—®é¢˜ã€‚
+
+```bash
+voracode mcp debug <name>
+```
+
+---
+
+### models
+
+åˆ—å‡ºå·²é…ç½®æä¾›å•†çš„æ‰€æœ‰å¯ç”¨æ¨¡åž‹ã€‚
+
+```bash
+voracode models [provider]
+```
+
+æ­¤å‘½ä»¤ä»¥ `provider/model` çš„æ ¼å¼æ˜¾ç¤ºæ‰€æœ‰å·²é…ç½®æä¾›å•†ä¸­å¯ç”¨çš„æ¨¡åž‹ã€‚
+
+è¿™å¯¹äºŽç¡®å®šåœ¨[é…ç½®æ–‡ä»¶](/docs/config/)ä¸­ä½¿ç”¨çš„ç¡®åˆ‡æ¨¡åž‹åç§°éžå¸¸æœ‰ç”¨ã€‚
+
+æ‚¨å¯ä»¥é€‰æ‹©ä¼ å…¥æä¾›å•† ID æ¥æŒ‰æä¾›å•†ç­›é€‰æ¨¡åž‹ã€‚
+
+```bash
+voracode models anthropic
+```
+
+#### æ ‡å¿—
+
+| æ ‡å¿—                                    | æè¿°                                     |
+| --------------------------------------- | ---------------------------------------- |
+| <nobr><code>{"--refresh"}</code></nobr> | ä»Ž models.dev åˆ·æ–°æ¨¡åž‹ç¼“å­˜               |
+| <nobr><code>{"--verbose"}</code></nobr> | ä½¿ç”¨æ›´è¯¦ç»†çš„æ¨¡åž‹è¾“å‡ºï¼ˆåŒ…å«è´¹ç”¨ç­‰å…ƒæ•°æ®ï¼‰ |
+
+ä½¿ç”¨ `--refresh` æ ‡å¿—å¯ä»¥æ›´æ–°ç¼“å­˜çš„æ¨¡åž‹åˆ—è¡¨ã€‚å½“æä¾›å•†æ–°å¢žäº†æ¨¡åž‹å¹¶ä¸”æ‚¨å¸Œæœ›åœ¨ Voracode ä¸­çœ‹åˆ°å®ƒä»¬æ—¶ï¼Œæ­¤åŠŸèƒ½éžå¸¸æœ‰ç”¨ã€‚
+
+```bash
+voracode models --refresh
+```
+
+---
+
+### run
+
+ä»¥éžäº¤äº’æ¨¡å¼è¿è¡Œ Voracodeï¼Œç›´æŽ¥ä¼ å…¥æç¤ºè¯ã€‚
+
+```bash
+voracode run [message..]
+```
+
+è¿™å¯¹äºŽè„šæœ¬ç¼–å†™ã€è‡ªåŠ¨åŒ–æˆ–æ— éœ€å¯åŠ¨å®Œæ•´ TUI å³å¯å¿«é€ŸèŽ·å–ç­”æ¡ˆçš„åœºæ™¯éžå¸¸æœ‰ç”¨ã€‚ä¾‹å¦‚ï¼š
+
+```bash "voracode run"
+voracode run Explain the use of context in Go
+```
+
+æ‚¨è¿˜å¯ä»¥è¿žæŽ¥åˆ°æ­£åœ¨è¿è¡Œçš„ `voracode serve` å®žä¾‹ï¼Œä»¥é¿å…æ¯æ¬¡è¿è¡Œæ—¶ MCP æœåŠ¡å™¨çš„å†·å¯åŠ¨æ—¶é—´ï¼š
+
+```bash
+# Start a headless server in one terminal
+voracode serve
+
+# In another terminal, run commands that attach to it
+voracode run --attach http://localhost:4096 "Explain async/await in JavaScript"
+```
+
+#### æ ‡å¿—
+
+| æ ‡å¿—                                     | ç®€å†™ | æè¿°                                                                |
+| ---------------------------------------- | ---- | ------------------------------------------------------------------- |
+| <nobr><code>{"--command"}</code></nobr>  |      | è¦è¿è¡Œçš„å‘½ä»¤ï¼Œä½¿ç”¨ message ä½œä¸ºå‚æ•°                                 |
+| <nobr><code>{"--continue"}</code></nobr> | `-c` | ç»§ç»­ä¸Šä¸€ä¸ªä¼šè¯                                                      |
+| <nobr><code>{"--session"}</code></nobr>  | `-s` | è¦ç»§ç»­çš„ä¼šè¯ ID                                                     |
+| <nobr><code>{"--fork"}</code></nobr>     |      | ç»§ç»­æ—¶åˆ†å‰ä¼šè¯ï¼ˆä¸Ž `--continue` æˆ– `--session` é…åˆä½¿ç”¨ï¼‰           |
+| <nobr><code>{"--share"}</code></nobr>    |      | åˆ†äº«ä¼šè¯                                                            |
+| <nobr><code>{"--model"}</code></nobr>    | `-m` | è¦ä½¿ç”¨çš„æ¨¡åž‹ï¼Œæ ¼å¼ä¸º provider/model                                 |
+| <nobr><code>{"--agent"}</code></nobr>    |      | è¦ä½¿ç”¨çš„ä»£ç†                                                        |
+| <nobr><code>{"--file"}</code></nobr>     | `-f` | é™„åŠ åˆ°æ¶ˆæ¯çš„æ–‡ä»¶                                                    |
+| <nobr><code>{"--format"}</code></nobr>   |      | æ ¼å¼ï¼šdefaultï¼ˆæ ¼å¼åŒ–è¾“å‡ºï¼‰æˆ– jsonï¼ˆåŽŸå§‹ JSON äº‹ä»¶ï¼‰                |
+| <nobr><code>{"--title"}</code></nobr>    |      | ä¼šè¯æ ‡é¢˜ï¼ˆæœªæä¾›å€¼æ—¶ä½¿ç”¨æˆªæ–­çš„æç¤ºè¯ï¼‰                              |
+| <nobr><code>{"--attach"}</code></nobr>   |      | è¿žæŽ¥åˆ°æ­£åœ¨è¿è¡Œçš„ voracode æœåŠ¡å™¨ï¼ˆä¾‹å¦‚ http://localhost:4096ï¼‰      |
+| <nobr><code>{"--password"}</code></nobr> | `-p` | åŸºæœ¬è®¤è¯å¯†ç ï¼ˆé»˜è®¤ä½¿ç”¨ `VORACODE_SERVER_PASSWORD`ï¼‰                 |
+| <nobr><code>{"--username"}</code></nobr> | `-u` | åŸºæœ¬è®¤è¯ç”¨æˆ·åï¼ˆé»˜è®¤ä½¿ç”¨ `VORACODE_SERVER_USERNAME` æˆ– `voracode`ï¼‰ |
+| <nobr><code>{"--dir"}</code></nobr>      |      | è¿è¡Œç›®å½•ï¼Œæˆ–é™„åŠ æ—¶è¿œç¨‹æœåŠ¡å™¨ä¸Šçš„è·¯å¾„                                |
+| <nobr><code>{"--variant"}</code></nobr>  |      | æ¨¡åž‹å˜ä½“ï¼ˆç‰¹å®šäºŽæä¾›å•†çš„æŽ¨ç†çº§åˆ«ï¼‰                                  |
+| <nobr><code>{"--thinking"}</code></nobr> |      | æ˜¾ç¤ºæ€è€ƒå—                                                          |
+| <nobr><code>{"--port"}</code></nobr>     |      | æœ¬åœ°æœåŠ¡å™¨ç«¯å£ï¼ˆé»˜è®¤ä¸ºéšæœºç«¯å£ï¼‰                                    |
+
+---
+
+### serve
+
+å¯åŠ¨æ— ç•Œé¢çš„ Voracode æœåŠ¡å™¨ä»¥æä¾› API è®¿é—®ã€‚æŸ¥çœ‹[æœåŠ¡å™¨æ–‡æ¡£](/docs/server)äº†è§£å®Œæ•´çš„ HTTP æŽ¥å£ã€‚
+
+```bash
+voracode serve
+```
+
+æ­¤å‘½ä»¤å¯åŠ¨ä¸€ä¸ª HTTP æœåŠ¡å™¨ï¼Œæä¾›å¯¹ Voracode åŠŸèƒ½çš„ API è®¿é—®ï¼Œæ— éœ€ TUI ç•Œé¢ã€‚è®¾ç½® `VORACODE_SERVER_PASSWORD` å¯å¯ç”¨ HTTP åŸºæœ¬è®¤è¯ï¼ˆç”¨æˆ·åé»˜è®¤ä¸º `voracode`ï¼‰ã€‚
+
+#### æ ‡å¿—
+
+| æ ‡å¿—                                     | æè¿°                       |
+| ---------------------------------------- | -------------------------- |
+| <nobr><code>{"--port"}</code></nobr>     | ç›‘å¬ç«¯å£                   |
+| <nobr><code>{"--hostname"}</code></nobr> | ç›‘å¬ä¸»æœºå                 |
+| <nobr><code>{"--mdns"}</code></nobr>     | å¯ç”¨ mDNS å‘çŽ°             |
+| <nobr><code>{"--cors"}</code></nobr>     | å…è®¸ CORS çš„é¢å¤–æµè§ˆå™¨æ¥æº |
+
+---
+
+### session
+
+ç®¡ç† Voracode ä¼šè¯ã€‚
+
+```bash
+voracode session [command]
+```
+
+---
+
+#### list
+
+åˆ—å‡ºæ‰€æœ‰ Voracode ä¼šè¯ã€‚
+
+```bash
+voracode session list
+```
+
+##### æ ‡å¿—
+
+| æ ‡å¿—                                      | ç®€å†™ | æè¿°                                  |
+| ----------------------------------------- | ---- | ------------------------------------- |
+| <nobr><code>{"--max-count"}</code></nobr> | `-n` | é™åˆ¶ä¸ºæœ€è¿‘ N ä¸ªä¼šè¯                   |
+| <nobr><code>{"--format"}</code></nobr>    |      | è¾“å‡ºæ ¼å¼ï¼štable æˆ– jsonï¼ˆé»˜è®¤ tableï¼‰ |
+
+---
+
+### stats
+
+æ˜¾ç¤º Voracode ä¼šè¯çš„ Token ç”¨é‡å’Œè´¹ç”¨ç»Ÿè®¡ä¿¡æ¯ã€‚
+
+```bash
+voracode stats
+```
+
+#### æ ‡å¿—
+
+| æ ‡å¿—                                    | æè¿°                                                   |
+| --------------------------------------- | ------------------------------------------------------ |
+| <nobr><code>{"--days"}</code></nobr>    | æ˜¾ç¤ºæœ€è¿‘ N å¤©çš„ç»Ÿè®¡ä¿¡æ¯ï¼ˆé»˜è®¤ä¸ºæ‰€æœ‰æ—¶é—´ï¼‰              |
+| <nobr><code>{"--tools"}</code></nobr>   | æ˜¾ç¤ºçš„å·¥å…·æ•°é‡ï¼ˆé»˜è®¤ä¸ºå…¨éƒ¨ï¼‰                           |
+| <nobr><code>{"--models"}</code></nobr>  | æ˜¾ç¤ºæ¨¡åž‹ç”¨é‡æ˜Žç»†ï¼ˆé»˜è®¤éšè—ï¼‰ã€‚ä¼ å…¥æ•°å­—å¯æ˜¾ç¤ºå‰ N ä¸ª    |
+| <nobr><code>{"--project"}</code></nobr> | æŒ‰é¡¹ç›®ç­›é€‰ï¼ˆé»˜è®¤ä¸ºæ‰€æœ‰é¡¹ç›®ï¼Œä¼ å…¥ç©ºå­—ç¬¦ä¸²è¡¨ç¤ºå½“å‰é¡¹ç›®ï¼‰ |
+
+---
+
+### export
+
+å°†ä¼šè¯æ•°æ®å¯¼å‡ºä¸º JSONã€‚
+
+```bash
+voracode export [sessionID]
+```
+
+å¦‚æžœæ‚¨ä¸æä¾›ä¼šè¯ IDï¼Œç³»ç»Ÿå°†æç¤ºæ‚¨ä»Žå¯ç”¨çš„ä¼šè¯ä¸­è¿›è¡Œé€‰æ‹©ã€‚
+
+---
+
+### import
+
+ä»Ž JSON æ–‡ä»¶æˆ– Voracode åˆ†äº«é“¾æŽ¥å¯¼å…¥ä¼šè¯æ•°æ®ã€‚
+
+```bash
+voracode import <file>
+```
+
+æ‚¨å¯ä»¥ä»Žæœ¬åœ°æ–‡ä»¶æˆ– Voracode åˆ†äº«é“¾æŽ¥å¯¼å…¥ã€‚
+
+```bash
+voracode import session.json
+voracode import https://opncd.ai/s/abc123
+```
+
+---
+
+### web
+
+å¯åŠ¨å¸¦æœ‰ Web ç•Œé¢çš„æ— ç•Œé¢ Voracode æœåŠ¡å™¨ã€‚
+
+```bash
+voracode web
+```
+
+æ­¤å‘½ä»¤å¯åŠ¨ä¸€ä¸ª HTTP æœåŠ¡å™¨å¹¶æ‰“å¼€æµè§ˆå™¨ï¼Œé€šè¿‡ Web ç•Œé¢è®¿é—® Voracodeã€‚è®¾ç½® `VORACODE_SERVER_PASSWORD` å¯å¯ç”¨ HTTP åŸºæœ¬è®¤è¯ï¼ˆç”¨æˆ·åé»˜è®¤ä¸º `voracode`ï¼‰ã€‚
+
+#### æ ‡å¿—
+
+| æ ‡å¿—                                     | æè¿°                       |
+| ---------------------------------------- | -------------------------- |
+| <nobr><code>{"--port"}</code></nobr>     | ç›‘å¬ç«¯å£                   |
+| <nobr><code>{"--hostname"}</code></nobr> | ç›‘å¬ä¸»æœºå                 |
+| <nobr><code>{"--mdns"}</code></nobr>     | å¯ç”¨ mDNS å‘çŽ°             |
+| <nobr><code>{"--cors"}</code></nobr>     | å…è®¸ CORS çš„é¢å¤–æµè§ˆå™¨æ¥æº |
+
+---
+
+### acp
+
+å¯åŠ¨ ACPï¼ˆAgent Client Protocolï¼‰æœåŠ¡å™¨ã€‚
+
+```bash
+voracode acp
+```
+
+æ­¤å‘½ä»¤å¯åŠ¨ä¸€ä¸ªé€šè¿‡ stdin/stdout ä½¿ç”¨ nd-JSON è¿›è¡Œé€šä¿¡çš„ ACP æœåŠ¡å™¨ã€‚
+
+#### æ ‡å¿—
+
+| æ ‡å¿—                                     | æè¿°       |
+| ---------------------------------------- | ---------- |
+| <nobr><code>{"--cwd"}</code></nobr>      | å·¥ä½œç›®å½•   |
+| <nobr><code>{"--port"}</code></nobr>     | ç›‘å¬ç«¯å£   |
+| <nobr><code>{"--hostname"}</code></nobr> | ç›‘å¬ä¸»æœºå |
+
+---
+
+### uninstall
+
+å¸è½½ Voracode å¹¶åˆ é™¤æ‰€æœ‰ç›¸å…³æ–‡ä»¶ã€‚
+
+```bash
+voracode uninstall
+```
+
+#### æ ‡å¿—
+
+| æ ‡å¿—                                        | ç®€å†™ | æè¿°                           |
+| ------------------------------------------- | ---- | ------------------------------ |
+| <nobr><code>{"--keep-config"}</code></nobr> | `-c` | ä¿ç•™é…ç½®æ–‡ä»¶                   |
+| <nobr><code>{"--keep-data"}</code></nobr>   | `-d` | ä¿ç•™ä¼šè¯æ•°æ®å’Œå¿«ç…§             |
+| <nobr><code>{"--dry-run"}</code></nobr>     |      | æ˜¾ç¤ºå°†è¢«åˆ é™¤çš„å†…å®¹ä½†ä¸å®žé™…åˆ é™¤ |
+| <nobr><code>{"--force"}</code></nobr>       | `-f` | è·³è¿‡ç¡®è®¤æç¤º                   |
+
+---
+
+### upgrade
+
+å°† Voracode æ›´æ–°åˆ°æœ€æ–°ç‰ˆæœ¬æˆ–æŒ‡å®šç‰ˆæœ¬ã€‚
+
+```bash
+voracode upgrade [target]
+```
+
+æ›´æ–°åˆ°æœ€æ–°ç‰ˆæœ¬ã€‚
+
+```bash
+voracode upgrade
+```
+
+æ›´æ–°åˆ°æŒ‡å®šç‰ˆæœ¬ã€‚
+
+```bash
+voracode upgrade v0.1.48
+```
+
+#### æ ‡å¿—
+
+| æ ‡å¿—                                   | ç®€å†™ | æè¿°                                       |
+| -------------------------------------- | ---- | ------------------------------------------ |
+| <nobr><code>{"--method"}</code></nobr> | `-m` | ä½¿ç”¨çš„å®‰è£…æ–¹å¼ï¼šcurlã€npmã€pnpmã€bunã€brew |
+
+---
+
+## å…¨å±€æ ‡å¿—
+
+Voracode CLI æŽ¥å—ä»¥ä¸‹å…¨å±€æ ‡å¿—ã€‚
+
+| æ ‡å¿—                                       | ç®€å†™ | æè¿°                                 |
+| ------------------------------------------ | ---- | ------------------------------------ |
+| <nobr><code>{"--help"}</code></nobr>       | `-h` | æ˜¾ç¤ºå¸®åŠ©ä¿¡æ¯                         |
+| <nobr><code>{"--version"}</code></nobr>    | `-v` | æ‰“å°ç‰ˆæœ¬å·                           |
+| <nobr><code>{"--print-logs"}</code></nobr> |      | å°†æ—¥å¿—è¾“å‡ºåˆ° stderr                  |
+| <nobr><code>{"--log-level"}</code></nobr>  |      | æ—¥å¿—çº§åˆ«ï¼ˆDEBUGã€INFOã€WARNã€ERRORï¼‰ |
+
+---
+
+## çŽ¯å¢ƒå˜é‡
+
+Voracode å¯ä»¥é€šè¿‡çŽ¯å¢ƒå˜é‡è¿›è¡Œé…ç½®ã€‚
+
+| å˜é‡                                  | ç±»åž‹    | æè¿°                                    |
+| ------------------------------------- | ------- | --------------------------------------- |
+| `VORACODE_AUTO_SHARE`                 | boolean | è‡ªåŠ¨åˆ†äº«ä¼šè¯                            |
+| `VORACODE_GIT_BASH_PATH`              | string  | Windows ä¸Š Git Bash å¯æ‰§è¡Œæ–‡ä»¶çš„è·¯å¾„    |
+| `VORACODE_CONFIG`                     | string  | é…ç½®æ–‡ä»¶è·¯å¾„                            |
+| `VORACODE_TUI_CONFIG`                 | string  | TUI é…ç½®æ–‡ä»¶è·¯å¾„                        |
+| `VORACODE_CONFIG_DIR`                 | string  | é…ç½®ç›®å½•è·¯å¾„                            |
+| `VORACODE_CONFIG_CONTENT`             | string  | å†…è” JSON é…ç½®å†…å®¹                      |
+| `VORACODE_DISABLE_AUTOUPDATE`         | boolean | ç¦ç”¨è‡ªåŠ¨æ›´æ–°æ£€æŸ¥                        |
+| `VORACODE_DISABLE_PRUNE`              | boolean | ç¦ç”¨æ—§æ•°æ®æ¸…ç†                          |
+| `VORACODE_DISABLE_TERMINAL_TITLE`     | boolean | ç¦ç”¨è‡ªåŠ¨ç»ˆç«¯æ ‡é¢˜æ›´æ–°                    |
+| `VORACODE_PERMISSION`                 | string  | å†…è” JSON æƒé™é…ç½®                      |
+| `VORACODE_DISABLE_DEFAULT_PLUGINS`    | boolean | ç¦ç”¨é»˜è®¤æ’ä»¶                            |
+| `VORACODE_DISABLE_LSP_DOWNLOAD`       | boolean | ç¦ç”¨ LSP æœåŠ¡å™¨è‡ªåŠ¨ä¸‹è½½                 |
+| `VORACODE_ENABLE_EXPERIMENTAL_MODELS` | boolean | å¯ç”¨å®žéªŒæ€§æ¨¡åž‹                          |
+| `VORACODE_DISABLE_AUTOCOMPACT`        | boolean | ç¦ç”¨è‡ªåŠ¨ä¸Šä¸‹æ–‡åŽ‹ç¼©                      |
+| `VORACODE_DISABLE_CLAUDE_CODE`        | boolean | ç¦ç”¨è¯»å– `.claude`ï¼ˆæç¤ºè¯ + æŠ€èƒ½ï¼‰     |
+| `VORACODE_DISABLE_CLAUDE_CODE_PROMPT` | boolean | ç¦ç”¨è¯»å– `~/.claude/CLAUDE.md`          |
+| `VORACODE_DISABLE_CLAUDE_CODE_SKILLS` | boolean | ç¦ç”¨åŠ è½½ `.claude/skills`               |
+| `VORACODE_DISABLE_MODELS_FETCH`       | boolean | ç¦ç”¨ä»Žè¿œç¨‹æºèŽ·å–æ¨¡åž‹                    |
+| `VORACODE_FAKE_VCS`                   | string  | ç”¨äºŽæµ‹è¯•ç›®çš„çš„æ¨¡æ‹Ÿ VCS æä¾›å•†           |
+| `VORACODE_CLIENT`                     | string  | å®¢æˆ·ç«¯æ ‡è¯†ç¬¦ï¼ˆé»˜è®¤ä¸º `cli`ï¼‰            |
+| `VORACODE_ENABLE_EXA`                 | boolean | å¯ç”¨ Exa ç½‘ç»œæœç´¢å·¥å…·                   |
+| `VORACODE_SERVER_PASSWORD`            | string  | ä¸º `serve`/`web` å¯ç”¨åŸºæœ¬è®¤è¯           |
+| `VORACODE_SERVER_USERNAME`            | string  | è¦†ç›–åŸºæœ¬è®¤è¯ç”¨æˆ·åï¼ˆé»˜è®¤ä¸º `voracode`ï¼‰ |
+| `VORACODE_MODELS_URL`                 | string  | è‡ªå®šä¹‰æ¨¡åž‹é…ç½®èŽ·å– URL                  |
+
+---
+
+### å®žéªŒæ€§åŠŸèƒ½
+
+è¿™äº›çŽ¯å¢ƒå˜é‡ç”¨äºŽå¯ç”¨å¯èƒ½ä¼šæ›´æ”¹æˆ–ç§»é™¤çš„å®žéªŒæ€§åŠŸèƒ½ã€‚
+
+| å˜é‡                                            | ç±»åž‹    | æè¿°                            |
+| ----------------------------------------------- | ------- | ------------------------------- |
+| `VORACODE_EXPERIMENTAL`                         | boolean | å¯ç”¨å—æ€»å¼€å…³æŽ§åˆ¶çš„å®žéªŒæ€§åŠŸèƒ½    |
+| `VORACODE_EXPERIMENTAL_ICON_DISCOVERY`          | boolean | å¯ç”¨å›¾æ ‡å‘çŽ°                    |
+| `VORACODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT`  | boolean | ç¦ç”¨ TUI ä¸­çš„é€‰ä¸­å³å¤åˆ¶         |
+| `VORACODE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS` | number  | bash å‘½ä»¤çš„é»˜è®¤è¶…æ—¶æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰ |
+| `VORACODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX`        | number  | LLM å“åº”çš„æœ€å¤§è¾“å‡º Token æ•°     |
+| `VORACODE_EXPERIMENTAL_FILEWATCHER`             | boolean | å¯ç”¨æ•´ä¸ªç›®å½•çš„æ–‡ä»¶ç›‘å¬å™¨        |
+| `VORACODE_EXPERIMENTAL_OXFMT`                   | boolean | å¯ç”¨ oxfmt æ ¼å¼åŒ–å™¨             |
+| `VORACODE_EXPERIMENTAL_LSP_TOOL`                | boolean | å¯ç”¨å®žéªŒæ€§ LSP å·¥å…·             |
+| `VORACODE_EXPERIMENTAL_DISABLE_FILEWATCHER`     | boolean | ç¦ç”¨æ–‡ä»¶ç›‘å¬å™¨                  |
+| `VORACODE_EXPERIMENTAL_EXA`                     | boolean | å¯ç”¨å®žéªŒæ€§ Exa åŠŸèƒ½             |
+| `VORACODE_EXPERIMENTAL_LSP_TY`                  | boolean | ä¸º python æ–‡ä»¶å¯ç”¨ TY LSP       |
+| `VORACODE_EXPERIMENTAL_PLAN_MODE`               | boolean | å¯ç”¨è®¡åˆ’æ¨¡å¼                    |
+| `VORACODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS`    | boolean | å¯ç”¨åŽå°å­ä»£ç†ä»»åŠ¡              |
+| `VORACODE_EXPERIMENTAL_EVENT_SYSTEM`            | boolean | å¯ç”¨å®žéªŒæ€§äº‹ä»¶ç³»ç»Ÿ              |
+| `VORACODE_EXPERIMENTAL_NATIVE_LLM`              | boolean | å¯ç”¨åŽŸç”Ÿ LLM è¯·æ±‚è·¯å¾„           |
+| `VORACODE_EXPERIMENTAL_PARALLEL`                | boolean | å¯ç”¨å¹¶è¡Œ Web æœç´¢æ‰§è¡Œ           |
+| `VORACODE_EXPERIMENTAL_SCOUT`                   | boolean | å¯ç”¨ Scout å­ä»£ç†               |
+| `VORACODE_EXPERIMENTAL_WORKSPACES`              | boolean | å¯ç”¨å·¥ä½œåŒºæ”¯æŒ                  |

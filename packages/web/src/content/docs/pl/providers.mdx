@@ -1,0 +1,1986 @@
+---
+title: Dostawcy
+description: Korzystanie z dowolnego dostawcy LLM w voracode.
+---
+
+import config from "../../../../config.mjs"
+export const console = config.console
+
+voracode uÅ¼ywa [AI SDK](https://ai-sdk.dev/) i [Models.dev](https://models.dev) do obsÅ‚ugi **ponad 75 dostawcÃ³w LLM** i obsÅ‚uguje uruchamianie modeli lokalnych.
+
+Aby dodaÄ‡ dostawcÄ™ naleÅ¼y:
+
+1. Dodaj klucze API dla dostawcy za pomocÄ… komendy `/connect`.
+2. Skonfiguruj dostawcÄ™ w konfiguracji voracode.
+
+---
+
+### Credentials
+
+Po dodaniu kluczy API dostawcy za pomocÄ… polecenia `/connect` sÄ… one przechowywane
+w `~/.local/share/voracode/auth.json`.
+
+---
+
+### Konfiguracja
+
+MoÅ¼esz dostosowaÄ‡ dostawcÃ³w za pomocÄ… sekcji `provider` w swoim voracode
+config.
+
+---
+
+#### Base URL
+
+MoÅ¼esz dostosowaÄ‡ podstawowy adres URL dla dowolnego dostawcy, ustawiajÄ…c opcjÄ™ `baseURL`. Jest to przydatne podczas korzystania z usÅ‚ug proxy lub niestandardowych punktÃ³w koÅ„cowych.
+
+```json title="voracode.json" {6}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "anthropic": {
+      "options": {
+        "baseURL": "https://api.anthropic.com/v1"
+      }
+    }
+  }
+}
+```
+
+---
+
+## Voracode Zen
+
+Voracode Zen to lista modeli dostarczonych przez zespÃ³Å‚ voracode, ktÃ³re zostaÅ‚y
+przetestowane i zweryfikowane, aby dobrze wspÃ³Å‚pracowaÄ‡ z voracode. [Dowiedz siÄ™ wiÄ™cej](/docs/zen).
+
+:::tip
+JeÅ›li jesteÅ› nowy, zalecamy rozpoczÄ™cie od Voracode Zen.
+:::
+
+1. Uruchom polecenie `/connect` w TUI, wybierz `Voracode Zen` i przejdÅº do [voracode.ai/auth](https://voracode.ai/zen).
+
+   ```txt
+   /connect
+   ```
+
+2. Zaloguj siÄ™, dodaj szczegÃ³Å‚y rozliczeniowe i skopiuj klucz API.
+
+3. Wklej swÃ³j klucz API.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom `/models` w TUI, aby zobaczyÄ‡ listÄ™ zalecanych przez nas modeli.
+
+   ```txt
+   /models
+   ```
+
+DziaÅ‚a jak kaÅ¼dy inny dostawca w voracode i jest caÅ‚kowicie opcjonalny w uÅ¼yciu.
+
+---
+
+## Voracode Go
+
+Voracode Go to tani plan subskrypcji, ktÃ³ry zapewnia niezawodny dostÄ™p do popularnych modeli open coding dostarczanych przez zespÃ³Å‚ voracode, ktÃ³re zostaÅ‚y przetestowane i zweryfikowane pod kÄ…tem dobrej wspÃ³Å‚pracy z voracode.
+
+1. Uruchom polecenie `/connect` w TUI, wybierz `Voracode Go` i przejdÅº do [voracode.ai/auth](https://voracode.ai/zen).
+
+   ```txt
+   /connect
+   ```
+
+2. Zaloguj siÄ™, dodaj szczegÃ³Å‚y rozliczeniowe i skopiuj klucz API.
+
+3. Wklej swÃ³j klucz API.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom `/models` w TUI, aby zobaczyÄ‡ listÄ™ zalecanych przez nas modeli.
+
+   ```txt
+   /models
+   ```
+
+DziaÅ‚a jak kaÅ¼dy inny dostawca w voracode i jest caÅ‚kowicie opcjonalny w uÅ¼yciu.
+
+---
+
+## Katalog
+
+Przyjrzyjmy siÄ™ szczegÃ³Å‚owo niektÃ³rym dostawcom. JeÅ›li chcesz dodaÄ‡ dostawcÄ™ do
+listÄ™, moÅ¼esz otworzyÄ‡ PR.
+
+:::note
+Nie widzisz tutaj dostawcy? PrzeÅ›lij PR.
+:::
+
+---
+
+### 302.AI
+
+1. PrzejdÅº do [konsoli 302.AI](https://302.ai/), utwÃ³rz konto i wygeneruj klucz API.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj **302.AI**.
+
+   ```txt
+   /connect
+   ```
+
+3. Wpisz swÃ³j klucz API 302.AI.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom komendÄ™ `/models`, aby wybraÄ‡ model.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Amazon Bedrock
+
+Aby uÅ¼ywaÄ‡ Amazon Bedrock z voracode:
+
+1. PrzejdÅº do **Katalogu modeli** w konsoli Amazon Bedrock i poproÅ›
+   dostÄ™p do wybranych modeli.
+
+   :::tip
+   Musisz mieÄ‡ dostÄ™p do Å¼Ä…danego modelu w Amazon Bedrock.
+   :::
+
+2. **Skonfiguruj uwierzytelnianie** przy uÅ¼yciu jednej z nastÄ™pujÄ…cych metod:
+
+   #### Zmienne Å›rodowiskowe (Szybki start)
+
+   Ustaw jednÄ… z tych zmiennych Å›rodowiskowych podczas uruchamiania voracode:
+
+   ```bash
+   # Option 1: Using AWS access keys
+   AWS_ACCESS_KEY_ID=XXX AWS_SECRET_ACCESS_KEY=YYY voracode
+
+   # Option 2: Using named AWS profile
+   AWS_PROFILE=my-profile voracode
+
+   # Option 3: Using Bedrock bearer token
+   AWS_BEARER_TOKEN_BEDROCK=XXX voracode
+   ```
+
+   Lub dodaj je do swojego profilu bash:
+
+   ```bash title="~/.bash_profile"
+   export AWS_PROFILE=my-dev-profile
+   export AWS_REGION=us-east-1
+   ```
+
+   #### Plik konfiguracyjny (zalecane)
+
+   W przypadku konfiguracji specyficznej dla projektu lub trwaÅ‚ej uÅ¼yj `voracode.json`:
+
+   ```json title="voracode.json"
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "provider": {
+       "amazon-bedrock": {
+         "options": {
+           "region": "us-east-1",
+           "profile": "my-aws-profile"
+         }
+       }
+     }
+   }
+   ```
+
+   **DostÄ™pne opcje:**
+   - `region` - region AWS (np. `us-east-1`, `eu-west-1`)
+   - `profile` - profil nazwany AWS z `~/.aws/credentials`
+   - `endpoint` â€” niestandardowy adres URL punktu koÅ„cowego dla punktÃ³w koÅ„cowych VPC (alias dla ogÃ³lnej opcji `baseURL`)
+
+   :::tip
+   Opcje z pliku konfiguracyjnego majÄ… pierwszeÅ„stwo przed zmiennymi Å›rodowiskowymi.
+   :::
+
+   #### Zaawansowane: Punkty koÅ„cowe VPC
+
+   JeÅ›li uÅ¼ywasz punktÃ³w koÅ„cowych VPC dla Bedrock:
+
+   ```json title="voracode.json"
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "provider": {
+       "amazon-bedrock": {
+         "options": {
+           "region": "us-east-1",
+           "profile": "production",
+           "endpoint": "https://bedrock-runtime.us-east-1.vpce-xxxxx.amazonaws.com"
+         }
+       }
+     }
+   }
+   ```
+
+   :::note
+   Opcja `endpoint` jest aliasem ogÃ³lnej opcji `baseURL`, uÅ¼ywajÄ…c terminologii specyficznej dla AWS. JeÅ›li okreÅ›lono zarÃ³wno `endpoint`, jak i `baseURL`, pierwszeÅ„stwo ma `endpoint`.
+   :::
+
+   #### Metody uwierzytelniania
+   - **`AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY`**: UtwÃ³rz uÅ¼ytkownika IAM i wygeneruj klucze dostÄ™pu w konsoli AWS
+   - **`AWS_PROFILE`**: UÅ¼yj nazwanych profili z `~/.aws/credentials`. Najpierw skonfiguruj za pomocÄ… `aws configure --profile my-profile` lub `aws sso login`
+   - **`AWS_BEARER_TOKEN_BEDROCK`**: Wygeneruj dÅ‚ugoterminowe klucze API z konsoli Amazon Bedrock
+   - **`AWS_WEB_IDENTITY_TOKEN_FILE` / `AWS_ROLE_ARN`**: Dla EKS IRSA (Role IAM dla kont usÅ‚ug) lub innych Å›rodowisk Kubernetes z federacjÄ… OIDC. Te zmienne Å›rodowiskowe sÄ… automatycznie wstrzykiwane przez Kubernetes podczas korzystania z adnotacji konta usÅ‚ugi.
+
+   #### KolejnoÅ›Ä‡ uwierzytelniania
+
+   Amazon Bedrock wykorzystuje nastÄ™pujÄ…cy priorytet uwierzytelniania:
+   1. **Token noÅ›nika** - zmienna Å›rodowiskowa `AWS_BEARER_TOKEN_BEDROCK` lub token z komendy `/connect`
+   2. **AWS Credential Chain** - Profile, access keys, shared credentials, IAM roles, Web Identity Tokens (EKS IRSA), instance metadata
+
+   :::note
+   Gdy ustawisz bearer token (przez `/connect` lub `AWS_BEARER_TOKEN_BEDROCK`), ma on pierwszeÅ„stwo nad wszystkimi metodami poÅ›wiadczeÅ„ AWS, w tym profilami.
+   :::
+
+3. Uruchom komendÄ™ `/models`, aby wybraÄ‡ Å¼Ä…dany model.
+
+   ```txt
+   /models
+   ```
+
+:::note
+W przypadku niestandardowych profili wnioskowania uÅ¼yj nazwy modelu i dostawcy w kluczu i ustaw wÅ‚aÅ›ciwoÅ›Ä‡ `id` na wartoÅ›Ä‡ arn. Zapewnia to prawidÅ‚owe buforowanie:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "amazon-bedrock": {
+      // ...
+      "models": {
+        "anthropic-claude-sonnet-4.5": {
+          "id": "arn:aws:bedrock:us-east-1:xxx:application-inference-profile/yyy"
+        }
+      }
+    }
+  }
+}
+```
+
+:::
+
+---
+
+### Anthropic
+
+1. Po zarejestrowaniu siÄ™ uruchom komendÄ™ `/connect` i wybierz opcjÄ™ Anthropic.
+
+   ```txt
+   /connect
+   ```
+
+2. Tutaj moÅ¼esz wybraÄ‡ opcjÄ™ **Claude Pro/Max**, co spowoduje otwarcie przeglÄ…darki
+   i poproÅ› o uwierzytelnienie.
+
+   ```txt
+   â”Œ Select auth method
+   â”‚
+   â”‚ Claude Pro/Max
+   â”‚ Create an API Key
+   â”‚ Manually enter API Key
+   â””
+   ```
+
+3. Teraz wszystkie modele antropiczne powinny byÄ‡ dostÄ™pne po uÅ¼yciu polecenia `/models`.
+
+   ```txt
+   /models
+   ```
+
+:::info
+Korzystanie z subskrypcji Claude Pro/Max w voracode nie jest oficjalnie obsÅ‚ugiwane przez [Anthropic](https://anthropic.com).
+:::
+
+##### UÅ¼ycie kluczy API
+
+MoÅ¼esz takÅ¼e wybraÄ‡ opcjÄ™ **UtwÃ³rz klucz API**, jeÅ›li nie masz subskrypcji Pro/Max. Otworzy siÄ™ takÅ¼e Twoja przeglÄ…darka i poprosi CiÄ™ o zalogowanie siÄ™ do Anthropic i poda kod, ktÃ³ry moÅ¼esz wkleiÄ‡ w terminalu.
+
+Lub jeÅ›li masz juÅ¼ klucz API, moÅ¼esz wybraÄ‡ **WprowadÅº klucz API rÄ™cznie** i wkleiÄ‡ go w terminalu.
+
+---
+
+### Atomic Chat
+
+MoÅ¼esz skonfigurowaÄ‡ voracode do korzystania z modeli lokalnych przez [Atomic Chat](https://atomic.chat) â€” aplikacjÄ™ desktopowÄ… uruchamiajÄ…cÄ… lokalne LLM-y za serwerem API zgodnym z OpenAI (domyÅ›lny endpoint `http://127.0.0.1:1337/v1`).
+
+```json title="voracode.json" "atomic-chat" {5, 6, 8, 10-14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "atomic-chat": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Atomic Chat (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:1337/v1"
+      },
+      "models": {
+        "<your-model-id>": {
+          "name": "<your-model-name>"
+        }
+      }
+    }
+  }
+}
+```
+
+W tym przykÅ‚adzie:
+
+- `atomic-chat` to niestandardowy identyfikator dostawcy. MoÅ¼e to byÄ‡ dowolny ciÄ…g znakÃ³w.
+- `npm` okreÅ›la pakiet uÅ¼ywany dla tego dostawcy. Tutaj `@ai-sdk/openai-compatible` jest uÅ¼ywany dla kaÅ¼dego API zgodnego z OpenAI.
+- `name` to nazwa wyÅ›wietlana dostawcy w interfejsie.
+- `options.baseURL` to endpoint serwera lokalnego. ZmieÅ„ host i port, aby pasowaÅ‚y do twojej konfiguracji Atomic Chat.
+- `models` to mapa identyfikatorÃ³w modeli na ich nazwy wyÅ›wietlane. KaÅ¼dy identyfikator musi odpowiadaÄ‡ `id` zwracanemu przez `GET /v1/models` â€” uruchom `curl http://127.0.0.1:1337/v1/models`, aby wyÅ›wietliÄ‡ identyfikatory aktualnie zaÅ‚adowane w Atomic Chat.
+
+:::tip
+JeÅ›li wywoÅ‚ania narzÄ™dzi nie dziaÅ‚ajÄ… dobrze, wybierz zaÅ‚adowany model z dobrym wsparciem tool calling (na przykÅ‚ad wariant Qwen-Coder lub DeepSeek-Coder).
+:::
+
+---
+
+### Azure OpenAI
+
+:::note
+JeÅ›li napotkasz bÅ‚Ä™dy â€žPrzykro mi, ale nie mogÄ™ pomÃ³c w tej proÅ›bieâ€, sprÃ³buj zmieniÄ‡ filtr zawartoÅ›ci z **DefaultV2** na **Default** w zasobie platformy Azure.
+:::
+
+1. PrzejdÅº do [Azure portal](https://portal.azure.com/) i utwÃ³rz zasÃ³b **Azure OpenAI**. BÄ™dziesz potrzebowaÄ‡:
+   - **Nazwa zasobu**: staje siÄ™ czÄ™Å›ciÄ… punktu koÅ„cowego API (`https://RESOURCE_NAME.openai.azure.com/`)
+   - **Klucz API**: `KEY 1` lub `KEY 2` z Twojego zasobu
+
+2. PrzejdÅº do [Azure AI Foundry](https://ai.azure.com/) i wdrÃ³Å¼ model.
+
+   :::note
+   Aby kod voracode dziaÅ‚aÅ‚ poprawnie, nazwa wdroÅ¼enia musi byÄ‡ zgodna z nazwÄ… modelu.
+   :::
+
+3. Uruchom polecenie `/connect` i wyszukaj **Azure**.
+
+   ```txt
+   /connect
+   ```
+
+4. Wpisz swÃ³j klucz API.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+5. Ustaw nazwÄ™ zasobu jako zmiennÄ… Å›rodowiskowÄ…:
+
+   ```bash
+   AZURE_RESOURCE_NAME=XXX voracode
+   ```
+
+   Lub dodaj go do swojego profilu bash:
+
+   ```bash title="~/.bash_profile"
+   export AZURE_RESOURCE_NAME=XXX
+   ```
+
+6. Uruchom komendÄ™ `/models`, aby wybraÄ‡ wdroÅ¼ony model.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Azure Cognitive Services
+
+1. PrzejdÅº do [Azure portal](https://portal.azure.com/) i utwÃ³rz zasÃ³b **Azure OpenAI**. BÄ™dziesz potrzebowaÄ‡:
+   - **Nazwa zasobu**: staje siÄ™ czÄ™Å›ciÄ… punktu koÅ„cowego API (`https://AZURE_COGNITIVE_SERVICES_RESOURCE_NAME.cognitiveservices.azure.com/`)
+   - **Klucz API**: `KEY 1` lub `KEY 2` z Twojego zasobu
+
+2. PrzejdÅº do [Azure AI Foundry](https://ai.azure.com/) i wdrÃ³Å¼ model.
+
+   :::note
+   Aby kod voracode dziaÅ‚aÅ‚ poprawnie, nazwa wdroÅ¼enia musi byÄ‡ zgodna z nazwÄ… modelu.
+   :::
+
+3. Uruchom polecenie `/connect` i wyszukaj **Azure Cognitive Services**.
+
+   ```txt
+   /connect
+   ```
+
+4. Wpisz swÃ³j klucz API.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+5. Ustaw nazwÄ™ zasobu jako zmiennÄ… Å›rodowiskowÄ…:
+
+   ```bash
+   AZURE_COGNITIVE_SERVICES_RESOURCE_NAME=XXX voracode
+   ```
+
+   Lub dodaj go do swojego profilu bash:
+
+   ```bash title="~/.bash_profile"
+   export AZURE_COGNITIVE_SERVICES_RESOURCE_NAME=XXX
+   ```
+
+6. Uruchom komendÄ™ `/models`, aby wybraÄ‡ wdroÅ¼ony model.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Baseten
+
+1. Udaj siÄ™ do [Baseten](https://app.baseten.co/), utwÃ³rz konto i wygeneruj klucz API.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj **Baseten**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº swÃ³j klucz API Baseten.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom komendÄ™ `/models`, aby wybraÄ‡ model.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Cerebras
+
+1. PrzejdÅº do [konsoli Cerebras](https://inference.cerebras.ai/), utwÃ³rz konto i wygeneruj klucz API.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj **Cerebras**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº swÃ³j klucz API Cerebras.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom polecenie `/models`, aby wybraÄ‡ model taki jak _Qwen 3 Coder 480B_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Cloudflare AI Gateway
+
+Cloudflare AI Gateway umoÅ¼liwia dostÄ™p do modeli z OpenAI, Anthropic, Workers AI i innych za poÅ›rednictwem ujednoliconego punktu koÅ„cowego. DziÄ™ki [Ujednoliconemu rozliczeniu](https://developers.cloudflare.com/ai-gateway/features/unified-billing/) nie potrzebujesz oddzielnych kluczy API dla kaÅ¼dego dostawcy.
+
+1. PrzejdÅº do [panelu Cloudflare](https://dash.cloudflare.com/), przejdÅº do **AI** > **AI Gateway** i utwÃ³rz nowÄ… bramÄ™.
+
+2. Ustaw identyfikator konta i identyfikator bramy jako zmienne Å›rodowiskowe.
+
+   ```bash title="~/.bash_profile"
+   export CLOUDFLARE_ACCOUNT_ID=your-32-character-account-id
+   export CLOUDFLARE_GATEWAY_ID=your-gateway-id
+   ```
+
+3. Uruchom polecenie `/connect` i wyszukaj **Cloudflare AI Gateway**.
+
+   ```txt
+   /connect
+   ```
+
+4. WprowadÅº swÃ³j token API Cloudflare.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+   Lub ustaw go jako zmiennÄ… Å›rodowiskowÄ….
+
+   ```bash title="~/.bash_profile"
+   export CLOUDFLARE_API_TOKEN=your-api-token
+   ```
+
+5. Uruchom komendÄ™ `/models`, aby wybraÄ‡ model.
+
+   ```txt
+   /models
+   ```
+
+   MoÅ¼esz takÅ¼e dodawaÄ‡ modele za pomocÄ… konfiguracji voracode.
+
+   ```json title="voracode.json"
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "provider": {
+       "cloudflare-ai-gateway": {
+         "models": {
+           "openai/gpt-4o": {},
+           "anthropic/claude-sonnet-4": {}
+         }
+       }
+     }
+   }
+   ```
+
+---
+
+### Cortecs
+
+1. PrzejdÅº do [konsoli Cortecs](https://cortecs.ai/), utwÃ³rz konto i wygeneruj klucz API.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj **Cortecs**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº klucz API Cortecs.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom polecenie `/models`, aby wybraÄ‡ model taki jak _Kimi K2 Instruct_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### DeepSeek
+
+1. PrzejdÅº do [konsoli DeepSeek](https://platform.deepseek.com/), utwÃ³rz konto i kliknij **UtwÃ³rz nowy klucz API**.
+
+2. Uruchom polecenie `/connect` i wyszukaj **DeepSeek**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº klucz API DeepSeek.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom polecenie `/models`, aby wybraÄ‡ model DeepSeek, np. _DeepSeek V4 Pro_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Deep Infra
+
+1. PrzejdÅº do [panelu Deep Infra](https://deepinfra.com/dash), utwÃ³rz konto i wygeneruj klucz API.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj **Deep Infra**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº swÃ³j klucz API Deep Infra.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom komendÄ™ `/models`, aby wybraÄ‡ model.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### FrogBot
+
+1. PrzejdÅº do [FrogBot dashboard](https://app.frogbot.ai/signup), utwÃ³rz konto i wygeneruj klucz API.
+
+2. Uruchom polecenie `/connect` i wyszukaj **FrogBot**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº klucz API FrogBot.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom komendÄ™ `/models`, aby wybraÄ‡ model.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Fireworks AI
+
+1. PrzejdÅº do [konsoli Fireworks AI](https://app.fireworks.ai/), utwÃ³rz konto i kliknij **UtwÃ³rz klucz API**.
+
+2. Uruchom polecenie `/connect` i wyszukaj **Fireworks AI**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº klucz API programu Fireworks AI.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom polecenie `/models`, aby wybraÄ‡ model taki jak _Kimi K2 Instruct_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### GitLab Duo
+
+GitLab Duo zapewnia czat agentowy oparty na sztucznej inteligencji z natywnymi moÅ¼liwoÅ›ciami wywoÅ‚ywania narzÄ™dzi za poÅ›rednictwem Anthropic proxy GitLab.
+
+1. Uruchom komendÄ™ `/connect` i wybierz GitLab.
+
+   ```txt
+   /connect
+   ```
+
+2. Wybierz metodÄ™ uwierzytelniania:
+
+   ```txt
+   â”Œ Select auth method
+   â”‚
+   â”‚ OAuth (Recommended)
+   â”‚ Personal Access Token
+   â””
+   ```
+
+   #### Using OAuth (Recommended)
+
+   Wybierz **OAuth**, a Twoja przeglÄ…darka otworzy siÄ™ w celu autoryzacji.
+
+   #### UÅ¼ycie osobistego tokenu dostÄ™pu
+   1. PrzejdÅº do [Ustawienia uÅ¼ytkownika GitLab > Tokeny dostÄ™pu](https://gitlab.com/-/user_settings/personal_access_tokens)
+   2. Click **Add new token**
+   3. Name: `Voracode`, Scopes: `api`
+   4. Skopiuj token (zaczyna siÄ™ od `glpat-`)
+   5. Wpisz go w terminalu
+
+3. Uruchom komendÄ™ `/models`, aby zobaczyÄ‡ dostÄ™pne modele.
+
+   ```txt
+   /models
+   ```
+
+   DostÄ™pne sÄ… trzy modele oparte na Claude:
+   - **duo-chat-haiku-4-5** (DomyÅ›lnie) - Szybkie odpowiedzi dla szybkich zadaÅ„
+   - **duo-chat-sonnet-4-5** - ZrÃ³wnowaÅ¼ona wydajnoÅ›Ä‡ dla wiÄ™kszoÅ›ci przepÅ‚ywÃ³w pracy
+   - **duo-chat-opus-4-5** - Najbardziej zdolny do zÅ‚oÅ¼onej analizy
+
+:::note
+JeÅ›li nie chcesz, moÅ¼esz takÅ¼e okreÅ›liÄ‡ zmiennÄ… Å›rodowiskowÄ… â€žGITLAB_TOKENâ€.
+to store token in voracode auth storage.
+:::
+
+##### Self-Hosted GitLab
+
+:::note[compliance note]
+voracode uÅ¼ywa maÅ‚ego modelu do niektÃ³rych zadaÅ„ AI, takich jak generowanie tytuÅ‚u sesji.
+DomyÅ›lnie jest skonfigurowany do uÅ¼ywania gpt-5-nano, hostowanego przez Zen. Aby zablokowaÄ‡ voracode
+aby uÅ¼ywaÄ‡ tylko wÅ‚asnej instancji hostowanej przez GitLab, dodaj nastÄ™pujÄ…ce elementy do pliku
+`voracode.json` plik. Zalecane jest rÃ³wnieÅ¼ wyÅ‚Ä…czenie udostÄ™pniania sesji.
+
+```json
+{
+  "$schema": "https://voracode.ai/config.json",
+  "small_model": "gitlab/duo-chat-haiku-4-5",
+  "share": "disabled"
+}
+```
+
+:::
+
+W przypadku samodzielnie hostowanych instancji GitLab:
+
+```bash
+export GITLAB_INSTANCE_URL=https://gitlab.company.com
+export GITLAB_TOKEN=glpat-...
+```
+
+JeÅ›li w Twojej instancji dziaÅ‚a niestandardowa brama AI:
+
+```bash
+GITLAB_AI_GATEWAY_URL=https://ai-gateway.company.com
+```
+
+Lub dodaj do swojego profilu bash:
+
+```bash title="~/.bash_profile"
+export GITLAB_INSTANCE_URL=https://gitlab.company.com
+export GITLAB_AI_GATEWAY_URL=https://ai-gateway.company.com
+export GITLAB_TOKEN=glpat-...
+```
+
+:::note
+TwÃ³j administrator GitLab musi wÅ‚Ä…czyÄ‡ nastÄ™pujÄ…ce opcje:
+
+1. [Platforma Duo Agent](https://docs.gitlab.com/user/duo_agent_platform/turn_on_off/) dla uÅ¼ytkownika, grupy lub instancji
+2. Feature flags (via Rails console):
+   - `agent_platform_claude_code`
+   - `third_party_agents_enabled`
+     :::
+
+##### OAuth dla instancji hostowanych samodzielnie
+
+Aby Oauth mÃ³gÅ‚ dziaÅ‚aÄ‡ w przypadku Twojej instancji hostowanej samodzielnie, musisz utworzyÄ‡
+nowÄ… aplikacjÄ™ (Ustawienia â†’ Aplikacje) z
+Adres URL wywoÅ‚ania zwrotnego `http://127.0.0.1:8080/callback` i nastÄ™pujÄ…ce zakresy:
+
+- api (Uzyskaj dostÄ™p do API w swoim imieniu)
+- read_user (Przeczytaj swoje dane osobowe)
+- read_repository (umoÅ¼liwia dostÄ™p do repozytorium tylko do odczytu)
+
+NastÄ™pnie ustaw ID aplikacji jako zmiennÄ… Å›rodowiskowÄ…:
+
+```bash
+export GITLAB_OAUTH_CLIENT_ID=your_application_id_here
+```
+
+WiÄ™cej informacji znajdziesz na stronie [voracode-gitlab-auth](https://www.npmjs.com/package/voracode-gitlab-auth).
+
+##### Konfiguracja
+
+Customize through `voracode.json`:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "gitlab": {
+      "options": {
+        "instanceUrl": "https://gitlab.com"
+      }
+    }
+  }
+}
+```
+
+##### NarzÄ™dzia GitLab API (opcjonalne, ale wysoce zalecane)
+
+To access GitLab tools (merge requests, issues, pipelines, CI/CD, etc.):
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "plugin": ["voracode-gitlab-plugin"]
+}
+```
+
+Ta wtyczka zapewnia kompleksowe moÅ¼liwoÅ›ci zarzÄ…dzania repozytorium GitLab, w tym recenzje MR, Å›ledzenie problemÃ³w, monitorowanie rurociÄ…gÃ³w i inne.
+
+---
+
+### GitHub Copilot
+
+Aby korzystaÄ‡ z subskrypcji GitHub Copilot z kodem voracode:
+
+:::note
+NiektÃ³re modele mogÄ… wymagaÄ‡ [subskrypcji Pro+](https://github.com/features/Copilot/plans), aby z nich korzystaÄ‡.
+
+NiektÃ³re modele naleÅ¼y wÅ‚Ä…czyÄ‡ rÄ™cznie w [ustawieniach GitHub Copilot](https://docs.github.com/en/Copilot/how-tos/use-ai-models/configure-access-to-ai-models#setup-for-individual-use).
+:::
+
+1. Uruchom komendÄ™ `/connect` i wyszukaj GitHub Copilot.
+
+   ```txt
+   /connect
+   ```
+
+2. PrzejdÅº do [github.com/login/device](https://github.com/login/device) i wpisz kod.
+
+   ```txt
+   â”Œ Login with GitHub Copilot
+   â”‚
+   â”‚ https://github.com/login/device
+   â”‚
+   â”‚ Enter code: 8F43-6FCF
+   â”‚
+   â”” Waiting for authorization...
+   ```
+
+3. Teraz uruchom polecenie `/models`, aby wybraÄ‡ Å¼Ä…dany model.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Google Vertex AI
+
+Aby uÅ¼ywaÄ‡ Google Vertex AI z voracode:
+
+1. PrzejdÅº do **Model Garden** w Google Cloud Console i sprawdÅº
+   modele dostÄ™pne w Twoim regionie.
+
+   :::note
+   Musisz mieÄ‡ projekt Google Cloud z wÅ‚Ä…czonym interfejsem API Vertex AI.
+   :::
+
+2. Ustaw wymagane zmienne Å›rodowiskowe:
+   - `GOOGLE_CLOUD_PROJECT`: identyfikator Twojego projektu Google Cloud
+   - `VERTEX_LOCATION` (opcjonalnie): region Vertex AI (domyÅ›lnie `global`)
+   - Uwierzytelnianie (wybierz jedno):
+     - `GOOGLE_APPLICATION_CREDENTIALS`: ÅšcieÅ¼ka do pliku klucza JSON konta usÅ‚ugi
+     - Uwierzytelnij siÄ™ za pomocÄ… interfejsu CLI gcloud: `gcloud auth application-default login`
+
+   Ustaw je podczas uruchamiania voracode.
+
+   ```bash
+   GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json GOOGLE_CLOUD_PROJECT=your-project-id voracode
+   ```
+
+   Lub dodaj je do swojego profilu bash.
+
+   ```bash title="~/.bash_profile"
+   export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
+   export GOOGLE_CLOUD_PROJECT=your-project-id
+   export VERTEX_LOCATION=global
+   ```
+
+:::tip
+Region `global` poprawia dostÄ™pnoÅ›Ä‡ i zmniejsza liczbÄ™ bÅ‚Ä™dÃ³w bez dodatkowych kosztÃ³w. UÅ¼yj regionalnych punktÃ³w koÅ„cowych (np. `us-central1`) w celu speÅ‚nienia wymagaÅ„ dotyczÄ…cych miejsca przechowywania danych. [Dowiedz siÄ™ wiÄ™cej](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-partner-models#regional_and_global_endpoints)
+:::
+
+3. Uruchom komendÄ™ `/models`, aby wybraÄ‡ Å¼Ä…dany model.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Groq
+
+1. PrzejdÅº do [konsoli Groq](https://console.groq.com/), kliknij **UtwÃ³rz klucz API** i skopiuj klucz.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj Groq.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº klucz API dla dostawcy.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom polecenie `/models`, aby wybraÄ‡ Å¼Ä…dany.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Hugging Face
+
+[Inference Providers Hugging Face](https://huggingface.co/docs/inference-providers) zapewniajÄ… dostÄ™p do otwartych modeli obsÅ‚ugiwanych przez ponad 17 dostawcÃ³w.
+
+1. PrzejdÅº do [ustawieÅ„ Hugging Face](https://huggingface.co/settings/tokens/new?ownUserPermissions=inference.serverless.write&tokenType=fineGrained), aby utworzyÄ‡ token z uprawnieniami do wykonywania poÅ‚Ä…czeÅ„ z dostawcami wnioskowania.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj **Hugging Face**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº swÃ³j token Hugging Face.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom polecenie `/models`, aby wybraÄ‡ model taki jak _Kimi-K2-Instruct_ lub _GLM-4.6_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Helicone
+
+[Helicone](https://helicone.ai) to platforma obserwowalnoÅ›ci LLM, ktÃ³ra zapewnia rejestrowanie, monitorowanie i analizy dla aplikacji AI. Helicone AI Gateway automatycznie kieruje Twoje Å¼Ä…dania do odpowiedniego dostawcy w oparciu o model.
+
+1. Udaj siÄ™ do [Helicone](https://helicone.ai), utwÃ³rz konto i wygeneruj klucz API ze swojego panelu.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj **Helicone**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº swÃ³j klucz API Helicone.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom komendÄ™ `/models`, aby wybraÄ‡ model.
+
+   ```txt
+   /models
+   ```
+
+WiÄ™cej dostawcÃ³w i zaawansowanych funkcji, takich jak buforowanie i ograniczanie szybkoÅ›ci, znajdziesz w [dokumentacji Helicone](https://docs.helicone.ai).
+
+#### Opcjonalna konfiguracja
+
+JeÅ›li zobaczysz funkcjÄ™ lub model firmy Helicone, ktÃ³ra nie jest konfigurowana automatycznie za pomocÄ… voracode, zawsze moÅ¼esz jÄ… skonfigurowaÄ‡ samodzielnie.
+
+Oto [Katalog modeli Helicone](https://helicone.ai/models), bÄ™dziesz go potrzebowaÄ‡, aby pobraÄ‡ identyfikatory modeli, ktÃ³re chcesz dodaÄ‡.
+
+```jsonc title="~/.config/voracode/voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "helicone": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Helicone",
+      "options": {
+        "baseURL": "https://ai-gateway.helicone.ai",
+      },
+      "models": {
+        "gpt-4o": {
+          // Model ID (from Helicone's model directory page)
+          "name": "GPT-4o", // Your own custom name for the model
+        },
+        "claude-sonnet-4-20250514": {
+          "name": "Claude Sonnet 4",
+        },
+      },
+    },
+  },
+}
+```
+
+#### Niestandardowe nagÅ‚Ã³wki
+
+Helicone obsÅ‚uguje niestandardowe nagÅ‚Ã³wki dla funkcji takich jak buforowanie, Å›ledzenie uÅ¼ytkownikÃ³w i zarzÄ…dzanie sesjami. Dodaj je do konfiguracji dostawcy za pomocÄ… `options.headers`:
+
+```jsonc title="~/.config/voracode/voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "helicone": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Helicone",
+      "options": {
+        "baseURL": "https://ai-gateway.helicone.ai",
+        "headers": {
+          "Helicone-Cache-Enabled": "true",
+          "Helicone-User-Id": "voracode",
+        },
+      },
+    },
+  },
+}
+```
+
+##### Åšledzenie sesji
+
+Funkcja [Sesje](https://docs.helicone.ai/features/sessions) firmy Helicone umoÅ¼liwia grupowanie powiÄ…zanych Å¼Ä…daÅ„ LLM. UÅ¼yj wtyczki [voracode-helicone-session](https://github.com/H2Shami/voracode-helicone-session), aby automatycznie rejestrowaÄ‡ kaÅ¼dÄ… konwersacjÄ™ voracode jako sesjÄ™ w Helicone.
+
+```bash
+npm install -g voracode-helicone-session
+```
+
+Dodaj go do swojej konfiguracji.
+
+```json title="voracode.json"
+{
+  "plugin": ["voracode-helicone-session"]
+}
+```
+
+Wtyczka wstawia nagÅ‚Ã³wki `Helicone-Session-Id` i `Helicone-Session-Name` do Twoich Å¼Ä…daÅ„. Na stronie Sesje Helicone kaÅ¼da konwersacja voracode bÄ™dzie wymieniona jako osobna sesja.
+
+##### NajczÄ™stsze nagÅ‚Ã³wki Helicone
+
+| Header                     | Description                                                   |
+| -------------------------- | ------------------------------------------------------------- |
+| `Helicone-Cache-Enabled`   | Enable response caching (`true`/`false`)                      |
+| `Helicone-User-Id`         | Track metrics by user                                         |
+| `Helicone-Property-[Name]` | Add custom properties (e.g., `Helicone-Property-Environment`) |
+| `Helicone-Prompt-Id`       | PowiÄ…Å¼ Å¼Ä…dania z wersjami podpowiedzi                         |
+
+Zobacz [Katalog nagÅ‚Ã³wkÃ³w Helicone](https://docs.helicone.ai/helicone-headers/header-directory), aby poznaÄ‡ wszystkie dostÄ™pne nagÅ‚Ã³wki.
+
+---
+
+### llama.cpp
+
+MoÅ¼esz skonfigurowaÄ‡ voracode tak, aby korzystaÅ‚ z modeli lokalnych, za pomocÄ… narzÄ™dzia llama-server [llama.cpp](https://github.com/ggml-org/llama.cpp)
+
+```json title="voracode.json" "llama.cpp" {5, 6, 8, 10-15}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "llama.cpp": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama-server (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:8080/v1"
+      },
+      "models": {
+        "qwen3-coder:a3b": {
+          "name": "Qwen3-Coder: a3b-30b (local)",
+          "limit": {
+            "context": 128000,
+            "output": 65536
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+W tym przykÅ‚adzie:
+
+- `llama.cpp` to niestandardowy identyfikator dostawcy. MoÅ¼e to byÄ‡ dowolny ciÄ…g znakÃ³w.
+- `npm` okreÅ›la pakiet, ktÃ³ry ma byÄ‡ uÅ¼ywany dla tego dostawcy. Tutaj `@ai-sdk/openai-compatible` jest uÅ¼ywany dla dowolnego API zgodnego z OpenAI.
+- `name` to nazwa wyÅ›wietlana dostawcy w interfejsie uÅ¼ytkownika.
+- `options.baseURL` jest punktem koÅ„cowym serwera lokalnego.
+- `models` to mapa identyfikatorÃ³w modeli do ich konfiguracji. Nazwa modelu zostanie wyÅ›wietlona na liÅ›cie wyboru modelu.
+
+---
+
+### IO.NET
+
+IO.NET oferuje 17 modeli zoptymalizowanych pod kÄ…tem rÃ³Å¼nych zastosowaÅ„:
+
+1. PrzejdÅº do [konsoli IO.NET](https://ai.io.net/), utwÃ³rz konto i wygeneruj klucz API.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj **IO.NET**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº swÃ³j klucz API IO.NET.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom komendÄ™ `/models`, aby wybraÄ‡ model.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### LM Studio
+
+MoÅ¼esz skonfigurowaÄ‡ voracode tak, aby korzystaÅ‚ z modeli lokalnych poprzez LM Studio.
+
+```json title="voracode.json" "lmstudio" {5, 6, 8, 10-14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "lmstudio": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "LM Studio (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:1234/v1"
+      },
+      "models": {
+        "google/gemma-3n-e4b": {
+          "name": "Gemma 3n-e4b (local)"
+        }
+      }
+    }
+  }
+}
+```
+
+W tym przykÅ‚adzie:
+
+- `lmstudio` to niestandardowy identyfikator dostawcy. MoÅ¼e to byÄ‡ dowolny ciÄ…g znakÃ³w.
+- `npm` okreÅ›la pakiet, ktÃ³ry ma byÄ‡ uÅ¼ywany dla tego dostawcy. Tutaj `@ai-sdk/openai-compatible` jest uÅ¼ywany dla dowolnego API zgodnego z OpenAI.
+- `name` to nazwa wyÅ›wietlana dostawcy w interfejsie uÅ¼ytkownika.
+- `options.baseURL` jest punktem koÅ„cowym serwera lokalnego.
+- `models` to mapa identyfikatorÃ³w modeli do ich konfiguracji. Nazwa modelu zostanie wyÅ›wietlona na liÅ›cie wyboru modelu.
+
+---
+
+### Moonshot AI
+
+Aby uÅ¼yÄ‡ Kimi K2 z Moonshot AI:
+
+1. PrzejdÅº do [konsoli Moonshot AI](https://platform.moonshot.ai/console), utwÃ³rz konto i kliknij **UtwÃ³rz klucz API**.
+
+2. Uruchom polecenie `/connect` i wyszukaj **Moonshot AI**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº klucz API Moonshot.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom komendÄ™ `/models`, aby wybraÄ‡ _Kimi K2_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### MiniMax
+
+1. PrzejdÅº do [konsoli API MiniMax](https://platform.minimax.io/login), utwÃ³rz konto i wygeneruj klucz API.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj **MiniMax**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº swÃ³j klucz API MiniMax.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom komendÄ™ `/models`, aby wybraÄ‡ model taki jak _M2.1_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Nebius Token Factory
+
+1. PrzejdÅº do [konsoli Nebius Token Factory](https://tokenfactory.nebius.com/), utwÃ³rz konto i kliknij **Dodaj klucz**.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj **Nebius Token Factory**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº klucz API Nebius Token Factory.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom polecenie `/models`, aby wybraÄ‡ model taki jak _Kimi K2 Instruct_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Ollama
+
+MoÅ¼esz skonfigurowaÄ‡ voracode tak, aby korzystaÅ‚ z modeli lokalnych poprzez OllamÄ™.
+
+:::tip
+Ollama moÅ¼e automatycznie skonfigurowaÄ‡ siÄ™ pod kÄ…tem voracode. Aby uzyskaÄ‡ szczegÃ³Å‚owe informacje, zobacz [dokumentacjÄ™ integracji Ollama](https://docs.ollama.com/integrations/voracode).
+:::
+
+```json title="voracode.json" "ollama" {5, 6, 8, 10-14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "llama2": {
+          "name": "Llama 2"
+        }
+      }
+    }
+  }
+}
+```
+
+W tym przykÅ‚adzie:
+
+- `ollama` to niestandardowy identyfikator dostawcy. MoÅ¼e to byÄ‡ dowolny ciÄ…g znakÃ³w.
+- `npm` okreÅ›la pakiet, ktÃ³ry ma byÄ‡ uÅ¼ywany dla tego dostawcy. Tutaj `@ai-sdk/openai-compatible` jest uÅ¼ywany dla dowolnego API zgodnego z OpenAI.
+- `name` to nazwa wyÅ›wietlana dostawcy w interfejsie uÅ¼ytkownika.
+- `options.baseURL` jest punktem koÅ„cowym serwera lokalnego.
+- `models` to mapa identyfikatorÃ³w modeli do ich konfiguracji. Nazwa modelu zostanie wyÅ›wietlona na liÅ›cie wyboru modelu.
+
+:::tip
+JeÅ›li wywoÅ‚ania narzÄ™dzi nie dziaÅ‚ajÄ…, sprÃ³buj zwiÄ™kszyÄ‡ `num_ctx` w Ollama. Zacznij okoÅ‚o 16 tys. - 32 tys.
+:::
+
+---
+
+### Ollama Cloud
+
+Aby korzystaÄ‡ z Ollama Cloud z voracode:
+
+1. Udaj siÄ™ do [https://ollama.com/](https://ollama.com/) i zaloguj siÄ™ lub utwÃ³rz konto.
+
+2. PrzejdÅº do **Ustawienia** > **Klucze** i kliknij **Dodaj klucz API**, aby wygenerowaÄ‡ nowy klucz API.
+
+3. Skopiuj klucz API do uÅ¼ycia w voracode.
+
+4. Uruchom polecenie `/connect` i wyszukaj **Ollama Cloud**.
+
+   ```txt
+   /connect
+   ```
+
+5. WprowadÅº swÃ³j klucz API Ollama Cloud.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+6. **WaÅ¼ne**: Przed uÅ¼yciem modeli chmurowych w voracode musisz pobraÄ‡ informacje o modelu lokalnie:
+
+   ```bash
+   ollama pull gpt-oss:20b-cloud
+   ```
+
+7. Uruchom polecenie `/models`, aby wybraÄ‡ model Ollama Cloud.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### OpenAI
+
+Zalecamy zarejestrowanie siÄ™ w [ChatGPT Plus lub Pro](https://chatgpt.com/pricing).
+
+1. Po zarejestrowaniu siÄ™ uruchom komendÄ™ `/connect` i wybierz OpenAI.
+
+   ```txt
+   /connect
+   ```
+
+2. Tutaj moÅ¼esz wybraÄ‡ opcjÄ™ **ChatGPT Plus/Pro**, co spowoduje otwarcie przeglÄ…darki
+   i poproÅ› o uwierzytelnienie.
+
+   ```txt
+   â”Œ Select auth method
+   â”‚
+   â”‚ ChatGPT Plus/Pro
+   â”‚ Manually enter API Key
+   â””
+   ```
+
+3. Teraz wszystkie modele OpenAI powinny byÄ‡ dostÄ™pne po uÅ¼yciu polecenia `/models`.
+
+   ```txt
+   /models
+   ```
+
+##### UÅ¼ycie kluczy API
+
+JeÅ›li posiadasz juÅ¼ klucz API, moÅ¼esz wybraÄ‡ opcjÄ™ **WprowadÅº klucz API rÄ™cznie** i wkleiÄ‡ go w terminalu.
+
+---
+
+### Voracode Zen
+
+Voracode Zen to lista przetestowanych i zweryfikowanych modeli udostÄ™pniona przez zespÃ³Å‚ voracode. [Dowiedz siÄ™ wiÄ™cej](/docs/zen).
+
+1. Zaloguj siÄ™ do **<a href={console}>Voracode Zen</a>** i kliknij **UtwÃ³rz klucz API**.
+
+2. Uruchom polecenie `/connect` i wyszukaj **Voracode Zen**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº klucz API voracode.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom polecenie `/models`, aby wybraÄ‡ model taki jak _Qwen 3 Coder 480B_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### OpenRouter
+
+1. PrzejdÅº do [panelu OpenRouter](https://openrouter.ai/settings/keys), kliknij **UtwÃ³rz klucz API** i skopiuj klucz.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj OpenRouter.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº klucz API dla dostawcy.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Wiele modeli OpenRouter jest domyÅ›lnie zaÅ‚adowanych fabrycznie. Uruchom komendÄ™ `/models`, aby wybraÄ‡ ten, ktÃ³ry chcesz.
+
+   ```txt
+   /models
+   ```
+
+   MoÅ¼esz takÅ¼e dodaÄ‡ dodatkowe modele za pomocÄ… konfiguracji voracode.
+
+   ```json title="voracode.json" {6}
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "provider": {
+       "openrouter": {
+         "models": {
+           "somecoolnewmodel": {}
+         }
+       }
+     }
+   }
+   ```
+
+5. MoÅ¼esz je takÅ¼e dostosowaÄ‡ za pomocÄ… konfiguracji voracode. Oto przykÅ‚ad okreÅ›lenia dostawcy
+
+   ```json title="voracode.json"
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "provider": {
+       "openrouter": {
+         "models": {
+           "moonshotai/kimi-k2": {
+             "options": {
+               "provider": {
+                 "order": ["baseten"],
+                 "allow_fallbacks": false
+               }
+             }
+           }
+         }
+       }
+     }
+   }
+   ```
+
+---
+
+### SAP AI Core
+
+SAP AI Core zapewnia dostÄ™p do ponad 40 modeli z OpenAI, Anthropic, Google, Amazon, Meta, Mistral i AI21 za poÅ›rednictwem ujednoliconej platformy.
+
+1. PrzejdÅº do [SAP BTP Cockpit](https://account.hana.ondemand.com/), przejdÅº do instancji usÅ‚ugi SAP AI Core i utwÃ³rz klucz usÅ‚ugi.
+
+   :::tip
+   Klucz usÅ‚ugi to obiekt JSON zawierajÄ…cy `clientid`, `clientsecret`, `url` i `serviceurls.AI_API_URL`. InstancjÄ™ AI Core znajdziesz w sekcji **UsÅ‚ugi** > **Instancje i subskrypcje** w Kokpicie BTP.
+   :::
+
+2. Uruchom polecenie `/connect` i wyszukaj **SAP AI Core**.
+
+   ```txt
+   /connect
+   ```
+
+3. Wpisz swÃ³j klucz usÅ‚ugi JSON.
+
+   ```txt
+   â”Œ Service key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+   Lub ustaw zmiennÄ… Å›rodowiskowÄ… `AICORE_SERVICE_KEY`:
+
+   ```bash
+   AICORE_SERVICE_KEY='{"clientid":"...","clientsecret":"...","url":"...","serviceurls":{"AI_API_URL":"..."}}' voracode
+   ```
+
+   Lub dodaj go do swojego profilu bash:
+
+   ```bash title="~/.bash_profile"
+   export AICORE_SERVICE_KEY='{"clientid":"...","clientsecret":"...","url":"...","serviceurls":{"AI_API_URL":"..."}}'
+   ```
+
+4. Opcjonalnie ustaw identyfikator wdroÅ¼enia i grupÄ™ zasobÃ³w:
+
+   ```bash
+   AICORE_DEPLOYMENT_ID=your-deployment-id AICORE_RESOURCE_GROUP=your-resource-group voracode
+   ```
+
+   :::note
+   Te ustawienia sÄ… opcjonalne i naleÅ¼y je skonfigurowaÄ‡ zgodnie z konfiguracjÄ… SAP AI Core.
+   :::
+
+5. Uruchom polecenie `/models`, aby wybraÄ‡ spoÅ›rÃ³d ponad 40 dostÄ™pnych modeli.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### STACKIT
+
+STACKIT AI Model Serving zapewnia w peÅ‚ni zarzÄ…dzane suwerenne Å›rodowisko hostingu dla modeli AI, koncentrujÄ…c siÄ™ na LLM, takich jak Llama, Mistral i Qwen, z maksymalnÄ… suwerennoÅ›ciÄ… danych na infrastrukturze europejskiej.
+
+1. PrzejdÅº do [portalu STACKIT](https://portal.stackit.cloud), przejdÅº do **AI Model Serving**, i utwÃ³rz token autoryzacyjny dla swojego projektu.
+
+   :::tip
+   Musisz posiadaÄ‡ konto klienta STACKIT, konto uÅ¼ytkownika i projekt przed utworzeniem tokenÃ³w autoryzacyjnych.
+   :::
+
+2. Uruchom polecenie `/connect` i wyszukaj **STACKIT**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº swÃ³j token autoryzacyjny STACKIT AI Model Serving.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom polecenie `/models`, aby wybraÄ‡ jeden z dostÄ™pnych modeli, np. _Qwen3-VL 235B_ lub _Llama 3.3 70B_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### OVHcloud AI Endpoints
+
+1. PrzejdÅº do [panelu OVHcloud](https://ovh.com/manager). PrzejdÅº do sekcji `Public Cloud`, `AI & Machine Learning` > `AI Endpoints` i na karcie `API Keys` kliknij **UtwÃ³rz nowy klucz API**.
+
+2. Uruchom polecenie `/connect` i wyszukaj **Punkty koÅ„cowe AI OVHcloud**.
+
+   ```txt
+   /connect
+   ```
+
+3. Wpisz klucz API punktÃ³w koÅ„cowych AI OVHcloud.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom polecenie `/models`, aby wybraÄ‡ model taki jak _gpt-oss-120b_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Scaleway
+
+Aby uÅ¼ywaÄ‡ [generatywnych interfejsÃ³w API Scaleway](https://www.scaleway.com/en/docs/generative-apis/) z voracode:
+
+1. PrzejdÅº do [UstawieÅ„ uprawnieÅ„ konsoli Scaleway](https://console.scaleway.com/iam/api-keys), aby wygenerowaÄ‡ nowy klucz API.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj **Scaleway**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº swÃ³j klucz API Scaleway.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom komendÄ™ `/models`, aby wybraÄ‡ model taki jak _devstral-2-123b-instruct-2512_ lub _gpt-oss-120b_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Together AI
+
+1. PrzejdÅº do [konsoli Together AI](https://api.together.ai), utwÃ³rz konto i kliknij **Dodaj klucz**.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj **Together AI**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº klucz API Together AI.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom polecenie `/models`, aby wybraÄ‡ model taki jak _Kimi K2 Instruct_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Venice AI
+
+1. PrzejdÅº do [konsoli Venice AI](https://venice.ai), utwÃ³rz konto i wygeneruj klucz API.
+
+2. Uruchom polecenie `/connect` i wyszukaj **Venice AI**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº klucz API Venice AI.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom polecenie `/models`, aby wybraÄ‡ model taki jak _Llama 3.3 70B_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Vercel AI Gateway
+
+Vercel AI Gateway umoÅ¼liwia dostÄ™p do modeli z OpenAI, Anthropic, Google, xAI i innych za poÅ›rednictwem ujednoliconego punktu koÅ„cowego. Modele oferowane sÄ… po cenie katalogowej bez marÅ¼y.
+
+1. PrzejdÅº do [panelu Vercel](https://vercel.com/), przejdÅº do karty **AI Gateway** i kliknij **Klucze API**, aby utworzyÄ‡ nowy klucz API.
+
+2. Uruchom polecenie `/connect` i wyszukaj **Vercel AI Gateway**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº klucz API Vercel AI Gateway.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom komendÄ™ `/models`, aby wybraÄ‡ model.
+
+   ```txt
+   /models
+   ```
+
+MoÅ¼esz takÅ¼e dostosowaÄ‡ modele za pomocÄ… konfiguracji voracode. Oto przykÅ‚ad okreÅ›lenia kolejnoÅ›ci routingu dostawcy.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "vercel": {
+      "models": {
+        "anthropic/claude-sonnet-4": {
+          "options": {
+            "order": ["anthropic", "vertex"]
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Przydatne opcje routingu:
+
+| Opcja               | Opis                                                                         |
+| ------------------- | ---------------------------------------------------------------------------- |
+| `order`             | Sekwencja dostawcy do wyprÃ³bowania                                           |
+| `only`              | Ograniczenie do wskazanych dostawcÃ³w                                         |
+| `zeroDataRetention` | Korzystaj wyÅ‚Ä…cznie z dostawcÃ³w, ktÃ³rzy nie majÄ… zasad przechowywania danych |
+
+---
+
+### xAI
+
+1. PrzejdÅº do [konsoli xAI](https://console.x.ai/), utwÃ³rz konto i wygeneruj klucz API.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj **xAI**.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº swÃ³j klucz API xAI.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom polecenie `/models`, aby wybraÄ‡ model taki jak _Grok Beta_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### Z.AI
+
+1. PrzejdÅº do [konsoli API Z.AI](https://z.ai/manage-apikey/apikey-list), utwÃ³rz konto i kliknij **UtwÃ³rz nowy klucz API**.
+
+2. Uruchom komendÄ™ `/connect` i wyszukaj **Z.AI**.
+
+   ```txt
+   /connect
+   ```
+
+   JeÅ¼eli jesteÅ› abonentem **Planu kodowania GLM**, wybierz **Plan kodowania Z.AI**.
+
+3. Wpisz swÃ³j klucz API Z.AI.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Uruchom komendÄ™ `/models`, aby wybraÄ‡ model taki jak _GLM-4.7_.
+
+   ```txt
+   /models
+   ```
+
+---
+
+### ZenMux
+
+1. PrzejdÅº do [panelu ZenMux](https://zenmux.ai/settings/keys), kliknij **UtwÃ³rz klucz API** i skopiuj klucz.
+
+2. Uruchom polecenie `/connect` i wyszukaj ZenMux.
+
+   ```txt
+   /connect
+   ```
+
+3. WprowadÅº klucz API dla dostawcy.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+4. Wiele modeli ZenMux jest domyÅ›lnie zaÅ‚adowanych fabrycznie. Uruchom komendÄ™ `/models`, aby wybraÄ‡ Å¼Ä…dany model.
+
+   ```txt
+   /models
+   ```
+
+   MoÅ¼esz takÅ¼e dodaÄ‡ dodatkowe modele za pomocÄ… konfiguracji voracode.
+
+   ```json title="voracode.json" {6}
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "provider": {
+       "zenmux": {
+         "models": {
+           "somecoolnewmodel": {}
+         }
+       }
+     }
+   }
+   ```
+
+---
+
+## Niestandardowy dostawca
+
+Aby dodaÄ‡ dowolnego dostawcÄ™ **kompatybilnego z OpenAI**, ktÃ³rego nie ma na liÅ›cie w poleceniu `/connect`:
+
+:::tip
+MoÅ¼esz uÅ¼yÄ‡ dowolnego dostawcy kompatybilnego z OpenAI z voracode. WiÄ™kszoÅ›Ä‡ nowoczesnych dostawcÃ³w sztucznej inteligencji oferuje interfejsy API kompatybilne z OpenAI.
+:::
+
+1. Uruchom polecenie `/connect` i przewiÅ„ w dÃ³Å‚ do **Inne**.
+
+   ```bash
+   $ /connect
+
+   â”Œ  Add credential
+   â”‚
+   â—†  Select provider
+   â”‚  ...
+   â”‚  â— Other
+   â””
+   ```
+
+2. WprowadÅº unikalny identyfikator dostawcy.
+
+   ```bash
+   $ /connect
+
+   â”Œ  Add credential
+   â”‚
+   â—‡  Enter provider id
+   â”‚  myprovider
+   â””
+   ```
+
+   :::note
+   Wybierz niezapomniany identyfikator, uÅ¼yjesz go w swoim pliku konfiguracyjnym.
+   :::
+
+3. WprowadÅº klucz API dla dostawcy.
+
+   ```bash
+   $ /connect
+
+   â”Œ  Add credential
+   â”‚
+   â–²  This only stores a credential for myprovider - you will need to configure it in voracode.json, check the docs for examples.
+   â”‚
+   â—‡  Enter your API key
+   â”‚  sk-...
+   â””
+   ```
+
+4. UtwÃ³rz lub zaktualizuj plik `voracode.json` w katalogu projektu:
+
+   ```json title="voracode.json" ""myprovider"" {5-15}
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "provider": {
+       "myprovider": {
+         "npm": "@ai-sdk/openai-compatible",
+         "name": "My AI ProviderDisplay Name",
+         "options": {
+           "baseURL": "https://api.myprovider.com/v1"
+         },
+         "models": {
+           "my-model-name": {
+             "name": "My Model Display Name"
+           }
+         }
+       }
+     }
+   }
+   ```
+
+   Oto opcje konfiguracji:
+   - **npm**: pakiet AI SDK do uÅ¼ycia, `@ai-sdk/openai-compatible` dla dostawcÃ³w kompatybilnych z OpenAI
+   - **name**: Nazwa wyÅ›wietlana w UI.
+   - **modele**: DostÄ™pne modele.
+   - **options.baseURL**: URL endpointu API.
+   - **options.apiKey**: Opcjonalnie ustaw klucz API, jeÅ›li nie uÅ¼ywasz autoryzacji.
+   - **options.headers**: Opcjonalnie ustaw niestandardowe nagÅ‚Ã³wki.
+
+   WiÄ™cej o opcjach zaawansowanych w przykÅ‚adzie poniÅ¼ej.
+
+5. Uruchom polecenie `/models`, a niestandardowy dostawca i modele pojawiÄ… siÄ™ na liÅ›cie wyboru.
+
+---
+
+##### PrzykÅ‚ad
+
+Oto przykÅ‚ad ustawienia opcji `apiKey`, `headers` i modelu `limit`.
+
+```json title="voracode.json" {9,11,17-20}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "myprovider": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "My AI ProviderDisplay Name",
+      "options": {
+        "baseURL": "https://api.myprovider.com/v1",
+        "apiKey": "{env:ANTHROPIC_API_KEY}",
+        "headers": {
+          "Authorization": "Bearer custom-token"
+        }
+      },
+      "models": {
+        "my-model-name": {
+          "name": "My Model Display Name",
+          "limit": {
+            "context": 200000,
+            "output": 65536
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+SzczegÃ³Å‚y konfiguracji:
+
+- **apiKey**: Ustaw przy uÅ¼yciu skÅ‚adni zmiennej `env`, [dowiedz siÄ™ wiÄ™cej](/docs/config#env-vars).
+- **nagÅ‚Ã³wki**: niestandardowe nagÅ‚Ã³wki wysyÅ‚ane z kaÅ¼dym Å¼Ä…daniem.
+- **limit.context**: Maksymalna liczba tokenÃ³w wejÅ›ciowych akceptowanych przez model.
+- **limit.output**: Maksymalna liczba tokenÃ³w, ktÃ³re model moÅ¼e wygenerowaÄ‡.
+
+Pola `limit` pozwalajÄ… voracode zrozumieÄ‡, ile kontekstu pozostaÅ‚o. Standardowi dostawcy pobierajÄ… je automatycznie z models.dev.
+
+---
+
+## RozwiÄ…zywanie problemÃ³w
+
+JeÅ›li masz problemy z konfiguracjÄ… dostawcy, sprawdÅº nastÄ™pujÄ…ce elementy:
+
+1. **SprawdÅº konfiguracjÄ™ uwierzytelniania**: Uruchom `voracode auth list`, aby sprawdziÄ‡, czy poÅ›wiadczenia
+   dla dostawcy sÄ… dodawane do Twojej konfiguracji.
+
+   Nie dotyczy to dostawcÃ³w takich jak Amazon Bedrock, ktÃ³rzy w procesie uwierzytelniania opierajÄ… siÄ™ na zmiennych Å›rodowiskowych.
+
+2. W przypadku dostawcÃ³w niestandardowych sprawdÅº konfiguracjÄ™ voracode i:
+   - Upewnij siÄ™, Å¼e identyfikator dostawcy uÅ¼yty w poleceniu `/connect` jest zgodny z identyfikatorem w konfiguracji voracode.
+   - Dla dostawcy uÅ¼ywany jest wÅ‚aÅ›ciwy pakiet npm. Na przykÅ‚ad uÅ¼yj `@ai-sdk/cerebras` dla Cerebras. W przypadku wszystkich innych dostawcÃ³w zgodnych z OpenAI uÅ¼yj `@ai-sdk/openai-compatible`.
+   - SprawdÅº, czy w polu `options.baseURL` uÅ¼yto prawidÅ‚owego punktu koÅ„cowego API.

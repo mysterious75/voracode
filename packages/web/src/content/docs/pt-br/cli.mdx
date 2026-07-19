@@ -1,0 +1,616 @@
+---
+title: CLI
+description: OpÃ§Ãµes e comandos da CLI do voracode.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
+A CLI do voracode, por padrÃ£o, inicia o [TUI](/docs/tui) quando executada sem argumentos.
+
+```bash
+voracode
+```
+
+Mas tambÃ©m aceita comandos conforme documentado nesta pÃ¡gina. Isso permite que vocÃª interaja com o voracode programaticamente.
+
+```bash
+voracode run "Explain how closures work in JavaScript"
+```
+
+---
+
+### tui
+
+Inicie a interface de usuÃ¡rio do terminal do voracode.
+
+```bash
+voracode [project]
+```
+
+#### OpÃ§Ãµes
+
+| Flag                                     | Curto | DescriÃ§Ã£o                                                                  |
+| ---------------------------------------- | ----- | -------------------------------------------------------------------------- |
+| <nobr><code>{"--continue"}</code></nobr> | `-c`  | Continue a Ãºltima sessÃ£o                                                   |
+| <nobr><code>{"--session"}</code></nobr>  | `-s`  | ID da sessÃ£o para continuar                                                |
+| <nobr><code>{"--fork"}</code></nobr>     |       | Criar um fork da sessÃ£o ao continuar (use com `--continue` ou `--session`) |
+| <nobr><code>{"--prompt"}</code></nobr>   |       | Prompt a ser usado                                                         |
+| <nobr><code>{"--model"}</code></nobr>    | `-m`  | Modelo a ser usado na forma de provider/model                              |
+| <nobr><code>{"--agent"}</code></nobr>    |       | Agente a ser usado                                                         |
+| <nobr><code>{"--port"}</code></nobr>     |       | Porta para escutar                                                         |
+| <nobr><code>{"--hostname"}</code></nobr> |       | Nome do host para escutar                                                  |
+
+---
+
+## Comandos
+
+A CLI do voracode tambÃ©m possui os seguintes comandos.
+
+---
+
+### agent
+
+Gerencie agentes para o voracode.
+
+```bash
+voracode agent [command]
+```
+
+---
+
+### attach
+
+Anexe um terminal a um servidor backend do voracode jÃ¡ em execuÃ§Ã£o, iniciado via comandos `serve` ou `web`.
+
+```bash
+voracode attach [url]
+```
+
+Isso permite usar o TUI com um backend voracode remoto. Por exemplo:
+
+```bash
+# Inicie o servidor backend para acesso web/mobile
+voracode web --port 4096 --hostname 0.0.0.0
+
+# Em outro terminal, anexe o TUI ao backend em execuÃ§Ã£o
+voracode attach http://10.20.30.40:4096
+```
+
+#### OpÃ§Ãµes
+
+| Flag                                     | Curto | DescriÃ§Ã£o                                                                         |
+| ---------------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| <nobr><code>{"--dir"}</code></nobr>      |       | DiretÃ³rio de trabalho para iniciar o TUI                                          |
+| <nobr><code>{"--continue"}</code></nobr> | `-c`  | Continuar a Ãºltima sessÃ£o                                                         |
+| <nobr><code>{"--session"}</code></nobr>  | `-s`  | ID da sessÃ£o para continuar                                                       |
+| <nobr><code>{"--fork"}</code></nobr>     |       | Bifurcar a sessÃ£o ao continuar (use com `--continue` ou `--session`)              |
+| <nobr><code>{"--password"}</code></nobr> | `-p`  | Senha de autenticaÃ§Ã£o bÃ¡sica (padrÃ£o: `VORACODE_SERVER_PASSWORD`)                 |
+| <nobr><code>{"--username"}</code></nobr> | `-u`  | UsuÃ¡rio de autenticaÃ§Ã£o bÃ¡sica (padrÃ£o: `VORACODE_SERVER_USERNAME` ou `voracode`) |
+
+---
+
+#### create
+
+Crie um novo agente com configuraÃ§Ã£o personalizada.
+
+```bash
+voracode agent create
+```
+
+Este comando irÃ¡ guiÃ¡-lo na criaÃ§Ã£o de um novo agente com um prompt de sistema personalizado e configuraÃ§Ã£o de ferramentas.
+
+---
+
+#### list
+
+Liste todos os agentes disponÃ­veis.
+
+```bash
+voracode agent list
+```
+
+---
+
+### auth
+
+Comando para gerenciar credenciais e login para provedores.
+
+```bash
+voracode auth [command]
+```
+
+---
+
+#### login
+
+O voracode Ã© alimentado pela lista de provedores em [Models.dev](https://models.dev), entÃ£o vocÃª pode usar `voracode auth login` para configurar chaves de API para qualquer provedor que vocÃª gostaria de usar. Isso Ã© armazenado em `~/.local/share/voracode/auth.json`.
+
+```bash
+voracode auth login
+```
+
+Quando o voracode Ã© iniciado, ele carrega os provedores do arquivo de credenciais. E se houver chaves definidas em seus ambientes ou em um arquivo `.env` em seu projeto.
+
+---
+
+#### list
+
+Lista todos os provedores autenticados conforme armazenado no arquivo de credenciais.
+
+```bash
+voracode auth list
+```
+
+Ou a versÃ£o curta.
+
+```bash
+voracode auth ls
+```
+
+---
+
+#### logout
+
+Desconecta vocÃª de um provedor limpando-o do arquivo de credenciais.
+
+```bash
+voracode auth logout
+```
+
+---
+
+### github
+
+Gerencie o agente do GitHub para automaÃ§Ã£o de repositÃ³rios.
+
+```bash
+voracode github [command]
+```
+
+---
+
+#### install
+
+Instale o agente do GitHub em seu repositÃ³rio.
+
+```bash
+voracode github install
+```
+
+Isso configura o fluxo de trabalho necessÃ¡rio do GitHub Actions e o guia pelo processo de configuraÃ§Ã£o. [Saiba mais](/docs/github).
+
+---
+
+#### run
+
+Execute o agente do GitHub. Isso Ã© tipicamente usado em GitHub Actions.
+
+```bash
+voracode github run
+```
+
+##### OpÃ§Ãµes
+
+| Flag                                  | DescriÃ§Ã£o                                        |
+| ------------------------------------- | ------------------------------------------------ |
+| <nobr><code>{"--event"}</code></nobr> | Evento simulado do GitHub para executar o agente |
+| <nobr><code>{"--token"}</code></nobr> | Token de acesso pessoal do GitHub                |
+
+---
+
+### mcp
+
+Gerencie servidores do Model Context Protocol.
+
+```bash
+voracode mcp [command]
+```
+
+---
+
+#### add
+
+Adicione um servidor MCP Ã  sua configuraÃ§Ã£o.
+
+```bash
+voracode mcp add
+```
+
+Este comando irÃ¡ guiÃ¡-lo na adiÃ§Ã£o de um servidor MCP local ou remoto.
+
+---
+
+#### list
+
+Liste todos os servidores MCP configurados e seu status de conexÃ£o.
+
+```bash
+voracode mcp list
+```
+
+Ou use a versÃ£o curta.
+
+```bash
+voracode mcp ls
+```
+
+---
+
+#### auth
+
+Autentique-se com um servidor MCP habilitado para OAuth.
+
+```bash
+voracode mcp auth [name]
+```
+
+Se vocÃª nÃ£o fornecer um nome de servidor, serÃ¡ solicitado que vocÃª selecione entre os servidores disponÃ­veis habilitados para OAuth.
+
+VocÃª tambÃ©m pode listar servidores habilitados para OAuth e seu status de autenticaÃ§Ã£o.
+
+```bash
+voracode mcp auth list
+```
+
+Ou use a versÃ£o curta.
+
+```bash
+voracode mcp auth ls
+```
+
+---
+
+#### logout
+
+Remova credenciais OAuth para um servidor MCP.
+
+```bash
+voracode mcp logout [name]
+```
+
+---
+
+#### debug
+
+Depure problemas de conexÃ£o OAuth para um servidor MCP.
+
+```bash
+voracode mcp debug <name>
+```
+
+---
+
+### models
+
+Liste todos os modelos disponÃ­veis dos provedores configurados.
+
+```bash
+voracode models [provider]
+```
+
+Este comando exibe todos os modelos disponÃ­veis entre seus provedores configurados no formato `provider/model`.
+
+Isso Ã© Ãºtil para descobrir o nome exato do modelo a ser usado em [sua configuraÃ§Ã£o](/docs/config/).
+
+VocÃª pode opcionalmente passar um ID de provedor para filtrar modelos por esse provedor.
+
+```bash
+voracode models anthropic
+```
+
+#### OpÃ§Ãµes
+
+| Flag                                    | DescriÃ§Ã£o                                                             |
+| --------------------------------------- | --------------------------------------------------------------------- |
+| <nobr><code>{"--refresh"}</code></nobr> | Atualiza o cache de modelos a partir do models.dev                    |
+| <nobr><code>{"--verbose"}</code></nobr> | Use uma saÃ­da de modelo mais detalhada (inclui metadados como custos) |
+
+Use a flag `--refresh` para atualizar a lista de modelos em cache. Isso Ã© Ãºtil quando novos modelos foram adicionados a um provedor e vocÃª deseja vÃª-los no voracode.
+
+```bash
+voracode models --refresh
+```
+
+---
+
+### run
+
+Execute o voracode em modo nÃ£o interativo passando um prompt diretamente.
+
+```bash
+voracode run [message..]
+```
+
+Isso Ã© Ãºtil para scripts, automaÃ§Ã£o ou quando vocÃª deseja uma resposta rÃ¡pida sem iniciar o TUI completo. Por exemplo.
+
+```bash "voracode run"
+voracode run Explique o uso de context em Go
+```
+
+VocÃª tambÃ©m pode se anexar a uma instÃ¢ncia em execuÃ§Ã£o do `voracode serve` para evitar tempos de inicializaÃ§Ã£o a frio do servidor MCP em cada execuÃ§Ã£o:
+
+```bash
+# Inicie um servidor sem cabeÃ§a em um terminal
+voracode serve
+
+# Em outro terminal, execute comandos que se anexam a ele
+voracode run --attach http://localhost:4096 "Explique async/await em JavaScript"
+```
+
+#### OpÃ§Ãµes
+
+| Flag                                     | Curto | DescriÃ§Ã£o                                                                         |
+| ---------------------------------------- | ----- | --------------------------------------------------------------------------------- |
+| <nobr><code>{"--command"}</code></nobr>  |       | O comando a ser executado, use mensagem para argumentos                           |
+| <nobr><code>{"--continue"}</code></nobr> | `-c`  | Continue a Ãºltima sessÃ£o                                                          |
+| <nobr><code>{"--session"}</code></nobr>  | `-s`  | ID da sessÃ£o para continuar                                                       |
+| <nobr><code>{"--fork"}</code></nobr>     |       | Criar um fork da sessÃ£o ao continuar (use com `--continue` ou `--session`)        |
+| <nobr><code>{"--share"}</code></nobr>    |       | Compartilhe a sessÃ£o                                                              |
+| <nobr><code>{"--model"}</code></nobr>    | `-m`  | Modelo a ser usado na forma de provider/model                                     |
+| <nobr><code>{"--agent"}</code></nobr>    |       | Agente a ser usado                                                                |
+| <nobr><code>{"--file"}</code></nobr>     | `-f`  | Arquivo(s) a serem anexados Ã  mensagem                                            |
+| <nobr><code>{"--format"}</code></nobr>   |       | Formato: padrÃ£o (formatado) ou json (eventos JSON brutos)                         |
+| <nobr><code>{"--title"}</code></nobr>    |       | TÃ­tulo para a sessÃ£o (usa o prompt truncado se nenhum valor for fornecido)        |
+| <nobr><code>{"--attach"}</code></nobr>   |       | Anexe a um servidor voracode em execuÃ§Ã£o (por exemplo, http://localhost:4096)     |
+| <nobr><code>{"--password"}</code></nobr> | `-p`  | Senha de autenticaÃ§Ã£o bÃ¡sica (padrÃ£o: `VORACODE_SERVER_PASSWORD`)                 |
+| <nobr><code>{"--username"}</code></nobr> | `-u`  | UsuÃ¡rio de autenticaÃ§Ã£o bÃ¡sica (padrÃ£o: `VORACODE_SERVER_USERNAME` ou `voracode`) |
+| <nobr><code>{"--dir"}</code></nobr>      |       | DiretÃ³rio de execuÃ§Ã£o, ou caminho no servidor remoto ao anexar                    |
+| <nobr><code>{"--variant"}</code></nobr>  |       | Variante do modelo (nÃ­vel de raciocÃ­nio especÃ­fico do provedor)                   |
+| <nobr><code>{"--thinking"}</code></nobr> |       | Mostrar blocos de pensamento                                                      |
+| <nobr><code>{"--port"}</code></nobr>     |       | Porta para o servidor local (padrÃ£o para porta aleatÃ³ria)                         |
+
+---
+
+### serve
+
+Inicie um servidor voracode sem cabeÃ§a para acesso Ã  API. Confira a [documentaÃ§Ã£o do servidor](/docs/server) para a interface HTTP completa.
+
+```bash
+voracode serve
+```
+
+Isso inicia um servidor HTTP que fornece acesso Ã  funcionalidade do voracode sem a interface TUI. Defina `VORACODE_SERVER_PASSWORD` para habilitar a autenticaÃ§Ã£o bÃ¡sica HTTP (o nome de usuÃ¡rio padrÃ£o Ã© `voracode`).
+
+#### OpÃ§Ãµes
+
+| Flag                                     | DescriÃ§Ã£o                                             |
+| ---------------------------------------- | ----------------------------------------------------- |
+| <nobr><code>{"--port"}</code></nobr>     | Porta para escutar                                    |
+| <nobr><code>{"--hostname"}</code></nobr> | Nome do host para escutar                             |
+| <nobr><code>{"--mdns"}</code></nobr>     | Habilitar descoberta mDNS                             |
+| <nobr><code>{"--cors"}</code></nobr>     | Origem(ns) de navegador adicionais para permitir CORS |
+
+---
+
+### session
+
+Gerencie sessÃµes do voracode.
+
+```bash
+voracode session [command]
+```
+
+---
+
+#### list
+
+Liste todas as sessÃµes do voracode.
+
+```bash
+voracode session list
+```
+
+##### OpÃ§Ãµes
+
+| Flag                                      | Curto | DescriÃ§Ã£o                                 |
+| ----------------------------------------- | ----- | ----------------------------------------- |
+| <nobr><code>{"--max-count"}</code></nobr> | `-n`  | Limitar Ã s N sessÃµes mais recentes        |
+| <nobr><code>{"--format"}</code></nobr>    |       | Formato de saÃ­da: tabela ou json (tabela) |
+
+---
+
+### stats
+
+Mostre o uso de tokens e estatÃ­sticas de custo para suas sessÃµes do voracode.
+
+```bash
+voracode stats
+```
+
+#### OpÃ§Ãµes
+
+| Flag                                    | DescriÃ§Ã£o                                                                                            |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| <nobr><code>{"--days"}</code></nobr>    | Mostre estatÃ­sticas dos Ãºltimos N dias (todo o tempo)                                                |
+| <nobr><code>{"--tools"}</code></nobr>   | NÃºmero de ferramentas a serem mostradas (todas)                                                      |
+| <nobr><code>{"--models"}</code></nobr>  | Mostre a divisÃ£o do uso de modelos (oculto por padrÃ£o). Passe um nÃºmero para mostrar os N principais |
+| <nobr><code>{"--project"}</code></nobr> | Filtrar por projeto (todos os projetos, string vazia: projeto atual)                                 |
+
+---
+
+### export
+
+Exporte dados da sessÃ£o como JSON.
+
+```bash
+voracode export [sessionID]
+```
+
+Se vocÃª nÃ£o fornecer um ID de sessÃ£o, serÃ¡ solicitado que vocÃª selecione entre as sessÃµes disponÃ­veis.
+
+---
+
+### import
+
+Importe dados da sessÃ£o de um arquivo JSON ou URL de compartilhamento do voracode.
+
+```bash
+voracode import <file>
+```
+
+VocÃª pode importar de um arquivo local ou de uma URL de compartilhamento do voracode.
+
+```bash
+voracode import session.json
+voracode import https://opncd.ai/s/abc123
+```
+
+---
+
+### web
+
+Inicie um servidor voracode sem cabeÃ§a com uma interface web.
+
+```bash
+voracode web
+```
+
+Isso inicia um servidor HTTP e abre um navegador para acessar o voracode atravÃ©s de uma interface web. Defina `VORACODE_SERVER_PASSWORD` para habilitar a autenticaÃ§Ã£o bÃ¡sica HTTP (o nome de usuÃ¡rio padrÃ£o Ã© `voracode`).
+
+#### OpÃ§Ãµes
+
+| Flag                                     | DescriÃ§Ã£o                                             |
+| ---------------------------------------- | ----------------------------------------------------- |
+| <nobr><code>{"--port"}</code></nobr>     | Porta para escutar                                    |
+| <nobr><code>{"--hostname"}</code></nobr> | Nome do host para escutar                             |
+| <nobr><code>{"--mdns"}</code></nobr>     | Habilitar descoberta mDNS                             |
+| <nobr><code>{"--cors"}</code></nobr>     | Origem(ns) de navegador adicionais para permitir CORS |
+
+---
+
+### acp
+
+Inicie um servidor ACP (Agent Client Protocol).
+
+```bash
+voracode acp
+```
+
+Este comando inicia um servidor ACP que se comunica via stdin/stdout usando nd-JSON.
+
+#### OpÃ§Ãµes
+
+| Flag                                     | DescriÃ§Ã£o                 |
+| ---------------------------------------- | ------------------------- |
+| <nobr><code>{"--cwd"}</code></nobr>      | DiretÃ³rio de trabalho     |
+| <nobr><code>{"--port"}</code></nobr>     | Porta para escutar        |
+| <nobr><code>{"--hostname"}</code></nobr> | Nome do host para escutar |
+
+---
+
+### uninstall
+
+Desinstale o voracode e remova todos os arquivos relacionados.
+
+```bash
+voracode uninstall
+```
+
+#### OpÃ§Ãµes
+
+| Flag                                        | Curto | DescriÃ§Ã£o                                |
+| ------------------------------------------- | ----- | ---------------------------------------- |
+| <nobr><code>{"--keep-config"}</code></nobr> | `-c`  | Manter arquivos de configuraÃ§Ã£o          |
+| <nobr><code>{"--keep-data"}</code></nobr>   | `-d`  | Manter dados de sessÃ£o e snapshots       |
+| <nobr><code>{"--dry-run"}</code></nobr>     |       | Mostrar o que seria removido sem remover |
+| <nobr><code>{"--force"}</code></nobr>       | `-f`  | Pular prompts de confirmaÃ§Ã£o             |
+
+---
+
+### upgrade
+
+Atualiza o voracode para a versÃ£o mais recente ou uma versÃ£o especÃ­fica.
+
+```bash
+voracode upgrade [target]
+```
+
+Para atualizar para a versÃ£o mais recente.
+
+```bash
+voracode upgrade
+```
+
+Para atualizar para uma versÃ£o especÃ­fica.
+
+```bash
+voracode upgrade v0.1.48
+```
+
+#### OpÃ§Ãµes
+
+| Flag                                   | Curto | DescriÃ§Ã£o                                                        |
+| -------------------------------------- | ----- | ---------------------------------------------------------------- |
+| <nobr><code>{"--method"}</code></nobr> | `-m`  | O mÃ©todo de instalaÃ§Ã£o que foi usado; curl, npm, pnpm, bun, brew |
+
+---
+
+## OpÃ§Ãµes Globais
+
+A CLI do voracode aceita as seguintes flags globais.
+
+| Flag                                       | Curto | DescriÃ§Ã£o                               |
+| ------------------------------------------ | ----- | --------------------------------------- |
+| <nobr><code>{"--help"}</code></nobr>       | `-h`  | Exibir ajuda                            |
+| <nobr><code>{"--version"}</code></nobr>    | `-v`  | Imprimir nÃºmero da versÃ£o               |
+| <nobr><code>{"--print-logs"}</code></nobr> |       | Imprimir logs no stderr                 |
+| <nobr><code>{"--log-level"}</code></nobr>  |       | NÃ­vel de log (DEBUG, INFO, WARN, ERROR) |
+
+---
+
+## VariÃ¡veis de ambiente
+
+O voracode pode ser configurado usando variÃ¡veis de ambiente.
+
+| VariÃ¡vel                              | Tipo    | DescriÃ§Ã£o                                                             |
+| ------------------------------------- | ------- | --------------------------------------------------------------------- |
+| `VORACODE_AUTO_SHARE`                 | boolean | Compartilhar sessÃµes automaticamente                                  |
+| `VORACODE_GIT_BASH_PATH`              | string  | Caminho para o executÃ¡vel do Git Bash no Windows                      |
+| `VORACODE_CONFIG`                     | string  | Caminho para o arquivo de configuraÃ§Ã£o                                |
+| `VORACODE_CONFIG_DIR`                 | string  | Caminho para o diretÃ³rio de configuraÃ§Ã£o                              |
+| `VORACODE_CONFIG_CONTENT`             | string  | ConteÃºdo de configuraÃ§Ã£o json inline                                  |
+| `VORACODE_DISABLE_AUTOUPDATE`         | boolean | Desabilitar verificaÃ§Ãµes de atualizaÃ§Ã£o automÃ¡tica                    |
+| `VORACODE_DISABLE_PRUNE`              | boolean | Desabilitar a poda de dados antigos                                   |
+| `VORACODE_DISABLE_TERMINAL_TITLE`     | boolean | Desabilitar atualizaÃ§Ãµes automÃ¡ticas do tÃ­tulo do terminal            |
+| `VORACODE_PERMISSION`                 | string  | ConfiguraÃ§Ã£o de permissÃµes json inline                                |
+| `VORACODE_DISABLE_DEFAULT_PLUGINS`    | boolean | Desabilitar plugins padrÃ£o                                            |
+| `VORACODE_DISABLE_LSP_DOWNLOAD`       | boolean | Desabilitar downloads automÃ¡ticos do servidor LSP                     |
+| `VORACODE_ENABLE_EXPERIMENTAL_MODELS` | boolean | Habilitar modelos experimentais                                       |
+| `VORACODE_DISABLE_AUTOCOMPACT`        | boolean | Desabilitar compactaÃ§Ã£o automÃ¡tica de contexto                        |
+| `VORACODE_DISABLE_CLAUDE_CODE`        | boolean | Desabilitar leitura de `.claude` (prompt + habilidades)               |
+| `VORACODE_DISABLE_CLAUDE_CODE_PROMPT` | boolean | Desabilitar leitura de `~/.claude/CLAUDE.md`                          |
+| `VORACODE_DISABLE_CLAUDE_CODE_SKILLS` | boolean | Desabilitar carregamento de `.claude/skills`                          |
+| `VORACODE_DISABLE_MODELS_FETCH`       | boolean | Desabilitar busca de modelos de fontes remotas                        |
+| `VORACODE_FAKE_VCS`                   | string  | Provedor VCS falso para fins de teste                                 |
+| `VORACODE_CLIENT`                     | string  | Identificador do cliente (padrÃ£o Ã© `cli`)                             |
+| `VORACODE_ENABLE_EXA`                 | boolean | Habilitar ferramentas de busca web Exa                                |
+| `VORACODE_SERVER_PASSWORD`            | string  | Habilitar autenticaÃ§Ã£o bÃ¡sica para `serve`/`web`                      |
+| `VORACODE_SERVER_USERNAME`            | string  | Substituir nome de usuÃ¡rio de autenticaÃ§Ã£o bÃ¡sica (padrÃ£o `voracode`) |
+| `VORACODE_MODELS_URL`                 | string  | URL personalizada para buscar configuraÃ§Ã£o de modelos                 |
+
+---
+
+### Experimental
+
+Essas variÃ¡veis de ambiente habilitam recursos experimentais que podem mudar ou ser removidos.
+
+| VariÃ¡vel                                        | Tipo    | DescriÃ§Ã£o                                                 |
+| ----------------------------------------------- | ------- | --------------------------------------------------------- |
+| `VORACODE_EXPERIMENTAL`                         | boolean | Habilitar recursos experimentais sob o sinalizador global |
+| `VORACODE_EXPERIMENTAL_ICON_DISCOVERY`          | boolean | Habilitar descoberta de Ã­cones                            |
+| `VORACODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT`  | boolean | Desabilitar cÃ³pia ao selecionar no TUI                    |
+| `VORACODE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS` | number  | Tempo limite padrÃ£o para comandos bash em ms              |
+| `VORACODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX`        | number  | MÃ¡ximo de tokens de saÃ­da para respostas LLM              |
+| `VORACODE_EXPERIMENTAL_FILEWATCHER`             | boolean | Habilitar monitoramento de arquivos para todo o diretÃ³rio |
+| `VORACODE_EXPERIMENTAL_OXFMT`                   | boolean | Habilitar formatador oxfmt                                |
+| `VORACODE_EXPERIMENTAL_LSP_TOOL`                | boolean | Habilitar ferramenta LSP experimental                     |
+| `VORACODE_EXPERIMENTAL_DISABLE_FILEWATCHER`     | boolean | Desabilitar monitoramento de arquivos                     |
+| `VORACODE_EXPERIMENTAL_EXA`                     | boolean | Habilitar recursos experimentais do Exa                   |
+| `VORACODE_EXPERIMENTAL_LSP_TY`                  | boolean | Habilitar TY LSP para arquivos python                     |
+| `VORACODE_EXPERIMENTAL_PLAN_MODE`               | boolean | Habilitar modo de plano                                   |
+| `VORACODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS`    | boolean | Habilitar tarefas de subagentes em segundo plano          |
+| `VORACODE_EXPERIMENTAL_EVENT_SYSTEM`            | boolean | Habilitar sistema de eventos experimental                 |
+| `VORACODE_EXPERIMENTAL_NATIVE_LLM`              | boolean | Habilitar caminho nativo de requisiÃ§Ã£o LLM                |
+| `VORACODE_EXPERIMENTAL_PARALLEL`                | boolean | Habilitar execuÃ§Ã£o paralela de busca web                  |
+| `VORACODE_EXPERIMENTAL_SCOUT`                   | boolean | Habilitar subagente Scout                                 |
+| `VORACODE_EXPERIMENTAL_WORKSPACES`              | boolean | Habilitar suporte a espaÃ§os de trabalho                   |

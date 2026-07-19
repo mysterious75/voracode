@@ -1,0 +1,222 @@
+---
+title: "CompÃ©tences des agents"
+description: "DÃ©finir un comportement rÃ©utilisable via les dÃ©finitions SKILL.md"
+---
+
+Les compÃ©tences d'agent permettent Ã  Voracode de dÃ©couvrir des instructions rÃ©utilisables Ã  partir de votre dÃ©pÃ´t ou de votre rÃ©pertoire personnel.
+Les compÃ©tences sont chargÃ©es Ã  la demande via l'outil natif `skill`Â : les agents voient les compÃ©tences disponibles et peuvent charger le contenu complet en cas de besoin.
+
+---
+
+## Placer des fichiers
+
+CrÃ©ez un dossier par nom de compÃ©tence et insÃ©rez-y un `SKILL.md`.
+Voracode recherche ces emplacementsÂ :
+
+- Configuration du projetÂ : `.voracode/skills/<name>/SKILL.md`
+- Configuration globaleÂ : `~/.config/voracode/skills/<name>/SKILL.md`
+- Compatible Projet ClaudeÂ : `.claude/skills/<name>/SKILL.md`
+- Compatible Global ClaudeÂ : `~/.claude/skills/<name>/SKILL.md`
+- Compatible avec l'agent de projetÂ : `.agents/skills/<name>/SKILL.md`
+- Compatible avec les agents globauxÂ : `~/.agents/skills/<name>/SKILL.md`
+
+---
+
+## Comprendre la dÃ©couverte
+
+Pour les chemins locaux du projet, Voracode remonte de votre rÃ©pertoire de travail actuel jusqu'Ã  ce qu'il atteigne l'arbre de travail git.
+Il charge tout `skills/*/SKILL.md` correspondant dans `.voracode/` et tout `.claude/skills/*/SKILL.md` ou `.agents/skills/*/SKILL.md` correspondant en cours de route.
+
+Les dÃ©finitions globales sont Ã©galement chargÃ©es Ã  partir de `~/.config/voracode/skills/*/SKILL.md`, `~/.claude/skills/*/SKILL.md` et `~/.agents/skills/*/SKILL.md`.
+
+---
+
+## Ã‰crire un texte de prÃ©sentation
+
+Chaque `SKILL.md` doit commencer par YAML frontmatter.
+Seuls ces champs sont reconnusÂ :
+
+- `name` (obligatoire)
+- `description` (obligatoire)
+- `license` (facultatif)
+- `compatibility` (facultatif)
+- `metadata` (facultatif, mappage chaÃ®ne Ã  chaÃ®ne)
+
+Les champs de contenu inconnus sont ignorÃ©s.
+
+---
+
+## Valider les noms
+
+`name` doitÂ :
+
+- Comprenant entre 1 et 64Â caractÃ¨res
+- ÃŠtre alphanumÃ©rique en minuscules avec des sÃ©parateurs Ã  tiret unique
+- Ne commence ni ne termine par `-`
+- Ne contient pas de `--` consÃ©cutifs
+- Faites correspondre le nom du rÃ©pertoire qui contient `SKILL.md`
+
+Expression rÃ©guliÃ¨re Ã©quivalenteÂ :
+
+```text
+^[a-z0-9]+(-[a-z0-9]+)*$
+```
+
+---
+
+## Suivez les rÃ¨gles de longueur
+
+`description` doit comporter entre 1 et 1 024 caractÃ¨res.
+Gardez-le suffisamment prÃ©cis pour que l'agent puisse choisir correctement.
+
+---
+
+## Utiliser un exemple
+
+CrÃ©ez `.voracode/skills/git-release/SKILL.md` comme ceciÂ :
+
+```markdown
+---
+name: git-release
+description: Create consistent releases and changelogs
+license: MIT
+compatibility: voracode
+metadata:
+  audience: maintainers
+  workflow: github
+---
+
+## What I do
+
+- Draft release notes from merged PRs
+- Propose a version bump
+- Provide a copy-pasteable `gh release create` command
+
+## When to use me
+
+Use this when you are preparing a tagged release.
+Ask clarifying questions if the target versioning scheme is unclear.
+```
+
+---
+
+## ReconnaÃ®tre la description de l'outil
+
+Voracode rÃ©pertorie les compÃ©tences disponibles dans la description de l'outil `skill`.
+Chaque entrÃ©e comprend le nom et la description de la compÃ©tenceÂ :
+
+```xml
+<available_skills>
+  <skill>
+    <name>git-release</name>
+    <description>Create consistent releases and changelogs</description>
+  </skill>
+</available_skills>
+```
+
+L'agent charge une compÃ©tence en appelant l'outilÂ :
+
+```
+skill({ name: "git-release" })
+```
+
+---
+
+## Configurer les autorisations
+
+ContrÃ´lez les compÃ©tences auxquelles les agents peuvent accÃ©der Ã  l'aide d'autorisations basÃ©es sur des modÃ¨les dans `voracode.json`Â :
+
+```json
+{
+  "permission": {
+    "skill": {
+      "*": "allow",
+      "pr-review": "allow",
+      "internal-*": "deny",
+      "experimental-*": "ask"
+    }
+  }
+}
+```
+
+| Autorisation | Comportement                                                          |
+| ------------ | --------------------------------------------------------------------- |
+| `allow`      | Les compÃ©tences se chargent immÃ©diatement                             |
+| `deny`       | CompÃ©tence masquÃ©e Ã  l'agent, accÃ¨s refusÃ©                            |
+| `ask`        | L'utilisateur est invitÃ© Ã  donner son approbation avant le chargement |
+
+Les modÃ¨les prennent en charge les caractÃ¨res gÃ©nÃ©riquesÂ : `internal-*` correspond Ã  `internal-docs`, `internal-tools`, etc.
+
+---
+
+## Remplacement par agent
+
+Accordez Ã  des agents spÃ©cifiques des autorisations diffÃ©rentes de celles par dÃ©faut globales.
+
+**Pour les agents personnalisÃ©s** (dans la rubrique Agent)Â :
+
+```yaml
+---
+permission:
+  skill:
+    "documents-*": "allow"
+---
+```
+
+**Pour les agents intÃ©grÃ©s** (dans `voracode.json`)Â :
+
+```json
+{
+  "agent": {
+    "plan": {
+      "permission": {
+        "skill": {
+          "internal-*": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+## DÃ©sactiver l'outil de compÃ©tences
+
+DÃ©sactivez complÃ¨tement les compÃ©tences pour les agents qui ne devraient pas les utiliserÂ :
+
+**Pour les agents personnalisÃ©s**Â :
+
+```yaml
+---
+tools:
+  skill: false
+---
+```
+
+**Pour les agents intÃ©grÃ©s**Â :
+
+```json
+{
+  "agent": {
+    "plan": {
+      "tools": {
+        "skill": false
+      }
+    }
+  }
+}
+```
+
+Lorsqu'elle est dÃ©sactivÃ©e, la section `<available_skills>` est entiÃ¨rement omise.
+
+---
+
+## DÃ©panner le chargement
+
+Si une compÃ©tence n'apparaÃ®t pasÂ :
+
+1. VÃ©rifiez que `SKILL.md` est Ã©crit en majuscules
+2. VÃ©rifiez que le frontmatter inclut `name` et `description`
+3. Assurez-vous que les noms des compÃ©tences sont uniques sur tous les sites
+4. VÃ©rifiez les autorisationsÂ : les compÃ©tences avec `deny` sont masquÃ©es aux agents

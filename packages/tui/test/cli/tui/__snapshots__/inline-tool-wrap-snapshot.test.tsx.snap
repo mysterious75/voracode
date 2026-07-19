@@ -1,0 +1,92 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`TUI inline tool wrapping snapshots consecutive grep, glob, and read rows at a narrow width 1`] = `
+"   âœ± Grep "VORACODE.*DB|database|sqlite|drizzle|dev.*db|data.
+     *dir|xdg|APPDATA" in packages/voracode/src (151 matches)
+
+   âœ± Glob "**/*db*" in packages/voracode (6 matches)
+   â†’ Read packages/voracode/src/storage/db.ts [offset=1, limit=130]
+   â†’ Read packages/voracode/src/index.ts [offset=1, limit=100]
+   âœ± Grep "export const VORACODE_DB|VORACODE_DB|VORACODE_DEV|Global\\.
+     Path\\.data|data =" in packages/voracode/src (115 matches)"
+`;
+
+exports[`TUI inline tool wrapping snapshots expanded tool errors under the tool text 1`] = `
+"   âœ± Grep "VORACODE.*DB|database|sqlite|drizzle|dev.*db|data.
+     *dir|xdg|APPDATA" in packages/voracode/src (151 matches)
+
+   âœ± Glob "**/*db*" in packages/voracode (6 matches)
+   â†’ Read packages/voracode/src/storage/db.ts [offset=1, limit=130]
+   â†’ Read packages/voracode/src/index.ts [offset=1, limit=100]
+     No LSP server available for this file type.
+
+   âœ± Grep "export const VORACODE_DB|VORACODE_DB|VORACODE_DEV|Global\\.
+     Path\\.data|data =" in packages/voracode/src (115 matches)"
+`;
+
+exports[`TUI inline tool wrapping keeps separation after a shell output block 1`] = `
+"
+
+  $ ls
+
+  file.ts
+
+   âœ± Grep "VORACODE.*DB|database|sqlite|drizzle|dev.*db|data.
+     *dir|xdg|APPDATA" in packages/voracode/src (151 matches)
+
+   âœ± Glob "**/*db*" in packages/voracode (6 matches)
+   â†’ Read packages/voracode/src/storage/db.ts [offset=1, limit=130]
+   â†’ Read packages/voracode/src/index.ts [offset=1, limit=100]
+   âœ± Grep "export const VORACODE_DB|VORACODE_DB|VORACODE_DEV|Global\\.
+     Path\\.data|data =" in packages/voracode/src (115 matches)"
+`;
+
+exports[`TUI inline tool wrapping keeps separation after a padded user message 1`] = `
+"
+  Check whether the next tool remains separated.
+
+
+   âœ± Grep "VORACODE.*DB|database|sqlite|drizzle|dev.*db|data.
+     *dir|xdg|APPDATA" in packages/voracode/src (151 matches)
+
+   âœ± Glob "**/*db*" in packages/voracode (6 matches)
+   â†’ Read packages/voracode/src/storage/db.ts [offset=1, limit=130]
+   â†’ Read packages/voracode/src/index.ts [offset=1, limit=100]
+   âœ± Grep "export const VORACODE_DB|VORACODE_DB|VORACODE_DEV|Global\\.
+     Path\\.data|data =" in packages/voracode/src (115 matches)"
+`;
+
+exports[`TUI inline tool wrapping separates after a multi-line task row 1`] = `
+"   âœ± Grep "Task" (2 matches)
+
+   â ™ Explore Task â€” Inspect active task spacing
+
+   âœ“ General Task â€” Confirm completed task spacing
+     â†³ 1 toolcall Â· 501ms
+
+   â†’ Read src/cli/cmd/tui/routes/session/index.tsx"
+`;
+
+exports[`TUI inline tool wrapping separates a task row from a preceding inline detail 1`] = `
+"   â†’ Read src/cli/cmd/tui/routes/session/index.tsx
+   â†³ Loaded src/cli/cmd/tui/routes/session/tools.tsx
+
+   âœ“ Explore Task â€” Inspect active task spacing
+     â†³ 1 toolcall Â· 501ms"
+`;
+
+exports[`TUI inline tool wrapping separates an inline row from the previous assistant summary 1`] = `
+"   â–£ Build Â· Little Frank Â· 53.1s
+
+   âœ“ Build Task â€” Review changes
+     â†³ 48 toolcalls Â· 1m 40s"
+`;
+
+exports[`TUI inline tool wrapping separates an inline row from the previous assistant error 1`] = `
+"â”‚
+â”‚  Managed inference requires an active Member plan
+â”‚
+
+   âœ“ Build Task â€” Review changes
+     â†³ 48 toolcalls Â· 1m 40s"
+`;

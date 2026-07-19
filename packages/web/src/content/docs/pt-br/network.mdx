@@ -1,0 +1,57 @@
+---
+title: Rede
+description: Configure proxies e certificados personalizados.
+---
+
+O voracode suporta variÃ¡veis de ambiente de proxy padrÃ£o e certificados personalizados para ambientes de rede corporativa.
+
+---
+
+## Proxy
+
+O voracode respeita variÃ¡veis de ambiente de proxy padrÃ£o.
+
+```bash
+# HTTPS proxy (recommended)
+export HTTPS_PROXY=https://proxy.example.com:8080
+
+# HTTP proxy (if HTTPS not available)
+export HTTP_PROXY=http://proxy.example.com:8080
+
+# Bypass proxy for local server (required)
+export NO_PROXY=localhost,127.0.0.1
+```
+
+:::caution
+O TUI se comunica com um servidor HTTP local. VocÃª deve ignorar o proxy para essa conexÃ£o para evitar loops de roteamento.
+:::
+
+VocÃª pode configurar a porta e o nome do host do servidor usando [flags da CLI](/docs/cli#run).
+
+---
+
+### AutenticaÃ§Ã£o
+
+Se o seu proxy requer autenticaÃ§Ã£o bÃ¡sica, inclua as credenciais na URL.
+
+```bash
+export HTTPS_PROXY=http://username:password@proxy.example.com:8080
+```
+
+:::caution
+Evite codificar senhas. Use variÃ¡veis de ambiente ou armazenamento seguro de credenciais.
+:::
+
+Para proxies que requerem autenticaÃ§Ã£o avanÃ§ada como NTLM ou Kerberos, considere usar um LLM Gateway que suporte seu mÃ©todo de autenticaÃ§Ã£o.
+
+---
+
+## Certificados personalizados
+
+Se sua empresa usa CAs personalizadas para conexÃµes HTTPS, configure o voracode para confiÃ¡-las.
+
+```bash
+export NODE_EXTRA_CA_CERTS=/path/to/ca-cert.pem
+```
+
+Isso funciona tanto para conexÃµes de proxy quanto para acesso direto Ã  API.

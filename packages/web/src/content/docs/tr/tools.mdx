@@ -1,0 +1,341 @@
+---
+title: AraÃ§lar
+description: LLM'in kullanabileceÄŸi araÃ§larÄ± yÃ¶netin.
+---
+
+AraÃ§lar, LLM'in kod tabanÄ±nÄ±zda eylem gerÃ§ekleÅŸtirmesini saÄŸlar. voracode yerleÅŸik bir araÃ§ setiyle gelir, ancak bunu [Ã¶zel araÃ§larla](/docs/custom-tools) veya [MCP sunucularÄ±yla](/docs/mcp-servers) geniÅŸletebilirsiniz.
+
+VarsayÄ±lan olarak tÃ¼m araÃ§lar **etkindir** ve Ã§alÄ±ÅŸmak iÃ§in izin istemez. AraÃ§ davranÄ±ÅŸÄ±nÄ± [izinler](/docs/permissions) Ã¼zerinden kontrol edebilirsiniz.
+
+---
+
+## YapÄ±landÄ±rma
+
+AraÃ§ davranÄ±ÅŸÄ±nÄ± kontrol etmek iÃ§in `permission` alanÄ±nÄ± kullanÄ±n. Her araÃ§ iÃ§in izin verebilir, reddedebilir veya onay isteyebilirsiniz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "deny",
+    "bash": "ask",
+    "webfetch": "allow"
+  }
+}
+```
+
+Birden fazla aracÄ± aynÄ± anda kontrol etmek iÃ§in joker karakterler de kullanabilirsiniz. Ã–rneÄŸin, bir MCP sunucusundan gelen tÃ¼m araÃ§lar iÃ§in onay istemek:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "mymcp_*": "ask"
+  }
+}
+```
+
+Ä°zin yapÄ±landÄ±rmasÄ± iÃ§in [daha fazla bilgi alÄ±n](/docs/permissions).
+
+---
+
+## YerleÅŸik
+
+voracode iÃ§inde bulunan tÃ¼m yerleÅŸik araÃ§lar aÅŸaÄŸÄ±dadÄ±r.
+
+---
+
+### bash
+
+Proje ortamÄ±nÄ±zda kabuk komutlarÄ± Ã§alÄ±ÅŸtÄ±rÄ±r.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "bash": "allow"
+  }
+}
+```
+
+Bu araÃ§ LLM'in `npm install`, `git status` gibi terminal komutlarÄ±nÄ± veya diÄŸer kabuk komutlarÄ±nÄ± Ã§alÄ±ÅŸtÄ±rmasÄ±nÄ± saÄŸlar.
+
+---
+
+### edit
+
+Birebir metin deÄŸiÅŸtirme ile mevcut dosyalarÄ± dÃ¼zenler.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "allow"
+  }
+}
+```
+
+Bu araÃ§ dosyalarda kesin metin eÅŸleÅŸmelerini deÄŸiÅŸtirerek hassas dÃ¼zenleme yapar. LLM'in kodu deÄŸiÅŸtirmek iÃ§in kullandÄ±ÄŸÄ± temel yÃ¶ntemdir.
+
+---
+
+### write
+
+Yeni dosyalar oluÅŸturur veya mevcut dosyalarÄ± Ã¼zerine yazar.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "allow"
+  }
+}
+```
+
+LLM'in yeni dosya oluÅŸturmasÄ±na izin vermek iÃ§in bunu kullanÄ±n. Dosya zaten varsa Ã¼zerine yazar.
+
+:::note
+`write` aracÄ± `edit` izniyle kontrol edilir; bu izin tÃ¼m dosya deÄŸiÅŸikliklerini kapsar (`edit`, `write`, `patch`).
+:::
+
+---
+
+### read
+
+Kod tabanÄ±nÄ±zdan dosya iÃ§eriÄŸi okur.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "read": "allow"
+  }
+}
+```
+
+Bu araÃ§ dosyalarÄ± okur ve iÃ§eriklerini dÃ¶ndÃ¼rÃ¼r. BÃ¼yÃ¼k dosyalar iÃ§in belirli satÄ±r aralÄ±klarÄ±nÄ± okuma desteÄŸi vardÄ±r.
+
+---
+
+### grep
+
+DÃ¼zenli ifadelerle dosya iÃ§eriÄŸinde arama yapar.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "grep": "allow"
+  }
+}
+```
+
+Kod tabanÄ±nda hÄ±zlÄ± iÃ§erik aramasÄ± sunar. Tam regex sÃ¶zdizimini ve dosya desen filtrelerini destekler.
+
+---
+
+### glob
+
+Desen eÅŸleÅŸtirme ile dosya bulur.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "glob": "allow"
+  }
+}
+```
+
+`**/*.js` veya `src/**/*.ts` gibi glob desenleriyle dosya arar. EÅŸleÅŸen dosya yollarÄ±nÄ± deÄŸiÅŸim zamanÄ±na gÃ¶re sÄ±ralar.
+
+---
+
+### lsp (deneysel)
+
+TanÄ±m, referans, hover bilgisi ve Ã§aÄŸrÄ±lar hiyerarÅŸisi gibi kod zekasÄ± Ã¶zellikleri iÃ§in yapÄ±landÄ±rdÄ±ÄŸÄ±nÄ±z LSP sunucularÄ±yla etkileÅŸir.
+
+:::note
+Bu araÃ§ yalnÄ±zca `VORACODE_EXPERIMENTAL_LSP_TOOL=true` (veya `VORACODE_EXPERIMENTAL=true`) olduÄŸunda kullanÄ±labilir.
+:::
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "lsp": "allow"
+  }
+}
+```
+
+Desteklenen iÅŸlemler: `goToDefinition`, `findReferences`, `hover`, `documentSymbol`, `workspaceSymbol`, `goToImplementation`, `prepareCallHierarchy`, `incomingCalls`, `outgoingCalls`.
+
+Projeniz iÃ§in kullanÄ±labilir LSP sunucularÄ±nÄ± ayarlamak iÃ§in [LSP SunucularÄ±](/docs/lsp) sayfasÄ±na bakÄ±n.
+
+---
+
+### patch
+
+Dosyalara patch uygular.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "allow"
+  }
+}
+```
+
+Bu araÃ§ patch dosyalarÄ±nÄ± kod tabanÄ±nÄ±za uygular. FarklÄ± kaynaklardan gelen diff ve patch'leri uygulamak iÃ§in kullanÄ±ÅŸlÄ±dÄ±r.
+
+:::note
+`patch` aracÄ± `edit` izniyle kontrol edilir; bu izin tÃ¼m dosya deÄŸiÅŸikliklerini kapsar (`edit`, `write`, `patch`).
+:::
+
+---
+
+### skill
+
+Bir [skill](/docs/skills) (`SKILL.md` dosyasÄ±) yÃ¼kler ve iÃ§eriÄŸini konuÅŸmaya dÃ¶ndÃ¼rÃ¼r.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "skill": "allow"
+  }
+}
+```
+
+---
+
+### todowrite
+
+Kodlama oturumlarÄ±nda yapÄ±lacaklar listesini yÃ¶netir.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "todowrite": "allow"
+  }
+}
+```
+
+KarmaÅŸÄ±k iÅŸlemlerde ilerlemeyi takip etmek iÃ§in gÃ¶rev listeleri oluÅŸturur ve gÃ¼nceller. LLM bunu Ã§ok adÄ±mlÄ± gÃ¶revleri dÃ¼zenlemek iÃ§in kullanÄ±r.
+
+:::note
+Bu araÃ§ alt agent'lar iÃ§in varsayÄ±lan olarak devre dÄ±ÅŸÄ±dÄ±r, ama manuel etkinleÅŸtirebilirsiniz. [Daha fazla bilgi](/docs/agents/#permissions)
+:::
+
+---
+
+### webfetch
+
+Web iÃ§eriÄŸi getirir.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "webfetch": "allow"
+  }
+}
+```
+
+LLM'in web sayfalarÄ±nÄ± getirip okumasÄ±nÄ± saÄŸlar. DokÃ¼mantasyon aramak veya Ã§evrimiÃ§i kaynaklarÄ± incelemek iÃ§in kullanÄ±ÅŸlÄ±dÄ±r.
+
+---
+
+### websearch
+
+Web'de bilgi arar.
+
+:::note
+Bu araÃ§ yalnÄ±zca voracode provider kullanÄ±lÄ±rken veya `VORACODE_ENABLE_EXA` ortam deÄŸiÅŸkeni doÄŸru deÄŸerlerden birine ayarlandÄ±ÄŸÄ±nda (Ã¶rneÄŸin `true` ya da `1`) kullanÄ±labilir.
+
+voracode baÅŸlatÄ±rken etkinleÅŸtirmek iÃ§in:
+
+```bash
+VORACODE_ENABLE_EXA=1 voracode
+```
+
+:::
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "websearch": "allow"
+  }
+}
+```
+
+Exa AI ile web aramasÄ± yaparak ilgili bilgileri bulur. EÄŸitim verisi kesim tarihinin Ã¶tesindeki konularÄ± araÅŸtÄ±rmak, gÃ¼ncel olaylarÄ± bulmak veya genel araÅŸtÄ±rma yapmak iÃ§in kullanÄ±ÅŸlÄ±dÄ±r.
+
+API anahtarÄ± gerekmez - araÃ§ Exa AI'nin barÄ±ndÄ±rÄ±lan MCP hizmetine doÄŸrudan kimlik doÄŸrulamasÄ± olmadan baÄŸlanÄ±r.
+
+:::tip
+Bilgi keÅŸfetmeniz gerekiyorsa `websearch`, belirli bir URL'den iÃ§erik Ã§ekmeniz gerekiyorsa `webfetch` kullanÄ±n.
+:::
+
+---
+
+### question
+
+Ã‡alÄ±ÅŸma sÄ±rasÄ±nda kullanÄ±cÄ±ya soru sorar.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "question": "allow"
+  }
+}
+```
+
+Bu araÃ§ LLM'in gÃ¶rev sÄ±rasÄ±nda kullanÄ±cÄ±ya soru sormasÄ±nÄ± saÄŸlar. Åžunlar iÃ§in kullanÄ±ÅŸlÄ±dÄ±r:
+
+- KullanÄ±cÄ± tercihleri veya gereksinimleri toplamak
+- Belirsiz talimatlarÄ± netleÅŸtirmek
+- Uygulama seÃ§eneklerinde karar almak
+- Hangi yÃ¶ne gidileceÄŸine dair seÃ§enek sunmak
+
+Her soru bir baÅŸlÄ±k, soru metni ve seÃ§enek listesi iÃ§erir. KullanÄ±cÄ±lar seÃ§eneklerden birini seÃ§ebilir veya Ã¶zel yanÄ±t yazabilir. Birden fazla soru varsa tÃ¼m yanÄ±tlarÄ± gÃ¶ndermeden Ã¶nce sorular arasÄ±nda gezebilirler.
+
+---
+
+## Ã–zel araÃ§lar
+
+Ã–zel araÃ§lar, LLM'in Ã§aÄŸÄ±rabileceÄŸi kendi fonksiyonlarÄ±nÄ±zÄ± tanÄ±mlamanÄ±zÄ± saÄŸlar. Bunlar config dosyanÄ±zda tanÄ±mlanÄ±r ve keyfi kod Ã§alÄ±ÅŸtÄ±rabilir.
+
+Ã–zel araÃ§ oluÅŸturma iÃ§in [daha fazla bilgi alÄ±n](/docs/custom-tools).
+
+---
+
+## MCP sunucularÄ±
+
+MCP (Model Context Protocol) sunucularÄ±, harici araÃ§larÄ± ve servisleri entegre etmenizi saÄŸlar. Buna veritabanÄ± eriÅŸimi, API entegrasyonlarÄ± ve Ã¼Ã§Ã¼ncÃ¼ taraf servisler dahildir.
+
+MCP sunucularÄ±nÄ± yapÄ±landÄ±rma iÃ§in [daha fazla bilgi alÄ±n](/docs/mcp-servers).
+
+---
+
+## Dahili detaylar
+
+Dahilde `grep` ve `glob` gibi araÃ§lar [ripgrep](https://github.com/BurntSushi/ripgrep) kullanÄ±r. VarsayÄ±lan olarak ripgrep `.gitignore` desenlerine uyar; yani `.gitignore` iÃ§indeki dosya ve dizinler arama ve listeleme sonucuna dahil edilmez.
+
+---
+
+### Yoksayma desenleri
+
+Normalde yok sayÄ±lan dosyalarÄ± dahil etmek iÃ§in proje kÃ¶kÃ¼nde bir `.ignore` dosyasÄ± oluÅŸturun. Bu dosya belirli yollarÄ± aÃ§Ä±kÃ§a izinli yapabilir.
+
+```text title=".ignore"
+!node_modules/
+!dist/
+!build/
+```
+
+Ã–rneÄŸin bu `.ignore` dosyasÄ±, `node_modules/` iÃ§inde olsalar bile ripgrep'in `dist/`, `build/` ve `.gitignore` dizinlerinde arama yapmasÄ±na izin verir.

@@ -1,0 +1,195 @@
+---
+title: GitLab
+description: Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐ¹Ñ‚Ðµ voracode Ð² Ð·Ð°Ð´Ð°Ñ‡Ð°Ñ… GitLab Ð¸ Ð¼ÐµÑ€Ð¶-Ñ€ÐµÐºÐ²ÐµÑÑ‚Ð°Ñ….
+---
+
+voracode Ð¸Ð½Ñ‚ÐµÐ³Ñ€Ð¸Ñ€ÑƒÐµÑ‚ÑÑ Ñ Ð²Ð°ÑˆÐ¸Ð¼ Ñ€Ð°Ð±Ð¾Ñ‡Ð¸Ð¼ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ¾Ð¼ GitLab Ñ‡ÐµÑ€ÐµÐ· ÐºÐ¾Ð½Ð²ÐµÐ¹ÐµÑ€ GitLab CI/CD Ð¸Ð»Ð¸ Ñ GitLab Duo.
+
+Ð’ Ð¾Ð±Ð¾Ð¸Ñ… ÑÐ»ÑƒÑ‡Ð°ÑÑ… voracode Ð±ÑƒÐ´ÐµÑ‚ Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ñ‚ÑŒ Ð½Ð° Ð²Ð°ÑˆÐ¸Ñ… Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð°Ñ… GitLab.
+
+---
+
+## GitLab
+
+voracode Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÐµÑ‚ Ð² Ð¾Ð±Ñ‹Ñ‡Ð½Ð¾Ð¼ ÐºÐ¾Ð½Ð²ÐµÐ¹ÐµÑ€Ðµ GitLab. Ð’Ñ‹ Ð¼Ð¾Ð¶ÐµÑ‚Ðµ Ð²ÑÑ‚Ñ€Ð¾Ð¸Ñ‚ÑŒ ÐµÐ³Ð¾ Ð² ÐºÐ¾Ð½Ð²ÐµÐ¹ÐµÑ€ ÐºÐ°Ðº [CI-ÐºÐ¾Ð¼Ð¿Ð¾Ð½ÐµÐ½Ñ‚](https://docs.gitlab.com/ee/ci/components/)
+
+Ð—Ð´ÐµÑÑŒ Ð¼Ñ‹ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÐ¼ ÑÐ¾Ð·Ð´Ð°Ð½Ð½Ñ‹Ð¹ ÑÐ¾Ð¾Ð±Ñ‰ÐµÑÑ‚Ð²Ð¾Ð¼ ÐºÐ¾Ð¼Ð¿Ð¾Ð½ÐµÐ½Ñ‚ CI/CD Ð´Ð»Ñ voracode â€” [nagyv/gitlab-voracode](https://gitlab.com/nagyv/gitlab-voracode).
+
+---
+
+### Ð¤ÑƒÐ½ÐºÑ†Ð¸Ð¸
+
+- **Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒÑÐºÑƒÑŽ ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸ÑŽ Ð´Ð»Ñ ÐºÐ°Ð¶Ð´Ð¾Ð³Ð¾ Ð·Ð°Ð´Ð°Ð½Ð¸Ñ**. ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹Ñ‚Ðµ voracode Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒÑÐºÐ¾Ð³Ð¾ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ð° ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ð¸, Ð½Ð°Ð¿Ñ€Ð¸Ð¼ÐµÑ€ `./config/#custom-directory`, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²ÐºÐ»ÑŽÑ‡Ð°Ñ‚ÑŒ Ð¸Ð»Ð¸ Ð¾Ñ‚ÐºÐ»ÑŽÑ‡Ð°Ñ‚ÑŒ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Ð´Ð»Ñ ÐºÐ°Ð¶Ð´Ð¾Ð³Ð¾ Ð²Ñ‹Ð·Ð¾Ð²Ð° voracode.
+- **ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ°**: ÐºÐ¾Ð¼Ð¿Ð¾Ð½ÐµÐ½Ñ‚ CI Ð½Ð°ÑÑ‚Ñ€Ð°Ð¸Ð²Ð°ÐµÑ‚ voracode Ð² Ñ„Ð¾Ð½Ð¾Ð²Ð¾Ð¼ Ñ€ÐµÐ¶Ð¸Ð¼Ðµ, Ð²Ð°Ð¼ Ð½ÑƒÐ¶Ð½Ð¾ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ ÑÐ¾Ð·Ð´Ð°Ñ‚ÑŒ ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸ÑŽ voracode Ð¸ Ð½Ð°Ñ‡Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð¿Ñ€Ð¸Ð³Ð»Ð°ÑˆÐµÐ½Ð¸Ðµ.
+- **Ð“Ð¸Ð±ÐºÐ¾ÑÑ‚ÑŒ**: ÐºÐ¾Ð¼Ð¿Ð¾Ð½ÐµÐ½Ñ‚ CI Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð¸Ð²Ð°ÐµÑ‚ Ð½ÐµÑÐºÐ¾Ð»ÑŒÐºÐ¾ Ð²Ñ…Ð¾Ð´Ð½Ñ‹Ñ… Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð´Ð»Ñ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ ÐµÐ³Ð¾ Ð¿Ð¾Ð²ÐµÐ´ÐµÐ½Ð¸Ñ.
+
+---
+
+### ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ°
+
+1. Ð¡Ð¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚Ðµ JSON Ð°ÑƒÑ‚ÐµÐ½Ñ‚Ð¸Ñ„Ð¸ÐºÐ°Ñ†Ð¸Ð¸ voracode ÐºÐ°Ðº Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ñ‹Ðµ ÑÑ€ÐµÐ´Ñ‹ CI Ñ‚Ð¸Ð¿Ð° Ñ„Ð°Ð¹Ð»Ð° Ð² Ñ€Ð°Ð·Ð´ÐµÐ»Ðµ **ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸** > **CI/CD** > **ÐŸÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ñ‹Ðµ**. ÐžÐ±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ð¿Ð¾Ð¼ÐµÑ‚ÑŒÑ‚Ðµ Ð¸Ñ… ÐºÐ°Ðº Â«Ð—Ð°Ð¼Ð°ÑÐºÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ð¸ ÑÐºÑ€Ñ‹Ñ‚Ñ‹ÐµÂ».
+2. Ð”Ð¾Ð±Ð°Ð²ÑŒÑ‚Ðµ ÑÐ»ÐµÐ´ÑƒÑŽÑ‰ÐµÐµ Ð² Ñ„Ð°Ð¹Ð» `.gitlab-ci.yml`.
+
+   ```yaml title=".gitlab-ci.yml"
+   include:
+     - component: $CI_SERVER_FQDN/nagyv/gitlab-voracode/voracode@2
+       inputs:
+         config_dir: ${CI_PROJECT_DIR}/voracode-config
+         auth_json: $VORACODE_AUTH_JSON # The variable name for your Voracode authentication JSON
+         command: optional-custom-command
+         message: "Your prompt here"
+   ```
+
+Ð”Ð¾Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ðµ ÑÐ²ÐµÐ´ÐµÐ½Ð¸Ñ Ð¸ Ð²Ð°Ñ€Ð¸Ð°Ð½Ñ‚Ñ‹ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ñ ÑÐ¼. Ð² Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚Ð°Ñ†Ð¸Ð¸ ](https://gitlab.com/explore/catalog/nagyv/gitlab-voracode) Ð´Ð»Ñ ÑÑ‚Ð¾Ð³Ð¾ ÐºÐ¾Ð¼Ð¿Ð¾Ð½ÐµÐ½Ñ‚Ð°.
+
+---
+
+## GitLab Duo
+
+voracode Ð¸Ð½Ñ‚ÐµÐ³Ñ€Ð¸Ñ€ÑƒÐµÑ‚ÑÑ Ñ Ð²Ð°ÑˆÐ¸Ð¼ Ñ€Ð°Ð±Ð¾Ñ‡Ð¸Ð¼ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐ¾Ð¼ GitLab.
+Ð£Ð¿Ð¾Ð¼ÑÐ½Ð¸Ñ‚Ðµ `@voracode` Ð² ÐºÐ¾Ð¼Ð¼ÐµÐ½Ñ‚Ð°Ñ€Ð¸Ð¸, Ð¸ voracode Ð²Ñ‹Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ Ð·Ð°Ð´Ð°Ñ‡Ð¸ Ð² Ð²Ð°ÑˆÐµÐ¼ ÐºÐ¾Ð½Ð²ÐµÐ¹ÐµÑ€Ðµ GitLab CI.
+
+---
+
+### Ð¤ÑƒÐ½ÐºÑ†Ð¸Ð¸
+
+- **Ð¢Ñ€Ð¸Ð°Ð¶ Ð·Ð°Ð´Ð°Ñ‡ (Issue Triage)**. ÐŸÐ¾Ð¿Ñ€Ð¾ÑÐ¸Ñ‚Ðµ voracode Ñ€Ð°Ð·Ð¾Ð±Ñ€Ð°Ñ‚ÑŒÑÑ Ð² Ð¿Ñ€Ð¾Ð±Ð»ÐµÐ¼Ðµ Ð¸ Ð¾Ð±ÑŠÑÑÐ½Ð¸Ñ‚ÑŒ ÐµÐµ Ð²Ð°Ð¼.
+- **Ð˜ÑÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¸ Ñ€ÐµÐ°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ**. ÐŸÐ¾Ð¿Ñ€Ð¾ÑÐ¸Ñ‚Ðµ voracode Ð¸ÑÐ¿Ñ€Ð°Ð²Ð¸Ñ‚ÑŒ Ð¿Ñ€Ð¾Ð±Ð»ÐµÐ¼Ñƒ Ð¸Ð»Ð¸ Ñ€ÐµÐ°Ð»Ð¸Ð·Ð¾Ð²Ð°Ñ‚ÑŒ Ñ„ÑƒÐ½ÐºÑ†Ð¸ÑŽ.
+  ÐžÐ½ ÑÐ¾Ð·Ð´Ð°ÑÑ‚ Ð½Ð¾Ð²ÑƒÑŽ Ð²ÐµÑ‚ÐºÑƒ Ð¸ ÑÐ¾Ð·Ð´Ð°ÑÑ‚ Ð¼ÐµÑ€Ð¶-Ñ€ÐµÐºÐ²ÐµÑÑ‚ Ñ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸ÑÐ¼Ð¸.
+- **Ð‘ÐµÐ·Ð¾Ð¿Ð°ÑÐ½Ð¾ÑÑ‚ÑŒ**: voracode Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÐµÑ‚ Ð½Ð° Ð²Ð°ÑˆÐ¸Ñ… Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð°Ñ… GitLab.
+
+---
+
+### ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ°
+
+voracode Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÐµÑ‚ Ð² Ð²Ð°ÑˆÐµÐ¼ ÐºÐ¾Ð½Ð²ÐµÐ¹ÐµÑ€Ðµ GitLab CI/CD. Ð’Ð¾Ñ‚ Ñ‡Ñ‚Ð¾ Ð²Ð°Ð¼ Ð¿Ð¾Ð½Ð°Ð´Ð¾Ð±Ð¸Ñ‚ÑÑ Ð´Ð»Ñ ÐµÐ³Ð¾ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸:
+
+:::tip
+ÐžÐ·Ð½Ð°ÐºÐ¾Ð¼ÑŒÑ‚ÐµÑÑŒ Ñ [**Ð´Ð¾ÐºÑƒÐ¼ÐµÐ½Ñ‚Ð°Ñ†Ð¸ÐµÐ¹ GitLab**](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/) Ð´Ð»Ñ Ð¿Ð¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ñ Ð°ÐºÑ‚ÑƒÐ°Ð»ÑŒÐ½Ñ‹Ñ… Ð¸Ð½ÑÑ‚Ñ€ÑƒÐºÑ†Ð¸Ð¹.
+:::
+
+1.  ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹Ñ‚Ðµ ÑÐ²Ð¾ÑŽ ÑÑ€ÐµÐ´Ñƒ GitLab
+2.  ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ° CI/CD
+3.  ÐŸÐ¾Ð»ÑƒÑ‡Ð¸Ñ‚Ðµ ÐºÐ»ÑŽÑ‡ API Ð¿Ð¾ÑÑ‚Ð°Ð²Ñ‰Ð¸ÐºÐ° Ð¼Ð¾Ð´ÐµÐ»ÐµÐ¹ Ð˜Ð˜
+4.  Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ ÑƒÑ‡ÐµÑ‚Ð½ÑƒÑŽ Ð·Ð°Ð¿Ð¸ÑÑŒ ÑÐ»ÑƒÐ¶Ð±Ñ‹
+5.  ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ° Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ñ‹Ñ… CI/CD
+6.  Ð¡Ð¾Ð·Ð´Ð°Ð¹Ñ‚Ðµ Ñ„Ð°Ð¹Ð» ÐºÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ð¸ Ð¿Ð¾Ñ‚Ð¾ÐºÐ°, Ð²Ð¾Ñ‚ Ð¿Ñ€Ð¸Ð¼ÐµÑ€:
+
+        <details>
+
+    <summary>ÐšÐ¾Ð½Ñ„Ð¸Ð³ÑƒÑ€Ð°Ñ†Ð¸Ñ Ð¿Ð¾Ñ‚Ð¾ÐºÐ°</summary>
+
+    ```yaml
+    image: node:22-slim
+    commands:
+      - echo "Installing voracode"
+      - npm install --global voracode-ai
+      - echo "Installing glab"
+      - export GITLAB_TOKEN=$GITLAB_TOKEN_VORACODE
+      - apt-get update --quiet && apt-get install --yes curl wget gpg git && rm --recursive --force /var/lib/apt/lists/*
+      - curl --silent --show-error --location "https://raw.githubusercontent.com/upciti/wakemeops/main/assets/install_repository" | bash
+      - apt-get install --yes glab
+      - echo "Configuring glab"
+      - echo $GITLAB_HOST
+      - echo "Creating Voracode auth configuration"
+      - mkdir --parents ~/.local/share/voracode
+      - |
+        cat > ~/.local/share/voracode/auth.json << EOF
+        {
+          "anthropic": {
+            "type": "api",
+            "key": "$ANTHROPIC_API_KEY"
+          }
+        }
+        EOF
+      - echo "Configuring git"
+      - git config --global user.email "voracode@gitlab.com"
+      - git config --global user.name "Voracode"
+      - echo "Testing glab"
+      - glab issue list
+      - echo "Running Voracode"
+      - |
+        voracode run "
+        You are an AI assistant helping with GitLab operations.
+
+        Context: $AI_FLOW_CONTEXT
+        Task: $AI_FLOW_INPUT
+        Event: $AI_FLOW_EVENT
+
+        Please execute the requested task using the available GitLab tools.
+        Be thorough in your analysis and provide clear explanations.
+
+        <important>
+        Please use the glab CLI to access data from GitLab. The glab CLI has already been authenticated. You can run the corresponding commands.
+
+        If you are asked to summarize an MR or issue or asked to provide more information then please post back a note to the MR/Issue so that the user can see it.
+        You don't need to commit or push up changes, those will be done automatically based on the file changes you make.
+        </important>
+        "
+      - git checkout --branch $CI_WORKLOAD_REF origin/$CI_WORKLOAD_REF
+      - echo "Checking for git changes and pushing if any exist"
+      - |
+        if ! git diff --quiet || ! git diff --cached --quiet || [ --not --zero "$(git ls-files --others --exclude-standard)" ]; then
+          echo "Git changes detected, adding and pushing..."
+          git add .
+          if git diff --cached --quiet; then
+            echo "No staged changes to commit"
+          else
+            echo "Committing changes to branch: $CI_WORKLOAD_REF"
+            git commit --message "Codex changes"
+            echo "Pushing changes up to $CI_WORKLOAD_REF"
+            git push https://gitlab-ci-token:$GITLAB_TOKEN@$GITLAB_HOST/gl-demo-ultimate-dev-ai-epic-17570/test-java-project.git $CI_WORKLOAD_REF
+            echo "Changes successfully pushed"
+          fi
+        else
+          echo "No git changes detected, skipping push"
+        fi
+    variables:
+      - ANTHROPIC_API_KEY
+      - GITLAB_TOKEN_VORACODE
+      - GITLAB_HOST
+    ```
+
+        </details>
+
+ÐŸÐ¾Ð´Ñ€Ð¾Ð±Ð½Ñ‹Ðµ Ð¸Ð½ÑÑ‚Ñ€ÑƒÐºÑ†Ð¸Ð¸ Ð¼Ð¾Ð¶Ð½Ð¾ Ð½Ð°Ð¹Ñ‚Ð¸ Ð² [GitLab CLI agents docs](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/).
+
+---
+
+### ÐŸÑ€Ð¸Ð¼ÐµÑ€Ñ‹
+
+Ð’Ð¾Ñ‚ Ð½ÐµÑÐºÐ¾Ð»ÑŒÐºÐ¾ Ð¿Ñ€Ð¸Ð¼ÐµÑ€Ð¾Ð² Ñ‚Ð¾Ð³Ð¾, ÐºÐ°Ðº Ð²Ñ‹ Ð¼Ð¾Ð¶ÐµÑ‚Ðµ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ voracode Ð² GitLab.
+
+:::tip
+Ð’Ñ‹ Ð¼Ð¾Ð¶ÐµÑ‚Ðµ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¸Ñ‚ÑŒ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ðµ Ñ‚Ñ€Ð¸Ð³Ð³ÐµÑ€Ð½Ð¾Ð¹ Ñ„Ñ€Ð°Ð·Ñ‹, Ð¾Ñ‚Ð»Ð¸Ñ‡Ð½Ð¾Ð¹ Ð¾Ñ‚ `@voracode`.
+:::
+
+- **ÐžÐ±ÑŠÑÑÐ½ÐµÐ½Ð¸Ðµ Ð¿Ñ€Ð¾Ð±Ð»ÐµÐ¼Ñ‹**
+
+  Ð”Ð¾Ð±Ð°Ð²ÑŒÑ‚Ðµ ÑÑ‚Ð¾Ñ‚ ÐºÐ¾Ð¼Ð¼ÐµÐ½Ñ‚Ð°Ñ€Ð¸Ð¹ Ð² issue GitLab.
+
+  ```
+  @voracode explain this issue
+  ```
+
+  voracode Ð¿Ñ€Ð¾Ñ‡Ð¸Ñ‚Ð°ÐµÑ‚ Ð¿Ñ€Ð¾Ð±Ð»ÐµÐ¼Ñƒ Ð¸ Ð¾Ñ‚Ð²ÐµÑ‚Ð¸Ñ‚ Ñ Ñ‡ÐµÑ‚ÐºÐ¸Ð¼ Ð¾Ð±ÑŠÑÑÐ½ÐµÐ½Ð¸ÐµÐ¼.
+
+- **Ð˜ÑÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¿Ñ€Ð¾Ð±Ð»ÐµÐ¼Ñ‹**
+
+  Ð’ issue GitLab Ð½Ð°Ð¿Ð¸ÑˆÐ¸Ñ‚Ðµ:
+
+  ```
+  @voracode fix this
+  ```
+
+  voracode ÑÐ¾Ð·Ð´Ð°ÑÑ‚ Ð½Ð¾Ð²ÑƒÑŽ Ð²ÐµÑ‚ÐºÑƒ, Ð²Ð½ÐµÐ´Ñ€Ð¸Ñ‚ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ñ Ð¸ Ð¾Ñ‚ÐºÑ€Ð¾ÐµÑ‚ Ð¼ÐµÑ€Ð¶-Ñ€ÐµÐºÐ²ÐµÑÑ‚ Ñ Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸ÑÐ¼Ð¸.
+
+- **ÐŸÑ€Ð¾Ð²ÐµÑ€ÐºÐ° Merge Request**
+
+  ÐžÑÑ‚Ð°Ð²ÑŒÑ‚Ðµ ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ð¹ ÐºÐ¾Ð¼Ð¼ÐµÐ½Ñ‚Ð°Ñ€Ð¸Ð¹ Ðº Ð¼ÐµÑ€Ð¶-Ñ€ÐµÐºÐ²ÐµÑÑ‚Ñƒ GitLab.
+
+  ```
+  @voracode review this merge request
+  ```
+
+  voracode Ñ€Ð°ÑÑÐ¼Ð¾Ñ‚Ñ€Ð¸Ñ‚ Ð¼ÐµÑ€Ð¶-Ñ€ÐµÐºÐ²ÐµÑÑ‚ Ð¸ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð¸Ñ‚ Ð¾Ñ‚Ð·Ñ‹Ð².

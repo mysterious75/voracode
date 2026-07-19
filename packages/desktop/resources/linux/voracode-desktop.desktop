@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Voracode
+Exec=/opt/Voracode/ai.voracode.desktop %U
+Terminal=false
+Type=Application
+Icon=ai.voracode.desktop
+StartupWMClass=ai.voracode.desktop
+NoDisplay=true
+Comment=Open source AI coding agent
+Categories=Development;

@@ -46,7 +46,7 @@ export function DialogWorkspaceList() {
           value: { workspace },
           footer: workspace.type,
           details: expanded[workspace.id] && workspace.directory ? [workspace.directory] : undefined,
-          gutter: () => <text fg={status === "connected" ? theme.success : theme.error}>â—</text>,
+          gutter: () => <text fg={status === "connected" ? theme.success : theme.error}>●</text>,
         }
       }),
   )

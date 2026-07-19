@@ -1,0 +1,322 @@
+﻿---
+title: GitHub
+description: GitHub ã®å•é¡Œã¨ãƒ—ãƒ«ãƒªã‚¯ã‚¨ã‚¹ãƒˆã§ Voracode ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
+---
+
+Voracode ã¯ GitHub ãƒ¯ãƒ¼ã‚¯ãƒ•ãƒ­ãƒ¼ã¨çµ±åˆã—ã¾ã™ã€‚ã‚³ãƒ¡ãƒ³ãƒˆã§ `/voracode` ã¾ãŸã¯ `/oc` ã«è¨€åŠã™ã‚‹ã¨ã€Voracode ãŒ GitHub Actions ãƒ©ãƒ³ãƒŠãƒ¼å†…ã§ã‚¿ã‚¹ã‚¯ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
+
+---
+
+## æ©Ÿèƒ½
+
+- **å•é¡Œã®ãƒˆãƒªã‚¢ãƒ¼ã‚¸**: Voracode ã«å•é¡Œã‚’èª¿ã¹ã¦èª¬æ˜Žã—ã¦ã‚‚ã‚‰ã„ã¾ã™ã€‚
+- **ä¿®æ­£ã¨å®Ÿè£…**: Voracode ã«å•é¡Œã®ä¿®æ­£ã¾ãŸã¯æ©Ÿèƒ½ã®å®Ÿè£…ã‚’ä¾é ¼ã—ã¾ã™ã€‚ãã—ã¦ã€æ–°ã—ã„ãƒ–ãƒ©ãƒ³ãƒã§å‹•ä½œã—ã€ã™ã¹ã¦ã®å¤‰æ›´ã‚’å«ã‚€ PR ã‚’é€ä¿¡ã—ã¾ã™ã€‚
+- **å®‰å…¨**: Voracode ã¯ GitHub ã®ãƒ©ãƒ³ãƒŠãƒ¼å†…ã§å®Ÿè¡Œã•ã‚Œã¾ã™ã€‚
+
+---
+
+## ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
+
+GitHub ãƒªãƒã‚¸ãƒˆãƒªã«ã‚ã‚‹ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã§æ¬¡ã®ã‚³ãƒžãƒ³ãƒ‰ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
+
+```bash
+voracode github install
+```
+
+ã“ã“ã§ã¯ã€GitHub ã‚¢ãƒ—ãƒªã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã€ãƒ¯ãƒ¼ã‚¯ãƒ•ãƒ­ãƒ¼ã®ä½œæˆã€ã‚·ãƒ¼ã‚¯ãƒ¬ãƒƒãƒˆã®è¨­å®šã«ã¤ã„ã¦èª¬æ˜Žã—ã¾ã™ã€‚
+
+---
+
+### æ‰‹å‹•ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—
+
+ã¾ãŸã¯ã€æ‰‹å‹•ã§è¨­å®šã™ã‚‹ã“ã¨ã‚‚ã§ãã¾ã™ã€‚
+
+1. **GitHub ã‚¢ãƒ—ãƒªã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¾ã™**
+
+[**github.com/apps/voracode-agent**](https://github.com/apps/voracode-agent) ã«ã‚¢ã‚¯ã‚»ã‚¹ã—ã¦ãã ã•ã„ã€‚ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒªãƒã‚¸ãƒˆãƒªã«ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã•ã‚Œã¦ã„ã‚‹ã“ã¨ã‚’ç¢ºèªã—ã¦ãã ã•ã„ã€‚
+
+2. **ãƒ¯ãƒ¼ã‚¯ãƒ•ãƒ­ãƒ¼ã‚’è¿½åŠ **
+
+æ¬¡ã®ãƒ¯ãƒ¼ã‚¯ãƒ•ãƒ­ãƒ¼ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒªãƒã‚¸ãƒˆãƒªã® `.github/workflows/voracode.yml` ã«è¿½åŠ ã—ã¾ã™ã€‚é©åˆ‡ãª `model` ã¨å¿…è¦ãª API ã‚­ãƒ¼ã‚’ `env` ã«è¨­å®šã—ã¦ãã ã•ã„ã€‚
+
+```yml title=".github/workflows/voracode.yml" {24,26}
+   name: voracode
+
+   on:
+     issue_comment:
+       types: [created]
+     pull_request_review_comment:
+       types: [created]
+
+   jobs:
+     voracode:
+       if: |
+         contains(github.event.comment.body, '/oc') ||
+         contains(github.event.comment.body, '/voracode')
+       runs-on: ubuntu-latest
+       permissions:
+         id-token: write
+       steps:
+          - name: Checkout repository
+            uses: actions/checkout@v6
+            with:
+              fetch-depth: 1
+              persist-credentials: false
+
+          - name: Run Voracode
+           uses: mysterious75/voracode/github@latest
+           env:
+             ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+           with:
+             model: anthropic/claude-sonnet-4-20250514
+             # share: true
+             # github_token: xxxx
+```
+
+3. **API ã‚­ãƒ¼ã‚’ã‚·ãƒ¼ã‚¯ãƒ¬ãƒƒãƒˆã«ä¿å­˜ã™ã‚‹**
+
+çµ„ç¹”ã¾ãŸã¯ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®**è¨­å®š**ã§ã€å·¦å´ã®**ã‚·ãƒ¼ã‚¯ãƒ¬ãƒƒãƒˆã¨å¤‰æ•°**ã‚’å±•é–‹ã—ã€**ã‚¢ã‚¯ã‚·ãƒ§ãƒ³**ã‚’é¸æŠžã—ã¾ã™ã€‚ãã—ã¦ã€å¿…è¦ãª API ã‚­ãƒ¼ã‚’è¿½åŠ ã—ã¾ã™ã€‚
+
+---
+
+## è¨­å®š
+
+- `model`: Voracode ã§ä½¿ç”¨ã™ã‚‹ãƒ¢ãƒ‡ãƒ«ã€‚ `provider/model` ã®å½¢å¼ã‚’ã¨ã‚Šã¾ã™ã€‚ã“ã‚Œã¯**å¿…é ˆ**ã§ã™ã€‚
+- `agent`: ä½¿ç”¨ã™ã‚‹ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã€‚ãƒ—ãƒ©ã‚¤ãƒžãƒªã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã§ã‚ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚è¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯ã€è¨­å®šã‹ã‚‰ `default_agent` ã«ãƒ•ã‚©ãƒ¼ãƒ«ãƒãƒƒã‚¯ã™ã‚‹ã‹ã€`"build"` ã«ãƒ•ã‚©ãƒ¼ãƒ«ãƒãƒƒã‚¯ã—ã¾ã™ã€‚
+- `share`: Voracode ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’å…±æœ‰ã™ã‚‹ã‹ã©ã†ã‹ã€‚ãƒ‘ãƒ–ãƒªãƒƒã‚¯ãƒªãƒã‚¸ãƒˆãƒªã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯ **true** ã§ã™ã€‚
+- `prompt`: ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‹•ä½œã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã™ã‚‹ãŸã‚ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®ã‚«ã‚¹ã‚¿ãƒ ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã€‚ã“ã‚Œã‚’ä½¿ç”¨ã—ã¦ã€Voracode ãŒãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’å‡¦ç†ã™ã‚‹æ–¹æ³•ã‚’ã‚«ã‚¹ã‚¿ãƒžã‚¤ã‚ºã—ã¾ã™ã€‚
+- `token`: ã‚³ãƒ¡ãƒ³ãƒˆã®ä½œæˆã€å¤‰æ›´ã®ã‚³ãƒŸãƒƒãƒˆã€ãƒ—ãƒ«ãƒªã‚¯ã‚¨ã‚¹ãƒˆã®ã‚ªãƒ¼ãƒ—ãƒ³ãªã©ã®æ“ä½œã‚’å®Ÿè¡Œã™ã‚‹ãŸã‚ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã® GitHub ã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³ã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ã¯ã€Voracode ã¯ Voracode GitHub ã‚¢ãƒ—ãƒªã‹ã‚‰ã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³ã‚’ä½¿ç”¨ã™ã‚‹ãŸã‚ã€ã‚³ãƒŸãƒƒãƒˆã€ã‚³ãƒ¡ãƒ³ãƒˆã€ãƒ—ãƒ«ãƒªã‚¯ã‚¨ã‚¹ãƒˆã¯ã‚¢ãƒ—ãƒªã‹ã‚‰ã®ã‚‚ã®ã¨ã—ã¦è¡¨ç¤ºã•ã‚Œã¾ã™ã€‚
+
+ã‚ã‚‹ã„ã¯ã€Voracode GitHub ã‚¢ãƒ—ãƒªã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã›ãšã«ã€GitHub Action ãƒ©ãƒ³ãƒŠãƒ¼ã® [çµ„ã¿è¾¼ã¿ `GITHUB_TOKEN`](https://docs.github.com/en/actions/tutorials/authenticate-with-github_token) ã‚’ä½¿ç”¨ã™ã‚‹ã“ã¨ã‚‚ã§ãã¾ã™ã€‚ãƒ¯ãƒ¼ã‚¯ãƒ•ãƒ­ãƒ¼ã§å¿…è¦ãªæ¨©é™ã‚’å¿…ãšä»˜ä¸Žã—ã¦ãã ã•ã„ã€‚
+
+```yaml
+permissions:
+  id-token: write
+  contents: write
+  pull-requests: write
+  issues: write
+```
+
+å¿…è¦ã«å¿œã˜ã¦ã€[ãƒ‘ãƒ¼ã‚½ãƒŠãƒ«ã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)(PAT) ã‚’ä½¿ç”¨ã™ã‚‹ã“ã¨ã‚‚ã§ãã¾ã™ã€‚
+
+---
+
+## ã‚µãƒãƒ¼ãƒˆã•ã‚Œã¦ã„ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆ
+
+Voracode ã¯ã€æ¬¡ã® GitHub ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚ˆã£ã¦ãƒˆãƒªã‚¬ãƒ¼ã§ãã¾ã™ã€‚
+
+| ã‚¤ãƒ™ãƒ³ãƒˆã®ç¨®é¡ž                | ãƒˆãƒªã‚¬ãƒ¼                            | è©³ç´°                                                                                                                                                        |
+| ----------------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `issue_comment`               | å•é¡Œã¾ãŸã¯ PR ã«ã¤ã„ã¦ã‚³ãƒ¡ãƒ³ãƒˆã™ã‚‹  | ã‚³ãƒ¡ãƒ³ãƒˆã§ `/voracode` ã¾ãŸã¯ `/oc` ã«ã¤ã„ã¦è¨€åŠã—ã¦ãã ã•ã„ã€‚ Voracode ã¯ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’èª­ã¿å–ã‚Šã€ãƒ–ãƒ©ãƒ³ãƒã‚’ä½œæˆã—ãŸã‚Šã€PR ã‚’é–‹ã„ãŸã‚Šã€è¿”ä¿¡ã—ãŸã‚Šã§ãã¾ã™ã€‚ |
+| `pull_request_review_comment` | PR å†…ã®ç‰¹å®šã®ã‚³ãƒ¼ãƒ‰è¡Œã«ã‚³ãƒ¡ãƒ³ãƒˆã™ã‚‹ | ã‚³ãƒ¼ãƒ‰ã‚’ãƒ¬ãƒ“ãƒ¥ãƒ¼ã™ã‚‹ã¨ãã«ã€`/voracode` ã¾ãŸã¯ `/oc` ã«ã¤ã„ã¦è¨€åŠã—ã¾ã™ã€‚ Voracode ã¯ã€ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã€è¡Œç•ªå·ã€ãŠã‚ˆã³ diff ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’å—ã‘å–ã‚Šã¾ã™ã€‚       |
+| `issues`                      | å•é¡ŒãŒã‚ªãƒ¼ãƒ—ãƒ³ã¾ãŸã¯ç·¨é›†ã•ã‚Œã¾ã—ãŸ  | å•é¡ŒãŒä½œæˆã¾ãŸã¯å¤‰æ›´ã•ã‚Œã‚‹ã¨ã€Voracode ãŒè‡ªå‹•çš„ã«ãƒˆãƒªã‚¬ãƒ¼ã•ã‚Œã¾ã™ã€‚ `prompt` å…¥åŠ›ãŒå¿…è¦ã§ã™ã€‚                                                               |
+| `pull_request`                | PR ãŒã‚ªãƒ¼ãƒ—ãƒ³ã¾ãŸã¯æ›´æ–°ã•ã‚Œã¾ã—ãŸ   | PR ãŒé–‹ã‹ã‚Œã‚‹ã€åŒæœŸã•ã‚Œã‚‹ã€ã¾ãŸã¯å†åº¦é–‹ã‹ã‚Œã‚‹ã¨ãã«ã€Voracode ã‚’è‡ªå‹•çš„ã«ãƒˆãƒªã‚¬ãƒ¼ã—ã¾ã™ã€‚è‡ªå‹•ãƒ¬ãƒ“ãƒ¥ãƒ¼ã«å½¹ç«‹ã¡ã¾ã™ã€‚                                          |
+| `schedule`                    | Cron ãƒ™ãƒ¼ã‚¹ã®ã‚¹ã‚±ã‚¸ãƒ¥ãƒ¼ãƒ«           | ã‚¹ã‚±ã‚¸ãƒ¥ãƒ¼ãƒ«ã«å¾“ã£ã¦ Voracode ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚ `prompt` å…¥åŠ›ãŒå¿…è¦ã§ã™ã€‚å‡ºåŠ›ã¯ãƒ­ã‚°ã¨ PR ã«é€ã‚‰ã‚Œã¾ã™ (ã‚³ãƒ¡ãƒ³ãƒˆã™ã‚‹å•é¡Œã¯ã‚ã‚Šã¾ã›ã‚“)ã€‚                         |
+| `workflow_dispatch`           | GitHub UI ã‹ã‚‰ã®æ‰‹å‹•ãƒˆãƒªã‚¬ãƒ¼        | [ã‚¢ã‚¯ã‚·ãƒ§ãƒ³] ã‚¿ãƒ–ã‹ã‚‰ Voracode ã‚’ã‚ªãƒ³ãƒ‡ãƒžãƒ³ãƒ‰ã§ãƒˆãƒªã‚¬ãƒ¼ã—ã¾ã™ã€‚ `prompt` å…¥åŠ›ãŒå¿…è¦ã§ã™ã€‚å‡ºåŠ›ã¯ãƒ­ã‚°ã¨ PR ã«é€ã‚‰ã‚Œã¾ã™ã€‚                                     |
+
+### ã‚¹ã‚±ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ä¾‹
+
+ã‚¹ã‚±ã‚¸ãƒ¥ãƒ¼ãƒ«ã«å¾“ã£ã¦ Voracode ã‚’å®Ÿè¡Œã—ã€è‡ªå‹•åŒ–ã•ã‚ŒãŸã‚¿ã‚¹ã‚¯ã‚’å®Ÿè¡Œã—ã¾ã™ã€‚
+
+```yaml title=".github/workflows/voracode-scheduled.yml"
+name: Scheduled Voracode Task
+
+on:
+  schedule:
+    - cron: "0 9 * * 1" # Every Monday at 9am UTC
+
+jobs:
+  voracode:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Run Voracode
+        uses: mysterious75/voracode/github@latest
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        with:
+          model: anthropic/claude-sonnet-4-20250514
+          prompt: |
+            Review the codebase for any TODO comments and create a summary.
+            If you find issues worth addressing, open an issue to track them.
+```
+
+ã‚¹ã‚±ã‚¸ãƒ¥ãƒ¼ãƒ«ã•ã‚ŒãŸã‚¤ãƒ™ãƒ³ãƒˆã®å ´åˆã€æŒ‡ç¤ºã‚’æŠ½å‡ºã™ã‚‹ãŸã‚ã®ã‚³ãƒ¡ãƒ³ãƒˆãŒãªã„ãŸã‚ã€`prompt` å…¥åŠ›ã¯ **å¿…é ˆ** ã§ã™ã€‚ã‚¹ã‚±ã‚¸ãƒ¥ãƒ¼ãƒ«ã•ã‚ŒãŸãƒ¯ãƒ¼ã‚¯ãƒ•ãƒ­ãƒ¼ã¯ã€æ¨©é™ãƒã‚§ãƒƒã‚¯ã®ãŸã‚ã®ãƒ¦ãƒ¼ã‚¶ãƒ¼ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãªã—ã§å®Ÿè¡Œã•ã‚Œã‚‹ãŸã‚ã€Voracode ãŒãƒ–ãƒ©ãƒ³ãƒã¾ãŸã¯ PR ã‚’ä½œæˆã™ã‚‹ã“ã¨ãŒäºˆæƒ³ã•ã‚Œã‚‹å ´åˆã€ãƒ¯ãƒ¼ã‚¯ãƒ•ãƒ­ãƒ¼ã¯ `contents: write` ãŠã‚ˆã³ `pull-requests: write` ã‚’ä»˜ä¸Žã™ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
+
+---
+
+### ãƒ—ãƒ«ãƒªã‚¯ã‚¨ã‚¹ãƒˆã®ä¾‹
+
+PR ãŒé–‹ã‹ã‚Œã‚‹ã‹æ›´æ–°ã•ã‚Œã‚‹ã¨ãã«ã€PR ã‚’è‡ªå‹•çš„ã«ãƒ¬ãƒ“ãƒ¥ãƒ¼ã—ã¾ã™ã€‚
+
+```yaml title=".github/workflows/voracode-review.yml"
+name: voracode-review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: read
+      issues: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: mysterious75/voracode/github@latest
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          model: anthropic/claude-sonnet-4-20250514
+          use_github_token: true
+          prompt: |
+            Review this pull request:
+            - Check for code quality issues
+            - Look for potential bugs
+            - Suggest improvements
+```
+
+`pull_request` ã‚¤ãƒ™ãƒ³ãƒˆã®å ´åˆã€`prompt` ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã€Voracode ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ãƒ—ãƒ«ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’ãƒ¬ãƒ“ãƒ¥ãƒ¼ã—ã¾ã™ã€‚
+
+---
+
+### Issueã®ãƒˆãƒªã‚¢ãƒ¼ã‚¸ã®ä¾‹
+
+æ–°ã—ã„å•é¡Œã‚’è‡ªå‹•çš„ã«å„ªå…ˆé †ä½ä»˜ã‘ã—ã¾ã™ã€‚ã“ã®ä¾‹ã§ã¯ã€ã‚¹ãƒ‘ãƒ ã‚’æ¸›ã‚‰ã™ãŸã‚ã« 30 æ—¥ã‚ˆã‚Šå¤ã„ã‚¢ã‚«ã‚¦ãƒ³ãƒˆã«ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ã‚’é©ç”¨ã—ã¾ã™ã€‚
+
+```yaml title=".github/workflows/voracode-triage.yml"
+name: Issue Triage
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Check account age
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const user = await github.rest.users.getByUsername({
+              username: context.payload.issue.user.login
+            });
+            const created = new Date(user.data.created_at);
+            const days = (Date.now() - created) / (1000 * 60 * 60 * 24);
+            return days >= 30;
+          result-encoding: string
+
+      - uses: actions/checkout@v6
+        if: steps.check.outputs.result == 'true'
+        with:
+          persist-credentials: false
+
+      - uses: mysterious75/voracode/github@latest
+        if: steps.check.outputs.result == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        with:
+          model: anthropic/claude-sonnet-4-20250514
+          prompt: |
+            Review this issue. If there's a clear fix or relevant docs:
+            - Provide documentation links
+            - Add error handling guidance for code examples
+            Otherwise, do not comment.
+```
+
+`issues` ã‚¤ãƒ™ãƒ³ãƒˆã®å ´åˆã€æŒ‡ç¤ºã‚’æŠ½å‡ºã™ã‚‹ãŸã‚ã®ã‚³ãƒ¡ãƒ³ãƒˆãŒãªã„ãŸã‚ã€`prompt` å…¥åŠ›ã¯ **å¿…é ˆ** ã§ã™ã€‚
+
+---
+
+## ã‚«ã‚¹ã‚¿ãƒ ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆ
+
+ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ã€ãƒ¯ãƒ¼ã‚¯ãƒ•ãƒ­ãƒ¼ã«åˆã‚ã›ã¦ Voracode ã®å‹•ä½œã‚’ã‚«ã‚¹ã‚¿ãƒžã‚¤ã‚ºã—ã¾ã™ã€‚
+
+```yaml title=".github/workflows/voracode.yml"
+- uses: mysterious75/voracode/github@latest
+  with:
+    model: anthropic/claude-sonnet-4-5
+    prompt: |
+      Review this pull request:
+      - Check for code quality issues
+      - Look for potential bugs
+      - Suggest improvements
+```
+
+ã“ã‚Œã¯ã€ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã«é–¢é€£ã™ã‚‹ç‰¹å®šã®ãƒ¬ãƒ“ãƒ¥ãƒ¼åŸºæº–ã€ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°æ¨™æº–ã€ã¾ãŸã¯é‡ç‚¹åˆ†é‡Žã‚’å¼·åˆ¶ã™ã‚‹ã®ã«å½¹ç«‹ã¡ã¾ã™ã€‚
+
+---
+
+## ä¾‹
+
+GitHub ã§ Voracode ã‚’ä½¿ç”¨ã™ã‚‹æ–¹æ³•ã®ä¾‹ã‚’ã„ãã¤ã‹ç¤ºã—ã¾ã™ã€‚
+
+- **Issueã®èª¬æ˜Ž**
+
+ã“ã®ã‚³ãƒ¡ãƒ³ãƒˆã‚’ GitHub ã®å•é¡Œã«è¿½åŠ ã—ã¾ã™ã€‚
+
+```
+  /voracode explain this issue
+```
+
+Voracode ã¯ã€ã™ã¹ã¦ã®ã‚³ãƒ¡ãƒ³ãƒˆã‚’å«ã‚€ã‚¹ãƒ¬ãƒƒãƒ‰å…¨ä½“ã‚’èª­ã¿å–ã‚Šã€æ˜Žç¢ºãªèª¬æ˜Žã‚’è¿”ä¿¡ã—ã¾ã™ã€‚
+
+- **Issueã®ä¿®æ­£**
+
+GitHub ã®å•é¡Œã§æ¬¡ã®ã‚ˆã†ã«è¨€ã„ã¾ã™ã€‚
+
+```
+  /voracode fix this
+```
+
+ãã—ã¦ã€Voracode ã¯æ–°ã—ã„ãƒ–ãƒ©ãƒ³ãƒã‚’ä½œæˆã—ã€å¤‰æ›´ã‚’å®Ÿè£…ã—ã€å¤‰æ›´ã‚’å«ã‚€ PR ã‚’é–‹ãã¾ã™ã€‚
+
+- **PR ã‚’ãƒ¬ãƒ“ãƒ¥ãƒ¼ã—ã¦å¤‰æ›´ã‚’åŠ ãˆã‚‹**
+
+GitHub PR ã«æ¬¡ã®ã‚³ãƒ¡ãƒ³ãƒˆã‚’æ®‹ã—ã¦ãã ã•ã„ã€‚
+
+```
+  Delete the attachment from S3 when the note is removed /oc
+```
+
+Voracode ã¯è¦æ±‚ã•ã‚ŒãŸå¤‰æ›´ã‚’å®Ÿè£…ã—ã€åŒã˜ PR ã«ã‚³ãƒŸãƒƒãƒˆã—ã¾ã™ã€‚
+
+- **ç‰¹å®šã®ã‚³ãƒ¼ãƒ‰è¡Œã®ãƒ¬ãƒ“ãƒ¥ãƒ¼**
+
+PR ã®ã€Œãƒ•ã‚¡ã‚¤ãƒ«ã€ã‚¿ãƒ–ã®ã‚³ãƒ¼ãƒ‰è¡Œã«ç›´æŽ¥ã‚³ãƒ¡ãƒ³ãƒˆã‚’æ®‹ã—ã¾ã™ã€‚ Voracode ã¯ã€ãƒ•ã‚¡ã‚¤ãƒ«ã€è¡Œç•ªå·ã€ãŠã‚ˆã³ diff ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚’è‡ªå‹•çš„ã«æ¤œå‡ºã—ã¦ã€æ­£ç¢ºãªå¿œç­”ã‚’æä¾›ã—ã¾ã™ã€‚
+
+```
+  [Comment on specific lines in Files tab]
+  /oc add error handling here
+```
+
+ç‰¹å®šã®è¡Œã«ã‚³ãƒ¡ãƒ³ãƒˆã™ã‚‹ã¨ã€Voracode ã¯ä»¥ä¸‹ã‚’å—ã‘å–ã‚Šã¾ã™ã€‚
+
+- ãƒ¬ãƒ“ãƒ¥ãƒ¼ã•ã‚Œã¦ã„ã‚‹æ­£ç¢ºãªãƒ•ã‚¡ã‚¤ãƒ«
+- ã‚³ãƒ¼ãƒ‰ã®ç‰¹å®šã®è¡Œ
+- å‘¨å›²ã®å·®åˆ†ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
+- è¡Œç•ªå·æƒ…å ±
+
+ã“ã‚Œã«ã‚ˆã‚Šã€ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚„è¡Œç•ªå·ã‚’æ‰‹å‹•ã§æŒ‡å®šã™ã‚‹å¿…è¦ãŒãªãã€ã‚ˆã‚Šã‚¿ãƒ¼ã‚²ãƒƒãƒˆã‚’çµžã£ãŸãƒªã‚¯ã‚¨ã‚¹ãƒˆãŒå¯èƒ½ã«ãªã‚Šã¾ã™ã€‚

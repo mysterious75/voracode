@@ -1,0 +1,344 @@
+﻿---
+title: IntroduÃ§Ã£o
+description: Comece a usar o voracode.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+import config from "../../../../config.mjs"
+export const console = config.console
+
+[**voracode**](/) Ã© um agente de codificaÃ§Ã£o de IA de cÃ³digo aberto. EstÃ¡ disponÃ­vel como uma interface baseada em terminal, aplicativo desktop ou extensÃ£o de IDE.
+
+![voracode TUI com o tema voracode](../../../assets/lander/screenshot.png)
+
+Vamos comeÃ§ar.
+
+---
+
+#### PrÃ©-requisitos
+
+Para usar o voracode no seu terminal, vocÃª precisarÃ¡ de:
+
+1. Um emulador de terminal moderno como:
+   - [WezTerm](https://wezterm.org), multiplataforma
+   - [Alacritty](https://alacritty.org), multiplataforma
+   - [Ghostty](https://ghostty.org), Linux e macOS
+   - [Kitty](https://sw.kovidgoyal.net/kitty/), Linux e macOS
+
+2. Chaves de API para os provedores de LLM que vocÃª deseja usar.
+
+---
+
+## InstalaÃ§Ã£o
+
+A maneira mais fÃ¡cil de instalar o voracode Ã© atravÃ©s do script de instalaÃ§Ã£o.
+
+```bash
+curl -fsSL https://voracode.ai/install | bash
+```
+
+VocÃª tambÃ©m pode instalÃ¡-lo com os seguintes comandos:
+
+- **Usando Node.js**
+
+        <Tabs>
+
+      <TabItem label="npm">
+      ```bash
+      npm install -g voracode-ai
+      ```
+
+          </TabItem>
+
+        <TabItem label="Bun">
+        ```bash
+        bun install -g voracode-ai
+        ```
+
+          </TabItem>
+
+        <TabItem label="pnpm">
+        ```bash
+        pnpm install -g voracode-ai
+        ```
+
+          </TabItem>
+
+        <TabItem label="Yarn">
+        ```bash
+        yarn global add voracode-ai
+        ```
+
+      </TabItem>
+
+  </Tabs>
+
+- **Usando Homebrew no macOS e Linux**
+
+  ```bash
+  brew install mysterious75/tap/voracode
+  ```
+
+  > Recomendamos usar o tap do voracode para as versÃµes mais atualizadas. A fÃ³rmula oficial `brew install voracode` Ã© mantida pela equipe do Homebrew e Ã© atualizada com menos frequÃªncia.
+
+- **Usando Paru no Arch Linux**
+
+  ```bash
+  sudo pacman -S voracode           # Arch Linux (Stable)
+  paru -S voracode-bin              # Arch Linux (Latest from AUR)
+  ```
+
+#### Windows
+
+:::tip[Recomendado: Use WSL]
+Para a melhor experiÃªncia no Windows, recomendamos usar o [Windows Subsystem for Linux (WSL)](/docs/windows-wsl). Ele oferece melhor desempenho e total compatibilidade com os recursos do voracode.
+:::
+
+- **Usando Chocolatey**
+
+  ```bash
+  choco install voracode
+  ```
+
+- **Usando Scoop**
+
+  ```bash
+  scoop install voracode
+  ```
+
+- **Usando NPM**
+
+  ```bash
+  npm install -g voracode-ai
+  ```
+
+- **Usando Mise**
+
+  ```bash
+  mise use -g github:mysterious75/voracode
+  ```
+
+- **Usando Docker**
+
+  ```bash
+  docker run -it --rm ghcr.io/mysterious75/voracode
+  ```
+
+O suporte para instalar o voracode no Windows usando Bun estÃ¡ atualmente em andamento.
+
+VocÃª tambÃ©m pode baixar o binÃ¡rio na seÃ§Ã£o [Releases](https://github.com/mysterious75/voracode/releases).
+
+---
+
+## ConfiguraÃ§Ã£o
+
+Com o voracode, vocÃª pode usar qualquer provedor de LLM configurando suas chaves de API.
+
+Se vocÃª Ã© novo no uso de provedores de LLM, recomendamos usar o [Voracode Zen](/docs/zen).
+Ã‰ uma lista selecionada de modelos que foram testados e verificados pela equipe do voracode.
+
+1. Execute o comando `/connect` no TUI, selecione voracode e acesse [voracode.ai/auth](https://voracode.ai/auth).
+
+   ```txt
+   /connect
+   ```
+
+2. FaÃ§a login, adicione seus dados de cobranÃ§a e copie sua chave de API.
+
+3. Cole sua chave de API.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+Alternativamente, vocÃª pode selecionar um dos outros provedores. [Saiba mais](/docs/providers#directory).
+
+---
+
+## InicializaÃ§Ã£o
+
+Agora que vocÃª configurou um provedor, pode navegar atÃ© um projeto no qual deseja trabalhar.
+
+```bash
+cd /path/to/project
+```
+
+E execute o voracode.
+
+```bash
+voracode
+```
+
+Em seguida, inicialize o voracode para o projeto executando o seguinte comando.
+
+```bash frame="none"
+/init
+```
+
+Isso farÃ¡ com que o voracode analise seu projeto e crie um arquivo `AGENTS.md` na raiz do projeto.
+
+:::tip
+VocÃª deve commitar o arquivo `AGENTS.md` do seu projeto no Git.
+:::
+
+Isso ajuda o voracode a entender a estrutura do projeto e os padrÃµes de codificaÃ§Ã£o utilizados.
+
+---
+
+## Uso
+
+Agora vocÃª estÃ¡ pronto para usar o voracode para trabalhar em seu projeto. Sinta-se Ã  vontade para perguntar qualquer coisa!
+
+Se vocÃª Ã© novo no uso de um agente de codificaÃ§Ã£o de IA, aqui estÃ£o alguns exemplos que podem ajudar.
+
+---
+
+### Fazendo perguntas
+
+VocÃª pode pedir ao voracode para explicar a base de cÃ³digo para vocÃª.
+
+:::tip
+Use a tecla `@` para buscar arquivos no projeto.
+:::
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+How is authentication handled in @packages/functions/src/api/index.ts
+```
+
+Isso Ã© Ãºtil se houver uma parte da base de cÃ³digo na qual vocÃª nÃ£o trabalhou.
+
+---
+
+### Adicionando recursos
+
+VocÃª pode pedir ao voracode para adicionar novos recursos ao seu projeto. Embora primeiro recomendemos pedir para ele criar um plano.
+
+1. **Criar um plano**
+
+   O voracode tem um _Modo de Plano_ que desabilita sua capacidade de fazer alteraÃ§Ãµes e, em vez disso, sugere _como_ implementarÃ¡ o recurso.
+
+   Mude para ele usando a tecla **Tab**. VocÃª verÃ¡ um indicador para isso no canto inferior direito.
+
+   ```bash frame="none" title="Switch to Plan mode"
+   <TAB>
+   ```
+
+   Agora vamos descrever o que queremos que ele faÃ§a.
+
+   ```txt frame="none"
+   When a user deletes a note, we'd like to flag it as deleted in the database.
+   Then create a screen that shows all the recently deleted notes.
+   From this screen, the user can undelete a note or permanently delete it.
+   ```
+
+   VocÃª quer dar ao voracode detalhes suficientes para entender o que vocÃª deseja. Ajuda conversar com ele como se vocÃª estivesse falando com um desenvolvedor jÃºnior da sua equipe.
+
+   :::tip
+   DÃª ao voracode bastante contexto e exemplos para ajudÃ¡-lo a entender o que vocÃª deseja.
+   :::
+
+2. **Iterar sobre o plano**
+
+   Uma vez que ele lhe der um plano, vocÃª pode dar feedback ou adicionar mais detalhes.
+
+   ```txt frame="none"
+   We'd like to design this new screen using a design I've used before.
+   [Image #1] Take a look at this image and use it as a reference.
+   ```
+
+   :::tip
+   Arraste e solte imagens no terminal para adicionÃ¡-las ao prompt.
+   :::
+
+   O voracode pode escanear qualquer imagem que vocÃª fornecer e adicionÃ¡-la ao prompt. VocÃª pode fazer isso arrastando e soltando uma imagem no terminal.
+
+3. **Construir o recurso**
+
+   Uma vez que vocÃª se sinta confortÃ¡vel com o plano, volte para o _Modo de ConstruÃ§Ã£o_ pressionando a tecla **Tab** novamente.
+
+   ```bash frame="none"
+   <TAB>
+   ```
+
+   E peÃ§a para ele fazer as alteraÃ§Ãµes.
+
+   ```bash frame="none"
+   Sounds good! Go ahead and make the changes.
+   ```
+
+---
+
+### Fazendo alteraÃ§Ãµes
+
+Para alteraÃ§Ãµes mais simples, vocÃª pode pedir ao voracode para construÃ­-las diretamente sem precisar revisar o plano primeiro.
+
+```txt frame="none" "@packages/functions/src/settings.ts" "@packages/functions/src/notes.ts"
+We need to add authentication to the /settings route. Take a look at how this is
+handled in the /notes route in @packages/functions/src/notes.ts and implement
+the same logic in @packages/functions/src/settings.ts
+```
+
+VocÃª quer ter certeza de fornecer uma boa quantidade de detalhes para que o voracode faÃ§a as alteraÃ§Ãµes corretas.
+
+---
+
+### Desfazendo alteraÃ§Ãµes
+
+Vamos supor que vocÃª peÃ§a ao voracode para fazer algumas alteraÃ§Ãµes.
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+Can you refactor the function in @packages/functions/src/api/index.ts?
+```
+
+Mas vocÃª percebe que nÃ£o era isso que vocÃª queria. VocÃª **pode desfazer** as alteraÃ§Ãµes usando o comando `/undo`.
+
+```bash frame="none"
+/undo
+```
+
+O voracode agora reverterÃ¡ as alteraÃ§Ãµes que vocÃª fez e mostrarÃ¡ sua mensagem original novamente.
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+Can you refactor the function in @packages/functions/src/api/index.ts?
+```
+
+A partir daqui, vocÃª pode ajustar o prompt e pedir ao voracode para tentar novamente.
+
+:::tip
+VocÃª pode executar `/undo` vÃ¡rias vezes para desfazer vÃ¡rias alteraÃ§Ãµes.
+:::
+
+Ou vocÃª **pode refazer** as alteraÃ§Ãµes usando o comando `/redo`.
+
+```bash frame="none"
+/redo
+```
+
+---
+
+## Compartilhamento
+
+As conversas que vocÃª tem com o voracode podem ser [compartilhadas com sua equipe](/docs/share).
+
+```bash frame="none"
+/share
+```
+
+Isso criarÃ¡ um link para a conversa atual e o copiarÃ¡ para sua Ã¡rea de transferÃªncia.
+
+:::note
+As conversas nÃ£o sÃ£o compartilhadas por padrÃ£o.
+:::
+
+Aqui estÃ¡ uma [conversa de exemplo](https://voracode.ai/s/4XP1fce5) com o voracode.
+
+---
+
+## PersonalizaÃ§Ã£o
+
+E Ã© isso! Agora vocÃª Ã© um profissional em usar o voracode.
+
+Para tornÃ¡-lo seu, recomendamos [escolher um tema](/docs/themes), [personalizar os atalhos de teclado](/docs/keybinds), [configurar formatadores de cÃ³digo](/docs/formatters), [criar comandos personalizados](/docs/commands) ou brincar com a [configuraÃ§Ã£o do voracode](/docs/config).

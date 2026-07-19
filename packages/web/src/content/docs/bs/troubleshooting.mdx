@@ -1,0 +1,300 @@
+﻿---
+title: RjeÅ¡avanje problema
+description: UobiÄajeni problemi i kako ih rijeÅ¡iti.
+---
+
+Da biste otklonili probleme s Voracode, poÄnite provjeravanjem dnevnika i lokalnih podataka koje pohranjuje na disku.
+
+---
+
+## Dnevnici
+
+Log fajlovi se piÅ¡u na:
+
+- **macOS/Linux**: `~/.local/share/voracode/log/`
+- **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.local\share\voracode\log`
+
+Datoteke evidencije se imenuju vremenskim oznakama (npr. `2025-01-09T123456.log`) i Äuvaju se najnovijih 10 datoteka dnevnika.
+
+MoÅ¾ete postaviti nivo dnevnika pomoÄ‡u opcije komandne linije `--log-level` da biste dobili detaljnije informacije o otklanjanju greÅ¡aka. Na primjer, `voracode --log-level DEBUG`.
+
+---
+
+## Pohrana
+
+Voracode pohranjuje podatke o sesiji i druge podatke aplikacije na disku na:
+
+- **macOS/Linux**: `~/.local/share/voracode/`
+- **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.local\share\voracode`
+
+Ovaj direktorij sadrÅ¾i:
+
+- `auth.json` - â€‹â€‹Podaci o autentifikaciji kao Å¡to su API kljuÄevi, OAuth tokeni
+- `log/` - â€‹â€‹Dnevnici aplikacije
+- `project/` - â€‹â€‹Podaci specifiÄni za projekat kao Å¡to su podaci o sesiji i poruci
+  - Ako je projekat unutar Git repo-a, on je pohranjen u `./<project-slug>/storage/`
+  - Ako nije Git repo, pohranjuje se u `./global/storage/`
+
+---
+
+## Desktop aplikacija
+
+Voracode Desktop pokreÄ‡e lokalni Voracode server (`voracode-cli` sidecar) u pozadini. VeÄ‡ina problema je uzrokovana nedostatkom dodatka, oÅ¡teÄ‡enom keÅ¡ memorijom ili loÅ¡im postavkama servera.
+
+### Brze provjere
+
+- Potpuno zatvorite i ponovo pokrenite aplikaciju.
+- Ako aplikacija prikaÅ¾e ekran s greÅ¡kom, kliknite na **Restart** i kopirajte detalje o greÅ¡ci.
+- samo za macOS: `Voracode` meni -> **Ponovo uÄitaj Webview** (pomaÅ¾e ako je korisniÄki interfejs prazan/zamrznut).
+
+---
+
+### OnemoguÄ‡avanje dodataka
+
+Ako se desktop aplikacija ruÅ¡i pri pokretanju, visi ili se Äudno ponaÅ¡a, poÄnite s onemoguÄ‡avanjem dodataka.
+
+#### Provjerite globalnu konfiguraciju
+
+Otvorite svoju globalnu konfiguracijsku datoteku i potraÅ¾ite kljuÄ `plugin`.
+
+- **macOS/Linux**: `~/.config/voracode/voracode.jsonc` (ili `~/.config/voracode/voracode.json`)
+- **macOS/Linux** (starije instalacije): `~/.local/share/voracode/voracode.jsonc`
+- **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.config\voracode\voracode.jsonc`
+
+Ako imate konfigurirane dodatke, privremeno ih onemoguÄ‡ite uklanjanjem kljuÄa ili postavljanjem na prazan niz:
+
+```jsonc
+{
+  "$schema": "https://voracode.ai/config.json",
+  "plugin": [],
+}
+```
+
+#### Provjera direktorija dodataka
+
+Voracode takoÄ‘er moÅ¾e uÄitati lokalne dodatke s diska. Privremeno ih maknite s puta (ili preimenujte folder) i ponovo pokrenite desktop aplikaciju:
+
+- **Globalni dodaci**
+  - **macOS/Linux**: `~/.config/voracode/plugins/`
+  - **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.config\voracode\plugins`
+- **Projektni dodaci** (samo ako koristite konfiguraciju po projektu)
+  - `<your-project>/.voracode/plugins/`
+
+Ako aplikacija ponovo poÄne raditi, ponovo omoguÄ‡ite dodatke jedan po jedan kako biste otkrili koji od njih uzrokuje problem.
+
+---
+
+### Brisanje keÅ¡ memorije
+
+Ako onemoguÄ‡avanje dodataka ne pomogne (ili se instalacija dodatka zaglavila), obriÅ¡ite keÅ¡ memoriju kako bi ga Voracode mogao ponovo izgraditi.
+
+1. Potpuno zatvorite Voracode Desktop.
+2. IzbriÅ¡ite keÅ¡ direktorij:
+
+- **macOS**: Finder -> `Cmd+Shift+G` -> zalijepi `~/.cache/voracode`
+- **Linux**: obriÅ¡ite `~/.cache/voracode` (ili pokrenite `rm -rf ~/.cache/voracode`)
+- **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.cache\voracode`
+
+3. Ponovo pokrenite Voracode Desktop.
+
+---
+
+### RjeÅ¡avanje problema sa vezom na serveru
+
+Voracode Desktop moÅ¾e ili pokrenuti svoj lokalni server (podrazumevano) ili se povezati na URL servera koji ste konfigurisali.
+
+Ako vidite dijaloÅ¡ki okvir **"Povezivanje nije uspjelo"** (ili aplikacija nikada ne proÄ‘e kroz poÄetni ekran), provjerite da li postoji prilagoÄ‘eni URL servera.
+
+#### ObriÅ¡ite zadani URL servera radne povrÅ¡ine
+
+Na poÄetnom ekranu kliknite na ime servera (sa taÄkom statusa) da otvorite biraÄ servera. U odjeljku **Podrazumevani server** kliknite na **ObriÅ¡i**.
+
+#### Uklonite `server.port` / `server.hostname` iz vaÅ¡e konfiguracije
+
+Ako vaÅ¡ `voracode.json(c)` sadrÅ¾i odjeljak `server`, privremeno ga uklonite i ponovo pokrenite desktop aplikaciju.
+
+#### Provjerite varijable okruÅ¾enja
+
+Ako ste postavili `VORACODE_PORT` u svom okruÅ¾enju, desktop aplikacija Ä‡e pokuÅ¡ati da koristi taj port za lokalni server.
+
+- PoniÅ¡tite `VORACODE_PORT` (ili odaberite slobodan port) i ponovo pokrenite.
+
+---
+
+### Linux: Wayland / X11 problemi
+
+Na Linuxu, neka podeÅ¡avanja Waylanda mogu uzrokovati prazne prozore ili greÅ¡ke sastavljaÄa.
+
+- Ako ste na Waylandu, a aplikacija je prazna/ispada, pokuÅ¡ajte pokrenuti sa `OC_ALLOW_WAYLAND=1`.
+- Ako to pogorÅ¡a stvari, uklonite ga i pokuÅ¡ajte pokrenuti pod X11 sesijom umjesto toga.
+
+---
+
+### Windows: WebView2 izvrÅ¡no okruÅ¾enje
+
+Na Windows-u, Voracode Desktop zahtijeva Microsoft Edge **WebView2 Runtime**. Ako se aplikacija otvori u praznom prozoru ili se ne pokrene, instalirajte/aÅ¾urirajte WebView2 i pokuÅ¡ajte ponovo.
+
+---
+
+### Windows: OpÅ¡ti problemi sa performansama
+
+Ako imate spore performanse, probleme s pristupom datotekama ili probleme s terminalom na Windows-u, pokuÅ¡ajte koristiti [WSL (Windows podsistem za Linux)](/docs/windows-wsl). WSL pruÅ¾a Linux okruÅ¾enje koje radi neprimetnije sa Voracode karakteristikama.
+
+---
+
+### ObavjeÅ¡tenja se ne prikazuju
+
+Voracode Desktop prikazuje sistemska obavjeÅ¡tenja samo kada:
+
+- obavjeÅ¡tenja su omoguÄ‡ena za Voracode u postavkama vaÅ¡eg OS-a, i
+- prozor aplikacije nije fokusiran.
+
+---
+
+### Resetovanje pohrane desktop aplikacije
+
+Ako se aplikacija ne pokrene i ne moÅ¾ete izbrisati postavke unutar korisniÄkog suÄelja, resetirajte spremljeno stanje desktop aplikacije.
+
+1. Zatvorite Voracode Desktop.
+2. PronaÄ‘ite i izbriÅ¡ite ove datoteke (oni Å¾ive u direktoriju podataka Voracode Desktop aplikacije):
+
+- `voracode.settings.dat` (URL zadanog servera za desktop)
+- `voracode.global.dat` i `voracode.workspace.*.dat` (stanje korisniÄkog interfejsa poput nedavnih servera/projekata)
+
+Da brzo pronaÄ‘ete direktorij:
+
+- **macOS**: Finder -> `Cmd+Shift+G` -> `~/Library/Application Support` (onda potraÅ¾ite nazive fajlova iznad)
+- **Linux**: potraÅ¾ite nazive fajlova iznad pod `~/.local/share`
+- **Windows**: Pritisnite `WIN+R` -> `%APPDATA%` (zatim potraÅ¾ite nazive fajlova iznad)
+
+---
+
+## TraÅ¾enje pomoÄ‡i
+
+Ako imate problema s Voracode:
+
+1. **Prijavite probleme na GitHub**
+
+   Najbolji naÄin da prijavite greÅ¡ke ili zatraÅ¾ite funkcije je putem naÅ¡eg GitHub spremiÅ¡ta:
+
+   [**github.com/mysterious75/voracode/issues**](https://github.com/mysterious75/voracode/issues)
+
+   Prije kreiranja novog problema, pretraÅ¾ite postojeÄ‡e probleme da vidite je li vaÅ¡ problem veÄ‡ prijavljen.
+
+2. **PridruÅ¾ite se naÅ¡em Discordu**
+
+   Za pomoÄ‡ u stvarnom vremenu i diskusiju u zajednici, pridruÅ¾ite se naÅ¡em Discord serveru:
+
+   [**voracode.ai/discord**](https://voracode.ai/discord)
+
+---
+
+## UobiÄajeni problemi
+
+Evo nekih uobiÄajenih problema i kako ih rijeÅ¡iti.
+
+---
+
+### Voracode se ne pokreÄ‡e
+
+1. Provjerite dnevnike za poruke o greÅ¡kama
+2. PokuÅ¡ajte pokrenuti sa `--print-logs` da vidite izlaz u terminalu
+3. Uvjerite se da imate najnoviju verziju sa `voracode upgrade`
+
+---
+
+### Problemi s autentifikacijom
+
+1. PokuÅ¡ajte ponovo autentifikovati sa naredbom `/connect` u TUI
+2. Provjerite da li su vaÅ¡i API kljuÄevi vaÅ¾eÄ‡i
+3. Uvjerite se da vaÅ¡a mreÅ¾a dozvoljava veze s API-jem provajdera
+
+---
+
+### Model nije dostupan
+
+1. Provjerite jeste li se autentifikovali kod provajdera
+2. Provjerite je li naziv modela u vaÅ¡oj konfiguraciji taÄan
+3. Neki modeli mogu zahtijevati poseban pristup ili pretplate
+
+Ako naiÄ‘ete na `ProviderModelNotFoundError` najvjerovatnije niste u pravu
+referenciranje modela negdje.
+Modele treba referencirati ovako: `<providerId>/<modelId>`
+
+primjeri:
+
+- `openai/gpt-4.1`
+- `openrouter/google/gemini-2.5-flash`
+- `voracode/kimi-k2`
+
+Da saznate kojim modelima imate pristup, pokrenite `voracode models`
+
+---
+
+### ProviderInitError
+
+Ako naiÄ‘ete na greÅ¡ku ProviderInitError, vjerovatno imate nevaÅ¾eÄ‡u ili oÅ¡teÄ‡enu konfiguraciju.
+
+Da biste ovo rijeÅ¡ili:
+
+1. Prvo provjerite da li je vaÅ¡ provajder ispravno postavljen slijedeÄ‡i [vodiÄ za pruÅ¾atelje](/docs/providers)
+2. Ako se problem nastavi, pokuÅ¡ajte obrisati pohranjenu konfiguraciju:
+
+```bash
+   rm -rf ~/.local/share/voracode
+```
+
+Na Windows-u pritisnite `WIN+R` i izbriÅ¡ite: `%USERPROFILE%\.local\share\voracode`
+
+3. Ponovo izvrÅ¡ite autentifikaciju kod svog provajdera koristeÄ‡i naredbu `/connect` u TUI.
+
+---
+
+### AI_APICallError i problemi sa paketom dobavljaÄa
+
+Ako naiÄ‘ete na greÅ¡ke API poziva, to moÅ¾e biti zbog zastarjelih paketa dobavljaÄa. Voracode dinamiÄki instalira pakete dobavljaÄa (OpenAI, Anthropic, Google, itd.) po potrebi i keÅ¡ira ih lokalno.
+
+Da biste rijeÅ¡ili probleme s paketom dobavljaÄa:
+
+1. ObriÅ¡ite keÅ¡ paketa provajdera:
+
+```bash
+   rm -rf ~/.cache/voracode
+```
+
+Na Windows-u pritisnite `WIN+R` i izbriÅ¡ite: `%USERPROFILE%\.cache\voracode`
+
+2. Ponovo pokrenite Voracode da ponovo instalirate najnovije pakete dobavljaÄa
+
+Ovo Ä‡e prisiliti Voracode da preuzme najnovije verzije paketa dobavljaÄa, Å¡to Äesto rjeÅ¡ava probleme kompatibilnosti s parametrima modela i promjenama API-ja.
+
+---
+
+### Copy/paste ne radi na Linuxu
+
+Korisnici Linuxa moraju imati instaliran jedan od sljedeÄ‡ih usluÅ¾nih programa meÄ‘uspremnika da bi funkcionirala funkcionalnost kopiranja/lijepljenja:
+
+**Za X11 sisteme:**
+
+```bash
+apt install -y xclip
+# or
+apt install -y xsel
+```
+
+**Za Wayland sisteme:**
+
+```bash
+apt install -y wl-clipboard
+```
+
+**Za okruÅ¾enja bez glave:**
+
+```bash
+apt install -y xvfb
+# and run:
+Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+export DISPLAY=:99.0
+```
+
+Voracode Ä‡e otkriti da li koristite Wayland i preferirate `wl-clipboard`, u suprotnom Ä‡e pokuÅ¡ati pronaÄ‡i alate meÄ‘uspremnika po redoslijedu: `xclip` i `xsel`.

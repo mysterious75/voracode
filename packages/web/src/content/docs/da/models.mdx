@@ -1,0 +1,223 @@
+---
+title: Modeller
+description: Konfiguration af en LLM udbyder og model.
+---
+
+Voracode bruger [AI SDK](https://ai-sdk.dev/) og [Models.dev](https://models.dev) til at understÃ¸tte **75+ LLM udbydere** og det understÃ¸tter at kÃ¸re lokale modeller.
+
+---
+
+## Udbydere
+
+De fleste populÃ¦re udbydere er forudindlÃ¦st som standard. Hvis du har tilfÃ¸jet legitimationsoplysningerne for en udbyder gennem kommandoen `/connect`, vil de vÃ¦re tilgÃ¦ngelige, nÃ¥r du starter Voracode.
+
+FÃ¥ mere at vide om [providers](/docs/providers).
+
+---
+
+## VÃ¦lg en model
+
+NÃ¥r du har konfigureret din udbyder, kan du vÃ¦lge den Ã¸nskede model ved at indtaste:
+
+```bash frame="none"
+/models
+```
+
+---
+
+## Anbefalede modeller
+
+Der er mange modeller derude, og der kommer nye modeller hver uge.
+
+:::tip
+Overvej at bruge en af â€‹â€‹de modeller, vi anbefaler.
+:::
+
+Der er dog kun fÃ¥ af dem, der er gode til bÃ¥de at generere kode og vÃ¦rktÃ¸jsopkald.
+
+Her er flere modeller, der fungerer godt med Voracode, uden bestemt rÃ¦kkefÃ¸lge. (Dette er ikke en udtÃ¸mmende liste og er heller ikke nÃ¸dvendigvis opdateret):
+
+- GPT 5.2
+- GPT 5.1 Codex
+- Claude Opus 4,5
+- Claude Sonnet 4,5
+- Minimax M2.1
+- Gemini 3 Pro
+
+---
+
+## Indstil en standard
+
+For at indstille en af â€‹â€‹disse som standardmodellen kan du indstille `model`-nÃ¸glen i din
+Voracode konfig.
+
+```json title="voracode.json" {3}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "model": "lmstudio/google/gemma-3n-e4b"
+}
+```
+
+Her er det fulde ID `provider_id/model_id`. For eksempel, hvis du bruger [Voracode Zen](/docs/zen), vil du bruge `voracode/gpt-5.1-codex` til GPT 5.1 Codex.
+
+Hvis du har konfigureret en [custom provider](/docs/providers#custom), er `provider_id` nÃ¸glen fra `provider` delen af â€‹â€‹din konfiguration, og `model_id` er nÃ¸glen fra `provider.models`.
+
+---
+
+## Konfiguration af modeller
+
+Du kan konfigurere en models muligheder globalt gennem konfigurationen.
+
+```jsonc title="voracode.jsonc" {7-12,19-24}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "openai": {
+      "models": {
+        "gpt-5": {
+          "options": {
+            "reasoningEffort": "high",
+            "textVerbosity": "low",
+            "reasoningSummary": "auto",
+            "include": ["reasoning.encrypted_content"],
+          },
+        },
+      },
+    },
+    "anthropic": {
+      "models": {
+        "claude-sonnet-4-5-20250929": {
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 16000,
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+Her konfigurerer vi globale indstillinger for to indbyggede modeller: `gpt-5` nÃ¥r de tilgÃ¥s via `openai` udbyderen og `claude-sonnet-4-20250514` nÃ¥r de tilgÃ¥s via `anthropic` udbyderen.
+Den indbyggede udbyder og modelnavne kan findes pÃ¥ [Models.dev](https://models.dev).
+
+Du kan ogsÃ¥ konfigurere disse indstillinger for alle agenter, du bruger. Agentkonfigurationen tilsidesÃ¦tter alle globale muligheder her. [Learn more](/docs/agents/#additional).
+
+Du kan ogsÃ¥ definere brugerdefinerede varianter, der udvider de indbyggede. Varianter giver dig mulighed for at konfigurere forskellige indstillinger for den samme model uden at oprette duplikerede poster:
+
+```jsonc title="voracode.jsonc" {6-21}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "voracode": {
+      "models": {
+        "gpt-5": {
+          "variants": {
+            "high": {
+              "reasoningEffort": "high",
+              "textVerbosity": "low",
+              "reasoningSummary": "auto",
+            },
+            "low": {
+              "reasoningEffort": "low",
+              "textVerbosity": "low",
+              "reasoningSummary": "auto",
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+---
+
+## Varianter
+
+Mange modeller understÃ¸tter flere varianter med forskellige konfigurationer. Voracode leveres med indbyggede standardvarianter til populÃ¦re udbydere.
+
+### Indbyggede varianter
+
+Voracode leveres med standardvarianter for mange udbydere:
+
+**Anthropic**:
+
+- `high` - HÃ¸jt tÃ¦nkende budget (standard)
+- `max` - Maksimalt tÃ¦nkebudget
+
+**OpenAI**:
+
+Varierer efter model, men nogenlunde:
+
+- `none` - Ingen begrundelse
+- `minimal` - Minimal rÃ¦sonnement indsats
+- `low` - Lav rÃ¦sonnement indsats
+- `medium` - Middel rÃ¦sonnement indsats
+- `high` - HÃ¸j rÃ¦sonnement indsats
+- `xhigh` - Ekstra hÃ¸j rÃ¦sonnement indsats
+
+**Google**:
+
+- `low` - Lavere effort/token budget
+- `high` - HÃ¸jere effort/token budget
+
+:::tip
+Denne liste er ikke udtÃ¸mmende. Mange andre udbydere har ogsÃ¥ indbyggede standardindstillinger.
+:::
+
+### Brugerdefinerede varianter
+
+Du kan tilsidesÃ¦tte eksisterende varianter eller tilfÃ¸je dine egne:
+
+```jsonc title="voracode.jsonc" {7-18}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "openai": {
+      "models": {
+        "gpt-5": {
+          "variants": {
+            "thinking": {
+              "reasoningEffort": "high",
+              "textVerbosity": "low",
+            },
+            "fast": {
+              "disabled": true,
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+### Skift varianter
+
+Brug tastebindingen `variant_cycle` til hurtigt at skifte mellem varianter. [Learn more](/docs/keybinds).
+
+---
+
+## IndlÃ¦sning af modeller
+
+NÃ¥r Voracode starter op, sÃ¸ger den efter modeller i fÃ¸lgende prioriterede rÃ¦kkefÃ¸lge:
+
+1. Kommandolinjeflaget `--model` eller `-m`. Formatet er det samme som i konfigurationsfilen: `provider_id/model_id`.
+
+2. Modellisten i Voracode-konfigurationen.
+
+   ```json title="voracode.json"
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "model": "anthropic/claude-sonnet-4-20250514"
+   }
+   ```
+
+   Formatet her er `provider/model`.
+
+3. Den sidst brugte model.
+
+4. Den fÃ¸rste model med en intern prioritet.

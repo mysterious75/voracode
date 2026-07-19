@@ -1,0 +1,170 @@
+---
+title: Kurumsal
+description: voracode'u kuruluÅŸunuzda gÃ¼venli bir ÅŸekilde kullanma.
+---
+
+import config from "../../../../config.mjs"
+export const email = `mailto:${config.email}`
+
+voracode Enterprise, kodlarÄ±nÄ±n ve verilerinin altyapÄ±larÄ±ndan asla ayrÄ±lmamasÄ±nÄ± saÄŸlamak isteyen kuruluÅŸlar iÃ§indir. Bunu, SSO ve dahili AI aÄŸ geÃ§idinizle entegre olan merkezi bir yapÄ±landÄ±rma kullanarak yapabilir.
+
+:::note
+voracode kodunuzu veya iÃ§erik verilerinizi saklamaz.
+:::
+
+voracode Enterprise'Ä± kullanmaya baÅŸlamak iÃ§in:
+
+1. Ekibinizle dahili olarak bir deneme yapÄ±n.
+2. FiyatlandÄ±rma ve uygulama seÃ§eneklerini gÃ¶rÃ¼ÅŸmek iÃ§in **<a href={email}>bize ulaÅŸÄ±n</a>**.
+
+---
+
+## Deneme
+
+voracode aÃ§Ä±k kaynaktÄ±r ve herhangi bir kodunuzu veya iÃ§erik verilerinizi saklamaz; bÃ¶ylece geliÅŸtiricileriniz [hemen baÅŸlayÄ±p](/docs/) bir deneme gerÃ§ekleÅŸtirebilir.
+
+---
+
+### Veri iÅŸleme
+
+**voracode, kodunuzu veya iÃ§erik verilerinizi saklamaz.** TÃ¼m iÅŸlemler yerel olarak veya AI saÄŸlayÄ±cÄ±nÄ±za doÄŸrudan API Ã§aÄŸrÄ±larÄ± yoluyla gerÃ§ekleÅŸtirilir.
+
+Bu, gÃ¼vendiÄŸiniz bir saÄŸlayÄ±cÄ±yÄ± veya dahili bir saÄŸlayÄ±cÄ±yÄ± kullandÄ±ÄŸÄ±nÄ±z sÃ¼rece
+AI aÄŸ geÃ§idi, voracode'u gÃ¼venli bir ÅŸekilde kullanabilirsiniz.
+
+saklama alanÄ±nÄ±n tek izolasyonuna baÄŸlÄ± `/share` Ã¶zelliÄŸidir.
+
+---
+
+#### KonuÅŸmalarÄ± paylaÅŸma
+
+Bir kullanÄ±cÄ± `/share` Ã¶zelliÄŸini etkinleÅŸtirirse, gÃ¶rÃ¼ÅŸme ve onunla iliÅŸkili veriler, bu paylaÅŸÄ±m sayfalarÄ±nÄ± voracode.ai'de barÄ±ndÄ±rmak iÃ§in kullandÄ±ÄŸÄ±mÄ±z hizmete gÃ¶nderilir.
+
+Veriler ÅŸu anda CDN uÃ§ aÄŸÄ±mÄ±z Ã¼zerinden sunuluyor ve kullanÄ±cÄ±larÄ±nÄ±zÄ±n yakÄ±nÄ±ndaki uÃ§ta Ã¶nbelleÄŸe alÄ±nÄ±yor.
+
+Deneme sÃ¼reniz iÃ§in bunu devre dÄ±ÅŸÄ± bÄ±rakmanÄ±zÄ± Ã¶neririz.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "disabled"
+}
+```
+
+[PaylaÅŸÄ±m hakkÄ±nda daha fazla bilgi](/docs/share).
+
+---
+
+### Kod sahipliÄŸi
+
+**voracode tarafÄ±ndan Ã¼retilen tÃ¼m kodlara sahipsiniz.** Herhangi bir lisans kÄ±sÄ±tlamasÄ± veya mÃ¼lkiyet iddiasÄ± yoktur.
+
+---
+
+## FiyatlandÄ±rma
+
+voracode Enterprise iÃ§in koltuk baÅŸÄ±na model kullanÄ±yoruz. Kendi LLM aÄŸ geÃ§idiniz varsa, kullanÄ±lan token'lar iÃ§in Ã¼cret talep etmiyoruz. FiyatlandÄ±rma ve uygulama seÃ§enekleri hakkÄ±nda daha fazla ayrÄ±ntÄ± iÃ§in **<a href={email}>bize ulaÅŸÄ±n</a>**.
+
+---
+
+## DaÄŸÄ±tÄ±m
+
+Deneme sÃ¼renizi tamamladÄ±ktan ve voracode'u ÅŸu adreste kullanmaya hazÄ±r olduÄŸunuzda:
+kuruluÅŸunuz hakkÄ±nda gÃ¶rÃ¼ÅŸmek Ã¼zere **<a href={email}>bizimle iletiÅŸime geÃ§ebilirsiniz</a>**
+fiyatlandÄ±rma ve uygulama seÃ§enekleri.
+
+---
+
+### Merkezi YapÄ±landÄ±rma
+
+voracode'u tÃ¼m organizasyonunuz iÃ§in tek bir merkezi yapÄ±landÄ±rma kullanacak ÅŸekilde ayarlayabiliriz.
+
+Bu merkezi yapÄ±landÄ±rma, SSO saÄŸlayÄ±cÄ±nÄ±zla entegre olabilir ve tÃ¼m kullanÄ±cÄ±larÄ±n yalnÄ±zca dahili AI aÄŸ geÃ§idinize eriÅŸmesini saÄŸlar.
+
+---
+
+### SSO entegrasyonu
+
+Merkezi yapÄ±landÄ±rma aracÄ±lÄ±ÄŸÄ±yla voracode, kimlik doÄŸrulama iÃ§in kuruluÅŸunuzun SSO saÄŸlayÄ±cÄ±sÄ±yla entegre olabilir.
+
+Bu, voracode'un mevcut kimlik yÃ¶netimi sisteminiz aracÄ±lÄ±ÄŸÄ±yla dahili AI aÄŸ geÃ§idiniz iÃ§in kimlik bilgileri almasÄ±na olanak tanÄ±r.
+
+---
+
+### Dahili AI aÄŸ geÃ§idi
+
+Merkezi yapÄ±landÄ±rmayla voracode yalnÄ±zca dahili AI aÄŸ geÃ§idinizi kullanacak ÅŸekilde de yapÄ±landÄ±rÄ±labilir.
+
+AyrÄ±ca tÃ¼m isteklerin kuruluÅŸunuzun onaylÄ± altyapÄ±sÄ±ndan geÃ§mesini saÄŸlayarak diÄŸer tÃ¼m AI saÄŸlayÄ±cÄ±larÄ±nÄ± devre dÄ±ÅŸÄ± bÄ±rakabilirsiniz.
+
+---
+
+### Kendi kendine barÄ±ndÄ±rma
+
+Verilerinizin asla silinmediÄŸinden emin olmak iÃ§in paylaÅŸÄ±m sayfalarÄ±nÄ± devre dÄ±ÅŸÄ± bÄ±rakmanÄ±zÄ± Ã¶neririz.
+KuruluÅŸunuzda, bunlarÄ± altyapÄ±nÄ±zda kendiniz barÄ±ndÄ±rmanÄ±za da yardÄ±mcÄ± olabiliriz.
+
+Bu ÅŸu anda yol haritamÄ±zda yer alÄ±yor. Ä°lgileniyorsanÄ±z **<a href={email}>bize bildirin</a>**.
+
+---
+
+## SSS
+
+<details>
+<summary>voracode Enterprise nedir?</summary>
+
+voracode Enterprise, kodlarÄ±nÄ±n ve verilerinin altyapÄ±larÄ±ndan asla ayrÄ±lmamasÄ±nÄ± saÄŸlamak isteyen kuruluÅŸlar iÃ§indir. Bunu, SSO ve dahili AI aÄŸ geÃ§idinizle entegre olan merkezi bir yapÄ±landÄ±rma kullanarak yapabilir.
+
+</details>
+
+<details>
+<summary>voracode Enterprise'a nasÄ±l baÅŸlarÄ±m?</summary>
+
+Ekibinizle dahili bir denemeyle baÅŸlayÄ±n. voracode varsayÄ±lan olarak kodunuzu veya iÃ§erik verilerinizi saklamaz, bu da baÅŸlamayÄ± kolaylaÅŸtÄ±rÄ±r.
+
+Daha sonra fiyatlandÄ±rma ve uygulama seÃ§eneklerini gÃ¶rÃ¼ÅŸmek iÃ§in **<a href={email}>bizimle iletiÅŸime geÃ§in</a>**.
+
+</details>
+
+<details>
+<summary>Kurumsal fiyatlandÄ±rma nasÄ±l Ã§alÄ±ÅŸÄ±r?</summary>
+
+Koltuk baÅŸÄ±na kurumsal fiyatlandÄ±rma sunuyoruz. Kendi LLM aÄŸ geÃ§idiniz varsa, kullanÄ±lan token'lar iÃ§in Ã¼cret talep etmiyoruz. Daha fazla ayrÄ±ntÄ± iÃ§in kuruluÅŸunuzun ihtiyaÃ§larÄ±na gÃ¶re Ã¶zel bir fiyat teklifi almak Ã¼zere **<a href={email}>bize ulaÅŸÄ±n</a>**.
+
+</details>
+
+<details>
+<summary>Verilerim voracode Enterprise ile gÃ¼vende mi?</summary>
+
+Evet. voracode kodunuzu veya iÃ§erik verilerinizi saklamaz. TÃ¼m iÅŸlemler yerel olarak veya AI saÄŸlayÄ±cÄ±nÄ±za doÄŸrudan API Ã§aÄŸrÄ±larÄ± yoluyla gerÃ§ekleÅŸir. Merkezi yapÄ±landÄ±rma ve SSO entegrasyonuyla verileriniz kuruluÅŸunuzun altyapÄ±sÄ±nda gÃ¼vende kalÄ±r.
+
+</details>
+
+<details>
+<summary>Kendi Ã¶zel NPM kayÄ±t defterimizi kullanabilir miyiz?</summary>
+
+voracode, Bun'un yerel `.npmrc` dosya desteÄŸi aracÄ±lÄ±ÄŸÄ±yla Ã¶zel npm kayÄ±tlarÄ±nÄ± destekler. KuruluÅŸunuz JFrog Artifactory, Nexus veya benzeri gibi Ã¶zel bir kayÄ±t defteri kullanÄ±yorsa, voracode'u Ã§alÄ±ÅŸtÄ±rmadan Ã¶nce geliÅŸtiricilerin kimlik doÄŸrulamasÄ±nÄ±n yapÄ±ldÄ±ÄŸÄ±ndan emin olun.
+
+Ã–zel kayÄ±t defterinizle kimlik doÄŸrulamayÄ± ayarlamak iÃ§in:
+
+```bash
+npm login --registry=https://your-company.jfrog.io/api/npm/npm-virtual/
+```
+
+Bu, kimlik doÄŸrulama ayrÄ±ntÄ±larÄ±nÄ± iÃ§eren `~/.npmrc` Ã¶ÄŸesini oluÅŸturur. voracode otomatik olarak
+bunu alÄ±r.
+
+:::caution
+voracode'u Ã§alÄ±ÅŸtÄ±rmadan Ã¶nce Ã¶zel kayÄ±t defterinde oturum aÃ§malÄ±sÄ±nÄ±z.
+:::
+
+Alternatif olarak, bir `.npmrc` dosyasÄ±nÄ± manuel olarak yapÄ±landÄ±rabilirsiniz:
+
+```bash title="~/.npmrc"
+registry=https://your-company.jfrog.io/api/npm/npm-virtual/
+//your-company.jfrog.io/api/npm/npm-virtual/:_authToken=${NPM_AUTH_TOKEN}
+```
+
+Paketlerin kurumsal kayÄ±t defterinizden yÃ¼klenebildiÄŸinden emin olmak iÃ§in geliÅŸtiricilerin voracode'u Ã§alÄ±ÅŸtÄ±rmadan Ã¶nce Ã¶zel kayÄ±t defterinde oturum aÃ§malarÄ± gerekir.
+
+</details>

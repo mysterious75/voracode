@@ -1,0 +1,432 @@
+---
+title: TUI
+description: KoriÅ¡tenje korisniÄkog interfejsa Voracode terminala.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
+Voracode pruÅ¾a interaktivni terminalski interfejs ili TUI za rad na vaÅ¡im projektima sa LLM.
+
+Pokretanje Voracode pokreÄ‡e TUI za trenutni direktorij.
+
+```bash
+voracode
+```
+
+Ili ga moÅ¾ete pokrenuti za odreÄ‘eni radni direktorij.
+
+```bash
+voracode /path/to/project
+```
+
+Kada uÄ‘ete u TUI, moÅ¾ete to zatraÅ¾iti porukom.
+
+```text
+Give me a quick summary of the codebase.
+```
+
+---
+
+## Reference datoteka
+
+MoÅ¾ete referencirati datoteke u svojim porukama koristeÄ‡i `@`. Ovo vrÅ¡i nejasnu pretragu datoteka u trenutnom radnom direktoriju.
+
+:::tip
+TakoÄ‘er moÅ¾ete koristiti `@` da referencirate datoteke u svojim porukama.
+:::
+
+```text "@packages/functions/src/api/index.ts"
+How is auth handled in @packages/functions/src/api/index.ts?
+```
+
+SadrÅ¾aj datoteke se automatski dodaje u razgovor.
+
+---
+
+## Bash naredbe
+
+ZapoÄnite poruku sa `!` da pokrenete komandu ljuske.
+
+```bash frame="none"
+!ls -la
+```
+
+Izlaz naredbe se dodaje u razgovor kao rezultat alata.
+
+---
+
+## Naredbe
+
+Kada koristite Voracode TUI, moÅ¾ete upisati `/` nakon Äega slijedi ime komande da biste brzo izvrÅ¡ili radnje. na primjer:
+
+```bash frame="none"
+/help
+```
+
+VeÄ‡ina naredbi takoÄ‘er ima vezu pomoÄ‡u `ctrl+x` kao vodeÄ‡e tipke, gdje je `ctrl+x` zadani vodeÄ‡i kljuÄ. [Saznajte viÅ¡e](/docs/keybinds).
+
+Ovdje su sve dostupne komande kose crte:
+
+---
+
+### connect
+
+Dodajte provajdera u Voracode. OmoguÄ‡ava vam da odaberete izmeÄ‘u dostupnih provajdera i dodate njihove API kljuÄeve.
+
+```bash frame="none"
+/connect
+```
+
+---
+
+### compact
+
+SaÅ¾imanje trenutne sesije. _Alias_: `/summarize`
+
+```bash frame="none"
+/compact
+```
+
+**Tastatura:** `ctrl+x c`
+
+---
+
+### details
+
+Prebacite detalje o izvrÅ¡avanju alata.
+
+```bash frame="none"
+/details
+```
+
+**Tastatura:** `ctrl+x d`
+
+---
+
+### editor
+
+Otvorite vanjski ureÄ‘ivaÄ za sastavljanje poruka. Koristi editor postavljen u vaÅ¡oj varijabli okruÅ¾enja `EDITOR`. [Saznajte viÅ¡e](#editor-setup).
+
+```bash frame="none"
+/editor
+```
+
+**Tastatura:** `ctrl+x e`
+
+---
+
+### exit
+
+IzaÄ‘ite iz Voracode. _Aliases_: `/quit`, `/q`
+
+```bash frame="none"
+/exit
+```
+
+**Tastatura:** `ctrl+x q`
+
+---
+
+### export
+
+Izvezite trenutni razgovor u Markdown i otvorite ga u zadanom ureÄ‘ivaÄu. Koristi editor postavljen u vaÅ¡oj varijabli okruÅ¾enja `EDITOR`. [Saznajte viÅ¡e](#editor-setup).
+
+```bash frame="none"
+/export
+```
+
+**Tastatura:** `ctrl+x x`
+
+---
+
+### help
+
+PrikaÅ¾i dijalog pomoÄ‡i.
+
+```bash frame="none"
+/help
+```
+
+**Tastatura:** `ctrl+x h`
+
+---
+
+### init
+
+Kreirajte ili aÅ¾urirajte datoteku `AGENTS.md`. [Saznajte viÅ¡e](/docs/rules).
+
+```bash frame="none"
+/init
+```
+
+**Tastatura:** `ctrl+x i`
+
+---
+
+### models
+
+Navedite dostupne modele.
+
+```bash frame="none"
+/models
+```
+
+**Tastatura:** `ctrl+x m`
+
+---
+
+### new
+
+ZapoÄnite novu sesiju. _Alias_: `/clear`
+
+```bash frame="none"
+/new
+```
+
+**Tastatura:** `ctrl+x n`
+
+---
+
+### redo
+
+Ponovite prethodno poniÅ¡tenu poruku. Dostupno samo nakon koriÅ¡tenja `/undo`.
+
+:::tip
+Sve promjene fajla Ä‡e takoÄ‘er biti vraÄ‡ene.
+:::
+
+Interno, ovo koristi Git za upravljanje promjenama datoteke. Dakle, vaÅ¡ projekat **treba
+biti Git spremiÅ¡te**.
+
+```bash frame="none"
+/redo
+```
+
+**Tastatura:** `ctrl+x r`
+
+---
+
+### sessions
+
+Listanje i prebacivanje izmeÄ‘u sesija. _Aliases_: `/resume`, `/continue`
+
+```bash frame="none"
+/sessions
+```
+
+**Tastatura:** `ctrl+x l`
+
+---
+
+### share
+
+Podijelite trenutnu sesiju. [Saznajte viÅ¡e](/docs/share).
+
+```bash frame="none"
+/share
+```
+
+**Tastatura:** `ctrl+x s`
+
+---
+
+### themes
+
+Navedite dostupne teme.
+
+```bash frame="none"
+/themes
+```
+
+**Tastatura:** `ctrl+x t`
+
+---
+
+### thinking
+
+UkljuÄite/iskljuÄite vidljivost blokova razmiÅ¡ljanja/rezoniranja u razgovoru. Kada je omoguÄ‡eno, moÅ¾ete vidjeti proces rezonovanja modela za modele koji podrÅ¾avaju proÅ¡ireno razmiÅ¡ljanje.
+
+:::note
+Ova naredba samo kontrolira da li se blokovi razmiÅ¡ljanja **prikaÅ¾u** - ne omoguÄ‡ava niti onemoguÄ‡uje moguÄ‡nosti razmiÅ¡ljanja modela. Da biste ukljuÄili stvarne moguÄ‡nosti zakljuÄivanja, koristite `ctrl+t` za kretanje kroz varijante modela.
+:::
+
+```bash frame="none"
+/thinking
+```
+
+---
+
+### undo
+
+PoniÅ¡ti posljednju poruku u razgovoru. Uklanja najnoviju korisniÄku poruku, sve naknadne odgovore i sve promjene datoteke.
+
+:::tip
+Sve promjene u fajlu Ä‡e takoÄ‘er biti poniÅ¡tene.
+:::
+
+Interno, ovo koristi Git za upravljanje promjenama datoteke. Dakle, vaÅ¡ projekat **treba
+biti Git spremiÅ¡te**.
+
+```bash frame="none"
+/undo
+```
+
+**Tastatura:** `ctrl+x u`
+
+---
+
+### unshare
+
+PoniÅ¡ti dijeljenje trenutne sesije. [Saznajte viÅ¡e](/docs/share#un-sharing).
+
+```bash frame="none"
+/unshare
+```
+
+---
+
+## PodeÅ¡avanje ureÄ‘ivaÄa
+
+Obje naredbe `/editor` i `/export` koriste editor specificiran u vaÅ¡oj varijabli okruÅ¾enja `EDITOR`.
+
+<Tabs>
+  <TabItem label="Linux/macOS">
+
+    ```bash
+    # Example for nano or vim
+    export EDITOR=nano
+    export EDITOR=vim
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    export EDITOR="code --wait"
+    ```
+
+    Da biste ga uÄinili trajnim, dodajte ovo u svoj shell profil;
+    `~/.bashrc`, `~/.zshrc`, itd.
+
+  </TabItem>
+
+  <TabItem label="Windows (CMD)">
+
+    ```bash
+    set EDITOR=notepad
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    set EDITOR=code --wait
+    ```
+
+    Da biste ga uÄinili trajnim, koristite **Svojstva sistema** > **OkruÅ¾enje
+    Varijable**.
+
+  </TabItem>
+
+  <TabItem label="Windows (PowerShell)">
+
+    ```powershell
+    $env:EDITOR = "notepad"
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    $env:EDITOR = "code --wait"
+    ```
+
+    Da biste ga uÄinili trajnim, dodajte ovo u svoj PowerShell profil.
+
+  </TabItem>
+</Tabs>
+
+Popularne opcije ureÄ‘ivaÄa ukljuÄuju:
+
+- `code` - â€‹â€‹Visual Studio Code
+- `cursor` - â€‹â€‹Cursor
+- `windsurf` - â€‹â€‹Windsurf
+- `nvim` - â€‹â€‹Neovim editorom
+- `vim` - â€‹â€‹Vim editor
+- `nano` - â€‹â€‹Nano editor
+- `notepad` - â€‹â€‹Windows Notepad
+- `subl` - â€‹â€‹Sublime Text
+
+:::note
+Neki ureÄ‘ivaÄi kao Å¡to je VS Code moraju biti pokrenuti sa `--wait` zastavicom.
+:::
+
+Nekim ureÄ‘ivaÄima su potrebni argumenti komandne linije da bi se pokrenuli u naÄinu blokiranja. Oznaka `--wait` blokira proces ureÄ‘ivaÄa dok se ne zatvori.
+
+---
+
+## Konfiguracija
+
+MoÅ¾ete prilagoditi TUI ponaÅ¡anje putem `tui.json` (ili `tui.jsonc`).
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "theme": "voracode",
+  "leader_timeout": 2000,
+  "keybinds": {
+    "leader": "ctrl+x",
+    "command_list": "ctrl+p"
+  },
+  "scroll_speed": 3,
+  "scroll_acceleration": {
+    "enabled": false
+  },
+  "diff_style": "auto",
+  "mouse": true,
+  "attention": {
+    "enabled": true,
+    "notifications": true,
+    "sound": true,
+    "volume": 0.4,
+    "sound_pack": "voracode.default",
+    "sounds": {
+      "error": "./sounds/error.mp3"
+    }
+  }
+}
+```
+
+Ovo je odvojeno od `voracode.json`, koji konfiguriÅ¡e ponaÅ¡anje servera/izvrÅ¡avanja.
+
+`keybinds` se spaja s ugraÄ‘enim zadanim vrijednostima, tako da trebate konfigurisati samo preÄice koje Å¾elite promijeniti.
+
+### Opcije
+
+- `theme` - Postavlja vaÅ¡u UI temu. [Saznajte viÅ¡e](/docs/themes).
+- `keybinds` - PrilagoÄ‘ava preÄice na tastaturi. [Saznajte viÅ¡e](/docs/keybinds).
+- `leader_timeout` - KontroliÅ¡e koliko dugo Voracode Äeka nakon leader key. Podrazumijevano je `2000`.
+- `scroll_acceleration.enabled` - â€‹â€‹OmoguÄ‡ite ubrzanje pomicanja u macOS stilu za glatko, prirodno pomicanje. Kada je omoguÄ‡eno, brzina pomicanja se poveÄ‡ava brzim pokretima pomicanja i ostaje precizna za sporije pokrete. **Ova postavka ima prednost nad `scroll_speed` i nadjaÄava je kada je omoguÄ‡ena.**
+- `scroll_speed` - â€‹â€‹Kontrolira koliko brzo TUI skroluje kada se koriste komande za pomeranje (minimum: `0.001`, podrÅ¾ava decimalne vrijednosti). Podrazumevano je `3`. **Napomena: Ovo se zanemaruje ako je `scroll_acceleration.enabled` postavljeno na `true`.**
+- `diff_style` - Kontrolira prikazivanje razlike. `"auto"` se prilagoÄ‘ava Å¡irini terminala, `"stacked"` uvijek prikazuje raspored u jednoj koloni.
+- `mouse` - OmoguÄ‡ava ili onemoguÄ‡ava hvatanje miÅ¡a u TUI (podrazumijevano: `true`). Kada je onemoguÄ‡eno, zadrÅ¾ava se izvorno ponaÅ¡anje terminala za oznaÄavanje i pomicanje miÅ¡em.
+- `attention` - KonfiguriÅ¡e desktop obavjeÅ¡tenja i zvukove za TUI. Podrazumijevano je onemoguÄ‡eno.
+
+Koristite `VORACODE_TUI_CONFIG` da uÄitate prilagoÄ‘enu putanju TUI konfiguracije.
+
+### Attention
+
+Attention omoguÄ‡ava da vas TUI obavijesti kada Voracode Äeka odgovor, treba odobrenje dozvole, prijavi greÅ¡ku sesije ili zavrÅ¡i sesiju. OmoguÄ‡ite ga pomoÄ‡u `attention.enabled`; ugraÄ‘eni dogaÄ‘aji reproduciraju zvuk kada se dogode. Desktop obavjeÅ¡tenja se Å¡alju samo kada prozor terminala nije u fokusu i ne koriste se za subagent dogaÄ‘aje.
+
+- `enabled` - OmoguÄ‡ava sva obavjeÅ¡tenja i zvukove za Attention. Podrazumijevano je `false`.
+- `notifications` - Kada je Attention omoguÄ‡en, dozvoljava TUI-ju da Å¡alje desktop obavjeÅ¡tenja putem terminala. Podrazumijevano je `true`.
+- `sound` - Kada je Attention omoguÄ‡en, dozvoljava zvukove upozorenja. Podrazumijevano je `true`.
+- `volume` - Podrazumijevana jaÄina zvukova upozorenja od `0` do `1`. Podrazumijevano je `0.4`.
+- `sound_pack` - Sound pack ID koji se koristi. Podrazumijevano je `voracode.default`.
+- `sounds` - Postavlja prilagoÄ‘ene zvuÄne datoteke za `default`, `question`, `permission`, `error`, `done` ili `subagent_done`. Putanje mogu biti apsolutne, `file://` URL-ovi ili relativne u odnosu na `tui.json`.
+
+---
+
+## PrilagoÄ‘avanje
+
+MoÅ¾ete prilagoditi razliÄite aspekte TUI prikaza koristeÄ‡i paletu komandi (`ctrl+x h` ili `/help`). Ove postavke traju i nakon ponovnog pokretanja.
+
+---
+
+#### Prikaz korisniÄkog imena
+
+UkljuÄite da li se vaÅ¡e korisniÄko ime pojavljuje u porukama za Ä‡askanje. Pristupite ovome putem:
+
+- Paleta naredbi: PotraÅ¾ite "korisniÄko ime" ili "sakrij korisniÄko ime"
+- Postavka se automatski nastavlja i pamtit Ä‡e se tijekom TUI sesija

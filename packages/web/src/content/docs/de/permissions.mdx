@@ -1,0 +1,235 @@
+---
+title: Berechtigungen
+description: Steuern Sie, fÃ¼r welche Aktionen eine Genehmigung erforderlich ist.
+---
+
+Voracode verwendet die `permission`-Konfiguration, um zu entscheiden, ob eine bestimmte Aktion automatisch ausgefÃ¼hrt werden soll, Sie dazu auffordern oder blockiert werden soll.
+
+Ab `v1.1.1` ist die alte boolesche Konfiguration `tools` veraltet und wurde in `permission` zusammengefÃ¼hrt. Die alte `tools`-Konfiguration wird aus GrÃ¼nden der AbwÃ¤rtskompatibilitÃ¤t weiterhin unterstÃ¼tzt.
+
+---
+
+## Aktionen
+
+Jede Berechtigungsregel wird zu einem der folgenden aufgelÃ¶st:
+
+- `"allow"` â€“ ohne Genehmigung ausfÃ¼hren
+- `"ask"` â€” um Genehmigung bitten
+- `"deny"` â€“ Aktion blockieren
+
+---
+
+## Konfiguration
+
+Sie kÃ¶nnen Berechtigungen global festlegen (mit `*`) und bestimmte Tools Ã¼berschreiben.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "*": "ask",
+    "bash": "allow",
+    "edit": "deny"
+  }
+}
+```
+
+Sie kÃ¶nnen auch alle Berechtigungen auf einmal festlegen:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": "allow"
+}
+```
+
+---
+
+## Granulare Regeln (Objektsyntax)
+
+Bei den meisten Berechtigungen kÃ¶nnen Sie ein Objekt verwenden, um basierend auf der Werkzeugeingabe verschiedene Aktionen anzuwenden.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "git *": "allow",
+      "npm *": "allow",
+      "rm *": "deny",
+      "grep *": "allow"
+    },
+    "edit": {
+      "*": "deny",
+      "packages/web/src/content/docs/*.mdx": "allow"
+    }
+  }
+}
+```
+
+Regeln werden nach MusterÃ¼bereinstimmung ausgewertet, wobei die **letzte Ã¼bereinstimmende Regel gewinnt**. Ein gÃ¤ngiges Muster besteht darin, zuerst die Catch-All-Regel `"*"` und danach spezifischere Regeln zu platzieren.
+
+### Platzhalter
+
+Berechtigungsmuster verwenden einen einfachen Platzhalterabgleich:
+
+- `*` matches zero or more of any character
+- `?` matches exactly one character
+- Alle anderen Zeichen stimmen wÃ¶rtlich Ã¼berein
+
+### Erweiterung des Home-Verzeichnisses
+
+Sie kÃ¶nnen `~` oder `$HOME` am Anfang eines Musters verwenden, um auf Ihr Home-Verzeichnis zu verweisen. Dies ist besonders nÃ¼tzlich fÃ¼r [`external_directory`](#external-directories)-Regeln.
+
+- `~/projects/*` -> `/Users/username/projects/*`
+- `$HOME/projects/*` -> `/Users/username/projects/*`
+- `~` -> `/Users/username`
+
+### Externe Verzeichnisse
+
+Verwenden Sie `external_directory`, um Toolaufrufe zuzulassen, die Pfade auÃŸerhalb des Arbeitsverzeichnisses berÃ¼hren, in dem Voracode gestartet wurde. Dies gilt fÃ¼r jedes Werkzeug, das einen Pfad als Eingabe verwendet (z. B. `read`, `edit`, `glob`, `grep` und viele `bash`-Befehle).
+
+Die Home-Erweiterung (wie `~/...`) wirkt sich nur darauf aus, wie ein Muster geschrieben wird. Dadurch wird ein externer Pfad nicht zum Teil des aktuellen Arbeitsbereichs, daher mÃ¼ssen Pfade auÃŸerhalb des Arbeitsverzeichnisses weiterhin Ã¼ber `external_directory` zulÃ¤ssig sein.
+
+Dies ermÃ¶glicht beispielsweise den Zugriff auf alles unter `~/projects/personal/`:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "external_directory": {
+      "~/projects/personal/**": "allow"
+    }
+  }
+}
+```
+
+Jedes hier zulÃ¤ssige Verzeichnis erbt dieselben Standardeinstellungen wie der aktuelle Arbeitsbereich. Seit [`read` defaults to `allow`](#defaults) sind LesevorgÃ¤nge auch fÃ¼r EintrÃ¤ge unter `external_directory` zulÃ¤ssig, sofern sie nicht Ã¼berschrieben werden. FÃ¼gen Sie explizite Regeln hinzu, wenn ein Tool in diesen Pfaden eingeschrÃ¤nkt werden soll, z. B. das Blockieren von Bearbeitungen, wÃ¤hrend LesevorgÃ¤nge beibehalten werden:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "external_directory": {
+      "~/projects/personal/**": "allow"
+    },
+    "edit": {
+      "~/projects/personal/**": "deny"
+    }
+  }
+}
+```
+
+Konzentrieren Sie sich in der Liste auf vertrauenswÃ¼rdige Pfade und fÃ¼gen Sie bei Bedarf zusÃ¤tzliche Zulassungs- oder Ablehnungsregeln fÃ¼r andere Tools hinzu (z. B. `bash`).
+
+---
+
+## VerfÃ¼gbare Berechtigungen
+
+Voracode-Berechtigungen basieren auf Tool-Namen sowie einigen Sicherheitsvorkehrungen:
+
+- `read` â€“ eine Datei lesen (entspricht dem Dateipfad)
+- `edit` â€“ alle DateiÃ¤nderungen (umfasst `edit`, `write`, `patch`)
+- `glob` â€“ Datei-Globbing (entspricht dem Glob-Muster)
+- `grep` â€“ Inhaltssuche (entspricht dem Regex-Muster)
+- `bash` â€“ AusfÃ¼hren von Shell-Befehlen (entspricht analysierten Befehlen wie `git status --porcelain`)
+- `task` â€“ Subagenten starten (entspricht dem Subagententyp)
+- `skill` â€“ Laden einer Fertigkeit (entspricht dem Fertigkeitsnamen)
+- `lsp` â€“ AusfÃ¼hren von LSP-Abfragen (derzeit nicht granular)
+- `webfetch` â€“ Abrufen eines URL (entspricht dem URL)
+- `websearch` â€“ Websuche (entspricht der Abfrage)
+- `external_directory` â€“ wird ausgelÃ¶st, wenn ein Tool Pfade auÃŸerhalb des Projektarbeitsverzeichnisses berÃ¼hrt
+- `doom_loop` â€“ wird ausgelÃ¶st, wenn derselbe Werkzeugaufruf dreimal mit identischer Eingabe wiederholt wird
+
+---
+
+## Standardwerte
+
+Wenn Sie nichts angeben, beginnt Voracode mit zulÃ¤ssigen Standardeinstellungen:
+
+- Die meisten Berechtigungen sind standardmÃ¤ÃŸig auf `"allow"` eingestellt.
+- `doom_loop` und `external_directory` sind standardmÃ¤ÃŸig `"ask"`.
+- `read` ist `"allow"`, aber `.env`-Dateien werden standardmÃ¤ÃŸig verweigert:
+
+```json title="voracode.json"
+{
+  "permission": {
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow"
+    }
+  }
+}
+```
+
+---
+
+## Was â€žFragenâ€œ bewirkt
+
+Wenn Voracode zur Genehmigung auffordert, bietet UI drei Ergebnisse:
+
+- `once` â€“ nur diese Anfrage genehmigen
+- `always` â€“ zukÃ¼nftige Anfragen genehmigen, die den vorgeschlagenen Mustern entsprechen (fÃ¼r den Rest der aktuellen Voracode-Sitzung)
+- `reject` â€“ die Anfrage ablehnen
+
+Der Satz von Mustern, die `always` genehmigen wÃ¼rde, wird vom Tool bereitgestellt (Beispiel: Bash-Genehmigungen setzen normalerweise ein sicheres BefehlsprÃ¤fix wie `git status*` auf die Whitelist).
+
+---
+
+## Agenten
+
+Sie kÃ¶nnen Berechtigungen pro Agent Ã¼berschreiben. Agentenberechtigungen werden mit der globalen Konfiguration zusammengefÃ¼hrt und Agentenregeln haben Vorrang. [Learn more](/docs/agents#permissions) Ã¼ber Agentenberechtigungen.
+
+:::note
+AusfÃ¼hrlichere Mustervergleichsbeispiele finden Sie oben im Abschnitt [Granular Rules (Object Syntax)](#granular-rules-object-syntax).
+:::
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "git *": "allow",
+      "git commit *": "deny",
+      "git push *": "deny",
+      "grep *": "allow"
+    }
+  },
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "git *": "allow",
+          "git commit *": "ask",
+          "git push *": "deny",
+          "grep *": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+Sie kÃ¶nnen Agentenberechtigungen auch in Markdown konfigurieren:
+
+```markdown title="~/.config/voracode/agents/review.md"
+---
+description: Code review without edits
+mode: subagent
+permission:
+  edit: deny
+  bash: ask
+  webfetch: deny
+---
+
+Only analyze code and suggest changes.
+```
+
+:::tip
+Verwenden Sie den Mustervergleich fÃ¼r Befehle mit Argumenten. `"grep *"` erlaubt `grep pattern file.txt`, wÃ¤hrend `"grep"` allein es blockieren wÃ¼rde. Befehle wie `git status` funktionieren fÃ¼r das Standardverhalten, erfordern jedoch eine explizite Erlaubnis (wie `"git status *"`), wenn Argumente Ã¼bergeben werden.
+:::

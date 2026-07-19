@@ -1,0 +1,287 @@
+---
+title: ì„œë²„
+description: HTTPë¥¼ í†µí•´ Voracode ì„œë²„ì™€ ìƒí˜¸ ìž‘ìš©í•©ë‹ˆë‹¤.
+---
+
+import config from "../../../../config.mjs"
+export const typesUrl = `${config.github}/blob/dev/packages/sdk/js/src/gen/types.gen.ts`
+
+`voracode serve` ëª…ë ¹ì€ voracode í´ë¼ì´ì–¸íŠ¸ê°€ ì‚¬ìš©í•  ìˆ˜ ìžˆëŠ” OpenAPI ì—”ë“œí¬ì¸íŠ¸ë¥¼ ë…¸ì¶œí•˜ëŠ” headless HTTP ì„œë²„ë¥¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
+
+---
+
+### ì‚¬ìš©ë²•
+
+```bash
+voracode serve [--port <number>] [--hostname <string>] [--cors <origin>]
+```
+
+#### ì˜µì…˜
+
+| í”Œëž˜ê·¸          | ì„¤ëª…                                  | ê¸°ë³¸ê°’           |
+| --------------- | ------------------------------------- | ---------------- |
+| `--port`        | ìˆ˜ì‹  ëŒ€ê¸°í•  í¬íŠ¸                      | `4096`           |
+| `--hostname`    | ìˆ˜ì‹  ëŒ€ê¸°í•  í˜¸ìŠ¤íŠ¸ëª…                  | `127.0.0.1`      |
+| `--mdns`        | mDNS íƒì§€ í™œì„±í™”                      | `false`          |
+| `--mdns-domain` | mDNS ì„œë¹„ìŠ¤ì˜ ì‚¬ìš©ìž ì§€ì • ë„ë©”ì¸ ì´ë¦„ | `voracode.local` |
+| `--cors`        | í—ˆìš©í•  ì¶”ê°€ ë¸Œë¼ìš°ì € origin           | `[]`             |
+
+`--cors`ëŠ” ë‹¤ìˆ˜ ì‹œê°„ì„ í†µê³¼ë  ìˆ˜ ìžˆìŠµë‹ˆë‹¤:
+
+```bash
+voracode serve --cors http://localhost:5173 --cors https://app.example.com
+```
+
+---
+
+### ì¸ì¦
+
+`VORACODE_SERVER_PASSWORD`ë¥¼ ì„¤ì •í•˜ì—¬ ì„œë²„ë¥¼ HTTP Basic authë¡œ ë³´í˜¸í•©ë‹ˆë‹¤. `voracode` ë˜ëŠ” `VORACODE_SERVER_USERNAME`ë¥¼ ì˜¤ë²„ë¼ì´ë“œë¡œ ì„¤ì •í•˜ëŠ” ì‚¬ìš©ìžì˜ ê¸°ë³¸ê°’. ì´ê²ƒì€ `voracode serve`ì™€ `voracode web` ë‘˜ ë‹¤ì— ì ìš©í•©ë‹ˆë‹¤.
+
+```bash
+VORACODE_SERVER_PASSWORD=your-password voracode serve
+```
+
+---
+
+### ìž‘ë™ ë°©ì‹
+
+`voracode`ë¥¼ ì‹¤í–‰í•˜ë©´ TUIì™€ ì„œë²„ë¥¼ ì‹œìž‘í•©ë‹ˆë‹¤. TUIëŠ” ì–´ë””ì— ìžˆìŠµë‹ˆê¹Œ?
+ì„œë²„ì™€ ëŒ€í™”í•˜ëŠ” í´ë¼ì´ì–¸íŠ¸. ì„œë²„ëŠ” OpenAPI 3.1 specì„ ë…¸ì¶œ
+ëì . ì´ ì—”ë“œí¬ì¸íŠ¸ëŠ” [SDK](/docs/sdk)ì„ ìƒì„±í•˜ëŠ” ë°ë„ ì‚¬ìš©ë©ë‹ˆë‹¤.
+
+:::tip
+voracode ì„œë²„ë¥¼ ì‚¬ìš©í•˜ì—¬ voracode programmaticallyì™€ ìƒí˜¸ ìž‘ìš©í•©ë‹ˆë‹¤.
+:::
+
+ì´ ì•„í‚¤í…ì²˜ëŠ” voracode ì§€ì› ì—¬ëŸ¬ í´ë¼ì´ì–¸íŠ¸ë¥¼ í—ˆìš©í•˜ê³  voracode programmaticallyì™€ ìƒí˜¸ ìž‘ìš© í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+ë…ë¦½ ì„œë²„ë¥¼ ì‹œìž‘í•˜ë ¤ë©´ `voracode serve`ë¥¼ ì‹¤í–‰í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ë‹¹ì‹ ì´ ìžˆëŠ” ê²½ìš°ì—
+voracode TUI ì‹¤í–‰, `voracode serve` ìƒˆë¡œìš´ ì„œë²„ë¥¼ ì‹œìž‘í•©ë‹ˆë‹¤.
+
+---
+
+#### ê¸°ì¡´ ì„œë²„ì— ì—°ê²°
+
+TUIë¥¼ ì‹œìž‘í•˜ë©´ ë¬´ìž‘ìœ„ë¡œ í¬íŠ¸ì™€ í˜¸ìŠ¤íŠ¸ ì´ë¦„ì„ í• ë‹¹í•©ë‹ˆë‹¤. ëŒ€ì‹  `--hostname`ì™€ `--port` [flags](/docs/cli)ì—ì„œ ì „ë‹¬í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ê·¸ëŸ° ë‹¤ìŒ ì„œë²„ì— ì—°ê²°í•˜ì‹­ì‹œì˜¤.
+
+[`/tui`](#tui) ì—”ë“œí¬ì¸íŠ¸ëŠ” ì„œë²„ë¥¼ í†µí•´ TUIë¥¼ êµ¬ë™í•˜ëŠ” ë° ì‚¬ìš©ë  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´ ë¯¸ë¦¬ ìž‘ì„±í•˜ê±°ë‚˜ í”„ë¡¬í”„íŠ¸ë¥¼ ì‹¤í–‰í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì´ ì„¤ì •ì€ voracode [IDE](/docs/ide) í”ŒëŸ¬ê·¸ì¸ì— ì˜í•´ ì‚¬ìš©ë©ë‹ˆë‹¤.
+
+---
+
+## ì‚¬ì–‘
+
+ì„œë²„ëŠ” OpenAPI 3.1 specì„ ê²Œì‹œí•©ë‹ˆë‹¤.
+
+```
+http://<hostname>:<port>/doc
+```
+
+ì˜ˆë¥¼ ë“¤ì–´, `http://localhost:4096/doc`. í´ë¼ì´ì–¸íŠ¸ë¥¼ ìƒì„±í•˜ê±°ë‚˜ ìš”ì²­ ë° ì‘ë‹µ ìœ í˜•ì„ ê²€ì‚¬í•˜ëŠ” specë¥¼ ì‚¬ìš©í•˜ì‹­ì‹œì˜¤. ë˜ëŠ” Swagger íƒí—˜ê°€ì—ì„œ ë³¼ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+---
+
+## API
+
+voracode ì„œë²„ëŠ” ë‹¤ìŒê³¼ ê°™ì€ APIë¥¼ ë…¸ì¶œí•©ë‹ˆë‹¤.
+
+---
+
+## ê¸€ë¡œë²Œ
+
+| ë°©ë²•  | ê²½ë¡œ             | ì„¤ëª…                      | ì‘ë‹µ                                 |
+| ----- | ---------------- | ------------------------- | ------------------------------------ |
+| `GET` | `/global/health` | ì„œë²„ ê±´ê°• ë° ë²„ì „         | `{ healthy: true, version: string }` |
+| `GET` | `/global/event`  | ê¸€ë¡œë²Œ ì´ë²¤íŠ¸(SSE ìŠ¤íŠ¸ë¦¼) | ì´ë²¤íŠ¸ ìŠ¤íŠ¸ë¦¼                        |
+
+---
+
+## í”„ë¡œì íŠ¸
+
+| ë°©ë²•  | ê²½ë¡œ               | ì„¤ëª…                    | ì‘ë‹µ                                          |
+| ----- | ------------------ | ----------------------- | --------------------------------------------- |
+| `GET` | `/project`         | ëª¨ë“  í”„ë¡œì íŠ¸ ë³´ê¸°      | <a href={typesUrl}><code>Project[]</code></a> |
+| `GET` | `/project/current` | í˜„ìž¬ í”„ë¡œì íŠ¸ ê°€ì ¸ ì˜¤ê¸° | <a href={typesUrl}><code>í”„ë¡œì íŠ¸</code></a>  |
+
+---
+
+### ê²½ë¡œ & VCS
+
+| ë°©ë²•  | ê²½ë¡œ    | ì„¤ëª…                          | ì‘ë‹µ                                        |
+| ----- | ------- | ----------------------------- | ------------------------------------------- |
+| `GET` | `/path` | í˜„ìž¬ ê²½ë¡œ ë°›ê¸°                | <a href={typesUrl}><code>Path</code></a>    |
+| `GET` | `/vcs`  | í˜„ìž¬ í”„ë¡œì íŠ¸ì˜ VCS ì •ë³´ ë°›ê¸° | <a href={typesUrl}><code>VcsInfo</code></a> |
+
+---
+
+### ì¸ìŠ¤í„´ìŠ¤
+
+| ë°©ë²•   | ê²½ë¡œ                | ì„¤ëª…                 | ì‘ë‹µ      |
+| ------ | ------------------- | -------------------- | --------- |
+| `POST` | `/instance/dispose` | í˜„ìž¬ ì¸ìŠ¤í„´ìŠ¤ë¥¼ í•´ì œ | `boolean` |
+
+---
+
+### êµ¬ì„±
+
+| ë°©ë²•    | ê²½ë¡œ                | ì„¤ëª…                       | ì‘ë‹µ                                                                                     |
+| ------- | ------------------- | -------------------------- | ---------------------------------------------------------------------------------------- |
+| `GET`   | `/config`           | êµ¬ì„±ì •ë³´                   | <a href={typesUrl}><code>Config</code></a>                                               |
+| `PATCH` | `/config`           | ì—…ë°ì´íŠ¸ êµ¬ì„±              | <a href={typesUrl}><code>Config</code></a>                                               |
+| `GET`   | `/config/providers` | ëª©ë¡ ì œê³µì—…ì²´ ë° ê¸°ë³¸ ëª¨ë¸ | `{ providers: `<a href={typesUrl}> ì‚¬ì´íŠ¸ ë§µ</a>`, default: { [key: string]: string } }` |
+
+---
+
+## ê³µê¸‰ìž
+
+| ë°©ë²•   | ê²½ë¡œ                             | ì„¤ëª…                        | ì‘ë‹µ                                                                                |
+| ------ | -------------------------------- | --------------------------- | ----------------------------------------------------------------------------------- |
+| `GET`  | `/provider`                      | ëª¨ë“  ê³µê¸‰ìž ëª©ë¡            | `{ all: `<a href={typesUrl}>Provider[]</a>`, default: {...}, connected: string[] }` |
+| `GET`  | `/provider/auth`                 | ê³µê¸‰ìž ì¸ì¦ ë©”ì„œë“œ ê°€ì ¸ì˜¤ê¸° | `{ [providerID: string]: `<a href={typesUrl}>ProviderAuthMethod[]</a>` }`           |
+| `POST` | `/provider/{id}/oauth/authorize` | OAuthë¥¼ ì‚¬ìš©í•œ ê³µê¸‰ìž í—ˆê°€  | <a href={typesUrl}><code>ProviderAuthAuthorization</code></a>                       |
+| `POST` | `/provider/{id}/oauth/callback`  | ê³µê¸‰ìžë¥¼ ìœ„í•œ OAuth ì½œë°±    | `boolean`                                                                           |
+
+---
+
+## ì„¸ì…˜
+
+| ë©”ì„œë“œ   | ê²½ë¡œ                                     | ì„¤ëª…                               | ë¹„ê³                                                                           |
+| -------- | ---------------------------------------- | ---------------------------------- | ----------------------------------------------------------------------------- |
+| `GET`    | `/session`                               | ëª¨ë“  ì„¸ì…˜ ì¼ëžŒí‘œ                   | ë°˜í™˜ <a href={typesUrl}><code>Session[]</code></a>                            |
+| `POST`   | `/session`                               | ìƒˆ ì„¸ì…˜ ë§Œë“¤ê¸°                     | ëª¸: `{ parentID?, title? }`, ë°˜í™˜ <a href={typesUrl}><code>Session</code></a> |
+| `GET`    | `/session/status`                        | ëª¨ë“  ì„¸ì…˜ì˜ ì„¸ì…˜ ìƒíƒœë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤ | `{ [sessionID: string]: `<a href={typesUrl}>SessionStatus</a>` }`             |
+| `GET`    | `/session/:id`                           | ì„¸ì…˜ ìƒì„¸ë³´ê¸°                      | ë°˜í’ˆ <a href={typesUrl}><code>Session</code></a>                              |
+| `DELETE` | `/session/:id`                           | ì„¸ì…˜ ì‚­ì œ ë° ëª¨ë“  ë°ì´í„°           | `boolean`                                                                     |
+| `PATCH`  | `/session/:id`                           | ì—…ë°ì´íŠ¸ ì„¸ì…˜ ì†ì„±                 | ë³¸ì²´: `{ title? }`, ë°˜í™˜ <a href={typesUrl}><code>Session</code></a>          |
+| `GET`    | `/session/:id/children`                  | ì„¸ì…˜ì˜ í•˜ìœ„ ì„¸ì…˜                   | ë¦¬í„´ <a href={typesUrl}><code>Session[]</code></a>                            |
+| `GET`    | `/session/:id/todo`                      | ì„¸ì…˜ì˜ í•  ì¼(Todo) ëª©ë¡ ë°›ê¸°       | <a href={typesUrl}><code>Todo[]</code></a>                                    |
+| `POST`   | `/session/:id/init`                      | ì•± ì´ˆê¸°í™” ë° `AGENTS.md` ë¶„ì„      | ëª¸: `{ messageID, providerID, modelID }`, ë°˜í™˜ `boolean`                      |
+| `POST`   | `/session/:id/fork`                      | ë©”ì‹œì§€ì˜ ê¸°ì¡´ ì„¸ì…˜                 | ëª¸: `{ messageID? }`, ë°˜í™˜ <a href={typesUrl}><code>Session</code></a>        |
+| `POST`   | `/session/:id/abort`                     | ìš´ì˜ ì¤‘ì¸ ì„¸ì…˜                     | ë°˜í’ˆ `boolean`                                                                |
+| `POST`   | `/session/:id/share`                     | ì„¸ì…˜ ê³µìœ                           | <a href={typesUrl}><code>Session</code></a>                                   |
+| `DELETE` | `/session/:id/share`                     | ì„¸ì…˜ ê³µìœ                           | <a href={typesUrl}><code>Session</code></a>                                   |
+| `GET`    | `/session/:id/diff`                      | `/session/:id/diff`                | `messageID?`, ë°˜í™˜ <a href={typesUrl}><code>FileDiff[]</code></a>             |
+| `POST`   | `/session/:id/summarize`                 | ì„¸ì…˜ì„ ìš”ì•½                        | ë³¸ì²´: `{ providerID, modelID }`, `boolean` ë°˜í™˜                               |
+| `POST`   | `/session/:id/revert`                    | ë©”ì‹œì§€ ìž¬ìƒ                        | ëª¸: `{ messageID, partID? }`, ë°˜í™˜ `boolean`                                  |
+| `POST`   | `/session/:id/unrevert`                  | ë©”ì‹œì§€ ë˜ëŒë¦¬ê¸° ì·¨ì†Œ               | ë°˜í’ˆ `boolean`                                                                |
+| `POST`   | `/session/:id/permissions/:permissionID` | í—ˆê°€ ìš”ì²­ ëŒ€ì‘                     | ë³¸ì²´: `{ response, remember? }`, `boolean`                                    |
+
+---
+
+## ë©”ì‹œì§€
+
+| ë°©ë²•   | ê²½ë¡œ                              | ì„¤ëª…                                   | ì£¼                                                                                                                                                               |
+| ------ | --------------------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GET`  | `/session/:id/message`            | ì„¸ì…˜ì˜ ëª©ë¡ ë©”ì‹œì§€                     | ì¿¼ë¦¬: `limit?`, `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}[]`                                                            |
+| `POST` | `/session/:id/message`            | ì‘ë‹µì„ ìœ„í•´ ë©”ì‹œì§€ë¥¼ ë³´ë‚´ê³  ê¸°ë‹¤ë¦½ë‹ˆë‹¤ | ëª¸: `{ messageID?, model?, agent?, noReply?, system?, tools?, parts }`, ë°˜í™˜ `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}` |
+| `GET`  | `/session/:id/message/:messageID` | ë©”ì‹œì§€ ë³´ë‚´ê¸°                          | `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}`                                                                              |
+| `POST` | `/session/:id/prompt_async`       | ë¹„ë™ê¸°ì ìœ¼ë¡œ ë©”ì‹œì§€ ë³´ë‚´ê¸°             | ëª¸: `/session/:id/message`ì™€ ë™ì¼, `204 No Content`ë¥¼ ë°˜í™˜                                                                                                       |
+| `POST` | `/session/:id/command`            | ìŠ¬ëž˜ì‹œ ëª…ë ¹ì–´ ì‹¤í–‰                     | ë³¸ì²´: `{ messageID?, agent?, model?, command, arguments }`, ë°˜í™˜ `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}`             |
+| `POST` | `/session/:id/shell`              | shell ëª…ë ¹ ì‹¤í–‰                        | ì²´: `{ agent, model?, command }`, ë°˜í™˜ `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}`                                       |
+
+---
+
+## ëª…ë ¹
+
+| ë°©ë²•  | ê²½ë¡œ       | ì„¤ëª…      | ì‘ë‹µ                                          |
+| ----- | ---------- | --------- | --------------------------------------------- |
+| `GET` | `/command` | ëª¨ë“  ëª…ë ¹ | <a href={typesUrl}><code>Command[]</code></a> |
+
+---
+
+## íŒŒì¼
+
+| ë°©ë²•  | ê²½ë¡œ                     | ì„¤ëª…                         | ì‘ë‹µ                                                                                    |
+| ----- | ------------------------ | ---------------------------- | --------------------------------------------------------------------------------------- |
+| `GET` | `/find?pattern=<pat>`    | íŒŒì¼ì—ì„œ í…ìŠ¤íŠ¸ ê²€ìƒ‰         | `path`, `lines`, `line_number`, `absolute_offset`, `submatches`ê°€ í¬í•¨ëœ ì¼ì¹˜ ê°ì²´ ë°°ì—´ |
+| `GET` | `/find/file?query=<q>`   | ì´ë¦„ìœ¼ë¡œ íŒŒì¼/ë””ë ‰í„°ë¦¬ ì°¾ê¸°  | `string[]` (ê²½ë¡œ)                                                                       |
+| `GET` | `/find/symbol?query=<q>` | ì›Œí¬ìŠ¤íŽ˜ì´ìŠ¤ ì‹¬ë³¼ ì°¾ê¸°       | <a href={typesUrl}><code>Symbol[]</code></a>                                            |
+| `GET` | `/file?path=<path>`      | íŒŒì¼ ë° ë””ë ‰í„°ë¦¬ ëª©ë¡        | <a href={typesUrl}><code>FileNode[]</code></a>                                          |
+| `GET` | `/file/content?path=<p>` | íŒŒì¼ ì½ê¸°                    | <a href={typesUrl}><code>FileContent</code></a>                                         |
+| `GET` | `/file/status`           | ì¶”ì  ì¤‘ì¸ íŒŒì¼ ìƒíƒœ ê°€ì ¸ì˜¤ê¸° | <a href={typesUrl}><code>File[]</code></a>                                              |
+
+#### `/find/file` ì¿¼ë¦¬ ë§¤ê°œ ë³€ìˆ˜
+
+- `query` (required) - ê²€ìƒ‰ ë¬¸ìžì—´ (fuzzy ì¼ì¹˜)
+- `type` (ì„ íƒ ì‚¬í•­) - `"file"` ë˜ëŠ” `"directory"`ì— ì œí•œ ê²°ê³¼
+- `directory` (ì„ íƒ ì‚¬í•­) - ê²€ìƒ‰ì— ëŒ€í•œ í”„ë¡œì íŠ¸ ë£¨íŠ¸ë¥¼ ë¬´ì‹œ
+- (ì„ íƒ) `limit` - ìµœëŒ€ ê²°ê³¼ (1-200)
+- `dirs` (ì˜µì…˜) - ë ˆê±°ì‹œ í”Œëž˜ê·¸ (`"false"`ëŠ” íŒŒì¼ë§Œ ë°˜í™˜)
+
+---
+
+## ë„êµ¬ (ì‹¤í—˜ì )
+
+| ë°©ë²•  | ê²½ë¡œ                                        | ì„¤ëª…                    | ì‘ë‹µ                                          |
+| ----- | ------------------------------------------- | ----------------------- | --------------------------------------------- |
+| `GET` | `/experimental/tool/ids`                    | ëª¨ë“  ë„êµ¬ ID            | <a href={typesUrl}><code>ë„êµ¬</code></a>      |
+| `GET` | `/experimental/tool?provider=<p>&model=<m>` | ëª¨ë¸ìš© JSON ìŠ¤í‚¤ë§ˆ ëª©ë¡ | <a href={typesUrl}><code>ë„êµ¬ ëª©ë¡</code></a> |
+
+---
+
+### LSP, í¬ë§¤í„° & MCP
+
+| ë°©ë²•   | ê²½ë¡œ         | ì„¤ëª…                   | ì‘ë‹µ                                                     |
+| ------ | ------------ | ---------------------- | -------------------------------------------------------- |
+| `GET`  | `/lsp`       | LSP ì„œë²„ ìƒíƒœ          | <a href={typesUrl}><code>LSPStatus[]</code></a>          |
+| `GET`  | `/formatter` | í˜•ì‹ì˜ ìƒíƒœë¥¼ í™•ì¸     | <a href={typesUrl}><code>FormatterStatus[]</code></a>    |
+| `GET`  | `/mcp`       | MCP ì„œë²„ ìƒíƒœë¥¼ ì–»ëŠ”ë‹¤ | `{ [name: string]: `<a href={typesUrl}>MCPStatus</a>` }` |
+| `POST` | `/mcp`       | MCP ì„œë²„ê°€ ë™ì         | ë³¸ì²´: `{ name, config }`, MCP ìƒíƒœ ê°ì²´ë¥¼ ë°˜í™˜           |
+
+---
+
+## ì—ì´ì „íŠ¸
+
+| ë°©ë²•  | ê²½ë¡œ     | ì„¤ëª…                      | ì‘ë‹µ                                            |
+| ----- | -------- | ------------------------- | ----------------------------------------------- |
+| `GET` | `/agent` | ì´ìš© ê°€ëŠ¥í•œ ëª¨ë“  ì—ì´ì „íŠ¸ | <a href={typesUrl}><code> ì—ì´ì „íŠ¸[]</code></a> |
+
+---
+
+### ë¡œê¹…
+
+| ë°©ë²•   | ê²½ë¡œ   | ì„¤ëª…                                                  | ì‘ë‹µ      |
+| ------ | ------ | ----------------------------------------------------- | --------- |
+| `POST` | `/log` | ë¡œê·¸ ìž…ë ¥ ë°”ë””: `{ service, level, message, extra? }` | `boolean` |
+
+---
+
+### TUI
+
+| ë°©ë²•   | ê²½ë¡œ                    | ì„¤ëª…                                      | ì‘ë‹µ           |
+| ------ | ----------------------- | ----------------------------------------- | -------------- |
+| `POST` | `/tui/append-prompt`    | í”„ë¡¬í”„íŠ¸ì— í…ìŠ¤íŠ¸ë¥¼ ë¶€ì—¬                  | `boolean`      |
+| `POST` | `/tui/open-help`        | ë„ì›€ë§ ëŒ€í™” ì—´ê¸°                          | `boolean`      |
+| `POST` | `/tui/open-sessions`    | ì„¸ì…˜ ì„ íƒ ì•ˆë‚´                            | `boolean`      |
+| `POST` | `/tui/open-themes`      | í…Œë§ˆ ì„ íƒ ì•ˆë‚´                            | `boolean`      |
+| `POST` | `/tui/open-models`      | ëª¨ë¸ ì„ íƒ ì•ˆë‚´                            | `boolean`      |
+| `POST` | `/tui/submit-prompt`    | í˜„ìž¬ í”„ë¡¬í”„íŠ¸ ì œì¶œ                        | `boolean`      |
+| `POST` | `/tui/clear-prompt`     | ì‹œí”„íŠ¸ í´ë¦¬ì–´                             | `boolean`      |
+| `POST` | `/tui/execute-command`  | ëª…ë ¹ì–´ ì‹¤í–‰(`{ command }`)                | `boolean`      |
+| `POST` | `/tui/show-toast`       | ì‡¼ í† ìŠ¤íŠ¸(`{ title?, message, variant }`) | `boolean`      |
+| `GET`  | `/tui/control/next`     | ë‹¤ìŒ ì»¨íŠ¸ë¡¤ ìš”ì²­ ì‹œ ê¸°ë‹¤ë¦¬ê³               | ì œì–´ ìš”ì²­ ê°œì²´ |
+| `POST` | `/tui/control/response` | í†µì œ ìš”ì²­(`{ body }`) ëŒ€ì‘                | `boolean`      |
+
+---
+
+### ì¸ì¦
+
+| ë°©ë²•  | ê²½ë¡œ        | ì„¤ëª…                                                | ì‘ë‹µ      |
+| ----- | ----------- | --------------------------------------------------- | --------- |
+| `PUT` | `/auth/:id` | ì¸ì¦ ìžê²© ì¦ëª… ëª¸ì€ ê³µê¸‰ìž ìŠ¤í‚¤ë§ˆë¥¼ ì¼ì¹˜í•´ì•¼ í•©ë‹ˆë‹¤ | `boolean` |
+
+---
+
+## ì´ë²¤íŠ¸
+
+| ë°©ë²•  | ê²½ë¡œ     | ì„¤ëª…                                                                            | ì‘ë‹µ                     |
+| ----- | -------- | ------------------------------------------------------------------------------- | ------------------------ |
+| `GET` | `/event` | ì„œë²„ ì „ì†¡ ì´ë²¤íŠ¸ ìŠ¤íŠ¸ë¦¼. ì²« ë²ˆì§¸ ì´ë²¤íŠ¸ëŠ” `server.connected`, ê·¸ í›„ ë²„ìŠ¤ ì´ë²¤íŠ¸ | Server-sent event stream |
+
+---
+
+### ë¬¸ì„œ
+
+| ë°©ë²•  | ê²½ë¡œ   | ì„¤ëª…             | ì‘ë‹µ                     |
+| ----- | ------ | ---------------- | ------------------------ |
+| `GET` | `/doc` | OpenAPI 3.1 ì‚¬ì–‘ | HTML íŽ˜ì´ì§€ OpenAPI ì‚¬ì–‘ |

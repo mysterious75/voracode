@@ -1,0 +1,194 @@
+---
+title: SkrÃ³ty klawiszowe
+description: Dostosuj swoje skrÃ³ty klawiszowe.
+---
+
+Voracode zawiera listÄ™ skrÃ³tÃ³w klawiszowych, ktÃ³re moÅ¼na dostosowaÄ‡ za pomocÄ… `tui.json`.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "keybinds": {
+    "leader": "ctrl+x",
+    "app_exit": "ctrl+c,ctrl+d,<leader>q",
+    "editor_open": "<leader>e",
+    "theme_list": "<leader>t",
+    "sidebar_toggle": "<leader>b",
+    "scrollbar_toggle": "none",
+    "username_toggle": "none",
+    "status_view": "<leader>s",
+    "tool_details": "none",
+    "session_export": "<leader>x",
+    "session_new": "<leader>n",
+    "session_list": "<leader>l",
+    "session_timeline": "<leader>g",
+    "session_fork": "none",
+    "session_rename": "none",
+    "session_share": "none",
+    "session_unshare": "none",
+    "session_interrupt": "escape",
+    "session_compact": "<leader>c",
+    "session_child_first": "<leader>down",
+    "session_child_cycle": "<leader>right",
+    "session_child_cycle_reverse": "<leader>left",
+    "session_parent": "<leader>up",
+    "messages_page_up": "pageup,ctrl+alt+b",
+    "messages_page_down": "pagedown,ctrl+alt+f",
+    "messages_line_up": "ctrl+alt+y",
+    "messages_line_down": "ctrl+alt+e",
+    "messages_half_page_up": "ctrl+alt+u",
+    "messages_half_page_down": "ctrl+alt+d",
+    "messages_first": "ctrl+g,home",
+    "messages_last": "ctrl+alt+g,end",
+    "messages_next": "none",
+    "messages_previous": "none",
+    "messages_copy": "<leader>y",
+    "messages_undo": "<leader>u",
+    "messages_redo": "<leader>r",
+    "messages_last_user": "none",
+    "messages_toggle_conceal": "<leader>h",
+    "model_list": "<leader>m",
+    "model_cycle_recent": "f2",
+    "model_cycle_recent_reverse": "shift+f2",
+    "model_cycle_favorite": "none",
+    "model_cycle_favorite_reverse": "none",
+    "variant_cycle": "ctrl+t",
+    "variant_list": "none",
+    "command_list": "ctrl+p",
+    "agent_list": "<leader>a",
+    "agent_cycle": "tab",
+    "agent_cycle_reverse": "shift+tab",
+    "input_clear": "ctrl+c",
+    "input_paste": "ctrl+v",
+    "input_submit": "return",
+    "input_newline": "shift+return,ctrl+return,alt+return,ctrl+j",
+    "input_move_left": "left,ctrl+b",
+    "input_move_right": "right,ctrl+f",
+    "input_move_up": "up",
+    "input_move_down": "down",
+    "input_select_left": "shift+left",
+    "input_select_right": "shift+right",
+    "input_select_up": "shift+up",
+    "input_select_down": "shift+down",
+    "input_line_home": "ctrl+a",
+    "input_line_end": "ctrl+e",
+    "input_select_line_home": "ctrl+shift+a",
+    "input_select_line_end": "ctrl+shift+e",
+    "input_visual_line_home": "alt+a",
+    "input_visual_line_end": "alt+e",
+    "input_select_visual_line_home": "alt+shift+a",
+    "input_select_visual_line_end": "alt+shift+e",
+    "input_buffer_home": "home",
+    "input_buffer_end": "end",
+    "input_select_buffer_home": "shift+home",
+    "input_select_buffer_end": "shift+end",
+    "input_delete_line": "ctrl+shift+d",
+    "input_delete_to_line_end": "ctrl+k",
+    "input_delete_to_line_start": "ctrl+u",
+    "input_backspace": "backspace,shift+backspace",
+    "input_delete": "ctrl+d,delete,shift+delete",
+    "input_undo": "ctrl+-,super+z",
+    "input_redo": "ctrl+.,super+shift+z",
+    "input_word_forward": "alt+f,alt+right,ctrl+right",
+    "input_word_backward": "alt+b,alt+left,ctrl+left",
+    "input_select_word_forward": "alt+shift+f,alt+shift+right",
+    "input_select_word_backward": "alt+shift+b,alt+shift+left",
+    "input_delete_word_forward": "alt+d,alt+delete,ctrl+delete",
+    "input_delete_word_backward": "ctrl+w,ctrl+backspace,alt+backspace",
+    "history_previous": "up",
+    "history_next": "down",
+    "terminal_suspend": "ctrl+z",
+    "terminal_title_toggle": "none",
+    "tips_toggle": "<leader>h",
+    "display_thinking": "none"
+  }
+}
+```
+
+---
+
+## Klucz lidera
+
+voracode uÅ¼ywa klucza `leader` dla gÅ‚Ã³wnych skrÃ³tÃ³w klawiszowych. RozwiÄ…zanie problemu konfliktÃ³w w terminalu.
+
+DomyÅ›lnie `ctrl+x` jest klawiszem gÅ‚Ã³wnym i gÅ‚Ã³wnÄ… akcjÄ… wymaga najpierw naciÅ›niÄ™cia klawisza lidera, a nastÄ™pnie skrÃ³tu. Na przykÅ‚ad, aby ponownie zastosowaÄ‡, nastÄ™pnie nastÄ™puje `ctrl+x`, a nastÄ™pnie nastÄ™puje `n`.
+
+Nie musisz mieÄ‡ klawisza wiodÄ…cego do skrÃ³tÃ³w klawiszowych, ale zalecamy to Reg.
+
+---
+
+## WyÅ‚Ä…cz powiÄ…zanie klawiszy
+
+MoÅ¼esz wyÅ‚Ä…czyÄ‡ skrÃ³t klawiszowy, dodajÄ…c klucz do `tui.json` z wartoÅ›ciÄ… "none".
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "keybinds": {
+    "session_compact": "none"
+  }
+}
+```
+
+---
+
+## SkrÃ³ty monitÃ³w na pulpicie
+
+Pole sprawdzania aplikacji komputerowej voracode obsÅ‚uguje popularne skrÃ³ty w stylu Readline/Emacs do edycji tekstu. SÄ… one dostÄ™pne i obecnie nie moÅ¼na ich skonfigurowaÄ‡ za pomocÄ… `voracode.json`.
+
+| SkrÃ³t    | Akcja                                                         |
+| -------- | ------------------------------------------------------------- |
+| `ctrl+a` | PrzejdÅº do ÅºrÃ³dÅ‚a regularnej linii                            |
+| `ctrl+e` | PrzejdÅº na koniec bieÅ¼Ä…cej linii                              |
+| `ctrl+b` | PrzesuÅ„ kursor do tyÅ‚u o jeden znak                           |
+| `ctrl+f` | PrzesuÅ„ kursor o jeden znak do przodu                         |
+| `alt+b`  | PrzesuÅ„ kursor o jedno sÅ‚owo wstecz                           |
+| `alt+f`  | PrzesuÅ„ kursor do przodu o jedno sÅ‚owo                        |
+| `ctrl+d` | UsuÅ„ znak pod kursorem                                        |
+| `ctrl+k` | Zabij do koÅ„ca linii                                          |
+| `ctrl+u` | Zabij na poczÄ…tek linii                                       |
+| `ctrl+w` | Zabij poprzednie sÅ‚owo                                        |
+| `alt+d`  | Zabij nastÄ™pne sÅ‚owo                                          |
+| `ctrl+t` | Transponuj znaki                                              |
+| `ctrl+g` | Anuluj wyskakujÄ…ce okienka / przerwij uruchamianie odpowiedzi |
+
+---
+
+## Shift+Enter
+
+IstniejÄ… terminale, ktÃ³re nie wysyÅ‚ajÄ… klawiszy modyfikujÄ…cych z Enterem. MoÅ¼e byÄ‡ konieczne skonfigurowanie terminala tak, aby wysÅ‚aÄ‡ `Shift+Enter` jako przerwanie zakoÅ„czenia.
+
+### Terminal Windowsowy
+
+OtwÃ³rz swÃ³j `settings.json` pod adresem:
+
+```
+%LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
+```
+
+Dodaj do tablicy `actions` na poziomie wyÅ¼szym:
+
+```json
+"actions": [
+  {
+    "command": {
+      "action": "sendInput",
+      "input": "\u001b[13;2u"
+    },
+    "id": "User.sendInput.ShiftEnterCustom"
+  }
+]
+```
+
+Dodaj do tablicy `keybindings` na poziomie wyÅ¼szym:
+
+```json
+"keybindings": [
+  {
+    "keys": "shift+enter",
+    "id": "User.sendInput.ShiftEnterCustom"
+  }
+]
+```
+
+Zapisz plik i uruchom ponownie terminal Windows lub otwÃ³rz nowÄ… kartÄ™.

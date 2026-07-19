@@ -1,0 +1,614 @@
+---
+title: CLI
+description: Voracode CLI opcije i naredbe.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
+Voracode CLI po defaultu pokreÄ‡e [TUI](/docs/tui) kada se pokrene bez ikakvih argumenata.
+
+```bash
+voracode
+```
+
+Ali takoÄ‘e prihvata naredbe kao Å¡to je dokumentovano na ovoj stranici. Ovo vam omoguÄ‡ava programsku interakciju sa Voracode.
+
+```bash
+voracode run "Explain how closures work in JavaScript"
+```
+
+---
+
+### tui
+
+Pokrenite Voracode terminalski korisniÄki interfejs.
+
+```bash
+voracode [project]
+```
+
+#### Opcije
+
+| Opcija                                   | Kratko | Opis                                                                     |
+| ---------------------------------------- | ------ | ------------------------------------------------------------------------ |
+| <nobr><code>{"--continue"}</code></nobr> | `-c`   | Nastavite posljednju sesiju                                              |
+| <nobr><code>{"--session"}</code></nobr>  | `-s`   | ID sesije za nastavak                                                    |
+| <nobr><code>{"--fork"}</code></nobr>     |        | Forkujte sesiju pri nastavku (koristiti sa `--continue` ili `--session`) |
+| <nobr><code>{"--prompt"}</code></nobr>   |        | Prompt za upotrebu                                                       |
+| <nobr><code>{"--model"}</code></nobr>    | `-m`   | Model za koriÅ¡tenje u obliku provider/model                              |
+| <nobr><code>{"--agent"}</code></nobr>    |        | Agent za koriÅ¡tenje                                                      |
+| <nobr><code>{"--port"}</code></nobr>     |        | Port na kojem treba sluÅ¡ati                                              |
+| <nobr><code>{"--hostname"}</code></nobr> |        | Hostname na kojem treba sluÅ¡ati                                          |
+
+---
+
+## Naredbe
+
+Voracode CLI takoÄ‘e ima sljedeÄ‡e naredbe.
+
+---
+
+### agent
+
+Upravljajte Voracode agentima.
+
+```bash
+voracode agent [command]
+```
+
+---
+
+### attach
+
+PrikljuÄite terminal na veÄ‡ pokrenut Voracode backend server pokrenut putem `serve` ili `web` naredbi.
+
+```bash
+voracode attach [url]
+```
+
+Ovo omoguÄ‡ava koriÅ¡tenje TUI-ja sa udaljenim Voracode backend-om. Na primjer:
+
+```bash
+# Start the backend server for web/mobile access
+voracode web --port 4096 --hostname 0.0.0.0
+
+# In another terminal, attach the TUI to the running backend
+voracode attach http://10.20.30.40:4096
+```
+
+#### Opcije
+
+| Opcija                                   | Kratko | Opis                                                                                          |
+| ---------------------------------------- | ------ | --------------------------------------------------------------------------------------------- |
+| <nobr><code>{"--dir"}</code></nobr>      |        | Radni direktorij za pokretanje TUI-a                                                          |
+| <nobr><code>{"--continue"}</code></nobr> | `-c`   | Nastavi posljednju sesiju                                                                     |
+| <nobr><code>{"--session"}</code></nobr>  | `-s`   | ID sesije za nastavak                                                                         |
+| <nobr><code>{"--fork"}</code></nobr>     |        | Forkuj sesiju prilikom nastavka (koristite sa `--continue` ili `--session`)                   |
+| <nobr><code>{"--password"}</code></nobr> | `-p`   | Lozinka za osnovnu autentifikaciju (zadano: `VORACODE_SERVER_PASSWORD`)                       |
+| <nobr><code>{"--username"}</code></nobr> | `-u`   | KorisniÄko ime za osnovnu autentifikaciju (zadano: `VORACODE_SERVER_USERNAME` ili `voracode`) |
+
+---
+
+#### create
+
+Kreirajte novog agenta s prilagoÄ‘enom konfiguracijom.
+
+```bash
+voracode agent create
+```
+
+Ova naredba Ä‡e vas voditi kroz kreiranje novog agenta sa prilagoÄ‘enim sistemskim promptom i konfiguracijom alata.
+
+---
+
+#### list
+
+Navedite sve dostupne agente.
+
+```bash
+voracode agent list
+```
+
+---
+
+### auth
+
+Naredba za upravljanje vjerodajnicama i prijavom za provajdere.
+
+```bash
+voracode auth [command]
+```
+
+---
+
+#### login
+
+Voracode pokreÄ‡e lista provajdera na [Models.dev](https://models.dev), tako da moÅ¾ete koristiti `voracode auth login` da konfigurirate API kljuÄeve za bilo kojeg provajdera kojeg Å¾elite koristiti. Ovo je pohranjeno u `~/.local/share/voracode/auth.json`.
+
+```bash
+voracode auth login
+```
+
+Kada se Voracode pokrene, uÄitava dobavljaÄe iz datoteke vjerodajnica. I ako postoje neki kljuÄevi definirani u vaÅ¡im okruÅ¾enjima ili `.env` fajl u vaÅ¡em projektu.
+
+---
+
+#### list
+
+Navodi sve autentifikovane dobavljaÄe pohranjene u datoteci vjerodajnica.
+
+```bash
+voracode auth list
+```
+
+Ili kratka verzija.
+
+```bash
+voracode auth ls
+```
+
+---
+
+#### logout
+
+Odjavljuje vas s provajdera tako Å¡to ga briÅ¡e iz datoteke vjerodajnica.
+
+```bash
+voracode auth logout
+```
+
+---
+
+### github
+
+Upravljajte GitHub agentom za automatizaciju repozitorija.
+
+```bash
+voracode github [command]
+```
+
+---
+
+#### install
+
+Instalirajte GitHub agenta u svoj repozitorij.
+
+```bash
+voracode github install
+```
+
+Ovo postavlja neophodni tok rada GitHub Actions i vodi vas kroz proces konfiguracije. [Saznajte viÅ¡e](/docs/github).
+
+---
+
+#### run
+
+Pokrenite GitHub agent. Ovo se obiÄno koristi u GitHub Actions.
+
+```bash
+voracode github run
+```
+
+##### Opcije
+
+| Opcija                                | Opis                                   |
+| ------------------------------------- | -------------------------------------- |
+| <nobr><code>{"--event"}</code></nobr> | GitHub mock event za pokretanje agenta |
+| <nobr><code>{"--token"}</code></nobr> | GitHub Personal Access Token           |
+
+---
+
+### mcp
+
+Upravljajte Model Context Protocol (MCP) serverima.
+
+```bash
+voracode mcp [command]
+```
+
+---
+
+#### add
+
+Dodajte MCP server svojoj konfiguraciji.
+
+```bash
+voracode mcp add
+```
+
+Ova naredba Ä‡e vas voditi kroz dodavanje lokalnog ili udaljenog MCP servera.
+
+---
+
+#### list
+
+Navedite sve konfigurirane MCP servere i njihov status veze.
+
+```bash
+voracode mcp list
+```
+
+Ili koristite kratku verziju.
+
+```bash
+voracode mcp ls
+```
+
+---
+
+#### auth
+
+Autentifikujte se sa MCP serverom koji je omoguÄ‡en za OAuth.
+
+```bash
+voracode mcp auth [name]
+```
+
+Ako ne navedete ime servera, od vas Ä‡e biti zatraÅ¾eno da izaberete neki od dostupnih servera koji podrÅ¾avaju OAuth.
+TakoÄ‘er moÅ¾ete navesti servere koji podrÅ¾avaju OAuth i njihov status autentifikacije.
+
+```bash
+voracode mcp auth list
+```
+
+Ili koristite kratku verziju.
+
+```bash
+voracode mcp auth ls
+```
+
+---
+
+#### logout
+
+Uklonite OAuth vjerodajnice za MCP server.
+
+```bash
+voracode mcp logout [name]
+```
+
+---
+
+#### debug
+
+Otklanjanje greÅ¡aka (debug) OAuth veze sa MCP serverom.
+
+```bash
+voracode mcp debug <name>
+```
+
+---
+
+### models
+
+Navedite sve dostupne modele konfiguriranih provajdera.
+
+```bash
+voracode models [provider]
+```
+
+Ova naredba prikazuje sve modele dostupne kod vaÅ¡ih konfiguriranih provajdera u formatu `provider/model`.
+Ovo je korisno za pronalaÅ¾enje taÄnog naziva modela za koriÅ¡tenje u [vaÅ¡oj konfiguraciji](/docs/config/).
+Opciono moÅ¾ete proslijediti ID provajdera za filtriranje modela po tom dobavljaÄu.
+
+```bash
+voracode models anthropic
+```
+
+#### Opcije
+
+| Opcija                                  | Opis                                                                     |
+| --------------------------------------- | ------------------------------------------------------------------------ |
+| <nobr><code>{"--refresh"}</code></nobr> | OsvjeÅ¾ite keÅ¡ modela sa models.dev                                       |
+| <nobr><code>{"--verbose"}</code></nobr> | Koristite detaljniji izlaz modela (ukljuÄuje metapodatke poput troÅ¡kova) |
+
+Koristite `--refresh` zastavicu da aÅ¾urirate keÅ¡iranu listu modela. Ovo je korisno kada su novi modeli dodani provajderu i Å¾elite da ih vidite u Voracode.
+
+```bash
+voracode models --refresh
+```
+
+---
+
+### run
+
+Pokrenite Voracode u neinteraktivnom modu tako Å¡to Ä‡ete direktno proslijediti prompt.
+
+```bash
+voracode run [message..]
+```
+
+Ovo je korisno za skriptiranje, automatizaciju ili kada Å¾elite brz odgovor bez pokretanja punog TUI-ja. Na primjer:
+
+```bash "voracode run"
+voracode run Explain the use of context in Go
+```
+
+TakoÄ‘er moÅ¾ete prikljuÄiti pokrenutu `voracode serve` instancu kako biste izbjegli vrijeme hladnog pokretanja MCP servera pri svakom pokretanju:
+
+```bash
+# Start a headless server in one terminal
+voracode serve
+
+# In another terminal, run commands that attach to it
+voracode run --attach http://localhost:4096 "Explain async/await in JavaScript"
+```
+
+#### Opcije
+
+| Opcija                                   | Kratko | Opis                                                                                          |
+| ---------------------------------------- | ------ | --------------------------------------------------------------------------------------------- |
+| <nobr><code>{"--command"}</code></nobr>  |        | Naredba za pokretanje, koristite poruku za argumente                                          |
+| <nobr><code>{"--continue"}</code></nobr> | `-c`   | Nastavite posljednju sesiju                                                                   |
+| <nobr><code>{"--session"}</code></nobr>  | `-s`   | ID sesije za nastavak                                                                         |
+| <nobr><code>{"--fork"}</code></nobr>     |        | Forkujte sesiju pri nastavku (koristiti sa `--continue` ili `--session`)                      |
+| <nobr><code>{"--share"}</code></nobr>    |        | Podijelite sesiju                                                                             |
+| <nobr><code>{"--model"}</code></nobr>    | `-m`   | Model za koriÅ¡tenje u obliku provider/model                                                   |
+| <nobr><code>{"--agent"}</code></nobr>    |        | Agent za koriÅ¡tenje                                                                           |
+| <nobr><code>{"--file"}</code></nobr>     | `-f`   | Fajlovi koje treba priloÅ¾iti poruci                                                           |
+| <nobr><code>{"--format"}</code></nobr>   |        | Format: default (formatiran) ili json (sirovi JSON dogaÄ‘aji)                                  |
+| <nobr><code>{"--title"}</code></nobr>    |        | Naslov sesije (koristi skraÄ‡eni prompt ako nije navedena vrijednost)                          |
+| <nobr><code>{"--attach"}</code></nobr>   |        | PrikljuÄite na pokrenuti Voracode server (npr. http://localhost:4096)                         |
+| <nobr><code>{"--password"}</code></nobr> | `-p`   | Lozinka za osnovnu autentifikaciju (zadano: `VORACODE_SERVER_PASSWORD`)                       |
+| <nobr><code>{"--username"}</code></nobr> | `-u`   | KorisniÄko ime za osnovnu autentifikaciju (zadano: `VORACODE_SERVER_USERNAME` ili `voracode`) |
+| <nobr><code>{"--dir"}</code></nobr>      |        | Direktorij za pokretanje, ili putanja na udaljenom serveru pri spajanju                       |
+| <nobr><code>{"--variant"}</code></nobr>  |        | Varijanta modela (napor zakljuÄivanja specifiÄan za provajdera)                               |
+| <nobr><code>{"--thinking"}</code></nobr> |        | PrikaÅ¾i blokove razmiÅ¡ljanja                                                                  |
+| <nobr><code>{"--port"}</code></nobr>     |        | Port za lokalni server (zadano na nasumiÄni port)                                             |
+
+---
+
+### serve
+
+Pokrenite Voracode headless server za API pristup. Pogledajte [server docs](/docs/server) za kompletan HTTP interfejs.
+
+```bash
+voracode serve
+```
+
+Ovo pokreÄ‡e HTTP server koji pruÅ¾a API pristup funkcionalnosti Voracode-a bez TUI interfejsa. Postavite `VORACODE_SERVER_PASSWORD` da omoguÄ‡ite HTTP osnovnu auth (korisniÄko ime je zadano na `voracode`).
+
+#### Opcije
+
+| Opcija                                   | Opis                                                  |
+| ---------------------------------------- | ----------------------------------------------------- |
+| <nobr><code>{"--port"}</code></nobr>     | Port na kojem treba sluÅ¡ati                           |
+| <nobr><code>{"--hostname"}</code></nobr> | Hostname na kojem treba sluÅ¡ati                       |
+| <nobr><code>{"--mdns"}</code></nobr>     | OmoguÄ‡i mDNS otkrivanje                               |
+| <nobr><code>{"--cors"}</code></nobr>     | Dodatni origin(i) pretraÅ¾ivaÄa koji dozvoljavaju CORS |
+
+---
+
+### session
+
+Upravljajte Voracode sesijama.
+
+```bash
+voracode session [command]
+```
+
+---
+
+#### list
+
+Navedite sve Voracode sesije.
+
+```bash
+voracode session list
+```
+
+##### Opcije
+
+| Opcija                                    | Kratko | Opis                                   |
+| ----------------------------------------- | ------ | -------------------------------------- |
+| <nobr><code>{"--max-count"}</code></nobr> | `-n`   | OgraniÄenje na N najnovijih sesija     |
+| <nobr><code>{"--format"}</code></nobr>    |        | Izlazni format: table ili json (table) |
+
+---
+
+### stats
+
+PrikaÅ¾i statistiku upotrebe tokena i troÅ¡kova za vaÅ¡e Voracode sesije.
+
+```bash
+voracode stats
+```
+
+#### Opcije
+
+| Opcija                                  | Opis                                                                                                       |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| <nobr><code>{"--days"}</code></nobr>    | PrikaÅ¾i statistiku za zadnjih N dana (sva vremena)                                                         |
+| <nobr><code>{"--tools"}</code></nobr>   | Broj alata za prikaz (svi)                                                                                 |
+| <nobr><code>{"--models"}</code></nobr>  | PrikaÅ¾i raÅ¡Älambu koriÅ¡tenja modela (skriveno prema zadanim postavkama). Proslijedite broj za prikaz top N |
+| <nobr><code>{"--project"}</code></nobr> | Filtriraj po projektu (svi projekti, prazan niz: trenutni projekt)                                         |
+
+---
+
+### export
+
+Izvezite podatke sesije kao JSON.
+
+```bash
+voracode export [sessionID]
+```
+
+Ako ne unesete ID sesije, od vas Ä‡e biti zatraÅ¾eno da odaberete neku od dostupnih sesija.
+
+---
+
+### import
+
+Uvezite podatke sesije iz JSON datoteke ili Voracode dijeljenog URL-a.
+
+```bash
+voracode import <file>
+```
+
+MoÅ¾ete uvesti iz lokalne datoteke ili Voracode dijeljenog URL-a.
+
+```bash
+voracode import session.json
+voracode import https://opncd.ai/s/abc123
+```
+
+---
+
+### web
+
+Pokrenite Voracode headless server sa web interfejsom.
+
+```bash
+voracode web
+```
+
+Ovo pokreÄ‡e HTTP server i otvara web pretraÅ¾ivaÄ za pristup Voracode-u preko web interfejsa. Postavite `VORACODE_SERVER_PASSWORD` da omoguÄ‡ite HTTP osnovnu auth (korisniÄko ime je zadano na `voracode`).
+
+#### Opcije
+
+| Opcija                                   | Opis                                                  |
+| ---------------------------------------- | ----------------------------------------------------- |
+| <nobr><code>{"--port"}</code></nobr>     | Port na kojem treba sluÅ¡ati                           |
+| <nobr><code>{"--hostname"}</code></nobr> | Hostname na kojem treba sluÅ¡ati                       |
+| <nobr><code>{"--mdns"}</code></nobr>     | OmoguÄ‡i mDNS otkrivanje                               |
+| <nobr><code>{"--cors"}</code></nobr>     | Dodatni origin(i) pretraÅ¾ivaÄa koji dozvoljavaju CORS |
+
+---
+
+### acp
+
+Pokrenite ACP (Agent Client Protocol) server.
+
+```bash
+voracode acp
+```
+
+Ova naredba pokreÄ‡e ACP server koji komunicira preko stdin/stdout koristeÄ‡i nd-JSON.
+
+#### Opcije
+
+| Opcija                                   | Opis                        |
+| ---------------------------------------- | --------------------------- |
+| <nobr><code>{"--cwd"}</code></nobr>      | Radni direktorij            |
+| <nobr><code>{"--port"}</code></nobr>     | Port na kojem treba sluÅ¡ati |
+| <nobr><code>{"--hostname"}</code></nobr> | Hostname na kojem sluÅ¡ati   |
+
+---
+
+### uninstall
+
+Deinstalirajte Voracode i uklonite sve povezane datoteke.
+
+```bash
+voracode uninstall
+```
+
+#### Opcije
+
+| Opcija                                      | Kratko | Opis                                          |
+| ------------------------------------------- | ------ | --------------------------------------------- |
+| <nobr><code>{"--keep-config"}</code></nobr> | `-c`   | SaÄuvajte konfiguracijske datoteke            |
+| <nobr><code>{"--keep-data"}</code></nobr>   | `-d`   | SaÄuvajte podatke i snimke sesije             |
+| <nobr><code>{"--dry-run"}</code></nobr>     |        | PokaÅ¾ite Å¡ta bi bilo uklonjeno bez uklanjanja |
+| <nobr><code>{"--force"}</code></nobr>       | `-f`   | PreskoÄi upite za potvrdu                     |
+
+---
+
+### upgrade
+
+AÅ¾urira Voracode na najnoviju verziju ili odreÄ‘enu verziju.
+
+```bash
+voracode upgrade [target]
+```
+
+Za nadogradnju na najnoviju verziju.
+
+```bash
+voracode upgrade
+```
+
+Za nadogradnju na odreÄ‘enu verziju.
+
+```bash
+voracode upgrade v0.1.48
+```
+
+#### Opcije
+
+| Opcija                                 | Kratko | Opis                                                    |
+| -------------------------------------- | ------ | ------------------------------------------------------- |
+| <nobr><code>{"--method"}</code></nobr> | `-m`   | KoriÅ¡teni naÄin instalacije; curl, npm, pnpm, bun, brew |
+
+---
+
+## Globalne opcije
+
+Voracode CLI prihvata sljedeÄ‡e globalne zastavice.
+
+| Opcija                                     | Kratko | Opis                                      |
+| ------------------------------------------ | ------ | ----------------------------------------- |
+| <nobr><code>{"--help"}</code></nobr>       | `-h`   | PrikaÅ¾i pomoÄ‡                             |
+| <nobr><code>{"--version"}</code></nobr>    | `-v`   | IspiÅ¡i broj verzije                       |
+| <nobr><code>{"--print-logs"}</code></nobr> |        | Ispis logova u stderr                     |
+| <nobr><code>{"--log-level"}</code></nobr>  |        | Nivo logovanja (DEBUG, INFO, WARN, ERROR) |
+
+---
+
+## Varijable okruÅ¾enja
+
+Voracode se moÅ¾e konfigurirati pomoÄ‡u varijabli okruÅ¾enja.
+
+| Varijabla                             | Tip     | Opis                                                               |
+| ------------------------------------- | ------- | ------------------------------------------------------------------ |
+| `VORACODE_AUTO_SHARE`                 | boolean | Automatski dijeli sesije                                           |
+| `VORACODE_GIT_BASH_PATH`              | string  | Putanja do Git Bash izvrÅ¡ne datoteke na Windows-u                  |
+| `VORACODE_CONFIG`                     | string  | Putanja do konfiguracijskog fajla                                  |
+| `VORACODE_TUI_CONFIG`                 | string  | Putanja do TUI konfiguracijskog fajla                              |
+| `VORACODE_CONFIG_DIR`                 | string  | Putanja do konfiguracijskog direktorija                            |
+| `VORACODE_CONFIG_CONTENT`             | string  | Inline json konfiguracijski sadrÅ¾aj                                |
+| `VORACODE_DISABLE_AUTOUPDATE`         | boolean | OnemoguÄ‡i automatske provjere aÅ¾uriranja                           |
+| `VORACODE_DISABLE_PRUNE`              | boolean | OnemoguÄ‡i brisanje (pruning) starih podataka                       |
+| `VORACODE_DISABLE_TERMINAL_TITLE`     | boolean | OnemoguÄ‡i automatsko aÅ¾uriranje naslova terminala                  |
+| `VORACODE_PERMISSION`                 | string  | Inline json konfiguracija dozvola                                  |
+| `VORACODE_DISABLE_DEFAULT_PLUGINS`    | boolean | OnemoguÄ‡i podrazumijevane dodatke (plugins)                        |
+| `VORACODE_DISABLE_LSP_DOWNLOAD`       | boolean | OnemoguÄ‡i automatsko preuzimanje LSP servera                       |
+| `VORACODE_ENABLE_EXPERIMENTAL_MODELS` | boolean | OmoguÄ‡i eksperimentalne modele                                     |
+| `VORACODE_DISABLE_AUTOCOMPACT`        | boolean | OnemoguÄ‡i automatsko saÅ¾imanje konteksta                           |
+| `VORACODE_DISABLE_CLAUDE_CODE`        | boolean | OnemoguÄ‡i Äitanje iz `.claude` (prompt + vjeÅ¡tine)                 |
+| `VORACODE_DISABLE_CLAUDE_CODE_PROMPT` | boolean | OnemoguÄ‡i Äitanje `~/.claude/CLAUDE.md`                            |
+| `VORACODE_DISABLE_CLAUDE_CODE_SKILLS` | boolean | OnemoguÄ‡i uÄitavanje `.claude/skills`                              |
+| `VORACODE_DISABLE_MODELS_FETCH`       | boolean | OnemoguÄ‡i dohvaÄ‡anje modela iz udaljenih izvora                    |
+| `VORACODE_FAKE_VCS`                   | string  | LaÅ¾ni VCS provajder za potrebe testiranja                          |
+| `VORACODE_CLIENT`                     | string  | Identifikator klijenta (zadano na `cli`)                           |
+| `VORACODE_ENABLE_EXA`                 | boolean | OmoguÄ‡i Exa alate za web pretraÅ¾ivanje                             |
+| `VORACODE_SERVER_PASSWORD`            | string  | OmoguÄ‡i osnovnu autentifikaciju za `serve`/`web`                   |
+| `VORACODE_SERVER_USERNAME`            | string  | PoniÅ¡ti osnovno korisniÄko ime autentifikacije (zadano `voracode`) |
+| `VORACODE_MODELS_URL`                 | string  | PrilagoÄ‘eni URL za dohvaÄ‡anje konfiguracije modela                 |
+
+---
+
+### Eksperimentalno
+
+Ove varijable okruÅ¾enja omoguÄ‡avaju eksperimentalne karakteristike koje se mogu promijeniti ili ukloniti.
+
+| Varijabla                                       | Tip     | Opis                                                    |
+| ----------------------------------------------- | ------- | ------------------------------------------------------- |
+| `VORACODE_EXPERIMENTAL`                         | boolean | OmoguÄ‡i eksperimentalne funkcije pod zbirnom zastavicom |
+| `VORACODE_EXPERIMENTAL_ICON_DISCOVERY`          | boolean | OmoguÄ‡i otkrivanje ikona                                |
+| `VORACODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT`  | boolean | OnemoguÄ‡i kopiranje pri odabiru u TUI                   |
+| `VORACODE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS` | number  | Zadano vremensko ograniÄenje za bash naredbe u ms       |
+| `VORACODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX`        | number  | Maksimalni izlazni tokeni za LLM odgovore               |
+| `VORACODE_EXPERIMENTAL_FILEWATCHER`             | boolean | OmoguÄ‡i praÄ‡enje datoteka za cijeli direktorij          |
+| `VORACODE_EXPERIMENTAL_OXFMT`                   | boolean | OmoguÄ‡i oxfmt formatter                                 |
+| `VORACODE_EXPERIMENTAL_LSP_TOOL`                | boolean | OmoguÄ‡i eksperimentalni LSP alat                        |
+| `VORACODE_EXPERIMENTAL_DISABLE_FILEWATCHER`     | boolean | OnemoguÄ‡i praÄ‡enje datoteka                             |
+| `VORACODE_EXPERIMENTAL_EXA`                     | boolean | OmoguÄ‡i eksperimentalne Exa funkcije                    |
+| `VORACODE_EXPERIMENTAL_LSP_TY`                  | boolean | OmoguÄ‡i TY LSP za python datoteke                       |
+| `VORACODE_EXPERIMENTAL_PLAN_MODE`               | boolean | OmoguÄ‡i Plan mod                                        |
+| `VORACODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS`    | boolean | OmoguÄ‡i pozadinske zadatke subagenata                   |
+| `VORACODE_EXPERIMENTAL_EVENT_SYSTEM`            | boolean | OmoguÄ‡i eksperimentalni sistem dogaÄ‘aja                 |
+| `VORACODE_EXPERIMENTAL_NATIVE_LLM`              | boolean | OmoguÄ‡i nativnu putanju LLM zahtjeva                    |
+| `VORACODE_EXPERIMENTAL_PARALLEL`                | boolean | OmoguÄ‡i paralelno izvrÅ¡avanje web pretrage              |
+| `VORACODE_EXPERIMENTAL_SCOUT`                   | boolean | OmoguÄ‡i Scout subagenta                                 |
+| `VORACODE_EXPERIMENTAL_WORKSPACES`              | boolean | OmoguÄ‡i podrÅ¡ku za radne prostore                       |

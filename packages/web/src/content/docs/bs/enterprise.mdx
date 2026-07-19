@@ -1,0 +1,165 @@
+---
+title: Za preduzeÄ‡a
+description: Sigurno koriÅ¡tenje Voracode u vaÅ¡oj organizaciji.
+---
+
+import config from "../../../../config.mjs"
+export const email = `mailto:${config.email}`
+
+Voracode Enterprise je za organizacije koje Å¾ele osigurati da njihov kod i podaci nikada ne napuÅ¡taju njihovu infrastrukturu. To omoguÄ‡ava centralizovana konfiguracija koja se integriÅ¡e s vaÅ¡im SSO-om i internim AI gateway-om.
+
+:::note
+Voracode ne pohranjuje nijedan vaÅ¡ kod ili kontekstualne podatke.
+:::
+
+Da zapoÄnete s Voracode Enterprise:
+
+1. Uradite interni probni period sa svojim timom.
+2. **<a href={email}>Kontaktirajte nas</a>** da razgovaramo o cijenama i opcijama implementacije.
+
+---
+
+## Proba
+
+Voracode je otvorenog koda i ne pohranjuje vaÅ¡ kod niti kontekstualne podatke, tako da vaÅ¡i developeri mogu jednostavno [zapoÄeti](/docs/) i provesti probu.
+
+---
+
+### Rukovanje podacima
+
+**Voracode ne pohranjuje vaÅ¡ kod ni kontekstualne podatke.** Sva obrada se odvija lokalno ili putem direktnih API poziva vaÅ¡em AI provajderu.
+
+To znaÄi da, sve dok koristite provajdera kojem vjerujete ili interni AI gateway, Voracode moÅ¾ete koristiti sigurno.
+
+Jedina iznimka je opcionalna funkcija `/share`.
+
+---
+
+#### Dijeljenje razgovora
+
+Ako korisnik ukljuÄi funkciju `/share`, razgovor i povezani podaci Å¡alju se servisu koji koristimo za hosting ovih share stranica na voracode.ai.
+
+Podaci se trenutno serviraju kroz edge mreÅ¾u naÅ¡eg CDN-a i keÅ¡iraju se blizu korisnika.
+
+PreporuÄujemo da ovo onemoguÄ‡ite tokom probe.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "disabled"
+}
+```
+
+[Saznajte viÅ¡e o dijeljenju](/docs/share).
+
+---
+
+### VlasniÅ¡tvo koda
+
+**Vi posjedujete sav kod koji Voracode proizvede.** Nema ograniÄenja licenciranja niti zahtjeva za vlasniÅ¡tvo.
+
+---
+
+## Cijene
+
+Koristimo model naplate po sjediÅ¡tu za Voracode Enterprise. Ako imate vlastiti LLM gateway, ne naplaÄ‡ujemo koriÅ¡tene tokene. Za viÅ¡e detalja o cijenama i opcijama implementacije, **<a href={email}>kontaktirajte nas</a>**.
+
+---
+
+## Postavljanje
+
+Nakon Å¡to zavrÅ¡ite probni period i spremni ste koristiti Voracode u svojoj organizaciji, moÅ¾ete **<a href={email}>kontaktirati nas</a>** da razgovaramo o cijenama i opcijama implementacije.
+
+---
+
+### Centralna konfiguracija
+
+MoÅ¾emo postaviti Voracode da koristi jednu centralnu konfiguraciju za cijelu organizaciju.
+
+Ta centralizovana konfiguracija moÅ¾e se integrisati s vaÅ¡im SSO provajderom i osigurava da svi korisnici pristupaju samo vaÅ¡em internom AI gateway-u.
+
+---
+
+### SSO integracija
+
+Kroz centralnu konfiguraciju, Voracode se moÅ¾e integrisati sa SSO provajderom vaÅ¡e organizacije za autentifikaciju.
+
+To omoguÄ‡ava Voracode da dobije vjerodajnice za interni AI gateway kroz vaÅ¡ postojeÄ‡i sistem upravljanja identitetom.
+
+---
+
+### Interni AI gateway
+
+Uz centralnu konfiguraciju, Voracode se moÅ¾e podesiti da koristi samo vaÅ¡ interni AI gateway.
+
+TakoÄ‘er moÅ¾ete onemoguÄ‡iti sve druge AI provajdere, Äime osiguravate da svi zahtjevi prolaze kroz odobrenu infrastrukturu vaÅ¡e organizacije.
+
+---
+
+### Samostalno hostovanje
+
+Iako preporuÄujemo onemoguÄ‡avanje share stranica kako biste osigurali da podaci nikada ne napuÅ¡taju vaÅ¡u organizaciju, moÅ¾emo vam pomoÄ‡i i da ih samostalno hostujete na vlastitoj infrastrukturi.
+
+Ovo je trenutno na naÅ¡oj mapi puta. Ako ste zainteresovani, **<a href={email}>javite nam</a>**.
+
+---
+
+## ÄŒesto postavljana pitanja
+
+<details>
+<summary>Å ta je Voracode Enterprise?</summary>
+
+Voracode Enterprise je za organizacije koje Å¾ele osigurati da njihov kod i podaci nikada ne napuÅ¡taju njihovu infrastrukturu. To omoguÄ‡ava centralizovana konfiguracija koja se integriÅ¡e s vaÅ¡im SSO-om i internim AI gateway-om.
+
+</details>
+
+<details>
+<summary>Kako zapoÄeti s Voracode Enterprise?</summary>
+
+Jednostavno zapoÄnite internu probu sa svojim timom. Voracode po defaultu ne pohranjuje vaÅ¡ kod ni kontekstualne podatke, Å¡to olakÅ¡ava poÄetak.
+
+Zatim **<a href={email}>kontaktirajte nas</a>** da razgovaramo o cijenama i opcijama implementacije.
+
+</details>
+
+<details>
+<summary>Kako funkcioniÅ¡u enterprise cijene?</summary>
+
+Nudimo enterprise cijene po sjediÅ¡tu. Ako imate vlastiti LLM gateway, ne naplaÄ‡ujemo koriÅ¡tene tokene. Za viÅ¡e detalja, **<a href={email}>kontaktirajte nas</a>** za prilagoÄ‘enu ponudu prema potrebama vaÅ¡e organizacije.
+
+</details>
+
+<details>
+<summary>Jesu li moji podaci sigurni uz Voracode Enterprise?</summary>
+
+Da. Voracode ne pohranjuje vaÅ¡ kod niti kontekstualne podatke. Sva obrada se odvija lokalno ili putem direktnih API poziva vaÅ¡em AI provajderu. Uz centralnu konfiguraciju i SSO integraciju, vaÅ¡i podaci ostaju sigurni unutar infrastrukture vaÅ¡e organizacije.
+
+</details>
+
+<details>
+<summary>MoÅ¾emo li koristiti vlastiti privatni NPM registar?</summary>
+
+Voracode podrÅ¾ava privatne npm registre kroz Bunovu izvornu podrÅ¡ku za `.npmrc` datoteku. Ako vaÅ¡a organizacija koristi privatni registar, kao Å¡to je JFrog Artifactory, Nexus ili sliÄno, osigurajte da su developeri autentifikovani prije pokretanja Voracode.
+
+Da postavite autentifikaciju s privatnim registrom:
+
+```bash
+npm login --registry=https://your-company.jfrog.io/api/npm/npm-virtual/
+```
+
+Ovo kreira `~/.npmrc` s detaljima za autentifikaciju. Voracode Ä‡e to automatski prepoznati.
+
+:::caution
+Morate biti prijavljeni na privatni registar prije pokretanja Voracode.
+:::
+
+Alternativno, moÅ¾ete ruÄno konfigurisati `.npmrc` datoteku:
+
+```bash title="~/.npmrc"
+registry=https://your-company.jfrog.io/api/npm/npm-virtual/
+//your-company.jfrog.io/api/npm/npm-virtual/:_authToken=${NPM_AUTH_TOKEN}
+```
+
+Developeri moraju biti prijavljeni na privatni registar prije pokretanja Voracode kako bi se paketi mogli instalirati iz vaÅ¡eg enterprise registra.
+
+</details>

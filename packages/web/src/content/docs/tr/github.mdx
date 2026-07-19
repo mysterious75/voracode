@@ -1,0 +1,321 @@
+﻿---
+title: GitHub
+description: GitHub sorunlarÄ±nda ve Ã§ekme isteklerinde voracode'u kullanÄ±n.
+---
+
+voracode, GitHub iÅŸ akÄ±ÅŸÄ±nÄ±zla bÃ¼tÃ¼nleÅŸir. Yorumunuzda `/voracode` veya `/oc`'den bahsedin; voracode, GitHub Actions Ã§alÄ±ÅŸtÄ±rÄ±cÄ±nÄ±zdaki gÃ¶revleri yÃ¼rÃ¼tecektir.
+
+---
+
+## Ã–zellikler
+
+- **SorunlarÄ± Ã¶nceliklendirin**: voracode'dan bir sorunu araÅŸtÄ±rÄ±p size aÃ§Ä±klamasÄ±nÄ± isteyin.
+- **DÃ¼zelt ve uygula**: voracode'dan bir sorunu dÃ¼zeltmesini veya bir Ã¶zelliÄŸi uygulamasÄ±nÄ± isteyin. Ve yeni bir ÅŸubede Ã§alÄ±ÅŸacak ve tÃ¼m deÄŸiÅŸiklikleri iÃ§eren bir PR gÃ¶nderecek.
+- **GÃ¼venli**: voracode, GitHub'Ä±nÄ±zÄ±n Ã§alÄ±ÅŸtÄ±rÄ±cÄ±larÄ±nÄ±n iÃ§inde Ã§alÄ±ÅŸÄ±r.
+
+---
+
+## Kurulum
+
+GitHub deposundaki bir projede aÅŸaÄŸÄ±daki komutu Ã§alÄ±ÅŸtÄ±rÄ±n:
+
+```bash
+voracode github install
+```
+
+Bu size GitHub uygulamasÄ±nÄ± yÃ¼kleme, iÅŸ akÄ±ÅŸÄ±nÄ± oluÅŸturma ve gizli dizileri ayarlama adÄ±mlarÄ±nda yol gÃ¶sterecektir.
+
+---
+
+### Manuel Kurulum
+
+Veya manuel olarak ayarlayabilirsiniz.
+
+1. **GitHub uygulamasÄ±nÄ± yÃ¼kleyin**
+
+   [**github.com/apps/voracode-agent**](https://github.com/apps/voracode-agent)'a gidin. Hedef depoya kurulu olduÄŸundan emin olun.
+
+2. **Ä°ÅŸ akÄ±ÅŸÄ±nÄ± ekleyin**
+
+   AÅŸaÄŸÄ±daki iÅŸ akÄ±ÅŸÄ± dosyasÄ±nÄ± deponuzdaki `.github/workflows/voracode.yml`'a ekleyin. `model`'de uygun `env` ve gerekli API anahtarlarÄ±nÄ± ayarladÄ±ÄŸÄ±nÄ±zdan emin olun.
+
+   ```yml title=".github/workflows/voracode.yml" {24,26}
+   name: voracode
+
+   on:
+     issue_comment:
+       types: [created]
+     pull_request_review_comment:
+       types: [created]
+
+   jobs:
+     voracode:
+       if: |
+         contains(github.event.comment.body, '/oc') ||
+         contains(github.event.comment.body, '/voracode')
+       runs-on: ubuntu-latest
+       permissions:
+         id-token: write
+       steps:
+          - name: Checkout repository
+            uses: actions/checkout@v6
+            with:
+              fetch-depth: 1
+              persist-credentials: false
+
+          - name: Run Voracode
+           uses: mysterious75/voracode/github@latest
+           env:
+             ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+           with:
+             model: anthropic/claude-sonnet-4-20250514
+             # share: true
+             # github_token: xxxx
+   ```
+
+3. **API anahtarlarÄ±nÄ± gizli olarak saklayÄ±n**
+
+   KuruluÅŸunuzda veya projenizde **ayarlarda**, soldaki **Gizli bilgiler ve deÄŸiÅŸkenler**'i geniÅŸletin ve **Eylemler**'i seÃ§in. Ve gerekli API anahtarlarÄ±nÄ± ekleyin.
+
+---
+
+## YapÄ±landÄ±rma
+
+- `model`: voracode ile kullanÄ±lacak model. `provider/model` biÃ§imini alÄ±r. Bu **gerekli**.
+- `agent`: KullanÄ±lacak aracÄ±. Birincil ajan olmalÄ±. YapÄ±landÄ±rmadan `default_agent`'ye veya bulunamazsa `"build"`'ye geri dÃ¶ner.
+- `share`: voracode hesabÄ±nÄ±n paylaÅŸÄ±lÄ±p paylaÅŸÄ±lmayacaÄŸÄ±. Genel depolar iÃ§in varsayÄ±lan olarak **true** olur.
+- `prompt`: VarsayÄ±lan Ã§alÄ±ÅŸma geÃ§ersiz olduÄŸundan dolayÄ± Ã¶zel istem. voracode'un iÅŸleme biÃ§imini kiÅŸiselleÅŸtirmek iÃ§in bunu kullanÄ±n.
+- `token`: Yorum oluÅŸturma, deÄŸiÅŸiklik yapma ve Ã§ekme isteklerini aÃ§ma gibi iÅŸlemleri gerÃ§ekleÅŸtirmek iÃ§in isteÄŸe baÄŸlÄ± GitHub eriÅŸim belirteci. VarsayÄ±lan olarak voracode, voracode GitHub UygulamasÄ±ndaki kurulum eriÅŸim belirtecini kullanÄ±r, bu nedenle taahhÃ¼tler, yorumlar ve Ã§ekme istekleri uygulamadan geliyormuÅŸ gibi gÃ¶rÃ¼nÃ¼r.
+
+  Alternatif olarak, voracode GitHub'u yÃ¼klemeden GitHub Eylem Ã§alÄ±ÅŸtÄ±rÄ±cÄ±sÄ±nÄ±n [built-in `GITHUB_TOKEN`](https://docs.github.com/en/actions/tutorials/authenticate-with-github_token) akÄ±ÅŸÄ±nÄ± kullanabilirsiniz. Ä°ÅŸinizde gerekli izinlere sahip olduÄŸunuzdan emin olun:
+
+  ```yaml
+  permissions:
+    id-token: write
+    contents: write
+    pull-requests: write
+    issues: write
+  ```
+
+  Tercih edilirse [personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)(PAT) de kullanabilirsiniz.
+
+---
+
+## Desteklenen Olaylar
+
+voracode aÅŸaÄŸÄ±daki GitHub olaylarÄ± tarafÄ±ndan tetiklenebilir:
+
+| Olay Tipi                     | Tetikleyen                                    | Detaylar                                                                                                                                            |
+| ----------------------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `issue_comment`               | Bir soruna veya halkla iliÅŸkilere yorum yapÄ±n | Yorumunuzda `/voracode` veya `/oc`'den bahsedin. voracode baÄŸlamÄ± okur ve ÅŸubeler oluÅŸturabilir, PR'leri aÃ§abilir veya yanÄ±t verebilir.             |
+| `pull_request_review_comment` | PR'deki belirli kod satÄ±rlarÄ±na yorum yapÄ±n   | Kodu incelerken `/voracode` veya `/oc`'den bahsedin. voracode dosya yolunu, satÄ±r numaralarÄ±nÄ± ve fark iÃ§eriÄŸini alÄ±r.                              |
+| `issues`                      | SayÄ± aÃ§Ä±ldÄ± veya dÃ¼zenlendi                   | Sorunlar oluÅŸturulduÄŸunda veya deÄŸiÅŸtirildiÄŸinde voracode'u otomatik olarak tetikleyin. `prompt` giriÅŸi gerektirir.                                 |
+| `pull_request`                | PR aÃ§Ä±ldÄ± veya gÃ¼ncellendi                    | PR'ler aÃ§Ä±ldÄ±ÄŸÄ±nda, senkronize edildiÄŸinde veya yeniden aÃ§Ä±ldÄ±ÄŸÄ±nda voracode'u otomatik olarak tetikleyin. Otomatik incelemeler iÃ§in kullanÄ±ÅŸlÄ±dÄ±r. |
+| `schedule`                    | Cron tabanlÄ± program                          | voracode'u bir programa gÃ¶re Ã§alÄ±ÅŸtÄ±rÄ±n. `prompt` giriÅŸi gerektirir. Ã‡Ä±ktÄ±, gÃ¼nlÃ¼klere ve PR'lere gider (yorum yapÄ±lacak bir sorun yoktur).         |
+| `workflow_dispatch`           | GitHub kullanÄ±cÄ± arayÃ¼zÃ¼nden manuel tetikleme | Eylemler sekmesi aracÄ±lÄ±ÄŸÄ±yla voracode'u isteÄŸe baÄŸlÄ± olarak tetikleyin. `prompt` giriÅŸi gerektirir. Ã‡Ä±ktÄ± gÃ¼nlÃ¼klere ve PR'lere gider.             |
+
+### Zamanlama Ã–rneÄŸi
+
+Otomatik gÃ¶revleri gerÃ§ekleÅŸtirmek iÃ§in voracode'u bir zamanlamaya gÃ¶re Ã§alÄ±ÅŸtÄ±rÄ±n:
+
+```yaml title=".github/workflows/voracode-scheduled.yml"
+name: Scheduled Voracode Task
+
+on:
+  schedule:
+    - cron: "0 9 * * 1" # Every Monday at 9am UTC
+
+jobs:
+  voracode:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Run Voracode
+        uses: mysterious75/voracode/github@latest
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        with:
+          model: anthropic/claude-sonnet-4-20250514
+          prompt: |
+            Review the codebase for any TODO comments and create a summary.
+            If you find issues worth addressing, open an issue to track them.
+```
+
+ZamanlanmÄ±ÅŸ etkinlikler iÃ§in, talimatlarÄ±n alÄ±nabileceÄŸi bir yorum bulunmadÄ±ÄŸÄ±ndan `prompt` giriÅŸi **gereklidir**. ZamanlanmÄ±ÅŸ iÅŸ akÄ±ÅŸlarÄ±, izin kontrolÃ¼ yapÄ±lacak bir kullanÄ±cÄ± baÄŸlamÄ± olmadan Ã§alÄ±ÅŸÄ±r; bu nedenle, voracode'un ÅŸubeler veya PR'ler oluÅŸturmasÄ±nÄ± bekliyorsanÄ±z iÅŸ akÄ±ÅŸÄ±nÄ±n `contents: write` ve `pull-requests: write` vermesi gerekir.
+
+---
+
+### Ã‡ekme Ä°steÄŸi Ã–rneÄŸi
+
+PR'leri aÃ§Ä±ldÄ±ÄŸÄ±nda veya gÃ¼ncellendiÄŸinde otomatik olarak inceleyin:
+
+```yaml title=".github/workflows/voracode-review.yml"
+name: voracode-review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: read
+      issues: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: mysterious75/voracode/github@latest
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          model: anthropic/claude-sonnet-4-20250514
+          use_github_token: true
+          prompt: |
+            Review this pull request:
+            - Check for code quality issues
+            - Look for potential bugs
+            - Suggest improvements
+```
+
+`pull_request` olaylar iÃ§in, `prompt` saÄŸlanmazsa, voracode varsayÄ±lan olarak Ã§ekme isteklerini inceler.
+
+---
+
+### Sorun Ã–nceliklendirme Ã–rneÄŸi
+
+Yeni sorunlarÄ± otomatik olarak Ã¶nceliklendirin. Bu Ã¶rnek, spam'i azaltmak iÃ§in 30 gÃ¼nden eski hesaplarÄ± filtreler:
+
+```yaml title=".github/workflows/voracode-triage.yml"
+name: Issue Triage
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Check account age
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const user = await github.rest.users.getByUsername({
+              username: context.payload.issue.user.login
+            });
+            const created = new Date(user.data.created_at);
+            const days = (Date.now() - created) / (1000 * 60 * 60 * 24);
+            return days >= 30;
+          result-encoding: string
+
+      - uses: actions/checkout@v6
+        if: steps.check.outputs.result == 'true'
+        with:
+          persist-credentials: false
+
+      - uses: mysterious75/voracode/github@latest
+        if: steps.check.outputs.result == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        with:
+          model: anthropic/claude-sonnet-4-20250514
+          prompt: |
+            Review this issue. If there's a clear fix or relevant docs:
+            - Provide documentation links
+            - Add error handling guidance for code examples
+            Otherwise, do not comment.
+```
+
+`issues` olaylarÄ± iÃ§in, talimatlarÄ±n Ã§Ä±karÄ±lacaÄŸÄ± bir yorum olmadÄ±ÄŸÄ±ndan `prompt` giriÅŸi **gereklidir**.
+
+---
+
+## Ã–zel istemler
+
+voracode'un davranÄ±ÅŸÄ±nÄ± iÅŸ akÄ±ÅŸÄ±nÄ±z iÃ§in Ã¶zelleÅŸtirmek iÃ§in varsayÄ±lan istemi geÃ§ersiz kÄ±lÄ±n.
+
+```yaml title=".github/workflows/voracode.yml"
+- uses: mysterious75/voracode/github@latest
+  with:
+    model: anthropic/claude-sonnet-4-5
+    prompt: |
+      Review this pull request:
+      - Check for code quality issues
+      - Look for potential bugs
+      - Suggest improvements
+```
+
+Bu, projenizle ilgili spesifik inceleme kriterlerini, kodlama standartlarÄ±nÄ± veya odak alanlarÄ±nÄ± uygulamak iÃ§in kullanÄ±ÅŸlÄ±dÄ±r.
+
+---
+
+## Ã–rnekler
+
+GitHub'da voracode'u nasÄ±l kullanabileceÄŸinize dair bazÄ± Ã¶rnekleri burada bulabilirsiniz.
+
+- **Bir sorunu aÃ§Ä±klama**
+
+  Bu yorumu GitHub sayÄ±sÄ±na ekleyin.
+
+  ```
+  /voracode explain this issue
+  ```
+
+  voracode, tÃ¼m yorumlar da dahil olmak Ã¼zere ileti dizisinin tamamÄ±nÄ± okuyacak ve net bir aÃ§Ä±klama ile yanÄ±t verecektir.
+
+- **Bir sorunu dÃ¼zeltme**
+
+  In a GitHub issue, say:
+
+  ```
+  /voracode fix this
+  ```
+
+  Ve voracode yeni bir ÅŸube oluÅŸturacak, deÄŸiÅŸiklikleri uygulayacak ve deÄŸiÅŸiklikleri iÃ§eren bir PR aÃ§acak.
+
+- **PR'leri inceleyin ve deÄŸiÅŸiklik yapÄ±n**
+
+  GitHub PR'a aÅŸaÄŸÄ±daki yorumu bÄ±rakÄ±n.
+
+  ```
+  Delete the attachment from S3 when the note is removed /oc
+  ```
+
+  voracode istenen deÄŸiÅŸikliÄŸi uygulayacak ve aynÄ± PR'ye uygulayacaktÄ±r.
+
+- **Belirli kod satÄ±rlarÄ±nÄ± inceleme**
+
+  PR'nin "Dosyalar" sekmesindeki kod satÄ±rlarÄ±na doÄŸrudan yorum bÄ±rakÄ±n. voracode, kesin yanÄ±tlar saÄŸlamak iÃ§in dosyayÄ±, satÄ±r numaralarÄ±nÄ± ve fark iÃ§eriÄŸini otomatik olarak algÄ±lar.
+
+  ```
+  [Comment on specific lines in Files tab]
+  /oc add error handling here
+  ```
+
+  Belirli satÄ±rlara yorum yaparken voracode ÅŸunlarÄ± alÄ±r:
+  - Ä°ncelenmekte olan dosyanÄ±n tamamÄ±
+  - Belirli kod satÄ±rlarÄ±
+  - Ã‡evreleyen fark baÄŸlamÄ±
+  - SatÄ±r numarasÄ± bilgisi
+
+  Bu, dosya yollarÄ±nÄ± veya satÄ±r numaralarÄ±nÄ± manuel olarak belirtmeye gerek kalmadan daha hedefli isteklere olanak tanÄ±r.

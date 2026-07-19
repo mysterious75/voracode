@@ -1,0 +1,155 @@
+---
+title: ACP ã‚µãƒãƒ¼ãƒˆ
+description: ACP äº’æ›ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ã§ Voracode ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
+---
+
+Voracode ã¯ [Agent Client Protocol](https://agentclientprotocol.com) ã¾ãŸã¯ (ACP) ã‚’ã‚µãƒãƒ¼ãƒˆã—ã¦ã„ã‚‹ãŸã‚ã€äº’æ›æ€§ã®ã‚ã‚‹ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ã‚„ IDE ã§ç›´æŽ¥ä½¿ç”¨ã§ãã¾ã™ã€‚
+
+:::tip
+ACP ã‚’ã‚µãƒãƒ¼ãƒˆã™ã‚‹ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ã¨ãƒ„ãƒ¼ãƒ«ã®ãƒªã‚¹ãƒˆã«ã¤ã„ã¦ã¯ã€[ACP progress report](https://zed.dev/blog/acp-progress-report#available-now) ã‚’å‚ç…§ã—ã¦ãã ã•ã„ã€‚
+:::
+ACP ã¯ã€ã‚³ãƒ¼ãƒ‰ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ã¨ AI ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆé–“ã®é€šä¿¡ã‚’æ¨™æº–åŒ–ã™ã‚‹ã‚ªãƒ¼ãƒ—ãƒ³ãƒ—ãƒ­ãƒˆã‚³ãƒ«ã§ã™ã€‚
+
+---
+
+## è¨­å®š
+
+ACP çµŒç”±ã§ Voracode ã‚’ä½¿ç”¨ã™ã‚‹ã«ã¯ã€`voracode acp` ã‚³ãƒžãƒ³ãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹ã‚ˆã†ã«ã‚¨ãƒ‡ã‚£ã‚¿ã‚’è¨­å®šã—ã¾ã™ã€‚
+
+ã“ã®ã‚³ãƒžãƒ³ãƒ‰ã¯ã€stdio çµŒç”±ã§ JSON-RPC çµŒç”±ã§ã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼ã¨é€šä¿¡ã™ã‚‹ ACP äº’æ›ã®ã‚µãƒ–ãƒ—ãƒ­ã‚»ã‚¹ã¨ã—ã¦ Voracode ã‚’é–‹å§‹ã—ã¾ã™ã€‚
+
+ä»¥ä¸‹ã¯ã€ACP ã‚’ã‚µãƒãƒ¼ãƒˆã™ã‚‹ä¸€èˆ¬çš„ãªã‚¨ãƒ‡ã‚£ã‚¿ã®ä¾‹ã§ã™ã€‚
+
+---
+
+### Zed
+
+[Zed](https://zed.dev) æ§‹æˆ (`~/.config/zed/settings.json`) ã«è¿½åŠ ã—ã¾ã™ã€‚
+
+```json title="~/.config/zed/settings.json"
+{
+  "agent_servers": {
+    "Voracode": {
+      "command": "voracode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+ã“ã‚Œã‚’é–‹ãã«ã¯ã€**ã‚³ãƒžãƒ³ãƒ‰ãƒ‘ãƒ¬ãƒƒãƒˆ**ã® `agent: new thread` ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
+
+`keymap.json` ã‚’ç·¨é›†ã—ã¦ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã‚·ãƒ§ãƒ¼ãƒˆã‚«ãƒƒãƒˆã‚’ãƒã‚¤ãƒ³ãƒ‰ã™ã‚‹ã“ã¨ã‚‚ã§ãã¾ã™ã€‚
+
+```json title="keymap.json"
+[
+  {
+    "bindings": {
+      "cmd-alt-o": [
+        "agent::NewExternalAgentThread",
+        {
+          "agent": {
+            "custom": {
+              "name": "Voracode",
+              "command": {
+                "command": "voracode",
+                "args": ["acp"]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+]
+```
+
+---
+
+### JetBrains IDE
+
+[documentation](https://www.jetbrains.com/help/ai-assistant/acp.html) ã«å¾“ã£ã¦ã€[JetBrains IDE](https://www.jetbrains.com/) acp.json ã«è¿½åŠ ã—ã¾ã™ï¼š
+
+```json title="acp.json"
+{
+  "agent_servers": {
+    "Voracode": {
+      "command": "/absolute/path/bin/voracode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+ã“ã‚Œã‚’é–‹ãã«ã¯ã€AI Chat ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã‚»ãƒ¬ã‚¯ã‚¿ãƒ¼ã§æ–°ã—ã„ã€ŒVoracodeã€ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
+
+---
+
+### Avante.nvim
+
+[Avante.nvim](https://github.com/yetone/avante.nvim) è¨­å®šã«è¿½åŠ :
+
+```lua
+{
+  acp_providers = {
+    ["voracode"] = {
+      command = "voracode",
+      args = { "acp" }
+    }
+  }
+}
+```
+
+ç’°å¢ƒå¤‰æ•°ã‚’æ¸¡ã™å¿…è¦ãŒã‚ã‚‹å ´åˆ:
+
+```lua {6-8}
+{
+  acp_providers = {
+    ["voracode"] = {
+      command = "voracode",
+      args = { "acp" },
+      env = {
+        VORACODE_API_KEY = os.getenv("VORACODE_API_KEY")
+      }
+    }
+  }
+}
+```
+
+---
+
+### CodeCompanion.nvim
+
+[CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim) ã§ Voracode ã‚’ ACP ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã¨ã—ã¦ä½¿ç”¨ã™ã‚‹ã«ã¯ã€ä»¥ä¸‹ã‚’ Neovim æ§‹æˆã«è¿½åŠ ã—ã¾ã™ã€‚
+
+```lua
+require("codecompanion").setup({
+  interactions = {
+    chat = {
+      adapter = {
+        name = "voracode",
+        model = "claude-sonnet-4",
+      },
+    },
+  },
+})
+```
+
+ã“ã®æ§‹æˆã¯ã€Voracode ã‚’ãƒãƒ£ãƒƒãƒˆã® ACP ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã¨ã—ã¦ä½¿ç”¨ã™ã‚‹ã‚ˆã†ã« CodeCompanion ã‚’ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ã—ã¾ã™ã€‚
+
+ç’°å¢ƒå¤‰æ•° (`VORACODE_API_KEY` ãªã©) ã‚’æ¸¡ã™å¿…è¦ãŒã‚ã‚‹å ´åˆã€è©³ç´°ã«ã¤ã„ã¦ã¯ã€CodeCompanion.nvim ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã®ã€Œ[ã‚¢ãƒ€ãƒ—ã‚¿ãƒ¼ã®æ§‹æˆ: ç’°å¢ƒå¤‰æ•°](https://codecompanion.olimorris.dev/getting-started#setting-an-api-key)ã€ã‚’å‚ç…§ã—ã¦ãã ã•ã„ã€‚
+
+## ã‚µãƒãƒ¼ãƒˆ
+
+Voracode ã¯ã€ACP çµŒç”±ã§ã‚‚ã‚¿ãƒ¼ãƒŸãƒŠãƒ«å†…ã§å‹•ä½œã™ã‚‹ã®ã¨åŒã˜ã‚ˆã†ã«å‹•ä½œã—ã¾ã™ã€‚ã™ã¹ã¦ã®æ©Ÿèƒ½ãŒã‚µãƒãƒ¼ãƒˆã•ã‚Œã¦ã„ã¾ã™ã€‚
+
+:::note
+`/undo` ã‚„ `/redo` ãªã©ã®ä¸€éƒ¨ã®çµ„ã¿è¾¼ã¿ã‚¹ãƒ©ãƒƒã‚·ãƒ¥ã‚³ãƒžãƒ³ãƒ‰ã¯ç¾åœ¨ã‚µãƒãƒ¼ãƒˆã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚
+:::
+
+- çµ„ã¿è¾¼ã¿ãƒ„ãƒ¼ãƒ« (ãƒ•ã‚¡ã‚¤ãƒ«æ“ä½œã€ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã‚³ãƒžãƒ³ãƒ‰ãªã©)
+- ã‚«ã‚¹ã‚¿ãƒ ãƒ„ãƒ¼ãƒ«ã¨ã‚¹ãƒ©ãƒƒã‚·ãƒ¥ã‚³ãƒžãƒ³ãƒ‰
+- Voracode è¨­å®šã§æ§‹æˆã•ã‚ŒãŸ MCP ã‚µãƒ¼ãƒãƒ¼
+- `AGENTS.md` ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆå›ºæœ‰ã®ãƒ«ãƒ¼ãƒ«
+- ã‚«ã‚¹ã‚¿ãƒ ãƒ•ã‚©ãƒ¼ãƒžãƒƒã‚¿ã¨ãƒªãƒ³ã‚¿ãƒ¼
+- ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã¨æ¨©é™ã‚·ã‚¹ãƒ†ãƒ 

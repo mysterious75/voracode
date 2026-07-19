@@ -1,0 +1,322 @@
+﻿---
+title: GitHub
+description: Utilisez Voracode dans les issues et les pull-requests GitHub.
+---
+
+Voracode s'intÃ¨gre Ã  votre flux de travail GitHub. Mentionnez `/voracode` ou `/oc` dans votre commentaire, et Voracode exÃ©cutera des tÃ¢ches dans votre runner GitHub Actions.
+
+---
+
+## FonctionnalitÃ©s
+
+- **Triage des issues** : demandez Ã  Voracode d'examiner une issue et de vous l'expliquer.
+- **Correction et implÃ©mentation** : demandez Ã  Voracode de rÃ©soudre un problÃ¨me ou d'implÃ©menter une fonctionnalitÃ©. Il travaillera dans une nouvelle branche et soumettra une PR avec tous les changements.
+- **SÃ©curisÃ©** : Voracode s'exÃ©cute Ã  l'intÃ©rieur de vos runners GitHub.
+
+---
+
+## Installation
+
+ExÃ©cutez la commande suivante dans un projet qui se trouve dans un dÃ©pÃ´t GitHub :
+
+```bash
+voracode github install
+```
+
+Cela vous guidera dans l'installation de l'application GitHub, la crÃ©ation du workflow et la configuration des secrets.
+
+---
+
+### Configuration manuelle
+
+Ou vous pouvez le configurer manuellement.
+
+1. **Installez l'application GitHub**
+
+Rendez-vous sur [**github.com/apps/voracode-agent**](https://github.com/apps/voracode-agent). Assurez-vous qu'il est installÃ© sur le dÃ©pÃ´t cible.
+
+2. **Ajouter le workflow**
+
+Ajoutez le fichier de workflow suivant Ã  `.github/workflows/voracode.yml` dans votre dÃ©pÃ´t. Assurez-vous de dÃ©finir les clÃ©s `model` appropriÃ©es et les clÃ©s API requises dans `env`.
+
+```yml title=".github/workflows/voracode.yml" {24,26}
+   name: voracode
+
+   on:
+     issue_comment:
+       types: [created]
+     pull_request_review_comment:
+       types: [created]
+
+   jobs:
+     voracode:
+       if: |
+         contains(github.event.comment.body, '/oc') ||
+         contains(github.event.comment.body, '/voracode')
+       runs-on: ubuntu-latest
+       permissions:
+         id-token: write
+       steps:
+          - name: Checkout repository
+            uses: actions/checkout@v6
+            with:
+              fetch-depth: 1
+              persist-credentials: false
+
+          - name: Run Voracode
+           uses: mysterious75/voracode/github@latest
+           env:
+             ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+           with:
+             model: anthropic/claude-sonnet-4-20250514
+             # share: true
+             # github_token: xxxx
+```
+
+3. **Stockez les clÃ©s API dans les secrets**
+
+Dans les **paramÃ¨tres** de votre organisation ou de votre projet, dÃ©veloppez **Secrets et variables** sur la gauche et sÃ©lectionnez **Actions**. Puis ajoutez les clÃ©s API requises.
+
+---
+
+## Configuration
+
+- `model` : Le modÃ¨le Ã  utiliser avec Voracode. Prend le format `provider/model`. Ceci est **obligatoire**.
+- `agent` : l'agent Ã  utiliser. Doit Ãªtre un agent primaire. Revient Ã  `default_agent` Ã  partir de la configuration ou Ã  `"build"` s'il n'est pas trouvÃ©.
+- `share` : s'il faut partager la session Voracode. La valeur par dÃ©faut est **true** pour les rÃ©fÃ©rentiels publics.
+- `prompt` : prompt personnalisÃ© facultatif pour remplacer le comportement par dÃ©faut. Utilisez-le pour personnaliser la faÃ§on dont Voracode traite les demandes.
+- `token` : jeton d'accÃ¨s GitHub facultatif pour effectuer des opÃ©rations telles que la crÃ©ation de commentaires, le commit de modifications et l'ouverture de pull requests. Par dÃ©faut, Voracode utilise le jeton d'accÃ¨s Ã  l'installation de l'application Voracode GitHub, de sorte que les commits, les commentaires et les pull requests apparaissent comme provenant de l'application.
+
+Vous pouvez Ã©galement utiliser le `GITHUB_TOKEN`](https://docs.github.com/en/actions/tutorials/authenticate-with-github_token) intÃ©grÃ© du runner GitHub Actions sans installer l'application Voracode GitHub. Assurez-vous simplement d'accorder les autorisations requises dans votre workflow :
+
+```yaml
+permissions:
+  id-token: write
+  contents: write
+  pull-requests: write
+  issues: write
+```
+
+Vous pouvez Ã©galement utiliser un [jeton d'accÃ¨s personnel](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)(PAT) si vous prÃ©fÃ©rez.
+
+---
+
+## Ã‰vÃ©nements supportÃ©s
+
+Voracode peut Ãªtre dÃ©clenchÃ© par les Ã©vÃ©nements GitHub suivants :
+
+| Type d'Ã©vÃ©nement              | DÃ©clenchÃ© par                                              | DÃ©tails                                                                                                                                                |
+| ----------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `issue_comment`               | Commentaire sur une issue ou une PR                        | Mentionnez `/voracode` ou `/oc` dans votre commentaire. Voracode lit le contexte et peut crÃ©er des branches, ouvrir des PR ou rÃ©pondre.                |
+| `pull_request_review_comment` | Commentaire sur des lignes de code spÃ©cifiques dans une PR | Mentionnez `/voracode` ou `/oc` lors de la rÃ©vision du code. Voracode reÃ§oit le chemin du fichier, les numÃ©ros de ligne et le contexte de comparaison. |
+| `issues`                      | Issue ouverte ou modifiÃ©e                                  | DÃ©clenchez automatiquement Voracode lorsque des issues sont crÃ©Ã©es ou modifiÃ©es. NÃ©cessite une entrÃ©e `prompt`.                                        |
+| `pull_request`                | PR ouverte ou mise Ã  jour                                  | DÃ©clenchez automatiquement Voracode lorsque les PR sont ouvertes, synchronisÃ©es ou rouvertes. Utile pour les revues automatisÃ©es.                      |
+| `schedule`                    | Planification basÃ©e sur Cron                               | ExÃ©cutez Voracode selon un planning. NÃ©cessite une entrÃ©e `prompt`. La sortie va aux journaux et aux PR (pas de commentaire sur les issues).           |
+| `workflow_dispatch`           | DÃ©clenchement manuel depuis l'interface utilisateur GitHub | DÃ©clenchez Voracode Ã  la demande via l'onglet Actions. NÃ©cessite une entrÃ©e `prompt`. La sortie va aux journaux et aux PR.                             |
+
+### Exemple de planification
+
+ExÃ©cutez Voracode selon un planning pour effectuer des tÃ¢ches automatisÃ©es :
+
+```yaml title=".github/workflows/voracode-scheduled.yml"
+name: Scheduled Voracode Task
+
+on:
+  schedule:
+    - cron: "0 9 * * 1" # Every Monday at 9am UTC
+
+jobs:
+  voracode:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Run Voracode
+        uses: mysterious75/voracode/github@latest
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        with:
+          model: anthropic/claude-sonnet-4-20250514
+          prompt: |
+            Review the codebase for any TODO comments and create a summary.
+            If you find issues worth addressing, open an issue to track them.
+```
+
+Pour les Ã©vÃ©nements planifiÃ©s, l'entrÃ©e `prompt` est **obligatoire** car il n'y a aucun commentaire pour extraire les instructions. Les workflows planifiÃ©s s'exÃ©cutent sans contexte utilisateur pour vÃ©rifier les autorisations. Le workflow doit donc accorder `contents: write` et `pull-requests: write` si vous vous attendez Ã  ce que Voracode crÃ©e des branches ou des PR.
+
+---
+
+### Exemple de Pull Request
+
+Examinez automatiquement les PR lorsqu'ils sont ouverts ou mis Ã  jour :
+
+```yaml title=".github/workflows/voracode-review.yml"
+name: voracode-review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: read
+      issues: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: mysterious75/voracode/github@latest
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          model: anthropic/claude-sonnet-4-20250514
+          use_github_token: true
+          prompt: |
+            Review this pull request:
+            - Check for code quality issues
+            - Look for potential bugs
+            - Suggest improvements
+```
+
+Pour les Ã©vÃ©nements `pull_request`, si aucun `prompt` n'est fourni, Voracode examine par dÃ©faut la pull request.
+
+---
+
+### Exemple de Triage d'Issue
+
+Triez automatiquement les nouvelles issues. Cet exemple filtre les comptes datant de plus de 30 jours pour rÃ©duire le spam :
+
+```yaml title=".github/workflows/voracode-triage.yml"
+name: Issue Triage
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Check account age
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const user = await github.rest.users.getByUsername({
+              username: context.payload.issue.user.login
+            });
+            const created = new Date(user.data.created_at);
+            const days = (Date.now() - created) / (1000 * 60 * 60 * 24);
+            return days >= 30;
+          result-encoding: string
+
+      - uses: actions/checkout@v6
+        if: steps.check.outputs.result == 'true'
+        with:
+          persist-credentials: false
+
+      - uses: mysterious75/voracode/github@latest
+        if: steps.check.outputs.result == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        with:
+          model: anthropic/claude-sonnet-4-20250514
+          prompt: |
+            Review this issue. If there's a clear fix or relevant docs:
+            - Provide documentation links
+            - Add error handling guidance for code examples
+            Otherwise, do not comment.
+```
+
+Pour les Ã©vÃ©nements `issues`, l'entrÃ©e `prompt` est **obligatoire** car il n'y a aucun commentaire Ã  partir duquel extraire les instructions.
+
+---
+
+## Invites personnalisÃ©es
+
+Remplacez l'invite par dÃ©faut pour personnaliser le comportement de Voracode pour votre workflow.
+
+```yaml title=".github/workflows/voracode.yml"
+- uses: mysterious75/voracode/github@latest
+  with:
+    model: anthropic/claude-sonnet-4-5
+    prompt: |
+      Review this pull request:
+      - Check for code quality issues
+      - Look for potential bugs
+      - Suggest improvements
+```
+
+Ceci est utile pour appliquer des critÃ¨res dâ€™Ã©valuation spÃ©cifiques, des normes de codage ou des domaines dâ€™intervention pertinents pour votre projet.
+
+---
+
+## Exemples
+
+Voici quelques exemples de la faÃ§on dont vous pouvez utiliser Voracode dans GitHub.
+
+- **Expliquer une issue**
+
+Ajoutez ce commentaire dans une issue GitHub.
+
+```
+  /voracode explain this issue
+```
+
+Voracode lira l'intÃ©gralitÃ© du fil de discussion, y compris tous les commentaires, et rÃ©pondra avec une explication claire.
+
+- **RÃ©soudre une issue**
+
+Dans une issue GitHub, dites :
+
+```
+  /voracode fix this
+```
+
+Et Voracode crÃ©era une nouvelle branche, mettra en Å“uvre les modifications et ouvrira une PR avec les modifications.
+
+- **Examinez les PR et apportez des modifications**
+
+Laissez le commentaire suivant sur une PR GitHub.
+
+```
+  Delete the attachment from S3 when the note is removed /oc
+```
+
+Voracode mettra en Å“uvre la modification demandÃ©e et la validera dans la mÃªme PR.
+
+- **Revue de lignes de code spÃ©cifiques**
+
+Laissez un commentaire directement sur les lignes de code dans l'onglet "Fichiers" de la PR. Voracode dÃ©tecte automatiquement le fichier, les numÃ©ros de ligne et le contexte de comparaison pour fournir des rÃ©ponses prÃ©cises.
+
+```
+  [Comment on specific lines in Files tab]
+  /oc add error handling here
+```
+
+Lorsqu'il commente des lignes spÃ©cifiques, Voracode reÃ§oit :
+
+- Le fichier exact en cours d'examen
+- Les lignes de code spÃ©cifiques
+- Le contexte diffÃ©rentiel environnant
+- Informations sur le numÃ©ro de ligne
+
+Cela permet des requÃªtes plus ciblÃ©es sans avoir besoin de spÃ©cifier manuellement les chemins de fichiers ou les numÃ©ros de ligne.

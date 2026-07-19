@@ -1,0 +1,287 @@
+---
+title: Server
+description: Interager med voracode-serveren over HTTP.
+---
+
+import config from "../../../../config.mjs"
+export const typesUrl = `${config.github}/blob/dev/packages/sdk/js/src/gen/types.gen.ts`
+
+Kommandoen `voracode serve` kÃ¸rer en hovedlÃ¸s HTTP-server, som afslÃ¸rer et OpenAPI-endpoint, som en voracode-klient kan bruge.
+
+---
+
+### Brug
+
+```bash
+voracode serve [--port <number>] [--hostname <string>] [--cors <origin>]
+```
+
+#### Indstillinger
+
+| Flag            | Beskrivelse                                  | Standard         |
+| --------------- | -------------------------------------------- | ---------------- |
+| `--port`        | Port at lytte pÃ¥                             | `4096`           |
+| `--hostname`    | VÃ¦rtsnavn at lytte pÃ¥                        | `127.0.0.1`      |
+| `--mdns`        | Aktiver mDNS-opdagelse                       | `false`          |
+| `--mdns-domain` | Brugerdefineret domÃ¦nenavn for mDNS-tjeneste | `voracode.local` |
+| `--cors`        | Yderligere browseroprindelse for at tillade  | `[]`             |
+
+`--cors` kan angives flere gange:
+
+```bash
+voracode serve --cors http://localhost:5173 --cors https://app.example.com
+```
+
+---
+
+### Godkendelse
+
+Indstil `VORACODE_SERVER_PASSWORD` for at beskytte serveren med HTTP grundlÃ¦ggende godkendelse. Brugernavnet er som standard `voracode`, eller indstil `VORACODE_SERVER_USERNAME` for at tilsidesÃ¦tte det. Dette gÃ¦lder bÃ¥de `voracode serve` og `voracode web`.
+
+```bash
+VORACODE_SERVER_PASSWORD=your-password voracode serve
+```
+
+---
+
+### SÃ¥dan fungerer det
+
+NÃ¥r du kÃ¸rer `voracode` starter den en TUI og en server. Hvor TUI er
+klient som taler med serveren. Serveren viser en OpenAPI 3.1-specifikation
+endpoint. Dette endpoint bruges ogsÃ¥ til at generere en [SDK](/docs/sdk).
+
+:::tip
+Brug voracode-serveren til at interagere med voracode programmatisk.
+:::
+
+Denne arkitektur lader voracode understÃ¸tte flere klienter og lader dig interagere med voracode programmatisk.
+
+Du kan kÃ¸re `voracode serve` for at starte en selvstÃ¦ndig server. Hvis du har
+voracode TUI kÃ¸rende, vil `voracode serve` starte en ny server.
+
+---
+
+#### Opret forbindelse til en eksisterende server
+
+NÃ¥r du starter TUI, tildeler den tilfÃ¦ldigt en port og et vÃ¦rtsnavn. Du kan i stedet sende `--hostname` og `--port` [flagene](/docs/cli). Brug derefter disse til at forbinde til serveren.
+
+[`/tui`](#tui) endpointet kan bruges til at kÃ¸re TUI gennem serveren. Du kan for eksempel forududfylde eller kÃ¸re en forespÃ¸rgsel. Denne opsÃ¦tning bruges af Voracode [IDE](/docs/ide) plugins.
+
+---
+
+## Specifikation
+
+Serveren publicerer en OpenAPI 3.1-specifikation som kan vises pÃ¥:
+
+```
+http://<hostname>:<port>/doc
+```
+
+For eksempel `http://localhost:4096/doc`. Brug specifikationen til at generere klienter eller inspicere forespÃ¸rgsels- og svartyper. Eller se den i en Swagger-utforsker.
+
+---
+
+## API'er
+
+Voracode-serveren viser fÃ¸lgende API'er.
+
+---
+
+### Globalt
+
+| Metode | Sti              | Beskrivelse                      | Svar                                 |
+| ------ | ---------------- | -------------------------------- | ------------------------------------ |
+| `GET`  | `/global/health` | FÃ¥ serverhelbred og version      | `{ healthy: true, version: string }` |
+| `GET`  | `/global/event`  | FÃ¥ globale hÃ¦ndelser (SSE strÃ¸m) | EventstrÃ¸m                           |
+
+---
+
+### Projekt
+
+| Metode | Sti                | Beskrivelse               | Svar                                          |
+| ------ | ------------------ | ------------------------- | --------------------------------------------- |
+| `GET`  | `/project`         | Liste over alle projekter | <a href={typesUrl}><code>Project[]</code></a> |
+| `GET`  | `/project/current` | FÃ¥ det nuvÃ¦rende projekt  | <a href={typesUrl}><code>Project</code></a>   |
+
+---
+
+### Sti og VCS
+
+| Metode | Sti     | Beskrivelse                       | Svar                                        |
+| ------ | ------- | --------------------------------- | ------------------------------------------- |
+| `GET`  | `/path` | FÃ¥ nuvÃ¦rende sti                  | <a href={typesUrl}><code>Path</code></a>    |
+| `GET`  | `/vcs`  | FÃ¥ VCS info for nuvÃ¦rende projekt | <a href={typesUrl}><code>VcsInfo</code></a> |
+
+---
+
+### Instans
+
+| Metode | Sti                 | Beskrivelse              | Svar      |
+| ------ | ------------------- | ------------------------ | --------- |
+| `POST` | `/instance/dispose` | KassÃ©r nuvÃ¦rende instans | `boolean` |
+
+---
+
+### Konfiguration
+
+| Metode  | Sti                 | Beskrivelse                        | Svar                                                                                     |
+| ------- | ------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------- |
+| `GET`   | `/config`           | FÃ¥ konfigurationsinformation       | <a href={typesUrl}><code>Config</code></a>                                               |
+| `PATCH` | `/config`           | Opdater konfiguration              | <a href={typesUrl}><code>Config</code></a>                                               |
+| `GET`   | `/config/providers` | Liste udbydere og standardmodeller | `{ providers: `<a href={typesUrl}>Provider[]</a>`, default: { [key: string]: string } }` |
+
+---
+
+### Udbyder
+
+| Metode | Sti                              | Beskrivelse                             | Svar                                                                                |
+| ------ | -------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------------- |
+| `GET`  | `/provider`                      | Liste alle udbydere                     | `{ all: `<a href={typesUrl}>Provider[]</a>`, default: {...}, connected: string[] }` |
+| `GET`  | `/provider/auth`                 | FÃ¥ udbydergodkendelsesmetoder           | `{ [providerID: string]: `<a href={typesUrl}>ProviderAuthMethod[]</a>` }`           |
+| `POST` | `/provider/{id}/oauth/authorize` | Autoriser en udbyder ved at bruge OAuth | <a href={typesUrl}><code>ProviderAuthAuthorization</code></a>                       |
+| `POST` | `/provider/{id}/oauth/callback`  | HÃ¥ndter OAuth-callback for en udbyder   | `boolean`                                                                           |
+
+---
+
+### Sessioner
+
+| Metode   | Sti                                      | Beskrivelse                                | Noter                                                                                 |
+| -------- | ---------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------- |
+| `GET`    | `/session`                               | Liste alle sessioner                       | Returnerer <a href={typesUrl}><code>Session[]</code></a>                              |
+| `POST`   | `/session`                               | Opret en ny session                        | body: `{ parentID?, title? }`, returnerer <a href={typesUrl}><code>Session</code></a> |
+| `GET`    | `/session/status`                        | FÃ¥ sessionstatus for alle sessioner        | Returnerer `{ [sessionID: string]: `<a href={typesUrl}>SessionStatus</a>` }`          |
+| `GET`    | `/session/:id`                           | FÃ¥ sessiondetaljer                         | Returnerer <a href={typesUrl}><code>Session</code></a>                                |
+| `DELETE` | `/session/:id`                           | Slet en session og alle dens data          | Returnerer `boolean`                                                                  |
+| `PATCH`  | `/session/:id`                           | Opdater sessionegenskaber                  | body: `{ title? }`, returnerer <a href={typesUrl}><code>Session</code></a>            |
+| `GET`    | `/session/:id/children`                  | FÃ¥ en sessions undersessioner              | Returnerer <a href={typesUrl}><code>Session[]</code></a>                              |
+| `GET`    | `/session/:id/todo`                      | FÃ¥ to-do-listen for en session             | Returnerer <a href={typesUrl}><code>Todo[]</code></a>                                 |
+| `POST`   | `/session/:id/init`                      | Analyser appen og lav `AGENTS.md`          | body: `{ messageID, providerID, modelID }`, returnerer `boolean`                      |
+| `POST`   | `/session/:id/fork`                      | Fork en eksisterende session ved en besked | body: `{ messageID? }`, returnerer <a href={typesUrl}><code>Session</code></a>        |
+| `POST`   | `/session/:id/abort`                     | Afbryd en kÃ¸rende session                  | Returnerer `boolean`                                                                  |
+| `POST`   | `/session/:id/share`                     | Del en session                             | Returnerer <a href={typesUrl}><code>Session</code></a>                                |
+| `DELETE` | `/session/:id/share`                     | Stop med at dele en session                | Returnerer <a href={typesUrl}><code>Session</code></a>                                |
+| `GET`    | `/session/:id/diff`                      | FÃ¥ diff for denne session                  | query: `messageID?`, returnerer <a href={typesUrl}><code>FileDiff[]</code></a>        |
+| `POST`   | `/session/:id/summarize`                 | OpsummÃ©r sessionen                         | body: `{ providerID, modelID }`, returnerer `boolean`                                 |
+| `POST`   | `/session/:id/revert`                    | Tilbagestil en besked                      | body: `{ messageID, partID? }`, returnerer `boolean`                                  |
+| `POST`   | `/session/:id/unrevert`                  | Gendan alle nulstillede beskeder           | Returnerer `boolean`                                                                  |
+| `POST`   | `/session/:id/permissions/:permissionID` | Svar pÃ¥ en tilladelsesforespÃ¸rgsel         | body: `{ response, remember? }`, returnerer `boolean`                                 |
+
+---
+
+### Beskeder
+
+| Metode | Sti                               | Beskrivelse                           | Noter                                                                                                                                                                    |
+| ------ | --------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `GET`  | `/session/:id/message`            | Liste beskeder i en session           | query: `limit?`, returnerer `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}[]`                                                        |
+| `POST` | `/session/:id/message`            | Send en besked og vent pÃ¥ svar        | body: `{ messageID?, model?, agent?, noReply?, system?, tools?, parts }`, returnerer `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}` |
+| `GET`  | `/session/:id/message/:messageID` | FÃ¥ beskeddetaljer                     | Returnerer `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}`                                                                           |
+| `POST` | `/session/:id/prompt_async`       | Send en besked asynkront (ingen vent) | body: samme som `/session/:id/message`, returnerer `204 No Content`                                                                                                      |
+| `POST` | `/session/:id/command`            | UdfÃ¸r en skrÃ¥stregskommando           | body: `{ messageID?, agent?, model?, command, arguments }`, returnerer `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}`               |
+| `POST` | `/session/:id/shell`              | KÃ¸r en shell-kommando                 | body: `{ agent, model?, command }`, returnerer `{ info: `<a href={typesUrl}>Message</a>`, parts: `<a href={typesUrl}>Part[]</a>`}`                                       |
+
+---
+
+### Kommandoer
+
+| Metode | Sti        | Beskrivelse           | Svar                                          |
+| ------ | ---------- | --------------------- | --------------------------------------------- |
+| `GET`  | `/command` | Liste alle kommandoer | <a href={typesUrl}><code>Command[]</code></a> |
+
+---
+
+### Filer
+
+| Metode | Sti                      | Beskrivelse                     | Svar                                                                                       |
+| ------ | ------------------------ | ------------------------------- | ------------------------------------------------------------------------------------------ |
+| `GET`  | `/find?pattern=<pat>`    | SÃ¸g efter tekst i filer         | En rÃ¦kke matchobjekter med `path`, `lines`, `line_number`, `absolute_offset`, `submatches` |
+| `GET`  | `/find/file?query=<q>`   | Find filer og mapper efter navn | `string[]` (stier)                                                                         |
+| `GET`  | `/find/symbol?query=<q>` | Find arbejdsomrÃ¥desymboler      | <a href={typesUrl}><code>Symbol[]</code></a>                                               |
+| `GET`  | `/file?path=<path>`      | Liste filer og mapper           | <a href={typesUrl}><code>FileNode[]</code></a>                                             |
+| `GET`  | `/file/content?path=<p>` | LÃ¦s en fil                      | <a href={typesUrl}><code>FileContent</code></a>                                            |
+| `GET`  | `/file/status`           | FÃ¥ status for sporede filer     | <a href={typesUrl}><code>File[]</code></a>                                                 |
+
+#### /find/file forespÃ¸rgselsparametre
+
+- `query` (obligatorisk) - sÃ¸gestreng (fuzzy match)
+- `type` (valgfrit) - begrÃ¦ns resultaterne til `"file"` eller `"directory"`
+- `directory` (valgfrit) â€” overstyr projektroden for sÃ¸get
+- `limit` (valgfrit) - maks. resultater (1â€“200)
+- `dirs` (valgfrit) - Ã¦ldre flag (`"false"` returnerer kun filer)
+
+---
+
+### VÃ¦rktÃ¸jer (eksperimentelt)
+
+| Metode | Sti                                         | Beskrivelse                                   | Svar                                         |
+| ------ | ------------------------------------------- | --------------------------------------------- | -------------------------------------------- |
+| `GET`  | `/experimental/tool/ids`                    | Vis alle vÃ¦rktÃ¸js-ID'er                       | <a href={typesUrl}><code>ToolIDs</code></a>  |
+| `GET`  | `/experimental/tool?provider=<p>&model=<m>` | Liste vÃ¦rktÃ¸jer med JSON-skemaer for en model | <a href={typesUrl}><code>ToolList</code></a> |
+
+---
+
+### LSP, formattere og MCP
+
+| Metode | Sti          | Beskrivelse                | Svar                                                     |
+| ------ | ------------ | -------------------------- | -------------------------------------------------------- |
+| `GET`  | `/lsp`       | FÃ¥ LSP serverstatus        | <a href={typesUrl}><code>LSPStatus[]</code></a>          |
+| `GET`  | `/formatter` | FÃ¥ formateringsstatus      | <a href={typesUrl}><code>FormatterStatus[]</code></a>    |
+| `GET`  | `/mcp`       | FÃ¥ MCP serverstatus        | `{ [name: string]: `<a href={typesUrl}>MCPStatus</a>` }` |
+| `POST` | `/mcp`       | TilfÃ¸j MCP server dynamisk | body: `{ name, config }`, returnerer MCP statusobjekt    |
+
+---
+
+### Agenter
+
+| Metode | Sti      | Beskrivelse                     | Svar                                        |
+| ------ | -------- | ------------------------------- | ------------------------------------------- |
+| `GET`  | `/agent` | Liste alle tilgÃ¦ngelige agenter | <a href={typesUrl}><code>Agent[]</code></a> |
+
+---
+
+### Logning
+
+| Metode | Sti    | Beskrivelse                                                | Svar      |
+| ------ | ------ | ---------------------------------------------------------- | --------- |
+| `POST` | `/log` | Skriv logpost. Body: `{ service, level, message, extra? }` | `boolean` |
+
+---
+
+### TUI
+
+| Metode | Sti                     | Beskrivelse                                 | Svar                       |
+| ------ | ----------------------- | ------------------------------------------- | -------------------------- |
+| `POST` | `/tui/append-prompt`    | TilfÃ¸j tekst til prompten                   | `boolean`                  |
+| `POST` | `/tui/open-help`        | Ã…bn hjÃ¦lp-dialogen                          | `boolean`                  |
+| `POST` | `/tui/open-sessions`    | Ã…bn sessionsvÃ¦lgeren                        | `boolean`                  |
+| `POST` | `/tui/open-themes`      | Ã…bn temavÃ¦lgeren                            | `boolean`                  |
+| `POST` | `/tui/open-models`      | Ã…bn modelvÃ¦lgeren                           | `boolean`                  |
+| `POST` | `/tui/submit-prompt`    | Indsend nuvÃ¦rende prompt                    | `boolean`                  |
+| `POST` | `/tui/clear-prompt`     | Ryd prompten                                | `boolean`                  |
+| `POST` | `/tui/execute-command`  | UdfÃ¸r en kommando (`{ command }`)           | `boolean`                  |
+| `POST` | `/tui/show-toast`       | Vis toast (`{ title?, message, variant }`)  | `boolean`                  |
+| `GET`  | `/tui/control/next`     | Vent pÃ¥ nÃ¦ste kontrolforespÃ¸rgsel           | KontrolforespÃ¸rgselsobjekt |
+| `POST` | `/tui/control/response` | Svar pÃ¥ en kontrolforespÃ¸rgsel (`{ body }`) | `boolean`                  |
+
+---
+
+### Godkendelse
+
+| Metode | Sti         | Beskrivelse                                                  | Svar      |
+| ------ | ----------- | ------------------------------------------------------------ | --------- |
+| `PUT`  | `/auth/:id` | Angiv godkendelsesoplysninger. Body skal matche udbyderskema | `boolean` |
+
+---
+
+### HÃ¦ndelser
+
+| Metode | Sti      | Beskrivelse                                                                               | Svar                        |
+| ------ | -------- | ----------------------------------------------------------------------------------------- | --------------------------- |
+| `GET`  | `/event` | Server-sendt hÃ¦ndelsesstrÃ¸m. FÃ¸rste hÃ¦ndelse er `server.connected`, derefter bushÃ¦ndelser | Server-sendt hÃ¦ndelsesstrÃ¸m |
+
+---
+
+### Dokumentation
+
+| Metode | Sti    | Beskrivelse               | Svar                                |
+| ------ | ------ | ------------------------- | ----------------------------------- |
+| `GET`  | `/doc` | OpenAPI 3.1-specifikation | HTML side med OpenAPI-specifikation |

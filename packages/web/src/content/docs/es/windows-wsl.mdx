@@ -1,0 +1,113 @@
+---
+title: Windows (WSL)
+description: Ejecuta Voracode en Windows con WSL para una mejor experiencia.
+---
+
+import { Steps } from "@astrojs/starlight/components"
+
+Aunque Voracode puede ejecutarse directamente en Windows, recomendamos usar [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/install) para obtener la mejor experiencia. WSL ofrece un entorno Linux que funciona perfectamente con las funciones de Voracode.
+
+:::tip[Â¿Por quÃ© WSL?]
+WSL ofrece mejor rendimiento del sistema de archivos, soporte completo de terminal y compatibilidad con las herramientas de desarrollo de las que depende Voracode.
+:::
+
+---
+
+## ConfiguraciÃ³n
+
+<Steps>
+
+1. **Instala WSL**
+
+   Si aÃºn no lo hiciste, [instala WSL](https://learn.microsoft.com/en-us/windows/wsl/install) usando la guÃ­a oficial de Microsoft.
+
+2. **Instala Voracode en WSL**
+
+   Cuando WSL estÃ© listo, abre tu terminal de WSL e instala Voracode con uno de los [mÃ©todos de instalaciÃ³n](/docs/).
+
+   ```bash
+   curl -fsSL https://voracode.ai/install | bash
+   ```
+
+3. **Usa Voracode desde WSL**
+
+   Ve al directorio de tu proyecto (accede a los archivos de Windows desde `/mnt/c/`, `/mnt/d/`, etc.) y ejecuta Voracode.
+
+   ```bash
+   cd /mnt/c/Users/YourName/project
+   voracode
+   ```
+
+</Steps>
+
+---
+
+## AplicaciÃ³n de escritorio + servidor WSL
+
+Si prefieres usar la app de escritorio de Voracode pero quieres ejecutar el servidor en WSL:
+
+1. **Inicia el servidor en WSL** con `--hostname 0.0.0.0` para permitir conexiones externas:
+
+   ```bash
+   voracode serve --hostname 0.0.0.0 --port 4096
+   ```
+
+2. **Conecta la app de escritorio** a `http://localhost:4096`
+
+:::note
+Si `localhost` no funciona en tu configuraciÃ³n, conÃ©ctate usando la direcciÃ³n IP de WSL (desde WSL: `hostname -I`) y usa `http://<wsl-ip>:4096`.
+:::
+
+:::caution
+Cuando uses `--hostname 0.0.0.0`, define `VORACODE_SERVER_PASSWORD` para proteger el servidor.
+
+```bash
+VORACODE_SERVER_PASSWORD=your-password voracode serve --hostname 0.0.0.0
+```
+
+:::
+
+---
+
+## Cliente web + WSL
+
+Para obtener la mejor experiencia web en Windows:
+
+1. **Ejecuta `voracode web` en la terminal de WSL** en lugar de PowerShell:
+
+   ```bash
+   voracode web --hostname 0.0.0.0
+   ```
+
+2. **Accede desde tu navegador de Windows** en `http://localhost:<port>` (Voracode muestra la URL)
+
+Ejecutar `voracode web` desde WSL garantiza acceso correcto al sistema de archivos e integraciÃ³n con la terminal, manteniÃ©ndolo accesible desde tu navegador de Windows.
+
+---
+
+## Acceso a archivos de Windows
+
+WSL puede acceder a todos tus archivos de Windows mediante el directorio `/mnt/`:
+
+- Unidad `C:` â†’ `/mnt/c/`
+- Unidad `D:` â†’ `/mnt/d/`
+- Y asÃ­ sucesivamente...
+
+Ejemplo:
+
+```bash
+cd /mnt/c/Users/YourName/Documents/project
+voracode
+```
+
+:::tip
+Para una experiencia mÃ¡s fluida, considera clonar o copiar tu repo al sistema de archivos de WSL (por ejemplo en `~/code/`) y ejecutar Voracode ahÃ­.
+:::
+
+---
+
+## Consejos
+
+- Ejecuta Voracode en WSL para proyectos guardados en unidades de Windows: el acceso a archivos es transparente
+- Usa la [extensiÃ³n WSL de VS Code](https://code.visualstudio.com/docs/remote/wsl) junto con Voracode para un flujo de desarrollo integrado
+- Tu configuraciÃ³n y tus sesiones de Voracode se guardan dentro del entorno WSL en `~/.local/share/voracode/`

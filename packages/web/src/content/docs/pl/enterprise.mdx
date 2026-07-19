@@ -1,0 +1,170 @@
+---
+title: PrzedsiÄ™biorstwo
+description: Bezpieczne korzystanie z voracode w Twojej organizacji.
+---
+
+import config from "../../../../config.mjs"
+export const email = `mailto:${config.email}`
+
+voracode PrzedsiÄ™biorstwo jest przeznaczone dla organizacji, ktÃ³ra ma dostÄ™p do zasobÃ³w, Å¼e ich kod i dane nigdy nie opuszczÄ… infrastruktury. MoÅ¼e zostaÄ‡ zarejestrowany za pomocÄ… zapachuralizowanej konfiguracji, ktÃ³ra integruje siÄ™ z logowaniem jednokrotnym i uruchomieniem bramÄ… AI.
+
+:::note
+voracode nie przechowuje Å¼adnego kodu ani danych kontekstowych.
+:::
+
+Aby skorzystaÄ‡ z pracy z voracode PrzedsiÄ™biorstwo:
+
+1. PrzeprowadÅº prÃ³bÄ™ wewnÄ™trznÄ… ze swoim systemem.
+2. **<a href={email}>Skontaktuj siÄ™ z nami</a>**, aby omÃ³wiÄ‡ ceny i opcjÄ™ konfiguracji.
+
+---
+
+## Test
+
+voracode jest oprogramowaniem typu open source i nie przechowuje Å¼adnego kodu ani danych kontekstowych, wiÄ™c programiÅ›ci mogÄ… po prostu [zaczÄ…Ä‡](/docs/) i prÃ³bowaÄ‡ prÃ³bnÄ….
+
+---
+
+### ObsÅ‚uga danych
+
+**voracode nie dotyczy kodu ÅºrÃ³dÅ‚owego ani danych kontekstowych.** CaÅ‚e zdarzenie odbywa siÄ™ lokalnie lub poprzez bezpoÅ›rednio wywoÅ‚ane API do twojego dostawcy AI.
+
+to, Å¼e korzystasz z usÅ‚ug dostawcy, lub dostawcy zaufania
+Brama AI, moÅ¼esz bezpÅ‚atnie korzystaÄ‡ z voracode.
+
+ZastrzeÅ¼eniem jest opcjonalna funkcja `/share`.
+
+---
+
+#### Dzielenie siÄ™ rozmowami
+
+JeÅ›li uÅ¼ytkownicy sÄ… poÅ‚Ä…czeni z `/share`, poÅ‚Ä…czenie jest poÅ‚Ä…czone z danymi, ktÃ³re zostaÅ‚y przesÅ‚ane do usÅ‚ug, ktÃ³re sÄ… udostÄ™pniane przez hosty tych uÅ¼ytkownikÃ³w w voracode.ai.
+
+Dane sÄ… aktualnie dostÄ™pne przez sieÄ‡ brzegowÄ… naszego CDN i sÄ… buforowane na brzegu w pobliÅ¼u Twoich uÅ¼ytkownikÃ³w.
+
+Zalecamy tÄ™ opcjÄ™ na okres prÃ³bny.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "disabled"
+}
+```
+
+[WiÄ™cej informacji o udostÄ™pnianiu](/docs/share).
+
+---
+
+### WÅ‚asnoÅ›Ä‡ kodu
+
+**JesteÅ› wÅ‚aÅ›cicielem caÅ‚oÅ›ci kodu ÅºrÃ³dÅ‚owego przez voracode.** Nie ma Å¼adnych ograniczeÅ„ licencyjnych ani naleÅ¼Ä…cych do wÅ‚asnoÅ›ci.
+
+---
+
+## Wycena
+
+W przypadku voracode Enterprise model per-seat. JeÅ›li posiadasz wÅ‚asnÄ… bramkÄ™ LLM, nie pobieramy opÅ‚at za korzystanie z tokenÃ³w. Aby uzyskaÄ‡ wiÄ™cej informacji na temat, jeÅ›li jest moÅ¼liwe, **<a href={email}>skontaktuj siÄ™ z nami</a>**.
+
+---
+
+## Zastosowanie
+
+Gdy zasiÄ™gsz okres prÃ³bny i nadzorujesz uÅ¼ytkowanie z voracode na
+swojÄ… organizacjÄ™, moÅ¼esz **<a href={email}>skontaktowaÄ‡ siÄ™ z nami</a>**, aby omÃ³wiÄ‡ te dÅºwiÄ™ki
+opcja cenowa i wdroÅ¼eniowa.
+
+---
+
+### Konfiguracja centralna
+
+MoÅ¼liwoÅ›ci wykorzystania voracode tak, aby skorzystaÄ‡ z jednego zastosowania dla caÅ‚ej organizacji.
+
+TÄ™ zapachowÄ… konfiguracjÄ™ moÅ¼na zintegrowaÄ‡ z dostawcÄ… SSO i specyfikacje wszyscy uÅ¼ytkownicy majÄ… dostÄ™p wyÅ‚Ä…cznie do bram wewnÄ™trznych AI.
+
+---
+
+### Integracja SSO
+
+DziÄ™ki zastosowaniu konfiguracji voracode moÅ¼e zostaÄ‡ wÅ‚Ä…czone z dostawcÄ… SSO Twojej organizacji w celu uwierzytelnienia.
+
+DziÄ™ki temu voracode moÅ¼e uzyskaÄ‡ dane uwierzytelniajÄ…ce dla wewnÄ™trznej bramy AI za poÅ›rednictwem transmisji systemu zarzÄ…dzania toÅ¼samoÅ›ciÄ….
+
+---
+
+### WewnÄ™trzna bramka AI
+
+DziÄ™ki zastosowaniu konfiguracji voracode moÅ¼na rÃ³wnieÅ¼ skorzystaÄ‡ z tego, Å¼e moÅ¼na korzystaÄ‡ tylko z wewnÄ™trznych bram AI.
+
+MoÅ¼esz takÅ¼e doÅ‚Ä…czyÄ‡ do wszystkich innych dostawcÃ³w sztucznej inteligencji, upewniajÄ…c siÄ™, Å¼e wszystkie elementy przechodzÄ… przez zatwierdzenie wykorzystania Twojej organizacji.
+
+---
+
+### Hosting wÅ‚asny
+
+Zalecamy, aby moÅ¼na byÅ‚o je udostÄ™pniÄ‡, aby Twoje dane nigdy nie zostaÅ‚y opuszczone
+Twoja organizacja moÅ¼e byÄ‡ pomocna w utrzymaniu ich w Twojej infrastrukturze.
+
+Jest to obecnie w naszym planie dziaÅ‚ania. JeÅ›li jesteÅ› zainteresowany, **<a href={email}>daj nam znaÄ‡</a>**.
+
+---
+
+## CzÄ™sto zadawane pytania
+
+<details>
+<summary>What is voracode Enterprise?</summary>
+
+voracode PrzedsiÄ™biorstwo jest przeznaczone dla organizacji, ktÃ³ra ma dostÄ™p do zasobÃ³w, Å¼e ich kod i dane nigdy nie opuszczÄ… infrastruktury. MoÅ¼e zostaÄ‡ zarejestrowany za pomocÄ… zapachuralizowanej konfiguracji, ktÃ³ra integruje siÄ™ z logowaniem jednokrotnym i uruchomieniem bramÄ… AI.
+
+</details>
+
+<details>
+<summary>How do I get started with voracode Enterprise?</summary>
+
+Po prostu uruchom wersjÄ™ prÃ³bnÄ… ze swoim. voracode urzÄ…dzenia niezabezpieczone kodu ani danych kontekstowych, co uÅ‚atwia uruchomienie pracy.
+
+**<a href={email}>skontaktuj siÄ™ z nami</a>**, aby omÃ³wiÄ‡ ceny i wybraÄ‡ opcjÄ™.
+
+</details>
+
+<details>
+<summary>How does enterprise pricing work?</summary>
+
+Oferujemy ceny korporacyjne za jedno stanowisko. JeÅ›li posiadasz wÅ‚asnÄ… bramkÄ™ LLM, nie pobieramy opÅ‚at za korzystanie z tokenÃ³w. Aby uzyskaÄ‡ wiÄ™cej informacji, **<a href={email}>skontaktuj siÄ™ z nami</a>**, aby uzyskaÄ‡ wynik okreÅ›lony dla potrzeb Twojej organizacji.
+
+</details>
+
+<details>
+<summary>Is my data secure with voracode Enterprise?</summary>
+
+Tak. voracode nie przechowuje kodu ani danych kontekstowych. CaÅ‚e zdarzenie odbywa siÄ™ lokalnie lub poprzez bezpoÅ›rednie wywoÅ‚anie API przez dostawcÄ™ AI. DostÄ™p do konfiguracji i integracji z logowaniem jednokrotnym Twoje dane pozostajÄ… bezpieczne w infrastrukturze organizacji.
+
+</details>
+
+<details>
+<summary>Can we use our own private NPM registry?</summary>
+
+voracode obsÅ‚uguje prywatny rejestry npm poprzez natywnÄ… usÅ‚ugÄ™ plikÃ³w `.npmrc` Buna. JeÅ›li Twoja organizacja korzysta z rejestru prywatnego, takiego jak JFrog Artifactory, Nexus lub wylot, przed uruchomieniem voracode siÄ™, Å¼e programiÅ›ci zostali uwierzytelnieni.
+
+Aby zapewniÄ‡ uwierzytelnianie w rejestrze prywatnym:
+
+```bash
+npm login --registry=https://your-company.jfrog.io/api/npm/npm-virtual/
+```
+
+Spowoduje to do `~/.npmrc` ze szczegÃ³Å‚ami uwierzytelniania. voracode zrobi to automatycznie
+podniesc do.
+
+:::caution
+Przed uruchomieniem voracode musisz byÄ‡ zalogowany do rejestru prywatnego.
+:::
+
+Alternatywnie moÅ¼esz skorzystaÄ‡ z pliku `.npmrc`:
+
+```bash title="~/.npmrc"
+registry=https://your-company.jfrog.io/api/npm/npm-virtual/
+//your-company.jfrog.io/api/npm/npm-virtual/:_authToken=${NPM_AUTH_TOKEN}
+```
+
+ProgramiÅ›ci muszÄ… siÄ™ zgÅ‚osiÄ‡ do rejestru prywatnego przed uruchomieniem voracode, aby mieÄ‡ dostÄ™p, Å¼e pakiety bÄ™dÄ… dostÄ™pne z rejestru przedsiÄ™biorstwa.
+
+</details>

@@ -1,0 +1,299 @@
+﻿---
+title: SoluÃ§Ã£o de Problemas
+description: Problemas comuns e como resolvÃª-los.
+---
+
+Para depurar problemas com o voracode, comece verificando os logs e os dados locais que ele armazena no disco.
+
+---
+
+## Logs
+
+Os arquivos de log sÃ£o gravados em:
+
+- **macOS/Linux**: `~/.local/share/voracode/log/`
+- **Windows**: Pressione `WIN+R` e cole `%USERPROFILE%\.local\share\voracode\log`
+
+Os arquivos de log sÃ£o nomeados com timestamps (por exemplo, `2025-01-09T123456.log`) e os 10 arquivos de log mais recentes sÃ£o mantidos.
+
+VocÃª pode definir o nÃ­vel de log com a opÃ§Ã£o de linha de comando `--log-level` para obter informaÃ§Ãµes de depuraÃ§Ã£o mais detalhadas. Por exemplo, `voracode --log-level DEBUG`.
+
+---
+
+## Armazenamento
+
+O voracode armazena dados de sessÃ£o e outros dados do aplicativo no disco em:
+
+- **macOS/Linux**: `~/.local/share/voracode/`
+- **Windows**: Pressione `WIN+R` e cole `%USERPROFILE%\.local\share\voracode`
+
+Este diretÃ³rio contÃ©m:
+
+- `auth.json` - Dados de autenticaÃ§Ã£o como chaves de API, tokens OAuth
+- `log/` - Logs do aplicativo
+- `project/` - Dados especÃ­ficos do projeto, como dados de sessÃ£o e mensagens
+  - Se o projeto estiver dentro de um repositÃ³rio Git, ele Ã© armazenado em `./<project-slug>/storage/`
+  - Se nÃ£o for um repositÃ³rio Git, ele Ã© armazenado em `./global/storage/`
+
+---
+
+## Aplicativo de Desktop
+
+O voracode Desktop executa um servidor voracode local (o sidecar `voracode-cli`) em segundo plano. A maioria dos problemas Ã© causada por um plugin com mau funcionamento, um cache corrompido ou uma configuraÃ§Ã£o de servidor incorreta.
+
+### VerificaÃ§Ãµes rÃ¡pidas
+
+- Saia completamente do aplicativo e reinicie-o.
+- Se o aplicativo mostrar uma tela de erro, clique em **Reiniciar** e copie os detalhes do erro.
+- Apenas macOS: menu `Voracode` -> **Recarregar Webview** (ajuda se a interface estiver em branco/congelada).
+
+---
+
+### Desativando plugins
+
+Se o aplicativo de desktop estiver travando ao iniciar, pendurado ou se comportando de maneira estranha, comece desativando os plugins.
+
+#### Verificando a configuraÃ§Ã£o global
+
+Abra seu arquivo de configuraÃ§Ã£o global e procure uma chave `plugin`.
+
+- **macOS/Linux**: `~/.config/voracode/voracode.jsonc` (ou `~/.config/voracode/voracode.json`)
+- **macOS/Linux** (instalaÃ§Ãµes mais antigas): `~/.local/share/voracode/voracode.jsonc`
+- **Windows**: Pressione `WIN+R` e cole `%USERPROFILE%\.config\voracode\voracode.jsonc`
+
+Se vocÃª tiver plugins configurados, desative-os temporariamente removendo a chave ou definindo-a como um array vazio:
+
+```jsonc
+{
+  "$schema": "https://voracode.ai/config.json",
+  "plugin": [],
+}
+```
+
+#### Verificando os diretÃ³rios de plugins
+
+O voracode tambÃ©m pode carregar plugins locais do disco. Mova-os temporariamente para fora do caminho (ou renomeie a pasta) e reinicie o aplicativo de desktop:
+
+- **Plugins globais**
+  - **macOS/Linux**: `~/.config/voracode/plugins/`
+  - **Windows**: Pressione `WIN+R` e cole `%USERPROFILE%\.config\voracode\plugins`
+- **Plugins de projeto** (apenas se vocÃª usar configuraÃ§Ã£o por projeto)
+  - `<your-project>/.voracode/plugins/`
+
+Se o aplicativo voltar a funcionar, reative os plugins um por um para descobrir qual estÃ¡ causando o problema.
+
+---
+
+### Limpando o cache
+
+Se desativar plugins nÃ£o ajudar (ou se a instalaÃ§Ã£o de um plugin estiver travada), limpe o cache para que o voracode possa reconstruÃ­-lo.
+
+1. Saia completamente do voracode Desktop.
+2. Exclua o diretÃ³rio de cache:
+
+- **macOS**: Finder -> `Cmd+Shift+G` -> cole `~/.cache/voracode`
+- **Linux**: exclua `~/.cache/voracode` (ou execute `rm -rf ~/.cache/voracode`)
+- **Windows**: Pressione `WIN+R` e cole `%USERPROFILE%\.cache\voracode`
+
+3. Reinicie o voracode Desktop.
+
+---
+
+### Corrigindo problemas de conexÃ£o com o servidor
+
+O voracode Desktop pode iniciar seu prÃ³prio servidor local (padrÃ£o) ou conectar-se a uma URL de servidor que vocÃª configurou.
+
+Se vocÃª ver um diÃ¡logo **"ConexÃ£o Falhou"** (ou o aplicativo nunca passa da tela de inicializaÃ§Ã£o), verifique se hÃ¡ uma URL de servidor personalizada.
+
+#### Limpando a URL do servidor padrÃ£o do desktop
+
+Na tela inicial, clique no nome do servidor (com o ponto de status) para abrir o seletor de Servidor. Na seÃ§Ã£o **Servidor padrÃ£o**, clique em **Limpar**.
+
+#### Removendo `server.port` / `server.hostname` da sua configuraÃ§Ã£o
+
+Se seu `voracode.json(c)` contiver uma seÃ§Ã£o `server`, remova-a temporariamente e reinicie o aplicativo de desktop.
+
+#### Verificando as variÃ¡veis de ambiente
+
+Se vocÃª tiver `VORACODE_PORT` definido em seu ambiente, o aplicativo de desktop tentarÃ¡ usar essa porta para o servidor local.
+
+- DesfaÃ§a `VORACODE_PORT` (ou escolha uma porta livre) e reinicie.
+
+---
+
+### Linux: Problemas com Wayland / X11
+
+No Linux, algumas configuraÃ§Ãµes do Wayland podem causar janelas em branco ou erros de compositor.
+
+- Se vocÃª estiver no Wayland e o aplicativo estiver em branco/travando, tente iniciar com `OC_ALLOW_WAYLAND=1`.
+- Se isso piorar as coisas, remova e tente iniciar sob uma sessÃ£o X11.
+
+---
+
+### Windows: Runtime do WebView2
+
+No Windows, o voracode Desktop requer o **WebView2 Runtime** do Microsoft Edge. Se o aplicativo abrir em uma janela em branco ou nÃ£o iniciar, instale/atualize o WebView2 e tente novamente.
+
+---
+
+### Windows: Problemas gerais de desempenho
+
+Se vocÃª estiver enfrentando desempenho lento, problemas de acesso a arquivos ou problemas no terminal no Windows, tente usar [WSL (Windows Subsystem for Linux)](/docs/windows-wsl). O WSL fornece um ambiente Linux que funciona de forma mais integrada com os recursos do voracode.
+
+---
+
+### NotificaÃ§Ãµes nÃ£o aparecendo
+
+O voracode Desktop sÃ³ mostra notificaÃ§Ãµes do sistema quando:
+
+- as notificaÃ§Ãµes estÃ£o habilitadas para o voracode nas configuraÃ§Ãµes do seu sistema operacional, e
+- a janela do aplicativo nÃ£o estÃ¡ focada.
+
+---
+
+### Redefinindo o armazenamento do aplicativo de desktop (Ãºltimo recurso)
+
+Se o aplicativo nÃ£o iniciar e vocÃª nÃ£o conseguir limpar as configuraÃ§Ãµes pela interface, redefina o estado salvo do aplicativo de desktop.
+
+1. Saia do voracode Desktop.
+2. Encontre e exclua estes arquivos (eles estÃ£o no diretÃ³rio de dados do aplicativo voracode Desktop):
+
+- `voracode.settings.dat` (URL do servidor padrÃ£o do desktop)
+- `voracode.global.dat` e `voracode.workspace.*.dat` (estado da interface como servidores/projetos recentes)
+
+Para encontrar o diretÃ³rio rapidamente:
+
+- **macOS**: Finder -> `Cmd+Shift+G` -> `~/Library/Application Support` (depois pesquise pelos nomes dos arquivos acima)
+- **Linux**: pesquise em `~/.local/share` pelos nomes dos arquivos acima
+- **Windows**: Pressione `WIN+R` -> `%APPDATA%` (depois pesquise pelos nomes dos arquivos acima)
+
+---
+
+## Obtendo ajuda
+
+Se vocÃª estiver enfrentando problemas com o voracode:
+
+1. **Relatar problemas no GitHub**
+
+   A melhor maneira de relatar bugs ou solicitar recursos Ã© atravÃ©s do nosso repositÃ³rio no GitHub:
+
+   [**github.com/mysterious75/voracode/issues**](https://github.com/mysterious75/voracode/issues)
+
+   Antes de criar um novo problema, pesquise problemas existentes para ver se seu problema jÃ¡ foi relatado.
+
+2. **Junte-se ao nosso Discord**
+
+   Para ajuda em tempo real e discussÃ£o da comunidade, junte-se ao nosso servidor Discord:
+
+   [**voracode.ai/discord**](https://voracode.ai/discord)
+
+---
+
+## Problemas comuns
+
+Aqui estÃ£o alguns problemas comuns e como resolvÃª-los.
+
+---
+
+### O voracode nÃ£o inicia
+
+1. Verifique os logs em busca de mensagens de erro
+2. Tente executar com `--print-logs` para ver a saÃ­da no terminal
+3. Certifique-se de que vocÃª tem a versÃ£o mais recente com `voracode upgrade`
+
+---
+
+### Problemas de autenticaÃ§Ã£o
+
+1. Tente reautenticar com o comando `/connect` na TUI
+2. Verifique se suas chaves de API sÃ£o vÃ¡lidas
+3. Certifique-se de que sua rede permite conexÃµes com a API do provedor
+
+---
+
+### Modelo nÃ£o disponÃ­vel
+
+1. Verifique se vocÃª se autenticou com o provedor
+2. Verifique se o nome do modelo em sua configuraÃ§Ã£o estÃ¡ correto
+3. Alguns modelos podem exigir acesso ou assinaturas especÃ­ficas
+
+Se vocÃª encontrar `ProviderModelNotFoundError`, Ã© mais provÃ¡vel que vocÃª esteja referenciando um modelo incorretamente em algum lugar.
+Os modelos devem ser referenciados assim: `<providerId>/<modelId>`
+
+Exemplos:
+
+- `openai/gpt-4.1`
+- `openrouter/google/gemini-2.5-flash`
+- `voracode/kimi-k2`
+
+Para descobrir quais modelos vocÃª tem acesso, execute `voracode models`
+
+---
+
+### ProviderInitError
+
+Se vocÃª encontrar um ProviderInitError, provavelmente vocÃª tem uma configuraÃ§Ã£o invÃ¡lida ou corrompida.
+
+Para resolver isso:
+
+1. Primeiro, verifique se seu provedor estÃ¡ configurado corretamente seguindo o [guia de provedores](/docs/providers)
+2. Se o problema persistir, tente limpar sua configuraÃ§Ã£o armazenada:
+
+   ```bash
+   rm -rf ~/.local/share/voracode
+   ```
+
+   No Windows, pressione `WIN+R` e exclua: `%USERPROFILE%\.local\share\voracode`
+
+3. Reautentique-se com seu provedor usando o comando `/connect` na TUI.
+
+---
+
+### AI_APICallError e problemas com pacotes de provedores
+
+Se vocÃª encontrar erros de chamada de API, isso pode ser devido a pacotes de provedores desatualizados. O voracode instala dinamicamente pacotes de provedores (OpenAI, Anthropic, Google, etc.) conforme necessÃ¡rio e os armazena em cache localmente.
+
+Para resolver problemas com pacotes de provedores:
+
+1. Limpe o cache do pacote de provedores:
+
+   ```bash
+   rm -rf ~/.cache/voracode
+   ```
+
+   No Windows, pressione `WIN+R` e exclua: `%USERPROFILE%\.cache\voracode`
+
+2. Reinicie o voracode para reinstalar os pacotes de provedores mais recentes
+
+Isso forÃ§arÃ¡ o voracode a baixar as versÃµes mais recentes dos pacotes de provedores, o que muitas vezes resolve problemas de compatibilidade com parÃ¢metros de modelo e alteraÃ§Ãµes na API.
+
+---
+
+### Copiar/colar nÃ£o funciona no Linux
+
+UsuÃ¡rios do Linux precisam ter um dos seguintes utilitÃ¡rios de Ã¡rea de transferÃªncia instalados para que a funcionalidade de copiar/colar funcione:
+
+**Para sistemas X11:**
+
+```bash
+apt install -y xclip
+# or
+apt install -y xsel
+```
+
+**Para sistemas Wayland:**
+
+```bash
+apt install -y wl-clipboard
+```
+
+**Para ambientes sem cabeÃ§a:**
+
+```bash
+apt install -y xvfb
+# and run:
+Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+export DISPLAY=:99.0
+```
+
+O voracode detectarÃ¡ se vocÃª estÃ¡ usando Wayland e preferirÃ¡ `wl-clipboard`, caso contrÃ¡rio, tentarÃ¡ encontrar ferramentas de Ã¡rea de transferÃªncia na ordem: `xclip` e `xsel`.

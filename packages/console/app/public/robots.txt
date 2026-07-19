@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Disallow shared content pages
+Disallow: /s/
+Disallow: /share/
+
+Sitemap: https://voracode.ai/sitemap.xml
+Sitemap: https://voracode.ai/data/sitemap.xml

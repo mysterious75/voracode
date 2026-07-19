@@ -1,0 +1,223 @@
+---
+title: Modeller
+description: LLM saÄŸlayÄ±cÄ±larÄ±nÄ± ve model seÃ§imlerini yapÄ±landÄ±rÄ±n.
+---
+
+voracode, **75+ LLM saÄŸlayÄ±cÄ±sÄ±nÄ±** desteklemek iÃ§in [AI SDK](https://ai-sdk.dev/) ve [Models.dev](https://models.dev) kullanÄ±r ve yerel modellerin Ã§alÄ±ÅŸtÄ±rÄ±lmasÄ±nÄ± destekler.
+
+---
+
+## SaÄŸlayÄ±cÄ±lar
+
+Ã‡oÄŸu popÃ¼ler saÄŸlayÄ±cÄ± varsayÄ±lan olarak Ã¶nceden yÃ¼klenmiÅŸtir. Bir saÄŸlayÄ±cÄ±nÄ±n kimlik bilgilerini `/connect` komutu aracÄ±lÄ±ÄŸÄ±yla eklediyseniz, bunlar voracode'u baÅŸlattÄ±ÄŸÄ±nÄ±zda kullanÄ±labilir olacaktÄ±r.
+
+[SaÄŸlayÄ±cÄ±lar](/docs/providers) hakkÄ±nda daha fazla bilgi edinin.
+
+---
+
+## Model seÃ§imi
+
+SaÄŸlayÄ±cÄ±nÄ±zÄ± yapÄ±landÄ±rdÄ±ktan sonra aÅŸaÄŸÄ±daki komutu yazarak istediÄŸiniz modeli seÃ§ebilirsiniz:
+
+```bash frame="none"
+/models
+```
+
+---
+
+## Ã–nerilen modeller
+
+Piyasada pek Ã§ok model var ve her hafta yeni modeller Ã§Ä±kÄ±yor.
+
+:::tip
+Ã–nerdiÄŸimiz modellerden birini kullanmayÄ± dÃ¼ÅŸÃ¼nÃ¼n.
+:::
+
+Ancak, hem kod oluÅŸturmada hem de araÃ§ Ã§aÄŸÄ±rmada iyi olan yalnÄ±zca birkaÃ§Ä± var.
+
+Burada, voracode ile belirli bir sÄ±raya gÃ¶re iyi Ã§alÄ±ÅŸan birkaÃ§ model yer almaktadÄ±r. (Bu kapsamlÄ± bir liste deÄŸildir ve mutlaka gÃ¼ncel olmasÄ± da gerekmez):
+
+- GPT 5.2
+- GPT 5.1 Codex
+- Claude Opus 4.5
+- Claude Sonnet 4.5
+- Minimax M2.1
+- Gemini 3 Pro
+
+---
+
+## VarsayÄ±lan ayarlama
+
+Bunlardan birini varsayÄ±lan model olarak ayarlamak iÃ§in `model` anahtarÄ±nÄ±zÄ± telefonunuzudan ayarlayabilirsiniz.
+voracode yapÄ±landÄ±rmasÄ±
+
+```json title="voracode.json" {3}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "model": "lmstudio/google/gemma-3n-e4b"
+}
+```
+
+Burada tam kimlik `provider_id/model_id`'dir. Ã–rneÄŸin, [Voracode Zen](/docs/zen) kullanÄ±yorsanÄ±z, GPT 5.1 Codex iÃ§in `voracode/gpt-5.1-codex` kullanÄ±rsÄ±nÄ±z.
+
+Bir [custom provider](/docs/providers#custom) yapÄ±landÄ±rÄ±lmÄ±ÅŸsa, `provider_id`, performansÄ±nÄ±zÄ±n `provider` bÃ¶lÃ¼mÃ¼nden gelen anahtardÄ±r ve `model_id`, `provider.models`'den gelen anahtardÄ±r.
+
+---
+
+## Model yapÄ±landÄ±rma
+
+Bir modelin seÃ§eneklerini genel olarak yapÄ±landÄ±rma aracÄ±lÄ±ÄŸÄ±yla yapÄ±landÄ±rabilirsiniz.
+
+```jsonc title="voracode.jsonc" {7-12,19-24}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "openai": {
+      "models": {
+        "gpt-5": {
+          "options": {
+            "reasoningEffort": "high",
+            "textVerbosity": "low",
+            "reasoningSummary": "auto",
+            "include": ["reasoning.encrypted_content"],
+          },
+        },
+      },
+    },
+    "anthropic": {
+      "models": {
+        "claude-sonnet-4-5-20250929": {
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 16000,
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+Burada iki yerleÅŸik model iÃ§in genel ayarlarÄ± yapÄ±landÄ±rÄ±yoruz: `gpt-5` saÄŸlayÄ±cÄ±sÄ± aracÄ±lÄ±ÄŸÄ±yla eriÅŸildiÄŸinde `openai` ve `claude-sonnet-4-20250514` saÄŸlayÄ±cÄ±sÄ± aracÄ±lÄ±ÄŸÄ±yla eriÅŸildiÄŸinde `anthropic`.
+YerleÅŸik saÄŸlayÄ±cÄ± ve model adlarÄ± [Models.dev](https://models.dev) adresinde bulunabilir.
+
+Bu seÃ§enekleri kullandÄ±ÄŸÄ±nÄ±z tÃ¼m aracÄ±lar iÃ§in de yapÄ±landÄ±rabilirsiniz. AracÄ± yapÄ±landÄ±rmasÄ± burada tÃ¼m genel seÃ§enekleri geÃ§ersiz kÄ±lar. [Daha fazla bilgi](/docs/agents/#additional).
+
+AyrÄ±ca yerleÅŸik Ã§eÅŸitleri geniÅŸleten Ã¶zel varyantlar da tanÄ±mlayabilirsiniz. Varyantlar, yinelenen giriÅŸler oluÅŸturmadan aynÄ± model iÃ§in farklÄ± ayarlarÄ± yapÄ±landÄ±rmanÄ±za olanak tanÄ±r:
+
+```jsonc title="voracode.jsonc" {6-21}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "voracode": {
+      "models": {
+        "gpt-5": {
+          "variants": {
+            "high": {
+              "reasoningEffort": "high",
+              "textVerbosity": "low",
+              "reasoningSummary": "auto",
+            },
+            "low": {
+              "reasoningEffort": "low",
+              "textVerbosity": "low",
+              "reasoningSummary": "auto",
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+---
+
+## Varyantlar
+
+BirÃ§ok model, farklÄ± konfigÃ¼rasyonlara sahip birden fazla kapasiteye sahip. voracode, popÃ¼ler saÄŸlayÄ±cÄ±lar iÃ§in sunulan deÄŸiÅŸkenlerle birlikte gelir.
+
+### YerleÅŸik Ã§eÅŸitler
+
+voracode birÃ§ok saÄŸlayÄ±cÄ± iÃ§in varsayÄ±lan deÄŸiÅŸkenlerle birlikte gelir:
+
+**Antropik**:
+
+- `high` - YÃ¼ksek dÃ¼ÅŸÃ¼nme bÃ¼tÃ§esi (varsayÄ±lan)
+- `max` - Maksimum dÃ¼ÅŸÃ¼nme bÃ¼tÃ§esi
+
+**OpenAI**:
+
+Modele gÃ¶re deÄŸiÅŸir ancak kabaca:
+
+- `none` - GerekÃ§e yok
+- `minimal` - Minimum akÄ±l yÃ¼rÃ¼tme Ã§abasÄ±
+- `low` - DÃ¼ÅŸÃ¼k muhakeme Ã§abasÄ±
+- `medium` - Orta dÃ¼zey muhakeme Ã§abasÄ±
+- `high` - YÃ¼ksek akÄ±l yÃ¼rÃ¼tme Ã§abasÄ±
+- `xhigh` - Ekstra yÃ¼ksek muhakeme Ã§abasÄ±
+
+**Google**:
+
+- `low` - Daha dÃ¼ÅŸÃ¼k effort/token bÃ¼tÃ§esi
+- `high` - Daha yÃ¼ksek effort/token bÃ¼tÃ§esi
+
+:::tip
+Bu liste kapsamlÄ± deÄŸildir. DiÄŸer birÃ§ok saÄŸlayÄ±cÄ±nÄ±n da yerleÅŸik varsayÄ±lanlarÄ± vardÄ±r.
+:::
+
+### Ã–zel Ã§eÅŸitler
+
+Mevcut varyantlarÄ± geÃ§ersiz kÄ±labilir veya kendinizinkini ekleyebilirsiniz:
+
+```jsonc title="voracode.jsonc" {7-18}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "openai": {
+      "models": {
+        "gpt-5": {
+          "variants": {
+            "thinking": {
+              "reasoningEffort": "high",
+              "textVerbosity": "low",
+            },
+            "fast": {
+              "disabled": true,
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+### DÃ¶ngÃ¼ Ã§eÅŸitleri
+
+Ã‡eÅŸitler arasÄ±nda hÄ±zlÄ± geÃ§iÅŸ yapmak iÃ§in `variant_cycle` tuÅŸ atamasÄ±nÄ± kullanÄ±n. [Daha fazla bilgi](/docs/keybinds).
+
+---
+
+## Modelleri yÃ¼kleme
+
+voracode baÅŸlatÄ±ldÄ±ÄŸÄ±nda modelleri aÅŸaÄŸÄ±daki Ã¶ncelik sÄ±rasÄ±na gÃ¶re kontrol eder:
+
+1. `--model` veya `-m` komut satÄ±rÄ± bayraÄŸÄ±. BiÃ§im, yapÄ±landÄ±rma dosyasÄ±ndakiyle aynÄ±dÄ±r: `provider_id/model_id`.
+
+2. voracode yapÄ±landÄ±rmasÄ±ndaki model listesi.
+
+   ```json title="voracode.json"
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "model": "anthropic/claude-sonnet-4-20250514"
+   }
+   ```
+
+   Buradaki format `provider/model`'dÄ±r.
+
+3. En son kullanÄ±lan model.
+
+4. Dahili Ã¶ncelik kullanan ilk model.

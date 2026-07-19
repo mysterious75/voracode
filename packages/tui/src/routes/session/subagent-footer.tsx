@@ -88,7 +88,7 @@ export function SubagentFooter() {
             <Show when={usage()}>
               {(item) => (
                 <text fg={theme.textMuted} wrapMode="none">
-                  {[item().context, item().cost].filter(Boolean).join(" Â· ")}
+                  {[item().context, item().cost].filter(Boolean).join(" · ")}
                 </text>
               )}
             </Show>

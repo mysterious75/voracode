@@ -1,0 +1,48 @@
+---
+title: IDE
+description: VS Code, Cursor ve diÄŸer IDE'ler iÃ§in voracode uzantÄ±sÄ±
+---
+
+voracode, VS Code, Cursor veya bir terminali destekleyen herhangi bir IDE ile entegre olur. BaÅŸlamak iÃ§in terminalde `voracode` komutunu Ã§alÄ±ÅŸtÄ±rmanÄ±z yeterli.
+
+---
+
+## KullanÄ±m
+
+- **HÄ±zlÄ± BaÅŸlatma**: voracode'u bÃ¶lÃ¼nmÃ¼ÅŸ terminal gÃ¶rÃ¼nÃ¼mÃ¼nde aÃ§mak veya zaten Ã§alÄ±ÅŸÄ±yorsa mevcut bir terminal oturumuna odaklanmak iÃ§in `Cmd+Esc` (Mac) veya `Ctrl+Esc` (Windows/Linux) kullanÄ±n.
+- **Yeni Oturum**: Zaten aÃ§Ä±k olsa bile yeni bir voracode terminal oturumu baÅŸlatmak iÃ§in `Cmd+Shift+Esc` (Mac) veya `Ctrl+Shift+Esc` (Windows/Linux) kullanÄ±n. AyrÄ±ca kullanÄ±cÄ± arayÃ¼zÃ¼ndeki voracode dÃ¼ÄŸmesini de tÄ±klayabilirsiniz.
+- **BaÄŸlam FarkÄ±ndalÄ±ÄŸÄ±**: GeÃ§erli seÃ§iminizi veya sekmenizi voracode ile otomatik olarak paylaÅŸÄ±n.
+- **Dosya ReferansÄ± KÄ±sayollarÄ±**: Dosya referanslarÄ± eklemek iÃ§in `Cmd+Option+K` (Mac) veya `Alt+Ctrl+K` (Linux/Windows) kullanÄ±n. Ã–rneÄŸin, `@File#L37-42`.
+
+---
+
+## Kurulum
+
+voracode'u VS Code'a ve Cursor, Windsurf, VSCodium gibi popÃ¼ler Ã§atallara yÃ¼klemek iÃ§in:
+
+1. VS Code'u AÃ§
+2. Entegre terminali aÃ§Ä±n
+3. `voracode` komutunu Ã§alÄ±ÅŸtÄ±rÄ±n - uzantÄ± otomatik olarak yÃ¼klenir
+
+TUI iÃ§inden `/editor` veya `/export` komutlarÄ±nÄ± Ã§alÄ±ÅŸtÄ±rdÄ±ÄŸÄ±nÄ±zda kendi IDE'nizi kullanmak istiyorsanÄ±z `export EDITOR="code --wait"` ayarlayÄ±n. [Daha fazla bilgi](/docs/tui/#editor-setup).
+
+---
+
+### Manuel Kurulum
+
+Extension Marketplace'te **voracode**'u arayÄ±n ve **YÃ¼kle**'ye tÄ±klayÄ±n.
+
+---
+
+### Sorun giderme
+
+UzantÄ± otomatik olarak yÃ¼klenemezse:
+
+- Entegre terminalde `voracode` Ã§alÄ±ÅŸtÄ±rdÄ±ÄŸÄ±nÄ±zdan emin olun.
+- IDE cihazÄ±nÄ±z iÃ§in CLI'nin kurulu olduÄŸunu doÄŸrulayÄ±n:
+  - VS Code iÃ§in: `code` komutu
+  - Cursor iÃ§in: `cursor` komutu
+  - Windsurf iÃ§in: `windsurf` komutu
+  - VSCodium iÃ§in: `codium` komutu
+  - DeÄŸilse `Cmd+Shift+P` (Mac) veya `Ctrl+Shift+P` (Windows/Linux) Ã§alÄ±ÅŸtÄ±rÄ±n ve "Shell Command: Install 'code' command in PATH" komutunu seÃ§in (veya IDE'nizdeki eÅŸdeÄŸerini kullanÄ±n).
+- VS Code'un uzantÄ± yÃ¼kleme iznine sahip olduÄŸundan emin olun

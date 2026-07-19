@@ -1,0 +1,142 @@
+---
+title: Web
+description: KoriÅ¡Ä‡enje Voracode u vaÅ¡em pretraÅ¾ivaÄu.
+---
+
+Voracode moÅ¾e raditi kao web aplikacija u vaÅ¡em pretraÅ¾ivaÄu, pruÅ¾ajuÄ‡i isto moÄ‡no iskustvo AI kodiranja bez potrebe za terminalom.
+
+![Voracode Web - Nova sesija](../../../assets/web/web-homepage-new-session.png)
+
+## PoÄetak rada
+
+Pokrenite web interfejs tako Å¡to Ä‡ete pokrenuti:
+
+```bash
+voracode web
+```
+
+Ovo pokreÄ‡e lokalni server na `127.0.0.1` sa nasumiÄnim dostupnim portom i automatski otvara Voracode u vaÅ¡em podrazumevanom pretraÅ¾ivaÄu.
+
+:::caution
+Ako `VORACODE_SERVER_PASSWORD` nije postavljen, server Ä‡e biti nezaÅ¡tiÄ‡en. Ovo je u redu za lokalnu upotrebu, ali bi trebalo biti postavljeno za pristup mreÅ¾i.
+:::
+
+:::tip[Windows korisnici]
+Za najbolje iskustvo, pokrenite `voracode web` iz [WSL](/docs/windows-wsl) umjesto PowerShell-a. Ovo osigurava pravilan pristup sistemu datoteka i integraciju terminala.
+:::
+
+---
+
+## Konfiguracija
+
+MoÅ¾ete konfigurirati web server koristeÄ‡i oznake komandne linije ili u vaÅ¡oj [config file](/docs/config).
+
+### Port
+
+Voracode podrazumevano bira dostupni port. MoÅ¾ete odrediti port:
+
+```bash
+voracode web --port 4096
+```
+
+### Ime hosta
+
+Podrazumevano, server se vezuje za `127.0.0.1` (samo lokalni host). Da biste Voracode uÄinili dostupnim na vaÅ¡oj mreÅ¾i:
+
+```bash
+voracode web --hostname 0.0.0.0
+```
+
+Kada koristite `0.0.0.0`, Voracode Ä‡e prikazati i lokalne i mreÅ¾ne adrese:
+
+```
+  Local access:       http://localhost:4096
+  Network access:     http://192.168.1.100:4096
+```
+
+### mDNS Otkrivanje
+
+OmoguÄ‡ite mDNS kako bi vaÅ¡ server bio vidljiv na lokalnoj mreÅ¾i:
+
+```bash
+voracode web --mdns
+```
+
+Ovo automatski postavlja ime hosta na `0.0.0.0` i oglaÅ¡ava server kao `voracode.local`.
+
+MoÅ¾ete prilagoditi ime mDNS domene za pokretanje viÅ¡e instanci na istoj mreÅ¾i:
+
+```bash
+voracode web --mdns --mdns-domain myproject.local
+```
+
+### CORS
+
+Da biste omoguÄ‡ili dodatne domene za CORS (korisno za prilagoÄ‘ene frontendove):
+
+```bash
+voracode web --cors https://example.com
+```
+
+### Autentifikacija
+
+Da biste zaÅ¡titili pristup, postavite lozinku koristeÄ‡i varijablu okruÅ¾enja `VORACODE_SERVER_PASSWORD`:
+
+```bash
+VORACODE_SERVER_PASSWORD=secret voracode web
+```
+
+KorisniÄko ime podrazumevano je `voracode`, ali se moÅ¾e promeniti sa `VORACODE_SERVER_USERNAME`.
+
+---
+
+## KoriÅ¡tenje web suÄelja
+
+Jednom pokrenut, web suÄelje pruÅ¾a pristup vaÅ¡im Voracode sesijama.
+
+### Sesije
+
+Pregledajte i upravljajte svojim sesijama sa poÄetne stranice. MoÅ¾ete vidjeti aktivne sesije i zapoÄeti nove.
+
+![Voracode Web - aktivna sesija](../../../assets/web/web-homepage-active-session.png)
+
+### Status servera
+
+Kliknite "Pogledajte servere" da vidite povezane servere i njihov status.
+
+![Voracode Web - Vidi servere](../../../assets/web/web-homepage-see-servers.png)
+
+---
+
+## Povezivanje terminala
+
+MoÅ¾ete prikljuÄiti TUI terminala na aktivni web server:
+
+```bash
+# Start the web server
+voracode web --port 4096
+
+# In another terminal, attach the TUI
+voracode attach http://localhost:4096
+```
+
+Ovo vam omoguÄ‡ava da istovremeno koristite i web suÄelje i terminal, dijeleÄ‡i iste sesije i stanje.
+
+---
+
+## Konfiguracioni fajl
+
+TakoÄ‘er moÅ¾ete konfigurirati postavke servera u svom `voracode.json` konfiguracijskom fajlu:
+
+```json
+{
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "cors": ["https://example.com"]
+  }
+}
+```
+
+Oznake komandne linije imaju prednost nad postavkama konfiguracione datoteke.

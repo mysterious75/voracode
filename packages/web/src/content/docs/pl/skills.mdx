@@ -1,0 +1,222 @@
+---
+title: "UmiejÄ™tnoÅ›ci Agenta"
+description: "Definiuj powtarzalne zachowania za pomocÄ… definicji SKILL.md"
+---
+
+UmiejÄ™tnoÅ›ci agenta pozwalajÄ… voracode odkryÄ‡ instrukcje wielokrotnego uÅ¼ytku z repozytorium lub katalogu domowego.
+UmiejÄ™tnoÅ›ci sÄ… Å‚adowane na Å¼Ä…danie za poÅ›rednictwem natywnego narzÄ™dzia `skill` â€” agenci widzÄ… dostÄ™pne umiejÄ™tnoÅ›ci i w razie potrzeby mogÄ… zaÅ‚adowaÄ‡ peÅ‚nÄ… zawartoÅ›Ä‡.
+
+---
+
+## Lokalizacja plikÃ³w
+
+UtwÃ³rz jeden folder na nazwÄ™ umiejÄ™tnoÅ›ci i umieÅ›Ä‡ w nim `SKILL.md`.
+voracode przeszukuje te lokalizacje:
+
+- Project config: `.voracode/skills/<name>/SKILL.md`
+- Global config: `~/.config/voracode/skills/<name>/SKILL.md`
+- Project Claude-compatible: `.claude/skills/<name>/SKILL.md`
+- Global Claude-compatible: `~/.claude/skills/<name>/SKILL.md`
+- Project agent-compatible: `.agents/skills/<name>/SKILL.md`
+- Global agent-compatible: `~/.agents/skills/<name>/SKILL.md`
+
+---
+
+## Zrozumienie wykrywania
+
+W przypadku Å›cieÅ¼ek lokalnych projektu voracode przechodzi od bieÅ¼Ä…cego katalogu roboczego, aÅ¼ dotrze do drzewa roboczego git.
+Åaduje po drodze dowolne pasujÄ…ce `skills/*/SKILL.md` w `.voracode/` i dowolne pasujÄ…ce `.claude/skills/*/SKILL.md` lub `.agents/skills/*/SKILL.md`.
+
+Åadowane sÄ… takÅ¼e definicje globalne z `~/.config/voracode/skills/*/SKILL.md`, `~/.claude/skills/*/SKILL.md` i `~/.agents/skills/*/SKILL.md`.
+
+---
+
+## Tworzenie frontmatter
+
+KaÅ¼dy `SKILL.md` musi zaczynaÄ‡ siÄ™ od treÅ›ci YAML.
+Rozpoznawane sÄ… tylko te pola:
+
+- `name` (wymagane)
+- `description` (wymagane)
+- `license` (opcjonalnie)
+- `compatibility` (opcjonalnie)
+- `metadata` (opcjonalnie, mapa string-to-string)
+
+Nieznane pola frontmatter sÄ… ignorowane.
+
+---
+
+## Walidacja nazw
+
+`name` musi:
+
+- MieÄ‡ od 1 do 64 znakÃ³w
+- NaleÅ¼y uÅ¼ywaÄ‡ maÅ‚ych liter alfanumerycznych i oddzielaÄ‡ je pojedynczym Å‚Ä…cznikiem
+- Nie zaczyna siÄ™ ani nie koÅ„czy na `-`
+- Nie moÅ¼e zawieraÄ‡ nastÄ™pujÄ…cych po sobie `--`
+- Dopasuj nazwÄ™ katalogu zawierajÄ…cÄ… `SKILL.md`
+
+Odpowiednik wyraÅ¼enia regularnego:
+
+```text
+^[a-z0-9]+(-[a-z0-9]+)*$
+```
+
+---
+
+## Zasady dotyczÄ…ce dÅ‚ugoÅ›ci
+
+`description` musi mieÄ‡ od 1 do 1024 znakÃ³w.
+Zadbaj o to, aby agent mÃ³gÅ‚ dokonaÄ‡ prawidÅ‚owego wyboru.
+
+---
+
+## PrzykÅ‚ad uÅ¼ycia
+
+UtwÃ³rz `.voracode/skills/git-release/SKILL.md` w ten sposÃ³b:
+
+```markdown
+---
+name: git-release
+description: Create consistent releases and changelogs
+license: MIT
+compatibility: voracode
+metadata:
+  audience: maintainers
+  workflow: github
+---
+
+## What I do
+
+- Draft release notes from merged PRs
+- Propose a version bump
+- Provide a copy-pasteable `gh release create` command
+
+## When to use me
+
+Use this when you are preparing a tagged release.
+Ask clarifying questions if the target versioning scheme is unclear.
+```
+
+---
+
+## Opis narzÄ™dzia
+
+voracode wymienia dostÄ™pne umiejÄ™tnoÅ›ci w opisie narzÄ™dzia `skill`.
+KaÅ¼dy wpis zawiera nazwÄ™ i opis umiejÄ™tnoÅ›ci:
+
+```xml
+<available_skills>
+  <skill>
+    <name>git-release</name>
+    <description>Create consistent releases and changelogs</description>
+  </skill>
+</available_skills>
+```
+
+Agent Å‚aduje umiejÄ™tnoÅ›Ä‡ wywoÅ‚ujÄ…c narzÄ™dzie:
+
+```
+skill({ name: "git-release" })
+```
+
+---
+
+## Konfiguracja uprawnieÅ„
+
+Kontroluj, do ktÃ³rych umiejÄ™tnoÅ›ci agenci mogÄ… uzyskaÄ‡ dostÄ™p, uÅ¼ywajÄ…c uprawnieÅ„ opartych na wzorcach w `voracode.json`:
+
+```json
+{
+  "permission": {
+    "skill": {
+      "*": "allow",
+      "pr-review": "allow",
+      "internal-*": "deny",
+      "experimental-*": "ask"
+    }
+  }
+}
+```
+
+| Permission | Behavior                                               |
+| ---------- | ------------------------------------------------------ |
+| `allow`    | UmiejÄ™tnoÅ›Ä‡ Å‚aduje siÄ™ natychmiast                     |
+| `deny`     | UmiejÄ™tnoÅ›Ä‡ ukryta przed agentem, dostÄ™p odrzucony     |
+| `ask`      | UÅ¼ytkownik proszony o zatwierdzenie przed zaÅ‚adowaniem |
+
+Wzorce obsÅ‚ugujÄ… symbole wieloznaczne: `internal-*` odpowiada `internal-docs`, `internal-tools` itd.
+
+---
+
+## Nadpisywanie dla agenta
+
+Nadaj konkretnym agentom inne uprawnienia niÅ¼ globalne ustawienia domyÅ›lne.
+
+**Dla agentÃ³w niestandardowych** (w temacie agentÃ³w):
+
+```yaml
+---
+permission:
+  skill:
+    "documents-*": "allow"
+---
+```
+
+**Dla agentÃ³w wbudowanych** (w `voracode.json`):
+
+```json
+{
+  "agent": {
+    "plan": {
+      "permission": {
+        "skill": {
+          "internal-*": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+## WyÅ‚Ä…czanie narzÄ™dzia umiejÄ™tnoÅ›ci
+
+CaÅ‚kowicie wyÅ‚Ä…cz umiejÄ™tnoÅ›ci agentÃ³w, ktÃ³rzy nie powinni ich uÅ¼ywaÄ‡:
+
+**Dla agentÃ³w niestandardowych** (w temacie agentÃ³w):
+
+```yaml
+---
+tools:
+  skill: false
+---
+```
+
+**W przypadku agentÃ³w wbudowanych**:
+
+```json
+{
+  "agent": {
+    "plan": {
+      "tools": {
+        "skill": false
+      }
+    }
+  }
+}
+```
+
+JeÅ›li opcja jest wyÅ‚Ä…czona, sekcja `<available_skills>` jest caÅ‚kowicie pomijana.
+
+---
+
+## RozwiÄ…zywanie problemÃ³w z Å‚adowaniem
+
+JeÅ›li umiejÄ™tnoÅ›Ä‡ nie pojawi siÄ™:
+
+1. SprawdÅº, czy `SKILL.md` jest napisane wielkimi literami
+2. SprawdÅº, czy frontmatter zawiera `name` i `description`
+3. Upewnij siÄ™, Å¼e nazwy umiejÄ™tnoÅ›ci sÄ… unikalne we wszystkich lokalizacjach
+4. SprawdÅº uprawnienia â€” umiejÄ™tnoÅ›ci z `deny` sÄ… ukryte przed agentami

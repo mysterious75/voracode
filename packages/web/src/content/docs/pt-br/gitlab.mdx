@@ -1,0 +1,195 @@
+---
+title: GitLab
+description: Use o voracode em problemas e solicitaÃ§Ãµes de mesclagem do GitLab.
+---
+
+O voracode se integra ao seu fluxo de trabalho do GitLab atravÃ©s do seu pipeline CI/CD do GitLab ou com o GitLab Duo.
+
+Em ambos os casos, o voracode serÃ¡ executado em seus runners do GitLab.
+
+---
+
+## GitLab CI
+
+O voracode funciona em um pipeline regular do GitLab. VocÃª pode integrÃ¡-lo a um pipeline como um [componente CI](https://docs.gitlab.com/ee/ci/components/)
+
+Aqui estamos usando um componente CI/CD criado pela comunidade para voracode â€” [nagyv/gitlab-voracode](https://gitlab.com/nagyv/gitlab-voracode).
+
+---
+
+### Recursos
+
+- **Use configuraÃ§Ã£o personalizada por trabalho**: Configure o voracode com um diretÃ³rio de configuraÃ§Ã£o personalizado, por exemplo `./config/#custom-directory` para habilitar ou desabilitar funcionalidades por invocaÃ§Ã£o do voracode.
+- **ConfiguraÃ§Ã£o mÃ­nima**: O componente CI configura o voracode em segundo plano, vocÃª sÃ³ precisa criar a configuraÃ§Ã£o do voracode e o prompt inicial.
+- **FlexÃ­vel**: O componente CI suporta vÃ¡rias entradas para personalizar seu comportamento.
+
+---
+
+### ConfiguraÃ§Ã£o
+
+1. Armazene seu JSON de autenticaÃ§Ã£o do voracode como variÃ¡veis de ambiente do tipo File em **ConfiguraÃ§Ãµes** > **CI/CD** > **VariÃ¡veis**. Certifique-se de marcÃ¡-las como "Mascaradas e ocultas".
+2. Adicione o seguinte ao seu arquivo `.gitlab-ci.yml`.
+
+   ```yaml title=".gitlab-ci.yml"
+   include:
+     - component: $CI_SERVER_FQDN/nagyv/gitlab-voracode/voracode@2
+       inputs:
+         config_dir: ${CI_PROJECT_DIR}/voracode-config
+         auth_json: $VORACODE_AUTH_JSON # O nome da variÃ¡vel para seu JSON de autenticaÃ§Ã£o do Voracode
+         command: optional-custom-command
+         message: "Seu prompt aqui"
+   ```
+
+Para mais entradas e casos de uso [consulte a documentaÃ§Ã£o](https://gitlab.com/explore/catalog/nagyv/gitlab-voracode) deste componente.
+
+---
+
+## GitLab Duo
+
+O voracode se integra ao seu fluxo de trabalho do GitLab.
+Mencione `@voracode` em um comentÃ¡rio, e o voracode executarÃ¡ tarefas dentro do seu pipeline CI do GitLab.
+
+---
+
+### Recursos
+
+- **Triagem de problemas**: PeÃ§a ao voracode para analisar um problema e explicÃ¡-lo para vocÃª.
+- **Corrigir e implementar**: PeÃ§a ao voracode para corrigir um problema ou implementar uma funcionalidade.
+  Ele criarÃ¡ um novo branch e abrirÃ¡ uma solicitaÃ§Ã£o de mesclagem com as alteraÃ§Ãµes.
+- **Seguro**: O voracode Ã© executado em seus runners do GitLab.
+
+---
+
+### ConfiguraÃ§Ã£o
+
+O voracode Ã© executado em seu pipeline CI/CD do GitLab, aqui estÃ¡ o que vocÃª precisarÃ¡ para configurÃ¡-lo:
+
+:::tip
+Consulte a [**documentaÃ§Ã£o do GitLab**](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/) para instruÃ§Ãµes atualizadas.
+:::
+
+1.  Configure seu ambiente GitLab
+2.  Configure CI/CD
+3.  Obtenha uma chave de API do provedor de modelo de IA
+4.  Crie uma conta de serviÃ§o
+5.  Configure variÃ¡veis de CI/CD
+6.  Crie um arquivo de configuraÃ§Ã£o de fluxo, aqui estÃ¡ um exemplo:
+
+        <details>
+
+    <summary>ConfiguraÃ§Ã£o de fluxo</summary>
+
+    ```yaml
+    image: node:22-slim
+    commands:
+      - echo "Instalando voracode"
+      - npm install --global voracode-ai
+      - echo "Instalando glab"
+      - export GITLAB_TOKEN=$GITLAB_TOKEN_VORACODE
+      - apt-get update --quiet && apt-get install --yes curl wget gpg git && rm --recursive --force /var/lib/apt/lists/*
+      - curl --silent --show-error --location "https://raw.githubusercontent.com/upciti/wakemeops/main/assets/install_repository" | bash
+      - apt-get install --yes glab
+      - echo "Configurando glab"
+      - echo $GITLAB_HOST
+      - echo "Criando configuraÃ§Ã£o de auth do Voracode"
+      - mkdir --parents ~/.local/share/voracode
+      - |
+        cat > ~/.local/share/voracode/auth.json << EOF
+        {
+          "anthropic": {
+            "type": "api",
+            "key": "$ANTHROPIC_API_KEY"
+          }
+        }
+        EOF
+      - echo "Configurando git"
+      - git config --global user.email "voracode@gitlab.com"
+      - git config --global user.name "Voracode"
+      - echo "Testando glab"
+      - glab issue list
+      - echo "Executando Voracode"
+      - |
+        voracode run "
+        VocÃª Ã© um assistente de IA ajudando com operaÃ§Ãµes do GitLab.
+
+        Contexto: $AI_FLOW_CONTEXT
+        Tarefa: $AI_FLOW_INPUT
+        Evento: $AI_FLOW_EVENT
+
+        Por favor, execute a tarefa solicitada usando as ferramentas disponÃ­veis do GitLab.
+        Seja minucioso em sua anÃ¡lise e forneÃ§a explicaÃ§Ãµes claras.
+
+        <important>
+        Por favor, use a CLI glab para acessar dados do GitLab. A CLI glab jÃ¡ foi autenticada. VocÃª pode executar os comandos correspondentes.
+
+        Se for solicitado a resumir um MR ou problema ou solicitado a fornecer mais informaÃ§Ãµes, poste uma nota de volta no MR/Problema para que o usuÃ¡rio possa ver.
+        VocÃª nÃ£o precisa commitar ou enviar alteraÃ§Ãµes, isso serÃ¡ feito automaticamente com base nas alteraÃ§Ãµes de arquivo que vocÃª fizer.
+        </important>
+        "
+      - git checkout --branch $CI_WORKLOAD_REF origin/$CI_WORKLOAD_REF
+      - echo "Verificando alteraÃ§Ãµes no git e enviando se existirem"
+      - |
+        if ! git diff --quiet || ! git diff --cached --quiet || [ --not --zero "$(git ls-files --others --exclude-standard)" ]; then
+          echo "AlteraÃ§Ãµes git detectadas, adicionando e enviando..."
+          git add .
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteraÃ§Ã£o preparada para commit"
+          else
+            echo "Commitando alteraÃ§Ãµes para o branch: $CI_WORKLOAD_REF"
+            git commit --message "Codex changes"
+            echo "Enviando alteraÃ§Ãµes para $CI_WORKLOAD_REF"
+            git push https://gitlab-ci-token:$GITLAB_TOKEN@$GITLAB_HOST/gl-demo-ultimate-dev-ai-epic-17570/test-java-project.git $CI_WORKLOAD_REF
+            echo "AlteraÃ§Ãµes enviadas com sucesso"
+          fi
+        else
+          echo "Nenhuma alteraÃ§Ã£o git detectada, pulando envio"
+        fi
+    variables:
+      - ANTHROPIC_API_KEY
+      - GITLAB_TOKEN_VORACODE
+      - GITLAB_HOST
+    ```
+
+        </details>
+
+VocÃª pode consultar a [documentaÃ§Ã£o dos agentes da CLI do GitLab](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/) para instruÃ§Ãµes detalhadas.
+
+---
+
+### Exemplos
+
+Aqui estÃ£o alguns exemplos de como vocÃª pode usar o voracode no GitLab.
+
+:::tip
+VocÃª pode configurar para usar uma frase de gatilho diferente de `@voracode`.
+:::
+
+- **Explicar um problema**
+
+  Adicione este comentÃ¡rio em um problema do GitLab.
+
+  ```
+  @voracode explain this issue
+  ```
+
+  O voracode lerÃ¡ o problema e responderÃ¡ com uma explicaÃ§Ã£o clara.
+
+- **Corrigir um problema**
+
+  Em um problema do GitLab, diga:
+
+  ```
+  @voracode fix this
+  ```
+
+  O voracode criarÃ¡ um novo branch, implementarÃ¡ as alteraÃ§Ãµes e abrirÃ¡ uma solicitaÃ§Ã£o de mesclagem com as alteraÃ§Ãµes.
+
+- **Revisar solicitaÃ§Ãµes de mesclagem**
+
+  Deixe o seguinte comentÃ¡rio em uma solicitaÃ§Ã£o de mesclagem do GitLab.
+
+  ```
+  @voracode review this merge request
+  ```
+
+  O voracode revisarÃ¡ a solicitaÃ§Ã£o de mesclagem e fornecerÃ¡ feedback.

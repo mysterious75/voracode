@@ -1,0 +1,341 @@
+---
+title: Outils
+description: GÃ©rez les outils qu'un LLM peut utiliser.
+---
+
+Les outils permettent au LLM d'effectuer des actions dans votre base de code. Voracode est livrÃ© avec un ensemble d'outils intÃ©grÃ©s, mais vous pouvez l'Ã©tendre avec [outils personnalisÃ©s](/docs/custom-tools) ou [serveurs MCP](/docs/mcp-servers).
+
+Par dÃ©faut, tous les outils sont **activÃ©s** et n'ont pas besoin d'autorisation pour s'exÃ©cuter. Vous pouvez contrÃ´ler le comportement de l'outil via [permissions](/docs/permissions).
+
+---
+
+## Configurer
+
+Utilisez le champ `permission` pour contrÃ´ler le comportement de l'outil. Vous pouvez autoriser, refuser ou exiger une approbation pour chaque outil.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "deny",
+    "bash": "ask",
+    "webfetch": "allow"
+  }
+}
+```
+
+Vous pouvez Ã©galement utiliser des caractÃ¨res gÃ©nÃ©riques pour contrÃ´ler plusieurs outils Ã  la fois. Par exemple, pour exiger l'approbation de tous les outils d'un serveur MCPÂ :
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "mymcp_*": "ask"
+  }
+}
+```
+
+[En savoir plus](/docs/permissions) sur la configuration des autorisations.
+
+---
+
+## IntÃ©grÃ©
+
+Voici tous les outils intÃ©grÃ©s disponibles dans Voracode.
+
+---
+
+### frapper
+
+ExÃ©cutez des commandes shell dans votre environnement de projet.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "bash": "allow"
+  }
+}
+```
+
+Cet outil permet au LLM d'exÃ©cuter des commandes de terminal telles que `npm install`, `git status` ou toute autre commande shell.
+
+---
+
+### modifier
+
+Modifiez les fichiers existants en utilisant des remplacements de chaÃ®nes exacts.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "allow"
+  }
+}
+```
+
+Cet outil effectue des modifications prÃ©cises des fichiers en remplaÃ§ant les correspondances de texte exactes. C'est la principale faÃ§on dont LLM modifie le code.
+
+---
+
+### Ã©crire
+
+CrÃ©ez de nouveaux fichiers ou Ã©crasez ceux existants.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "allow"
+  }
+}
+```
+
+Utilisez-le pour permettre au LLM de crÃ©er de nouveaux fichiers. Il Ã©crasera les fichiers existants s'ils existent dÃ©jÃ .
+
+:::note
+L'outil `write` est contrÃ´lÃ© par l'autorisation `edit`, qui couvre toutes les modifications de fichiers (`edit`, `write`, `patch`).
+:::
+
+---
+
+### lire
+
+Lisez le contenu du fichier Ã  partir de votre base de code.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "read": "allow"
+  }
+}
+```
+
+Cet outil lit les fichiers et renvoie leur contenu. Il prend en charge la lecture de plages de lignes spÃ©cifiques pour les fichiers volumineux.
+
+---
+
+### grep
+
+Recherchez le contenu du fichier Ã  lâ€™aide dâ€™expressions rÃ©guliÃ¨res.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "grep": "allow"
+  }
+}
+```
+
+Recherche rapide de contenu dans votre base de code. Prend en charge la syntaxe regex complÃ¨te et le filtrage des modÃ¨les de fichiers.
+
+---
+
+### globe
+
+Recherchez des fichiers par correspondance de modÃ¨les.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "glob": "allow"
+  }
+}
+```
+
+Recherchez des fichiers Ã  l'aide de modÃ¨les globaux tels que `**/*.js` ou `src/**/*.ts`. Renvoie les chemins de fichiers correspondants triÃ©s par heure de modification.
+
+---
+
+### lsp (expÃ©rimental)
+
+Interagissez avec vos serveurs LSP configurÃ©s pour obtenir des fonctionnalitÃ©s d'intelligence du code telles que des dÃ©finitions, des rÃ©fÃ©rences, des informations de survol et une hiÃ©rarchie d'appels.
+
+:::note
+Cet outil n'est disponible que lorsque `VORACODE_EXPERIMENTAL_LSP_TOOL=true` (ou `VORACODE_EXPERIMENTAL=true`).
+:::
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "lsp": "allow"
+  }
+}
+```
+
+Les opÃ©rations prises en charge incluent `goToDefinition`, `findReferences`, `hover`, `documentSymbol`, `workspaceSymbol`, `goToImplementation`, `prepareCallHierarchy`, `incomingCalls` et `outgoingCalls`.
+
+Pour configurer les serveurs LSP disponibles pour votre projet, consultez [LSP Servers](/docs/lsp).
+
+---
+
+### correctif
+
+Appliquez des correctifs aux fichiers.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "allow"
+  }
+}
+```
+
+Cet outil applique les fichiers de correctifs Ã  votre base de code. Utile pour appliquer des diffÃ©rences et des correctifs provenant de diverses sources.
+
+:::note
+L'outil `patch` est contrÃ´lÃ© par l'autorisation `edit`, qui couvre toutes les modifications de fichiers (`edit`, `write`, `patch`).
+:::
+
+---
+
+### compÃ©tence
+
+Chargez une [skill](/docs/skills) (un fichier `SKILL.md`) et renvoyez son contenu dans la conversation.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "skill": "allow"
+  }
+}
+```
+
+---
+
+### Ã  Ã©crire
+
+GÃ©rez les listes de tÃ¢ches pendant les sessions de codage.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "todowrite": "allow"
+  }
+}
+```
+
+CrÃ©e et met Ã  jour des listes de tÃ¢ches pour suivre la progression lors d'opÃ©rations complexes. Le LLM l'utilise pour organiser des tÃ¢ches en plusieurs Ã©tapes.
+
+:::note
+Cet outil est dÃ©sactivÃ© par dÃ©faut pour les sous-agents, mais vous pouvez l'activer manuellement. [En savoir plus](/docs/agents/#permissions)
+:::
+
+---
+
+### rÃ©cupÃ©ration sur le Web
+
+RÃ©cupÃ©rer du contenu Web.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "webfetch": "allow"
+  }
+}
+```
+
+Permet au LLM de rÃ©cupÃ©rer et de lire des pages Web. Utile pour rechercher de la documentation ou rechercher des ressources en ligne.
+
+---
+
+### recherche sur le Web
+
+Recherchez des informations sur le Web.
+
+:::note
+Cet outil n'est disponible que lors de l'utilisation du fournisseur Voracode ou lorsque la variable d'environnement `VORACODE_ENABLE_EXA` est dÃ©finie sur une valeur vÃ©ridique (par exemple, `true` ou `1`).
+
+Ã€ activer lors du lancement de VoracodeÂ :
+
+```bash
+VORACODE_ENABLE_EXA=1 voracode
+```
+
+:::
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "websearch": "allow"
+  }
+}
+```
+
+Effectue des recherches sur le Web Ã  l'aide d'Exa AI pour trouver des informations pertinentes en ligne. Utile pour rechercher des sujets, trouver des Ã©vÃ©nements actuels ou collecter des informations au-delÃ  de la limite des donnÃ©es de formation.
+
+Aucune clÃ© API n'est requiseÂ : l'outil se connecte directement au service MCP hÃ©bergÃ© d'Exa AI sans authentification.
+
+:::tip
+Utilisez `websearch` lorsque vous avez besoin de rechercher des informations (dÃ©couverte) et `webfetch` lorsque vous devez rÃ©cupÃ©rer le contenu d'un URL spÃ©cifique (rÃ©cupÃ©ration).
+:::
+
+---
+
+### question
+
+Posez des questions Ã  l'utilisateur pendant l'exÃ©cution.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "question": "allow"
+  }
+}
+```
+
+Cet outil permet au LLM de poser des questions Ã  l'utilisateur lors d'une tÃ¢che. C'est utile pourÂ :
+
+- Recueillir les prÃ©fÃ©rences ou les exigences des utilisateurs
+- Clarifier les instructions ambiguÃ«s
+- Obtenir des dÃ©cisions sur les choix de mise en Å“uvre
+- Offrir des choix sur la direction Ã  prendre
+
+Chaque question comprend un en-tÃªte, le texte de la question et une liste d'options. Les utilisateurs peuvent choisir parmi les options proposÃ©es ou saisir une rÃ©ponse personnalisÃ©e. Lorsqu'il y a plusieurs questions, les utilisateurs peuvent naviguer entre elles avant de soumettre toutes les rÃ©ponses.
+
+---
+
+## Outils personnalisÃ©s
+
+Les outils personnalisÃ©s vous permettent de dÃ©finir vos propres fonctions que le LLM peut appeler. Ceux-ci sont dÃ©finis dans votre fichier de configuration et peuvent exÃ©cuter du code arbitraire.
+
+[En savoir plus](/docs/custom-tools) sur la crÃ©ation d'outils personnalisÃ©s.
+
+---
+
+## Serveurs MCP
+
+Les serveurs MCP (Model Context Protocol) vous permettent d'intÃ©grer des outils et services externes. Cela inclut l'accÃ¨s Ã  la base de donnÃ©es, les intÃ©grations API et les services tiers.
+
+[En savoir plus](/docs/mcp-servers) sur la configuration des serveurs MCP.
+
+---
+
+## Internes
+
+En interne, des outils comme `grep` et `glob` utilisent [ripgrep](https://github.com/BurntSushi/ripgrep) sous le capot. Par dÃ©faut, ripgrep respecte les modÃ¨les `.gitignore`, ce qui signifie que les fichiers et rÃ©pertoires rÃ©pertoriÃ©s dans votre `.gitignore` seront exclus des recherches et des listes.
+
+---
+
+### Ignorer les modÃ¨les
+
+Pour inclure des fichiers qui seraient normalement ignorÃ©s, crÃ©ez un fichier `.ignore` Ã  la racine de votre projet. Ce fichier peut autoriser explicitement certains chemins.
+
+```text title=".ignore"
+!node_modules/
+!dist/
+!build/
+```
+
+Par exemple, ce fichier `.ignore` permet Ã  ripgrep de rechercher dans les rÃ©pertoires `node_modules/`, `dist/` et `build/` mÃªme s'ils sont rÃ©pertoriÃ©s dans `.gitignore`.

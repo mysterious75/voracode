@@ -1,0 +1,511 @@
+---
+title: MCP sunucularÄ±
+description: Yerel ve uzak MCP araÃ§larÄ±nÄ± ekleyin.
+---
+
+_Model BaÄŸlam ProtokolÃ¼_ veya MCP kullanarak voracode'a harici araÃ§lar ekleyebilirsiniz. voracode hem yerel hem de uzak sunucularÄ± destekler.
+
+MCP araÃ§larÄ± eklendikten sonra yerleÅŸik araÃ§larÄ±n yanÄ± sÄ±ra LLM tarafÄ±ndan otomatik olarak kullanÄ±labilir.
+
+---
+
+#### UyarÄ±lar
+
+Bir MCP sunucusu kullandÄ±ÄŸÄ±nÄ±zda baÄŸlama eklenir. Ã‡ok fazla aletiniz varsa, bu hÄ±zla artabilir. Bu nedenle hangi MCP sunucularÄ±nÄ± kullandÄ±ÄŸÄ±nÄ±za dikkat etmenizi Ã¶neririz.
+
+:::tip
+MCP sunucularÄ± iÃ§eriÄŸinize katkÄ±da bulunur, bu nedenle hangilerini etkinleÅŸtirdiÄŸinize dikkat etmek istersiniz.
+:::
+
+GitHub MCP sunucusu gibi belirli MCP sunucularÄ± Ã§ok sayÄ±da belirteÃ§ ekleme eÄŸilimindedir ve baÄŸlam sÄ±nÄ±rÄ±nÄ± kolayca aÅŸabilir.
+
+---
+
+## EtkinleÅŸtirme
+
+MCP sunucularÄ±nÄ± [voracode Config](https://voracode.ai/docs/config/)'nizde `mcp` altÄ±nda tanÄ±mlayabilirsiniz. Her MCP'Ã¼ benzersiz bir adla ekleyin. LLM isteminde bulunurken bu MCP adÄ±na baÅŸvurabilirsiniz.
+
+```jsonc title="voracode.jsonc" {6}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "name-of-mcp-server": {
+      // ...
+      "enabled": true,
+    },
+    "name-of-other-mcp-server": {
+      // ...
+    },
+  },
+}
+```
+
+AyrÄ±ca `enabled` Ã¶ÄŸesini `false` olarak ayarlayarak bir sunucuyu devre dÄ±ÅŸÄ± bÄ±rakabilirsiniz. Bir sunucuyu yapÄ±landÄ±rmanÄ±zdan kaldÄ±rmadan geÃ§ici olarak devre dÄ±ÅŸÄ± bÄ±rakmak istiyorsanÄ±z bu kullanÄ±ÅŸlÄ±dÄ±r.
+
+---
+
+### Uzak varsayÄ±lanlarÄ± geÃ§ersiz kÄ±lma
+
+KuruluÅŸlar, `.well-known/voracode` uÃ§ noktalarÄ± aracÄ±lÄ±ÄŸÄ±yla varsayÄ±lan MCP sunucularÄ±nÄ± saÄŸlayabilir. Bu sunucular varsayÄ±lan olarak devre dÄ±ÅŸÄ± bÄ±rakÄ±larak kullanÄ±cÄ±larÄ±n ihtiyaÃ§ duyduklarÄ± sunucularÄ± seÃ§melerine olanak tanÄ±nabilir.
+
+KuruluÅŸunuzun uzak yapÄ±landÄ±rmasÄ±ndan belirli bir sunucuyu etkinleÅŸtirmek iÃ§in onu `enabled: true` ile yerel yapÄ±landÄ±rmanÄ±za ekleyin:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://jira.example.com/mcp",
+      "enabled": true
+    }
+  }
+}
+```
+
+Yerel yapÄ±landÄ±rma deÄŸerleriniz uzak varsayÄ±lanlarÄ± geÃ§ersiz kÄ±lar. Daha fazla ayrÄ±ntÄ± iÃ§in [config precedence](/docs/config#precedence-order)'a bakÄ±n.
+
+---
+
+## Yerel
+
+`type` kullanarak yerel MCP sunucularÄ±nÄ± MCP nesnesi iÃ§indeki `"local"`'ye ekleyin.
+
+```jsonc title="voracode.jsonc" {15}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-local-mcp-server": {
+      "type": "local",
+      // Or ["bun", "x", "my-mcp-command"]
+      "command": ["npx", "-y", "my-mcp-command"],
+      "enabled": true,
+      "environment": {
+        "MY_ENV_VAR": "my_env_var_value",
+      },
+    },
+  },
+}
+```
+
+Komut, yerel MCP sunucusunun nasÄ±l baÅŸlatÄ±ldÄ±ÄŸÄ±dÄ±r. AyrÄ±ca ortam deÄŸiÅŸkenlerinin bir listesini de iletebilirsiniz.
+
+Ã–rneÄŸin, [`@modelcontextprotocol/server-everything`](https://www.npmjs.com/package/@modelcontextprotocol/server-everything) MCP test sunucusunu ÅŸu ÅŸekilde gÃ¶rebilirsiniz.
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "mcp_everything": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-everything"],
+    },
+  },
+}
+```
+
+Ve bunu kullanmak iÃ§in istemlerime `use the mcp_everything tool` kullanÄ±yorum.
+
+```txt "mcp_everything"
+use the mcp_everything tool to add the number 3 and 4
+```
+
+---
+
+#### SeÃ§enekler
+
+Yerel bir MCP sunucusunu yapÄ±landÄ±rmak iÃ§in tÃ¼m seÃ§enekler burada verilmiÅŸtir.
+
+| SeÃ§enek       | TÃ¼r     | Gerekli | AÃ§Ä±klama                                                                                       |
+| ------------- | ------- | ------- | ---------------------------------------------------------------------------------------------- |
+| `type`        | Dize    | Y       | MCP sunucu baÄŸlantÄ±sÄ± tÃ¼rÃ¼, `"local"` olmalÄ±dÄ±r.                                               |
+| `command`     | Dizi    | Y       | MCP sunucusunu Ã§alÄ±ÅŸtÄ±rmak iÃ§in komut ve argÃ¼manlar.                                           |
+| `environment` | Nesne   |         | Sunucuyu Ã§alÄ±ÅŸtÄ±rÄ±rken ayarlanacak ortam deÄŸiÅŸkenleri.                                         |
+| `enabled`     | Boolean |         | BaÅŸlangÄ±Ã§ta MCP sunucusunu etkinleÅŸtirin veya devre dÄ±ÅŸÄ± bÄ±rakÄ±n.                              |
+| `timeout`     | SayÄ±    |         | MCP sunucusundan araÃ§larÄ± getirirken ms cinsinden zaman aÅŸÄ±mÄ±. VarsayÄ±lan 5000'dir (5 saniye). |
+
+---
+
+## Uzak
+
+`type`'yi `"remote"` olarak ayarlayarak uzak MCP sunucularÄ±nÄ± ekleyin.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-remote-mcp": {
+      "type": "remote",
+      "url": "https://my-mcp-server.com",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer MY_API_KEY"
+      }
+    }
+  }
+}
+```
+
+`url` uzak MCP sunucusunun URL'sidir ve `headers` seÃ§eneÄŸiyle bir baÅŸlÄ±k listesi iletebilirsiniz.
+
+---
+
+#### SeÃ§enekler
+
+| SeÃ§enek   | TÃ¼r     | Gerekli | AÃ§Ä±klama                                                                                       |
+| --------- | ------- | ------- | ---------------------------------------------------------------------------------------------- |
+| `type`    | Dize    | Y       | MCP sunucu baÄŸlantÄ±sÄ± tÃ¼rÃ¼, `"remote"` olmalÄ±dÄ±r.                                              |
+| `url`     | Dize    | Y       | Uzak MCP sunucusunun URL.                                                                      |
+| `enabled` | Boolean |         | BaÅŸlangÄ±Ã§ta MCP sunucusunu etkinleÅŸtirin veya devre dÄ±ÅŸÄ± bÄ±rakÄ±n.                              |
+| `headers` | Nesne   |         | Ä°stekle birlikte gÃ¶nderilecek baÅŸlÄ±klar.                                                       |
+| `oauth`   | Object  |         | OAuth authentication configuration. See [OAuth](#oauth) section below.                         |
+| `timeout` | SayÄ±    |         | MCP sunucusundan araÃ§larÄ± getirirken ms cinsinden zaman aÅŸÄ±mÄ±. VarsayÄ±lan 5000'dir (5 saniye). |
+
+---
+
+## OAuth
+
+voracode, uzak MCP sunucularÄ± iÃ§in OAuth kimlik doÄŸrulamasÄ±nÄ± otomatik olarak yÃ¶netir. Bir sunucu kimlik doÄŸrulamasÄ± gerektirdiÄŸinde voracode ÅŸunlarÄ± yapar:
+
+1. 401 yanÄ±tÄ±nÄ± tespit edin ve OAuth akÄ±ÅŸÄ±nÄ± baÅŸlatÄ±n
+2. Sunucu tarafÄ±ndan destekleniyorsa **Dinamik Ä°stemci KaydÄ± (RFC 7591)** kullanÄ±n
+3. Gelecekteki istekler iÃ§in belirteÃ§leri gÃ¼venli bir ÅŸekilde saklayÄ±n
+
+---
+
+### Otomatik
+
+OAuth'un etkin olduÄŸu Ã§oÄŸu MCP sunucusu iÃ§in Ã¶zel bir yapÄ±landÄ±rmaya gerek yoktur. Uzak sunucuyu yapÄ±landÄ±rmanÄ±z yeterli:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-oauth-server": {
+      "type": "remote",
+      "url": "https://mcp.example.com/mcp"
+    }
+  }
+}
+```
+
+Sunucu kimlik doÄŸrulama gerektiriyorsa voracode, onu ilk kez kullanmaya Ã§alÄ±ÅŸtÄ±ÄŸÄ±nÄ±zda kimlik doÄŸrulamanÄ±zÄ± isteyecektir. DeÄŸilse, `voracode mcp auth <server-name>` ile [manually trigger the flow](#authenticating) yapabilirsiniz.
+
+---
+
+### Ã–n kayÄ±tlÄ±
+
+MCP sunucu saÄŸlayÄ±cÄ±sÄ±ndan istemci kimlik bilgileriniz varsa, bunlarÄ± yapÄ±landÄ±rabilirsiniz:
+
+```json title="voracode.json" {7-11}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-oauth-server": {
+      "type": "remote",
+      "url": "https://mcp.example.com/mcp",
+      "oauth": {
+        "clientId": "{env:MY_MCP_CLIENT_ID}",
+        "clientSecret": "{env:MY_MCP_CLIENT_SECRET}",
+        "scope": "tools:read tools:execute"
+      }
+    }
+  }
+}
+```
+
+---
+
+### Kimlik doÄŸrulama
+
+Kimlik doÄŸrulamayÄ± manuel olarak tetikleyebilir veya kimlik bilgilerini yÃ¶netebilirsiniz.
+
+Belirli bir MCP sunucusuyla kimlik doÄŸrulamasÄ± yapÄ±n:
+
+```bash
+voracode mcp auth my-oauth-server
+```
+
+TÃ¼m MCP sunucularÄ±nÄ± ve kimlik doÄŸrulama durumlarÄ±nÄ± listeleyin:
+
+```bash
+voracode mcp list
+```
+
+Remove stored credentials:
+
+```bash
+voracode mcp logout my-oauth-server
+```
+
+`mcp auth` komutu tarayÄ±cÄ±nÄ±zÄ± yetkilendirme iÃ§in aÃ§acaktÄ±r. Yetkilendirmenizin ardÄ±ndan voracode, belirteÃ§leri `~/.local/share/voracode/mcp-auth.json`'de gÃ¼venli bir ÅŸekilde saklar.
+
+---
+
+#### OAuth'u devre dÄ±ÅŸÄ± bÄ±rakma
+
+Bir sunucu iÃ§in otomatik OAuth'u devre dÄ±ÅŸÄ± bÄ±rakmak istiyorsanÄ±z (Ã¶rneÄŸin, bunun yerine API anahtarlarÄ±nÄ± kullanan sunucular iÃ§in), `oauth`'yi `false` olarak ayarlayÄ±n:
+
+```json title="voracode.json" {7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-api-key-server": {
+      "type": "remote",
+      "url": "https://mcp.example.com/mcp",
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {env:MY_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+---
+
+#### OAuth SeÃ§enekleri
+
+| SeÃ§enek        | TÃ¼r             | AÃ§Ä±klama                                                                         |
+| -------------- | --------------- | -------------------------------------------------------------------------------- |
+| `oauth`        | Object \| false | OAuth config object, or `false` to disable OAuth auto-detection.                 |
+| `clientId`     | Dize            | OAuth istemci kimliÄŸi. SaÄŸlanmadÄ±ÄŸÄ± takdirde dinamik mÃ¼ÅŸteri kaydÄ± denenecektir. |
+| `clientSecret` | Dize            | Yetkilendirme sunucusu gerektiriyorsa OAuth istemci sÄ±rrÄ±.                       |
+| `scope`        | String          | OAuth scopes to request during authorization.                                    |
+
+#### Hata AyÄ±klama
+
+Uzak bir MCP sunucusunun kimlik doÄŸrulamasÄ± baÅŸarÄ±sÄ±z olursa aÅŸaÄŸÄ±dakileri kullanarak sorunlarÄ± teÅŸhis edebilirsiniz:
+
+```bash
+# View auth status for all OAuth-capable servers
+voracode mcp auth list
+
+# Debug connection and OAuth flow for a specific server
+voracode mcp debug my-oauth-server
+```
+
+`mcp debug` komutu mevcut kimlik doÄŸrulama durumunu gÃ¶sterir, HTTP baÄŸlantÄ±sÄ±nÄ± test eder ve OAuth bulma akÄ±ÅŸÄ±nÄ± dener.
+
+---
+
+## YÃ¶netim
+
+MCP'leriniz yerleÅŸik araÃ§larÄ±n yanÄ± sÄ±ra voracode'da araÃ§ olarak mevcuttur. BÃ¶ylece bunlarÄ± diÄŸer araÃ§lar gibi voracode yapÄ±landÄ±rmasÄ± aracÄ±lÄ±ÄŸÄ±yla yÃ¶netebilirsiniz.
+
+---
+
+### Global
+
+Bu, bunlarÄ± global olarak etkinleÅŸtirebileceÄŸiniz veya devre dÄ±ÅŸÄ± bÄ±rakabileceÄŸiniz anlamÄ±na gelir.
+
+```json title="voracode.json" {14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-mcp-foo": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-foo"]
+    },
+    "my-mcp-bar": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-bar"]
+    }
+  },
+  "tools": {
+    "my-mcp-foo": false
+  }
+}
+```
+
+EÅŸleÅŸen tÃ¼m MCP'leri devre dÄ±ÅŸÄ± bÄ±rakmak iÃ§in bir glob modeli de kullanabiliriz.
+
+```json title="voracode.json" {14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-mcp-foo": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-foo"]
+    },
+    "my-mcp-bar": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-bar"]
+    }
+  },
+  "tools": {
+    "my-mcp*": false
+  }
+}
+```
+
+Burada tÃ¼m MCP'leri devre dÄ±ÅŸÄ± bÄ±rakmak iÃ§in `my-mcp*` glob modelini kullanÄ±yoruz.
+
+---
+
+### Agent baÅŸÄ±na
+
+Ã‡ok sayÄ±da MCP sunucunuz varsa, bunlarÄ± yalnÄ±zca aracÄ± baÅŸÄ±na etkinleÅŸtirmek ve genel olarak devre dÄ±ÅŸÄ± bÄ±rakmak isteyebilirsiniz. Bunu yapmak iÃ§in:
+
+1. Global olarak bir araÃ§ olarak devre dÄ±ÅŸÄ± bÄ±rakÄ±n.
+2. [agent config](/docs/agents#tools)'nizde, MCP sunucusunu bir araÃ§ olarak etkinleÅŸtirin.
+
+```json title="voracode.json" {11, 14-18}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-mcp": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command"],
+      "enabled": true
+    }
+  },
+  "tools": {
+    "my-mcp*": false
+  },
+  "agent": {
+    "my-agent": {
+      "tools": {
+        "my-mcp*": true
+      }
+    }
+  }
+}
+```
+
+---
+
+#### Glob desenleri
+
+Glob modeli, basit normal ifade globbing modellerini kullanÄ±r:
+
+- `*` herhangi bir karakterin sÄ±fÄ±r veya daha fazlasÄ±yla eÅŸleÅŸir (Ã¶rneÄŸin, `"my-mcp*"` `my-mcp_search`, `my-mcp_list` vb. ile eÅŸleÅŸir)
+- `?` matches exactly one character
+- All other characters match literally
+
+:::note
+MCP sunucu araÃ§larÄ± Ã¶nek olarak sunucu adÄ±yla kayÄ±tlÄ±dÄ±r, dolayÄ±sÄ±yla bir sunucuya iliÅŸkin tÃ¼m araÃ§larÄ± devre dÄ±ÅŸÄ± bÄ±rakmak iÃ§in aÅŸaÄŸÄ±dakileri kullanmanÄ±z yeterlidir:
+
+```
+"mymcpservername_*": false
+```
+
+:::
+
+---
+
+## Ã–rnekler
+
+AÅŸaÄŸÄ±da bazÄ± yaygÄ±n MCP sunucularÄ±nÄ±n Ã¶rnekleri verilmiÅŸtir. DiÄŸer sunucularÄ± belgelemek istiyorsanÄ±z PR gÃ¶nderebilirsiniz.
+
+---
+
+### Sentry
+
+Sentry projelerinizle ve sorunlarÄ±nÄ±zla etkileÅŸimde bulunmak iÃ§in [Sentry MCP server](https://mcp.sentry.dev) ekleyin.
+
+```json title="voracode.json" {4-8}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "sentry": {
+      "type": "remote",
+      "url": "https://mcp.sentry.dev/mcp",
+      "oauth": {}
+    }
+  }
+}
+```
+
+YapÄ±landÄ±rmayÄ± ekledikten sonra Sentry ile kimlik doÄŸrulamasÄ± yapÄ±n:
+
+```bash
+voracode mcp auth sentry
+```
+
+Bu, OAuth akÄ±ÅŸÄ±nÄ± tamamlamak ve voracode'u Sentry hesabÄ±nÄ±za baÄŸlamak iÃ§in bir tarayÄ±cÄ± penceresi aÃ§acaktÄ±r.
+
+Kimlik doÄŸrulamasÄ± yapÄ±ldÄ±ktan sonra sorunlarÄ±, projeleri ve hata verilerini sorgulamak iÃ§in istemlerinizde Sentry araÃ§larÄ±nÄ± kullanabilirsiniz.
+
+```txt "use sentry"
+Show me the latest unresolved issues in my project. use sentry
+```
+
+---
+
+### Context7
+
+Dokumanlar arasÄ±nda arama yapmak iÃ§in [Context7 MCP server](https://github.com/upstash/context7) ekleyin.
+
+```json title="voracode.json" {4-7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp"
+    }
+  }
+}
+```
+
+Ãœcretsiz bir hesaba kaydolduysanÄ±z API anahtarÄ±nÄ±zÄ± kullanarak daha yÃ¼ksek Ã¼cret limitleri elde edebilirsiniz.
+
+```json title="voracode.json" {7-9}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+Burada `CONTEXT7_API_KEY` ortam deÄŸiÅŸkeninin ayarlandÄ±ÄŸÄ±nÄ± varsayÄ±yoruz.
+
+Context7 MCP sunucunu kullanmak iÃ§in isteklerinize `use context7` ekleyin.
+
+```txt "use context7"
+Configure a Cloudflare Worker script to cache JSON API responses for five minutes. use context7
+```
+
+Alternatif olarak [AGENTS.md](/docs/rules/)'a buna benzer bir ÅŸey ekleyebilirsiniz.
+
+```md title="AGENTS.md"
+When you need to search docs, use `context7` tools.
+```
+
+---
+
+### Grep by Vercel
+
+GitHub'daki kod parÃ§acÄ±klarÄ± arasÄ±nda arama yapmak iÃ§in [Grep by Vercel](https://grep.app) MCP sunucusunu ekleyin.
+
+```json title="voracode.json" {4-7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app"
+    }
+  }
+}
+```
+
+MCP sunucumuzu `gh_grep` olarak adlandÄ±rdÄ±ÄŸÄ±mÄ±z iÃ§in, aracÄ±nÄ±n onu kullanmasÄ±nÄ± saÄŸlamak iÃ§in istemlerinize `use the gh_grep tool` ekleyebilirsiniz.
+
+```txt "use the gh_grep tool"
+What's the right way to set a custom domain in an SST Astro component? use the gh_grep tool
+```
+
+Alternatif olarak [AGENTS.md](/docs/rules/)'a buna benzer bir ÅŸey ekleyebilirsiniz.
+
+```md title="AGENTS.md"
+If you are unsure how to do something, use `gh_grep` to search code examples from GitHub.
+```

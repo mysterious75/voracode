@@ -1,0 +1,511 @@
+---
+title: Servidores MCP
+description: Adicione ferramentas MCP locais e remotas.
+---
+
+VocÃª pode adicionar ferramentas externas ao voracode usando o _Model Context Protocol_, ou MCP. O voracode suporta servidores locais e remotos.
+
+Uma vez adicionadas, as ferramentas MCP estÃ£o automaticamente disponÃ­veis para o LLM juntamente com as ferramentas integradas.
+
+---
+
+#### Avisos
+
+Quando vocÃª usa um servidor MCP, ele adiciona ao contexto. Isso pode rapidamente se acumular se vocÃª tiver muitas ferramentas. Portanto, recomendamos ter cuidado com quais servidores MCP vocÃª usa.
+
+:::tip
+Os servidores MCP adicionam ao seu contexto, entÃ£o vocÃª deve ter cuidado com quais vocÃª habilita.
+:::
+
+Certos servidores MCP, como o servidor MCP do GitHub, tendem a adicionar muitos tokens e podem facilmente exceder o limite de contexto.
+
+---
+
+## Habilitando
+
+VocÃª pode definir servidores MCP em sua [ConfiguraÃ§Ã£o do voracode](https://voracode.ai/docs/config/) sob `mcp`. Adicione cada MCP com um nome Ãºnico. VocÃª pode se referir a esse MCP pelo nome ao solicitar ao LLM.
+
+```jsonc title="voracode.jsonc" {6}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "name-of-mcp-server": {
+      // ...
+      "enabled": true,
+    },
+    "name-of-other-mcp-server": {
+      // ...
+    },
+  },
+}
+```
+
+VocÃª tambÃ©m pode desabilitar um servidor definindo `enabled` como `false`. Isso Ã© Ãºtil se vocÃª quiser desabilitar temporariamente um servidor sem removÃª-lo de sua configuraÃ§Ã£o.
+
+---
+
+### Substituindo padrÃµes remotos
+
+As organizaÃ§Ãµes podem fornecer servidores MCP padrÃ£o atravÃ©s de seu endpoint `.well-known/voracode`. Esses servidores podem estar desabilitados por padrÃ£o, permitindo que os usuÃ¡rios optem pelos que precisam.
+
+Para habilitar um servidor especÃ­fico da configuraÃ§Ã£o remota da sua organizaÃ§Ã£o, adicione-o Ã  sua configuraÃ§Ã£o local com `enabled: true`:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://jira.example.com/mcp",
+      "enabled": true
+    }
+  }
+}
+```
+
+Os valores da sua configuraÃ§Ã£o local substituem os padrÃµes remotos. Veja [precedÃªncia de configuraÃ§Ã£o](/docs/config#precedence-order) para mais detalhes.
+
+---
+
+## Local
+
+Adicione servidores MCP locais usando `type` como `"local"` dentro do objeto MCP.
+
+```jsonc title="voracode.jsonc" {15}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-local-mcp-server": {
+      "type": "local",
+      // Or ["bun", "x", "my-mcp-command"]
+      "command": ["npx", "-y", "my-mcp-command"],
+      "enabled": true,
+      "environment": {
+        "MY_ENV_VAR": "my_env_var_value",
+      },
+    },
+  },
+}
+```
+
+O comando Ã© como o servidor MCP local Ã© iniciado. VocÃª tambÃ©m pode passar uma lista de variÃ¡veis de ambiente.
+
+Por exemplo, aqui estÃ¡ como vocÃª pode adicionar o servidor MCP de teste [`@modelcontextprotocol/server-everything`](https://www.npmjs.com/package/@modelcontextprotocol/server-everything).
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "mcp_everything": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-everything"],
+    },
+  },
+}
+```
+
+E para usÃ¡-lo, posso adicionar `use the mcp_everything tool` aos meus prompts.
+
+```txt "mcp_everything"
+use the mcp_everything tool to add the number 3 and 4
+```
+
+---
+
+#### OpÃ§Ãµes
+
+Aqui estÃ£o todas as opÃ§Ãµes para configurar um servidor MCP local.
+
+| OpÃ§Ã£o         | Tipo    | Requerido | DescriÃ§Ã£o                                                                                 |
+| ------------- | ------- | --------- | ----------------------------------------------------------------------------------------- |
+| `type`        | String  | S         | Tipo de conexÃ£o do servidor MCP, deve ser `"local"`.                                      |
+| `command`     | Array   | S         | Comando e argumentos para executar o servidor MCP.                                        |
+| `environment` | Object  |           | VariÃ¡veis de ambiente a serem definidas ao executar o servidor.                           |
+| `enabled`     | Boolean |           | Habilitar ou desabilitar o servidor MCP na inicializaÃ§Ã£o.                                 |
+| `timeout`     | Number  |           | Tempo limite em ms para buscar ferramentas do servidor MCP. O padrÃ£o Ã© 5000 (5 segundos). |
+
+---
+
+## Remoto
+
+Adicione servidores MCP remotos definindo `type` como `"remote"`.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-remote-mcp": {
+      "type": "remote",
+      "url": "https://my-mcp-server.com",
+      "enabled": true,
+      "headers": {
+        "Authorization": "Bearer MY_API_KEY"
+      }
+    }
+  }
+}
+```
+
+O `url` Ã© a URL do servidor MCP remoto e com a opÃ§Ã£o `headers` vocÃª pode passar uma lista de cabeÃ§alhos.
+
+---
+
+#### OpÃ§Ãµes
+
+| OpÃ§Ã£o     | Tipo    | Requerido | DescriÃ§Ã£o                                                                                 |
+| --------- | ------- | --------- | ----------------------------------------------------------------------------------------- |
+| `type`    | String  | S         | Tipo de conexÃ£o do servidor MCP, deve ser `"remote"`.                                     |
+| `url`     | String  | S         | URL do servidor MCP remoto.                                                               |
+| `enabled` | Boolean |           | Habilitar ou desabilitar o servidor MCP na inicializaÃ§Ã£o.                                 |
+| `headers` | Object  |           | CabeÃ§alhos a serem enviados com a solicitaÃ§Ã£o.                                            |
+| `oauth`   | Object  |           | ConfiguraÃ§Ã£o de autenticaÃ§Ã£o OAuth. Veja a seÃ§Ã£o [OAuth](#oauth) abaixo.                  |
+| `timeout` | Number  |           | Tempo limite em ms para buscar ferramentas do servidor MCP. O padrÃ£o Ã© 5000 (5 segundos). |
+
+---
+
+## OAuth
+
+O voracode lida automaticamente com a autenticaÃ§Ã£o OAuth para servidores MCP remotos. Quando um servidor requer autenticaÃ§Ã£o, o voracode irÃ¡:
+
+1. Detectar a resposta 401 e iniciar o fluxo OAuth
+2. Usar **Registro DinÃ¢mico de Cliente (RFC 7591)** se suportado pelo servidor
+3. Armazenar tokens de forma segura para futuras solicitaÃ§Ãµes
+
+---
+
+### AutomÃ¡tico
+
+Para a maioria dos servidores MCP habilitados para OAuth, nenhuma configuraÃ§Ã£o especial Ã© necessÃ¡ria. Basta configurar o servidor remoto:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-oauth-server": {
+      "type": "remote",
+      "url": "https://mcp.example.com/mcp"
+    }
+  }
+}
+```
+
+Se o servidor requer autenticaÃ§Ã£o, o voracode solicitarÃ¡ que vocÃª se autentique quando tentar usÃ¡-lo pela primeira vez. Se nÃ£o, vocÃª pode [iniciar manualmente o fluxo](#authenticating) com `voracode mcp auth <server-name>`.
+
+---
+
+### PrÃ©-registrado
+
+Se vocÃª tiver credenciais de cliente do provedor do servidor MCP, pode configurÃ¡-las:
+
+```json title="voracode.json" {7-11}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-oauth-server": {
+      "type": "remote",
+      "url": "https://mcp.example.com/mcp",
+      "oauth": {
+        "clientId": "{env:MY_MCP_CLIENT_ID}",
+        "clientSecret": "{env:MY_MCP_CLIENT_SECRET}",
+        "scope": "tools:read tools:execute"
+      }
+    }
+  }
+}
+```
+
+---
+
+### AutenticaÃ§Ã£o
+
+VocÃª pode iniciar manualmente a autenticaÃ§Ã£o ou gerenciar credenciais.
+
+Autentique-se com um servidor MCP especÃ­fico:
+
+```bash
+voracode mcp auth my-oauth-server
+```
+
+Liste todos os servidores MCP e seu status de autenticaÃ§Ã£o:
+
+```bash
+voracode mcp list
+```
+
+Remova credenciais armazenadas:
+
+```bash
+voracode mcp logout my-oauth-server
+```
+
+O comando `mcp auth` abrirÃ¡ seu navegador para autorizaÃ§Ã£o. ApÃ³s vocÃª autorizar, o voracode armazenarÃ¡ os tokens de forma segura em `~/.local/share/voracode/mcp-auth.json`.
+
+---
+
+#### Desabilitando OAuth
+
+Se vocÃª quiser desabilitar o OAuth automÃ¡tico para um servidor (por exemplo, para servidores que usam chaves de API em vez disso), defina `oauth` como `false`:
+
+```json title="voracode.json" {7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-api-key-server": {
+      "type": "remote",
+      "url": "https://mcp.example.com/mcp",
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {env:MY_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+---
+
+#### OpÃ§Ãµes de OAuth
+
+| OpÃ§Ã£o          | Tipo            | DescriÃ§Ã£o                                                                                 |
+| -------------- | --------------- | ----------------------------------------------------------------------------------------- |
+| `oauth`        | Object \| false | Objeto de configuraÃ§Ã£o OAuth, ou `false` para desabilitar a detecÃ§Ã£o automÃ¡tica de OAuth. |
+| `clientId`     | String          | ID do cliente OAuth. Se nÃ£o fornecido, o registro dinÃ¢mico do cliente serÃ¡ tentado.       |
+| `clientSecret` | String          | Segredo do cliente OAuth, se necessÃ¡rio pelo servidor de autorizaÃ§Ã£o.                     |
+| `scope`        | String          | Escopos OAuth a serem solicitados durante a autorizaÃ§Ã£o.                                  |
+
+#### DepuraÃ§Ã£o
+
+Se um servidor MCP remoto estiver falhando na autenticaÃ§Ã£o, vocÃª pode diagnosticar problemas com:
+
+```bash
+# View auth status for all OAuth-capable servers
+voracode mcp auth list
+
+# Debug connection and OAuth flow for a specific server
+voracode mcp debug my-oauth-server
+```
+
+O comando `mcp debug` mostra o status de autenticaÃ§Ã£o atual, testa a conectividade HTTP e tenta o fluxo de descoberta OAuth.
+
+---
+
+## Gerenciamento
+
+Seus MCPs estÃ£o disponÃ­veis como ferramentas no voracode, juntamente com ferramentas integradas. Portanto, vocÃª pode gerenciÃ¡-los atravÃ©s da configuraÃ§Ã£o do voracode como qualquer outra ferramenta.
+
+---
+
+### Global
+
+Isso significa que vocÃª pode habilitÃ¡-los ou desabilitÃ¡-los globalmente.
+
+```json title="voracode.json" {14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-mcp-foo": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-foo"]
+    },
+    "my-mcp-bar": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-bar"]
+    }
+  },
+  "tools": {
+    "my-mcp-foo": false
+  }
+}
+```
+
+TambÃ©m podemos usar um padrÃ£o glob para desabilitar todos os MCPs correspondentes.
+
+```json title="voracode.json" {14}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-mcp-foo": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-foo"]
+    },
+    "my-mcp-bar": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command-bar"]
+    }
+  },
+  "tools": {
+    "my-mcp*": false
+  }
+}
+```
+
+Aqui estamos usando o padrÃ£o glob `my-mcp*` para desabilitar todos os MCPs.
+
+---
+
+### Por agente
+
+Se vocÃª tiver um grande nÃºmero de servidores MCP, pode querer habilitÃ¡-los apenas por agente e desabilitÃ¡-los globalmente. Para fazer isso:
+
+1. Desabilite-o como uma ferramenta globalmente.
+2. Em sua [configuraÃ§Ã£o de agente](/docs/agents#tools), habilite o servidor MCP como uma ferramenta.
+
+```json title="voracode.json" {11, 14-18}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "my-mcp": {
+      "type": "local",
+      "command": ["bun", "x", "my-mcp-command"],
+      "enabled": true
+    }
+  },
+  "tools": {
+    "my-mcp*": false
+  },
+  "agent": {
+    "my-agent": {
+      "tools": {
+        "my-mcp*": true
+      }
+    }
+  }
+}
+```
+
+---
+
+#### PadrÃµes glob
+
+O padrÃ£o glob usa padrÃµes simples de regex globbing:
+
+- `*` corresponde a zero ou mais de qualquer caractere (por exemplo, `"my-mcp*"` corresponde a `my-mcp_search`, `my-mcp_list`, etc.)
+- `?` corresponde exatamente a um caractere
+- Todos os outros caracteres correspondem literalmente
+
+:::note
+As ferramentas do servidor MCP sÃ£o registradas com o nome do servidor como prefixo, entÃ£o para desabilitar todas as ferramentas de um servidor, simplesmente use:
+
+```
+"mymcpservername_*": false
+```
+
+:::
+
+---
+
+## Exemplos
+
+Abaixo estÃ£o exemplos de alguns servidores MCP comuns. VocÃª pode enviar um PR se quiser documentar outros servidores.
+
+---
+
+### Sentry
+
+Adicione o [servidor MCP Sentry](https://mcp.sentry.dev) para interagir com seus projetos e problemas do Sentry.
+
+```json title="voracode.json" {4-8}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "sentry": {
+      "type": "remote",
+      "url": "https://mcp.sentry.dev/mcp",
+      "oauth": {}
+    }
+  }
+}
+```
+
+ApÃ³s adicionar a configuraÃ§Ã£o, autentique-se com o Sentry:
+
+```bash
+voracode mcp auth sentry
+```
+
+Isso abrirÃ¡ uma janela do navegador para completar o fluxo OAuth e conectar o voracode Ã  sua conta do Sentry.
+
+Uma vez autenticado, vocÃª pode usar ferramentas do Sentry em seus prompts para consultar problemas, projetos e dados de erro.
+
+```txt "use sentry"
+Show me the latest unresolved issues in my project. use sentry
+```
+
+---
+
+### Context7
+
+Adicione o [servidor MCP Context7](https://github.com/upstash/context7) para pesquisar atravÃ©s de documentos.
+
+```json title="voracode.json" {4-7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp"
+    }
+  }
+}
+```
+
+Se vocÃª se inscreveu para uma conta gratuita, pode usar sua chave de API e obter limites de taxa mais altos.
+
+```json title="voracode.json" {7-9}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+Aqui estamos assumindo que vocÃª tem a variÃ¡vel de ambiente `CONTEXT7_API_KEY` definida.
+
+Adicione `use context7` aos seus prompts para usar o servidor MCP Context7.
+
+```txt "use context7"
+Configure a Cloudflare Worker script to cache JSON API responses for five minutes. use context7
+```
+
+Alternativamente, vocÃª pode adicionar algo assim ao seu [AGENTS.md](/docs/rules/).
+
+```md title="AGENTS.md"
+When you need to search docs, use `context7` tools.
+```
+
+---
+
+### Grep by Vercel
+
+Adicione o [Grep by Vercel](https://grep.app) servidor MCP para pesquisar atravÃ©s de trechos de cÃ³digo no GitHub.
+
+```json title="voracode.json" {4-7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app"
+    }
+  }
+}
+```
+
+Como nomeamos nosso servidor MCP como `gh_grep`, vocÃª pode adicionar `use the gh_grep tool` aos seus prompts para fazer o agente usÃ¡-lo.
+
+```txt "use the gh_grep tool"
+What's the right way to set a custom domain in an SST Astro component? use the gh_grep tool
+```
+
+Alternativamente, vocÃª pode adicionar algo assim ao seu [AGENTS.md](/docs/rules/).
+
+```md title="AGENTS.md"
+If you are unsure how to do something, use `gh_grep` to search code examples from GitHub.
+```

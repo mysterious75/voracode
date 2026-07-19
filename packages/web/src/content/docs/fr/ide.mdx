@@ -1,0 +1,48 @@
+---
+title: IDE
+description: L'extension Voracode pour VS Code, Cursor et autres IDE
+---
+
+Voracode s'intÃ¨gre Ã  VS Code, Cursor ou tout IDE prenant en charge un terminal. ExÃ©cutez simplement `voracode` dans le terminal pour commencer.
+
+---
+
+## Utilisation
+
+- **Lancement rapide** : utilisez `Cmd+Esc` (Mac) ou `Ctrl+Esc` (Windows/Linux) pour ouvrir Voracode dans une vue de terminal divisÃ©e, ou focus sur une session de terminal existante si elle est dÃ©jÃ  en cours d'exÃ©cution.
+- **Nouvelle session** : utilisez `Cmd+Shift+Esc` (Mac) ou `Ctrl+Shift+Esc` (Windows/Linux) pour dÃ©marrer une nouvelle session de terminal Voracode, mÃªme si elle est dÃ©jÃ  ouverte. Vous pouvez Ã©galement cliquer sur le bouton Voracode dans l'interface utilisateur.
+- **Contexte** : partagez automatiquement votre sÃ©lection ou onglet actuel avec Voracode.
+- **Raccourcis de rÃ©fÃ©rence de fichier** : utilisez `Cmd+Option+K` (Mac) ou `Alt+Ctrl+K` (Linux/Windows) pour insÃ©rer des rÃ©fÃ©rences de fichier. Par exemple, `@File#L37-42`.
+
+---
+
+## Installation
+
+Pour installer Voracode sur VS Code et les forks populaires comme Cursor, Windsurf, VSCodium :
+
+1. Ouvrir VS Code
+2. Ouvrez le terminal intÃ©grÃ©
+3. ExÃ©cutez `voracode` - l'extension s'installe automatiquement
+
+Si, d'un autre cÃ´tÃ©, vous souhaitez utiliser votre propre IDE lorsque vous exÃ©cutez `/editor` ou `/export` Ã  partir du TUI, vous devrez dÃ©finir `export EDITOR="code --wait"`. [En savoir plus](/docs/tui/#editor-setup).
+
+---
+
+### Installation manuelle
+
+Recherchez **Voracode** dans Extension Marketplace et cliquez sur **Installer**.
+
+---
+
+### DÃ©pannage
+
+Si l'extension ne parvient pas Ã  s'installer automatiquement :
+
+- Assurez-vous que vous exÃ©cutez `voracode` dans le terminal intÃ©grÃ©.
+- Confirmez que la CLI de votre IDE est installÃ©e :
+  - Pour VS Code : commande `code`
+  - Pour Cursor : commande `cursor`
+  - Pour Windsurf : commande `windsurf`
+  - Pour VSCodium : commande `codium`
+  - Sinon, exÃ©cutez `Cmd+Shift+P` (Mac) ou `Ctrl+Shift+P` (Windows/Linux) et recherchez Â« Shell Command: Install 'code' command in PATH Â» (ou l'Ã©quivalent pour votre IDE)
+- Assurez-vous que VS Code est autorisÃ© Ã  installer des extensions

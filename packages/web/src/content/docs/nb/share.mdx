@@ -1,0 +1,128 @@
+---
+title: Deling
+description: Del dine Voracode-samtaler.
+---
+
+Delingsfunksjonen i Voracode lar deg lage offentlige lenker til dine Voracode-samtaler, slik at du kan samarbeide med lagkamerater eller fÃ¥ hjelp fra andre.
+
+:::note
+Delte samtaler er offentlig tilgjengelige for alle med linken.
+:::
+
+---
+
+## Slik fungerer det
+
+NÃ¥r du deler en samtale, Voracode:
+
+1. Oppretter en unik offentlig URL for Ã¸kten din
+2. Synkroniserer samtaleloggen din til serverne vÃ¥re
+3. GjÃ¸r samtalen tilgjengelig via den delbare lenken â€” `opncd.ai/s/<share-id>`
+
+---
+
+## Deling
+
+Voracode stÃ¸tter tre delingsmoduser som kontrollerer hvordan samtaler deles:
+
+---
+
+### Manuell (standard)
+
+Som standard bruker Voracode manuell delingsmodus. Ã˜kter deles ikke automatisk, men du kan dele dem manuelt ved Ã¥ bruke kommandoen `/share`:
+
+```
+/share
+```
+
+Dette vil generere en unik URL som vil bli kopiert til utklippstavlen din.
+
+For Ã¥ eksplisitt angi manuell modus i [konfigurasjonsfilen](/docs/config):
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "manual"
+}
+```
+
+---
+
+### Automatisk deling
+
+Du kan aktivere automatisk deling for alle nye samtaler ved Ã¥ sette alternativet `share` til `"auto"` i [konfigurasjonsfilen](/docs/config):
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "auto"
+}
+```
+
+Med automatisk deling aktivert, vil hver nye samtale automatisk bli delt og en kobling vil bli generert.
+
+---
+
+### Deaktivert
+
+Du kan deaktivere deling helt ved Ã¥ sette alternativet `share` til `"disabled"` i [konfigurasjonsfilen](/docs/config):
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "disabled"
+}
+```
+
+For Ã¥ hÃ¥ndheve dette pÃ¥ tvers av teamet ditt for et gitt prosjekt, legg det til `voracode.json` i prosjektet ditt og sjekk det inn i Git.
+
+---
+
+## Opphev deling
+
+Slik slutter du Ã¥ dele en samtale og fjerner den fra offentlig tilgang:
+
+```
+/unshare
+```
+
+Dette vil fjerne delelinken og slette dataene knyttet til samtalen.
+
+---
+
+## Personvern
+
+Det er et par ting du mÃ¥ huske pÃ¥ nÃ¥r du deler en samtale.
+
+---
+
+### Datalagring
+
+Delte samtaler forblir tilgjengelige til du eksplisitt opphever deling av dem. Dette
+inkluderer:
+
+- Full samtalehistorikk
+- Alle meldinger og svar
+- Metadata for Ã¸kter
+
+---
+
+### Anbefalinger
+
+- Del kun samtaler som ikke inneholder sensitiv informasjon.
+- Se gjennom samtaleinnholdet fÃ¸r du deler.
+- Opphev deling av samtaler nÃ¥r samarbeidet er fullfÃ¸rt.
+- UnngÃ¥ Ã¥ dele samtaler med proprietÃ¦r kode eller konfidensielle data.
+- For sensitive prosjekter, deaktiver deling helt.
+
+---
+
+## For bedrifter
+
+For bedriftsimplementeringer kan delingsfunksjonen vÃ¦re:
+
+- **Deaktivert** helt for overholdelse av sikkerhet
+- **Begrenset** til brukere som kun er autentisert gjennom SSO
+- **Selv-hostet** pÃ¥ din egen infrastruktur
+
+[Finn ut mer](/docs/enterprise) om bruk av voracode i organisasjonen din.

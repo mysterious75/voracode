@@ -1,0 +1,300 @@
+﻿---
+title: Fejlfinding
+description: Almindelige problemer, og hvordan de lÃ¸ses.
+---
+
+For at fejlfinde problemer med Voracode, start med at tjekke logfilerne og de lokale data, den gemmer pÃ¥ disken.
+
+---
+
+## Logfiler
+
+Logfiler skrives til:
+
+- **macOS/Linux**: `~/.local/share/voracode/log/`
+- **Windows**: Tryk `WIN+R` og indsÃ¦t `%USERPROFILE%\.local\share\voracode\log`
+
+Logfiler navngives med tidsstempler (f.eks. `2025-01-09T123456.log`) og de sidste 10 logfiler beholdes.
+
+Du kan angive logniveauet med kommandolinjeflaget `--log-level` for at fÃ¥ mere detaljeret fejlfindingsinformation. For eksempel `voracode --log-level DEBUG`.
+
+---
+
+## Lagring
+
+voracode gemmer sessionsdata og andre applikationsdata pÃ¥ disken pÃ¥:
+
+- **macOS/Linux**: `~/.local/share/voracode/`
+- **Windows**: Tryk `WIN+R` og indsÃ¦t `%USERPROFILE%\.local\share\voracode`
+
+Denne mappe indeholder:
+
+- `auth.json` - Godkendelsesdata som API-nÃ¸gler, OAuth-tokens
+- `log/` - Applikationslogs
+- `project/` - Projektspecifikke data som sessions- og beskeddata
+  - Hvis projektet er inden for et Git-repo, gemmes det i `./<project-slug>/storage/`
+  - Hvis det ikke er et Git-repo, gemmes det i `./global/storage/`
+
+---
+
+## Desktop-app
+
+Voracode Desktop kÃ¸rer en lokal Voracode-server (`voracode-cli` sidevognen) i baggrunden. De fleste problemer er forÃ¥rsaget af et plugin, der fungerer dÃ¥rligt, en Ã¸delagt cache eller en dÃ¥rlig serverindstilling.
+
+### Hurtige tjek
+
+- Afslut og start appen pÃ¥ ny.
+- Hvis appen viser en fejlskÃ¦rm, klikker du pÃ¥ **Start pÃ¥ ny** og kopierer fejldetaljerne.
+- Kun macOS: `Voracode`-menu -> **GenindlÃ¦s webvisning** (hjÃ¦lper hvis UI er tom/frosset).
+
+---
+
+### Deaktiver plugins
+
+Hvis skrivebordsappen gÃ¥r ned ved opstart, hÃ¦nger eller opfÃ¸rer sig mÃ¦rkeligt, start med at deaktivere plugins.
+
+#### Tjek den globale konfiguration
+
+Ã…bn den globale konfigurationsfil og se efter en `plugin`-nÃ¸gle.
+
+- **macOS/Linux**: `~/.config/voracode/voracode.jsonc` (eller `~/.config/voracode/voracode.json`)
+- **macOS/Linux** (Ã¦ldre installationer): `~/.local/share/voracode/voracode.jsonc`
+- **Windows**: Tryk `WIN+R` og indsÃ¦t `%USERPROFILE%\.config\voracode\voracode.jsonc`
+
+Hvis du har konfigureret plugins, deaktiver dem midlertidigt ved at fjerne nÃ¸glen eller sÃ¦tte den til et tomt array:
+
+```jsonc
+{
+  "$schema": "https://voracode.ai/config.json",
+  "plugin": [],
+}
+```
+
+#### Tjek plugin-mapper
+
+Voracode kan ogsÃ¥ indlÃ¦se lokale plugins fra disken. Flyt disse midlertidigt vÃ¦k (eller giv mappen nyt navn) og start skrivebordsappen pÃ¥ ny:
+
+- **Globale plugins**
+  - **macOS/Linux**: `~/.config/voracode/plugins/`
+  - **Windows**: Tryk `WIN+R` og indsÃ¦t `%USERPROFILE%\.config\voracode\plugins`
+- **Projektplugins** (kun hvis du bruger konfiguration per projekt)
+  - `<your-project>/.voracode/plugins/`
+
+Hvis appen begynder at fungere igen, aktiverer du plugins Ã©n ad gangen for at finde ud af, hvilken som forÃ¥rsager problemet.
+
+---
+
+### Ryd cachen
+
+Hvis deaktivering af plugins ikke hjÃ¦lper (eller en plugin-installation sidder fast), tÃ¸m cachen sÃ¥ Voracode kan genopbygge den.
+
+1. Afslut Voracode Desktop helt.
+2. Slet cache-mappen:
+
+- **macOS**: Finder -> `Cmd+Shift+G` -> indsÃ¦t `~/.cache/voracode`
+- **Linux**: slet `~/.cache/voracode` (eller kÃ¸r `rm -rf ~/.cache/voracode`)
+- **Windows**: Tryk `WIN+R` og indsÃ¦t `%USERPROFILE%\.cache\voracode`
+
+3. Start Voracode Desktop pÃ¥ ny.
+
+---
+
+### LÃ¸s problemer med serverforbindelse
+
+Voracode Desktop kan enten starte sin egen lokale server (standard) eller forbinde til en server URL, du har konfigureret.
+
+Hvis du ser en **"Forbindelse mislykkedes"**-dialogboks (eller appen kommer aldrig forbi splash-skÃ¦rmen), se efter en brugerdefineret server URL.
+
+#### Slet standardserveren for skrivebordet URL
+
+Fra startskÃ¦rmen klikker du pÃ¥ servernavnet (med statusprikken) for at Ã¥bne servervÃ¦lgeren. I delen **Standardserver** klikker du pÃ¥ **Slet**.
+
+#### Fjern `server.port` / `server.hostname` fra din konfiguration
+
+Hvis `voracode.json(c)` indeholder en `server`-del, fjern den midlertidigt og start skrivebordsappen pÃ¥ ny.
+
+#### Tjek miljÃ¸variabler
+
+Hvis du har `VORACODE_PORT` sat i dit miljÃ¸, vil skrivebordsappen prÃ¸ve at bruge den port for den lokale server.
+
+- Deaktiver `VORACODE_PORT` (eller vÃ¦lg en ledig port) og start pÃ¥ ny.
+
+---
+
+### Linux: Wayland / X11-problemer
+
+PÃ¥ Linux kan nogle Wayland-opsÃ¦tninger forÃ¥rsage tomme vinduer eller kompositorfejl.
+
+- Hvis du er pÃ¥ Wayland og appen er tom/crasher, prÃ¸v at starte med `OC_ALLOW_WAYLAND=1`.
+- Hvis det gÃ¸r ting vÃ¦rre, fjern det og prÃ¸v at starte under en X11-session i stedet.
+
+---
+
+### Windows: WebView2-runtime
+
+PÃ¥ Windows krÃ¦ver Voracode Desktop Microsoft Edge **WebView2 Runtime**. Hvis appen Ã¥bnes i et tomt vindue eller ikke starter, installer/opdater WebView2 og prÃ¸v igen.
+
+---
+
+### Windows: Generelle ydeevneproblemer
+
+Hvis du oplever langsom ydeevne, problemer med filadgang eller terminalproblemer pÃ¥ Windows, kan du prÃ¸ve at bruge [WSL (Windows Subsystem for Linux)](/docs/windows-wsl). WSL giver et Linux-miljÃ¸ som fungerer mere sÃ¸mlÃ¸st med funktionerne i Voracode.
+
+---
+
+### Meddelelser vises ikke
+
+Voracode Desktop viser kun systemvarsler nÃ¥r:
+
+- varsler er aktiveret for Voracode i dine OS-indstillinger, og
+- appvinduet ikke er fokuseret.
+
+---
+
+### Nulstil desktop-applagring (sidste udvej)
+
+Hvis appen ikke starter og du ikke kan slette indstillingerne fra UI, nulstil skrivebordsappens gemte tilstand.
+
+1. Afslut Voracode Desktop.
+2. Find og slet disse filer (de findes i Voracode Desktop-appens datamappe):
+
+- `voracode.settings.dat` (skrivebordsstandardserver URL)
+- `voracode.global.dat` og `voracode.workspace.*.dat` (UI tilstand som nylige servere/projekter)
+
+SÃ¥dan finder du mappen hurtigt:
+
+- **macOS**: Finder -> `Cmd+Shift+G` -> `~/Library/Application Support` (sÃ¸g derefter efter filnavnene ovenfor)
+- **Linux**: sÃ¸g under `~/.local/share` efter filnavnene ovenfor
+- **Windows**: Tryk `WIN+R` -> `%APPDATA%` (sÃ¸g derefter efter filnavnene ovenfor)
+
+---
+
+## FÃ¥ hjÃ¦lp
+
+Hvis du oplever problemer med Voracode:
+
+1. **Rapporter problemer pÃ¥ GitHub**
+
+   Den bedste mÃ¥de at rapportere fejl eller bede om funktioner pÃ¥ er gennem vores GitHub-repo:
+
+   [**github.com/mysterious75/voracode/issues**](https://github.com/mysterious75/voracode/issues)
+
+   FÃ¸r du opretter et nyt issue, sÃ¸g i eksisterende issues for at se om dit problem allerede er rapporteret.
+
+2. **Bliv en del af vores Discord**
+
+   For hjÃ¦lp i realtid og fÃ¦llesskabsdiskussion, bliv en del af vores Discord-server:
+
+   [**voracode.ai/discord**](https://voracode.ai/discord)
+
+---
+
+## Almindelige problemer
+
+Her er nogle almindelige problemer og hvordan du kan lÃ¸se dem.
+
+---
+
+### Voracode vil ikke starte
+
+1. Tjek logfilerne for fejlmeddelelser
+2. PrÃ¸v at kÃ¸re med `--print-logs` for at se output i terminalen
+3. SÃ¸rg for at du har den nyeste version med `voracode upgrade`
+
+---
+
+### Godkendelsesproblemer
+
+1. PrÃ¸v at godkende pÃ¥ ny med kommandoen `/connect` i TUI
+2. Tjek at dine API-nÃ¸gler er gyldige
+3. SÃ¸rg for at dit netvÃ¦rk tillader forbindelser til udbyderens API
+
+---
+
+### Modellen er ikke tilgÃ¦ngelig
+
+1. Tjek at du har godkendt dig med udbyderen
+2. Kontroller at modelnavnet i konfigurationen er rigtigt
+3. Nogle modeller kan krÃ¦ve specifik adgang eller abonnement
+
+Hvis du stÃ¸der pÃ¥ `ProviderModelNotFoundError` refererer du mest sandsynligt forkert
+til en model et sted.
+Modeller skal refereres sÃ¥dan: `<providerId>/<modelId>`
+
+Eksempler:
+
+- `openai/gpt-4.1`
+- `openrouter/google/gemini-2.5-flash`
+- `voracode/kimi-k2`
+
+For at finde ud af hvilke modeller du har adgang til, kÃ¸r `voracode models`
+
+---
+
+### ProviderInitError
+
+Hvis du stÃ¸der pÃ¥ en ProviderInitError, har du sandsynligvis en ugyldig eller Ã¸delagt konfiguration.
+
+For at lÃ¸se dette:
+
+1. Kontroller fÃ¸rst at din udbyder er rigtigt konfigureret ved at fÃ¸lge [udbydervejledningen](/docs/providers)
+2. Hvis problemet vedvarer, prÃ¸v at tÃ¸mme den gemte konfiguration:
+
+   ```bash
+   rm -rf ~/.local/share/voracode
+   ```
+
+   PÃ¥ Windows, tryk `WIN+R` og slet: `%USERPROFILE%\.local\share\voracode`
+
+3. Godkend pÃ¥ ny med din udbyder ved at bruge kommandoen `/connect` i TUI.
+
+---
+
+### AI_APICallError og udbyderpakkeproblemer
+
+Hvis du stÃ¸der pÃ¥ API-kaldsfejl, kan dette skyldes forÃ¦ldede udbyderpakker. voracode installerer dynamisk udbyderpakker (OpenAI, Anthropic, Google, etc.) efter behov og cacher dem lokalt.
+
+For at lÃ¸se problemer med udbyderpakke:
+
+1. TÃ¸m udbyderens pakkecache:
+
+   ```bash
+   rm -rf ~/.cache/voracode
+   ```
+
+   PÃ¥ Windows, tryk `WIN+R` og slet: `%USERPROFILE%\.cache\voracode`
+
+2. Start voracode pÃ¥ ny for at installere de nyeste udbyderpakker pÃ¥ ny
+
+Dette vil tvinge voracode til at downloade de nyeste versioner af udbyderpakkerne, som ofte lÃ¸ser kompatibilitetsproblemer med modelparametre og API-Ã¦ndringer.
+
+---
+
+### Kopier/indsÃ¦t virker ikke pÃ¥ Linux
+
+Linux-brugere skal have et af fÃ¸lgende udklipsholdervÃ¦rktÃ¸jer installeret for at kopier/indsÃ¦t-funktionalitet skal fungere:
+
+**For X11-systemer:**
+
+```bash
+apt install -y xclip
+# or
+apt install -y xsel
+```
+
+**For Wayland-systemer:**
+
+```bash
+apt install -y wl-clipboard
+```
+
+**For hovedlÃ¸se miljÃ¸er:**
+
+```bash
+apt install -y xvfb
+# and run:
+Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+export DISPLAY=:99.0
+```
+
+voracode vil opdage om du bruger Wayland og foretrÃ¦kke `wl-clipboard`, ellers vil den prÃ¸ve at finde udklipsholdervÃ¦rktÃ¸jer i rÃ¦kkefÃ¸lgen: `xclip` og `xsel`.

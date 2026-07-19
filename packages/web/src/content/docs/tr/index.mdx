@@ -1,0 +1,347 @@
+﻿---
+title: GiriÅŸ
+description: Voracode kullanmaya baÅŸlayÄ±n.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+import config from "../../../../config.mjs"
+export const console = config.console
+
+[**Voracode**](/) aÃ§Ä±k kaynaklÄ± bir AI kodlama ajanÄ±dÄ±r. Terminal tabanlÄ± bir arayÃ¼z, masaÃ¼stÃ¼ uygulamasÄ± veya IDE uzantÄ±sÄ± olarak mevcuttur.
+
+![voracode TUI with the voracode theme](../../../assets/lander/screenshot.png)
+
+BaÅŸlayalÄ±m.
+
+---
+
+#### Ã–n koÅŸullar
+
+Voracode'u terminalinizde kullanmak iÃ§in ihtiyacÄ±nÄ±z olacak:
+
+1. Åžu gibi modern bir terminal emÃ¼latÃ¶rÃ¼:
+   - [WezTerm](https://wezterm.org), cross-platform (tÃ¼m platformlarda)
+   - [Alacritty](https://alacritty.org), cross-platform (tÃ¼m platformlarda)
+   - [Ghostty](https://ghostty.org), Linux ve macOS
+   - [Kitty](https://sw.kovidgoyal.net/kitty/), Linux ve macOS
+
+2. Kullanmak istediÄŸiniz LLM saÄŸlayÄ±cÄ±larÄ±nÄ±n API anahtarlarÄ±.
+
+---
+
+## Kurulum
+
+Voracode'u kurmanÄ±n en kolay yolu kurulum betiÄŸidir.
+
+```bash
+curl -fsSL https://voracode.ai/install | bash
+```
+
+AyrÄ±ca aÅŸaÄŸÄ±daki komutlarla da yÃ¼kleyebilirsiniz:
+
+- **Node.js'yi kullanma**
+
+        <Tabs>
+
+      <TabItem label="npm">
+      ```bash
+      npm install -g voracode-ai
+      ```
+
+          </TabItem>
+
+        <TabItem label="Bun">
+        ```bash
+        bun install -g voracode-ai
+        ```
+
+          </TabItem>
+
+        <TabItem label="pnpm">
+        ```bash
+        pnpm install -g voracode-ai
+        ```
+
+          </TabItem>
+
+        <TabItem label="Yarn">
+        ```bash
+        yarn global add voracode-ai
+        ```
+
+      </TabItem>
+
+  </Tabs>
+
+- **Homebrew'u macOS ve Linux'ta kullanma**
+
+  ```bash
+  brew install mysterious75/tap/voracode
+  ```
+
+  > En gÃ¼ncel sÃ¼rÃ¼mler iÃ§in Voracode tap'ini kullanmanÄ±zÄ± Ã¶neririz. Resmi `brew install voracode` formÃ¼lÃ¼ Homebrew ekibi tarafÄ±ndan korunur ve daha sÄ±k gÃ¼ncellenir.
+
+- **Paru'yu Arch Linux'ta kullanma**
+
+  ```bash
+  sudo pacman -S voracode           # Arch Linux (Stable)
+  paru -S voracode-bin              # Arch Linux (Latest from AUR)
+  ```
+
+#### Windows
+
+:::tip[Ã–nerilen: WSL kullanÄ±n]
+Windows'ta en iyi deneyim iÃ§in [Windows Subsystem for Linux (WSL)](/docs/windows-wsl) kullanÄ±lmasÄ±nÄ± Ã¶neririz. Daha iyi performans ve Voracode'un Ã¶zellikleriyle tam uyumluluÄŸu saÄŸlar.
+:::
+
+- **Chocolatey KullanÄ±mÄ±**
+
+  ```bash
+  choco install voracode
+  ```
+
+- **Scoop KullanÄ±mÄ±**
+
+  ```bash
+  scoop install voracode
+  ```
+
+- **NPM kullanarak**
+
+  ```bash
+  npm install -g voracode-ai
+  ```
+
+- **Mise KullanÄ±mÄ±**
+
+  ```bash
+  mise use -g github:mysterious75/voracode
+  ```
+
+- **Docker'Ä± kullanma**
+
+  ```bash
+  docker run -it --rm ghcr.io/mysterious75/voracode
+  ```
+
+Voracode'un Bun kullanÄ±larak Windows'a yÃ¼klenmesine yÃ¶nelik destek ÅŸu anda devam etmektedir.
+
+Ä°kili dosyayÄ± [Releases](https://github.com/mysterious75/voracode/releases)'dan da alabilirsiniz.
+
+---
+
+## YapÄ±landÄ±rma
+
+Voracode ile herhangi bir LLM saÄŸlayÄ±cÄ±sÄ±nÄ±n API anahtarlarÄ±nÄ± yapÄ±landÄ±rarak kullanabilirsiniz.
+
+LLM saÄŸlayÄ±cÄ±larÄ±nÄ± kullanmaya yeni baÅŸlÄ±yorsanÄ±z, [Voracode Zen](/docs/zen) kullanmanÄ±zÄ± Ã¶neririz.
+Voracode ekibi tarafÄ±ndan test edilmiÅŸ ve doÄŸrulanmÄ±ÅŸ modellerin seÃ§ilmiÅŸ bir listesidir.
+
+1. TUI'de `/connect` komutunu Ã§alÄ±ÅŸtÄ±rÄ±n, Voracode'u seÃ§in ve [voracode.ai/auth](https://voracode.ai/auth)'ye gidin.
+
+   ```txt
+   /connect
+   ```
+
+2. Oturum aÃ§Ä±n, fatura ayrÄ±ntÄ±larÄ±nÄ±zÄ± ekleyin ve API anahtarÄ±nÄ±zÄ± kopyalayÄ±n.
+
+3. API anahtarÄ±nÄ±zÄ± yapÄ±ÅŸtÄ±rÄ±n.
+
+   ```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+   ```
+
+Alternatif olarak diÄŸer saÄŸlayÄ±cÄ±lardan birini seÃ§ebilirsiniz. [Daha fazla bilgi](/docs/providers#directory).
+
+---
+
+## BaÅŸlatma
+
+ArtÄ±k bir saÄŸlayÄ±cÄ± yapÄ±landÄ±rdÄ±ÄŸÄ±nÄ±za gÃ¶re, Ã¼zerinde Ã§alÄ±ÅŸmak istediÄŸiniz bir projeye gidebilirsiniz.
+
+```bash
+cd /path/to/project
+```
+
+Ve Voracode'u Ã§alÄ±ÅŸtÄ±rÄ±n.
+
+```bash
+voracode
+```
+
+Daha sonra aÅŸaÄŸÄ±daki komutu Ã§alÄ±ÅŸtÄ±rarak proje iÃ§in Voracode'u baÅŸlatÄ±n.
+
+```bash frame="none"
+/init
+```
+
+Bu, Voracode'un projenizi analiz etmesini ve bir `AGENTS.md` proje kÃ¶kÃ¼nde dosyasÄ± oluÅŸturmasÄ±nÄ± saÄŸlayacaktÄ±r.
+
+:::tip
+Projenizin `AGENTS.md` dosyasÄ±nÄ± Git'e gÃ¶ndermelisiniz.
+:::
+
+Bu, Voracode'un proje yapÄ±sÄ±nÄ± ve kullanÄ±lan kodlama kalÄ±plarÄ±nÄ± anlamasÄ±na yardÄ±mcÄ± olur.
+
+---
+
+## KullanÄ±m
+
+ArtÄ±k projeniz Ã¼zerinde Ã§alÄ±ÅŸmak iÃ§in Voracode'u kullanmaya hazÄ±rsÄ±nÄ±z. DilediÄŸiniz soruyu sorabilirsiniz.
+
+AI kodlama ajanÄ±nÄ± kullanmaya yeniyseniz aÅŸaÄŸÄ±daki Ã¶rnekler yardÄ±mcÄ± olabilir.
+
+---
+
+### Soru Sorma
+
+Voracode'dan kod tabanÄ±nÄ± size aÃ§Ä±klamasÄ±nÄ± isteyebilirsiniz.
+
+:::tip
+Projedeki dosyalarÄ± bulanÄ±k aramak iÃ§in `@` tuÅŸunu kullanÄ±n.
+:::
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+How is authentication handled in @packages/functions/src/api/index.ts
+```
+
+Kod tabanÄ±nÄ±n Ã¼zerinde Ã§alÄ±ÅŸmadÄ±ÄŸÄ±nÄ±z bir kÄ±smÄ± varsa bu yararlÄ± olur.
+
+---
+
+### Ã–zellik Ekleme
+
+Voracode'dan projenize yeni Ã¶zellikler eklemesini isteyebilirsiniz. Yine de Ã¶ncelikle ondan bir plan oluÅŸturmasÄ±nÄ± istemenizi Ã¶neririz.
+
+1. **Bir plan oluÅŸturun**
+
+   Voracode, deÄŸiÅŸiklik yapma Ã¶zelliÄŸini kapatan bir \_Plan modu\_\na sahiptir.
+   Bu modda, Ã¶zelliÄŸin nasÄ±l uygulanacaÄŸÄ±nÄ± Ã¶nerir.
+
+   **Tab** tuÅŸunu kullanarak buna geÃ§in. Bunun iÃ§in saÄŸ alt kÃ¶ÅŸede bir gÃ¶sterge gÃ¶receksiniz.
+
+   ```bash frame="none" title="Plan moduna geÃ§"
+   <TAB>
+   ```
+
+   Åžimdi ne yapmasÄ±nÄ± istediÄŸimizi anlatalÄ±m.
+
+   ```txt frame="none"
+   When a user deletes a note, we'd like to flag it as deleted in the database.
+   Then create a screen that shows all the recently deleted notes.
+   From this screen, the user can undelete a note or permanently delete it.
+   ```
+
+   Voracode'un isteÄŸinizi anlamasÄ± iÃ§in yeterli ayrÄ±ntÄ± verin.
+   Ekibinizdeki junior bir geliÅŸtiriciyle konuÅŸur gibi yazmak genelde iyi sonuÃ§ verir.
+
+   :::tip
+   Voracode'a ne istediÄŸinizi anlamasÄ±na yardÄ±mcÄ± olacak bol miktarda baÄŸlam ve Ã¶rnek verin.
+   :::
+
+2. **PlanÄ± yineleyin**
+
+   Size bir plan sunduÄŸunda ona geri bildirimde bulunabilir veya daha fazla ayrÄ±ntÄ± ekleyebilirsiniz.
+
+   ```txt frame="none"
+   We'd like to design this new screen using a design I've used before.
+   [Image #1] Take a look at this image and use it as a reference.
+   ```
+
+   :::tip
+   Ä°steme eklemek iÃ§in gÃ¶rÃ¼ntÃ¼leri terminale sÃ¼rÃ¼kleyip bÄ±rakÄ±n.
+   :::
+
+   Voracode verdiÄŸiniz gÃ¶rselleri tarayÄ±p prompt'a ekleyebilir.
+   Bunu bir gÃ¶rseli terminale sÃ¼rÃ¼kleyip bÄ±rakarak yapabilirsiniz.
+
+3. **Ã–zelliÄŸi oluÅŸturun**
+
+   PlanÄ± yeterli bulduÄŸunuzda **Tab** tuÅŸuna tekrar basarak \_Build modu\_\na dÃ¶nÃ¼n.
+
+   ```bash frame="none"
+   <TAB>
+   ```
+
+   ArdÄ±ndan deÄŸiÅŸiklikleri yapmasÄ±nÄ± isteyin.
+
+   ```bash frame="none"
+   Sounds good! Go ahead and make the changes.
+   ```
+
+---
+
+### DeÄŸiÅŸiklik Yapma
+
+Daha basit deÄŸiÅŸikliklerde, Ã¶nce planÄ± incelemeden Voracode'dan doÄŸrudan deÄŸiÅŸiklik yapmasÄ±nÄ± isteyebilirsiniz.
+
+```txt frame="none" "@packages/functions/src/settings.ts" "@packages/functions/src/notes.ts"
+We need to add authentication to the /settings route. Take a look at how this is
+handled in the /notes route in @packages/functions/src/notes.ts and implement
+the same logic in @packages/functions/src/settings.ts
+```
+
+Voracode'un doÄŸru deÄŸiÅŸiklikleri yapmasÄ± iÃ§in yeterli ayrÄ±ntÄ± verdiÄŸinizden emin olun.
+
+---
+
+### DeÄŸiÅŸiklikleri Geri Alma
+
+Diyelim ki Voracode'dan bazÄ± deÄŸiÅŸiklikler yapmasÄ±nÄ± istediniz.
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+Can you refactor the function in @packages/functions/src/api/index.ts?
+```
+
+Ama istediÄŸinin bu olmadÄ±ÄŸÄ±nÄ± anlÄ±yorsun. `/undo` komutunu kullanarak deÄŸiÅŸiklikleri **geri alabilirsiniz**.
+
+```bash frame="none"
+/undo
+```
+
+Voracode deÄŸiÅŸiklikleri geri alÄ±r ve orijinal mesajÄ±nÄ±zÄ± tekrar gÃ¶sterir.
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+Can you refactor the function in @packages/functions/src/api/index.ts?
+```
+
+Buradan komut isteminde ince ayar yapabilir ve Voracode'dan tekrar denemesini isteyebilirsiniz.
+
+:::tip
+Birden Ã§ok deÄŸiÅŸikliÄŸi geri almak iÃ§in `/undo` komutunu birden Ã§ok kez Ã§alÄ±ÅŸtÄ±rabilirsiniz.
+:::
+
+Veya `/redo` komutunu kullanarak deÄŸiÅŸiklikleri **yeniden yapabilirsiniz**.
+
+```bash frame="none"
+/redo
+```
+
+---
+
+## PaylaÅŸma
+
+Voracode ile yaptÄ±ÄŸÄ±nÄ±z gÃ¶rÃ¼ÅŸmeleri [ekibinizle paylaÅŸabilirsiniz](/docs/share).
+
+```bash frame="none"
+/share
+```
+
+Bu, mevcut konuÅŸmaya bir baÄŸlantÄ± oluÅŸturacak ve bunu panonuza kopyalayacaktÄ±r.
+
+:::note
+KonuÅŸmalar varsayÄ±lan olarak paylaÅŸÄ±lmaz.
+:::
+
+Ä°ÅŸte Voracode ile bir [Ã¶rnek konuÅŸma](https://voracode.ai/s/4XP1fce5).
+
+---
+
+## Ã–zelleÅŸtirme
+
+Ä°ÅŸte bu kadar! ArtÄ±k Voracode'u kullanma konusunda profesyonelsiniz.
+
+Kendinize gÃ¶re uyarlamak iÃ§in [tema seÃ§ebilir](/docs/themes), [tuÅŸ atamalarÄ±nÄ± Ã¶zelleÅŸtirebilir](/docs/keybinds), [kod biÃ§imlendirici ayarlayabilir](/docs/formatters), [Ã¶zel komutlar oluÅŸturabilir](/docs/commands) veya [Voracode config](/docs/config) ile oynayabilirsiniz.

@@ -1,0 +1,323 @@
+﻿---
+title: Uvod
+description: ZapoÄnite sa Voracode.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+import config from "../../../../config.mjs"
+export const console = config.console
+
+[**Voracode**](/) je AI agent za kodiranje otvorenog koda. Dostupan je kao interfejs baziran na terminalu, desktop aplikacija ili IDE ekstenzija.
+![Voracode TUI sa voracode temom](../../../assets/lander/screenshot.png)
+Hajde da poÄnemo.
+
+---
+
+#### Preduvjeti
+
+Da biste koristili Voracode u svom terminalu, trebat Ä‡e vam:
+
+1. Moderan emulator terminala kao Å¡to su:
+   - [WezTerm](https://wezterm.org), viÅ¡e platformi
+   - [Alacritty](https://alacritty.org), viÅ¡e platformi
+   - [Ghostty](https://ghostty.org), Linux i macOS
+   - [Kitty](https://sw.kovidgoyal.net/kitty/), Linux i macOS
+2. API kljuÄevi za LLM provajdere koje Å¾elite koristiti.
+
+---
+
+## Instalacija
+
+NajlakÅ¡i naÄin za instaliranje Voracode je putem instalacijske skripte.
+
+```bash
+curl -fsSL https://voracode.ai/install | bash
+```
+
+TakoÄ‘er ga moÅ¾ete instalirati pomoÄ‡u sljedeÄ‡ih naredbi:
+
+- **KoriÅ¡tenje Node.js**
+
+        <Tabs>
+
+      <TabItem label="npm">
+      ```bash
+      npm install -g voracode-ai
+      ```
+
+          </TabItem>
+
+        <TabItem label="Bun">
+        ```bash
+        bun install -g voracode-ai
+        ```
+
+          </TabItem>
+
+        <TabItem label="pnpm">
+        ```bash
+        pnpm install -g voracode-ai
+        ```
+
+          </TabItem>
+
+        <TabItem label="Yarn">
+        ```bash
+        yarn global add voracode-ai
+        ```
+
+      </TabItem>
+
+  </Tabs>
+
+- **KoriÅ¡tenje Homebrew-a na macOS-u i Linux-u**
+
+```bash
+  brew install mysterious75/tap/voracode
+```
+
+> PreporuÄujemo koriÅ¡tenje Voracode tap za najnovija izdanja. SluÅ¾benu formulu `brew install voracode` odrÅ¾ava Homebrew tim i aÅ¾urira se rjeÄ‘e.
+
+- **KoriÅ¡tenje Parua na Arch Linuxu**
+
+  ```bash
+  sudo pacman -S voracode           # Arch Linux (Stable)
+  paru -S voracode-bin              # Arch Linux (Latest from AUR)
+  ```
+
+#### Windows
+
+:::tip[PreporuÄeno: Koristite WSL]
+Za najbolje iskustvo na Windows-u preporuÄujemo koriÅ¡tenje [Windows Subsystem for Linux (WSL)](/docs/windows-wsl). PruÅ¾a bolje performanse i potpunu kompatibilnost sa Voracode funkcijama.
+:::
+
+- **KoriÅ¡tenje Chocolatey-a**
+
+```bash
+  choco install voracode
+```
+
+- **KoriÅ¡tenje Scoop-a**
+
+```bash
+  scoop install voracode
+```
+
+- **KoriÅ¡tenje NPM-a**
+
+```bash
+  npm install -g voracode-ai
+```
+
+- **KoriÅ¡tenje Mise**
+
+```bash
+  mise use -g github:mysterious75/voracode
+```
+
+- **KoriÅ¡tenje Dockera**
+
+```bash
+  docker run -it --rm ghcr.io/mysterious75/voracode
+```
+
+PodrÅ¡ka za instaliranje Voracode na Windows koristeÄ‡i Bun je trenutno u toku.
+TakoÄ‘er moÅ¾ete preuzeti binarnu datoteku iz [Releases](https://github.com/mysterious75/voracode/releases).
+
+---
+
+## Konfiguracija
+
+Uz Voracode moÅ¾ete koristiti bilo kojeg LLM provajdera tako Å¡to Ä‡ete konfigurirati njihove API kljuÄeve.
+Ako ste tek poÄeli koristiti LLM provajdere, preporuÄujemo koriÅ¡tenje [Voracode Zen](/docs/zen).
+To je kurirana lista modela koji su testirani i verifikovani od strane Voracode tima.
+
+1. Pokrenite naredbu `/connect` u TUI-u, odaberite voracode i idite na [voracode.ai/auth](https://voracode.ai/auth).
+
+```txt
+   /connect
+```
+
+2. Prijavite se, dodajte svoje detalje naplate i kopirajte svoj API kljuÄ.
+3. Zalijepite svoj API kljuÄ.
+
+```txt
+   â”Œ API key
+   â”‚
+   â”‚
+   â”” enter
+```
+
+Alternativno, moÅ¾ete odabrati jednog od drugih provajdera. [Saznajte viÅ¡e](/docs/providers#directory).
+
+---
+
+## Inicijalizacija
+
+Sada kada ste konfigurisali provajdera, moÅ¾ete se kretati do projekta na kojem Å¾elite raditi.
+
+```bash
+cd /path/to/project
+```
+
+I pokrenite Voracode.
+
+```bash
+voracode
+```
+
+Zatim inicijalizirajte Voracode za projekat pokretanjem sljedeÄ‡e naredbe.
+
+```bash frame="none"
+/init
+```
+
+Ovo Ä‡e omoguÄ‡iti Voracode da analizira vaÅ¡ projekat i kreira `AGENTS.md` fajl u korijenu projekta.
+:::tip
+Trebali biste komitovati datoteku `AGENTS.md` vaÅ¡eg projekta u Git.
+:::
+Ovo pomaÅ¾e Voracode da razumije strukturu projekta i obrasce kodiranja koji se koriste.
+
+---
+
+## KoriÅ¡tenje
+
+Sada ste spremni da koristite Voracode za rad na svom projektu. Slobodno pitajte bilo Å¡ta!
+Ako ste novi u koriÅ¡tenju agenta za AI kodiranje, evo nekoliko primjera koji bi mogli pomoÄ‡i.
+
+---
+
+### Postavljanje pitanja
+
+MoÅ¾ete zamoliti Voracode da vam objasni kodnu bazu.
+:::tip
+Koristite tipku `@` za nejasnu pretragu datoteka u projektu.
+:::
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+How is authentication handled in @packages/functions/src/api/index.ts
+```
+
+Ovo je korisno ako postoji dio kodne baze na kojem niste radili.
+
+---
+
+### Dodavanje funkcija
+
+MoÅ¾ete zamoliti Voracode da vaÅ¡em projektu doda nove funkcije. Iako preporuÄujemo da ga prvo zamolite da napravi plan.
+
+1. **Kreirajte plan**
+   Voracode ima _Plan mod_ koji onemoguÄ‡uje njegovu sposobnost da pravi promjene i umjesto toga predlaÅ¾e _kako_ Ä‡e implementirati ovu funkciju.
+   Prebacite se na njega pomoÄ‡u tipke **Tab**. Vidjet Ä‡ete indikator za ovo u donjem desnom uglu.
+
+```bash frame="none" title="Switch to Plan mode"
+   <TAB>
+```
+
+Hajde sada da opiÅ¡emo Å¡ta Å¾elimo da uradi.
+
+```txt frame="none"
+    When a user deletes a note, we'd like to flag it as deleted in the database.
+    Then create a screen that shows all the recently deleted notes.
+    From this screen, the user can undelete a note or permanently delete it.
+```
+
+Å½elite da date Voracode dovoljno detalja da razumije Å¡ta Å¾elite. PomaÅ¾e da razgovarate s njim kao da razgovarate sa mlaÄ‘im programerom u svom timu.
+:::tip
+Dajte Voracode dosta konteksta i primjera koji Ä‡e mu pomoÄ‡i da razumije Å¡ta vi Å¾elite.
+:::
+
+2. **Ponovite plan**
+   Kada vam da plan, moÅ¾ete mu dati povratne informacije ili dodati viÅ¡e detalja.
+
+```txt frame="none"
+    We'd like to design this new screen using a design I've used before.
+    [Image #1] Take a look at this image and use it as a reference.
+```
+
+:::tip
+Prevucite i ispustite slike u terminal da biste ih dodali u prompt.
+:::
+Voracode moÅ¾e skenirati sve slike koje mu date i dodati ih u prompt. MoÅ¾ete to uÄiniti povlaÄenjem i ispuÅ¡tanjem slike u terminal.
+
+3. **Izgradite funkciju**
+   Kada se osjeÄ‡ate ugodno s planom, vratite se na _Build mode_ ponovnim pritiskom na taster **Tab**.
+
+```bash frame="none"
+   <TAB>
+```
+
+I traÅ¾eÄ‡i od njega da napravi promjene.
+
+```bash frame="none"
+   Sounds good! Go ahead and make the changes.
+```
+
+---
+
+### Pravljenje izmjena
+
+Za jednostavnije promjene, moÅ¾ete zamoliti Voracode da ga direktno izgradi bez potrebe da prvo pregledate plan.
+
+```txt frame="none" "@packages/functions/src/settings.ts" "@packages/functions/src/notes.ts"
+We need to add authentication to the /settings route. Take a look at how this is
+handled in the /notes route in @packages/functions/src/notes.ts and implement
+the same logic in @packages/functions/src/settings.ts
+```
+
+Å½elite da budete sigurni da ste pruÅ¾ili dobru koliÄinu detalja kako bi Voracode napravio ispravne promjene.
+
+---
+
+### PoniÅ¡tavanje izmjena
+
+Recimo da traÅ¾ite od Voracode da izvrÅ¡i neke promjene.
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+Can you refactor the function in @packages/functions/src/api/index.ts?
+```
+
+Ali shvatate da to nije ono Å¡to ste Å¾eljeli. MoÅ¾ete **poniÅ¡titi** promjene koristeÄ‡i naredbu `/undo`.
+
+```bash frame="none"
+/undo
+```
+
+Voracode Ä‡e sada poniÅ¡titi promjene koje ste napravili i ponovo prikazati vaÅ¡u originalnu poruku.
+
+```txt frame="none" "@packages/functions/src/api/index.ts"
+Can you refactor the function in @packages/functions/src/api/index.ts?
+```
+
+Odavde moÅ¾ete podesiti prompt i zamoliti Voracode da pokuÅ¡a ponovo.
+:::tip
+MoÅ¾ete pokrenuti `/undo` viÅ¡e puta da poniÅ¡tite viÅ¡e promjena.
+:::
+Ili **moÅ¾ete ponoviti** promjene koristeÄ‡i naredbu `/redo`.
+
+```bash frame="none"
+/redo
+```
+
+---
+
+## Dijeljenje
+
+Razgovore koje imate sa Voracode moÅ¾ete [dijeliti sa vaÅ¡im timom](/docs/share).
+
+```bash frame="none"
+/share
+```
+
+Ovo Ä‡e kreirati vezu do trenutnog razgovora i kopirati je u meÄ‘uspremnik.
+:::note
+Razgovori se ne dijele prema zadanim postavkama.
+:::
+Evo [primjer razgovora](https://voracode.ai/s/4XP1fce5) sa Voracode.
+
+---
+
+## PrilagoÄ‘avanje
+
+I to je to! Sada ste profesionalac u koriÅ¡tenju Voracode.
+Da biste to uÄinili svojim, preporuÄujemo [odabir teme](/docs/themes), [prilagoÄ‘avanje povezivanja tipki](/docs/keybinds), [konfiguriranje formatera koda](/docs/formatters), [kreiranje prilagoÄ‘enih komandi](/docs/commands), ili igranje sa [Voracode config](/docs/config).

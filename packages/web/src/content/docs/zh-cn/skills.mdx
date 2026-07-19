@@ -1,0 +1,222 @@
+---
+title: "ä»£ç†æŠ€èƒ½"
+description: "é€šè¿‡ SKILL.md å®šä¹‰å¯å¤ç”¨çš„è¡Œä¸º"
+---
+
+ä»£ç†æŠ€èƒ½è®© Voracode èƒ½å¤Ÿä»Žä½ çš„ä»“åº“æˆ–ä¸»ç›®å½•ä¸­å‘çŽ°å¯å¤ç”¨çš„æŒ‡ä»¤ã€‚
+æŠ€èƒ½é€šè¿‡åŽŸç”Ÿçš„ `skill` å·¥å…·æŒ‰éœ€åŠ è½½â€”â€”ä»£ç†å¯ä»¥æŸ¥çœ‹å¯ç”¨æŠ€èƒ½ï¼Œå¹¶åœ¨éœ€è¦æ—¶åŠ è½½å®Œæ•´å†…å®¹ã€‚
+
+---
+
+## æ”¾ç½®æ–‡ä»¶
+
+ä¸ºæ¯ä¸ªæŠ€èƒ½åç§°åˆ›å»ºä¸€ä¸ªæ–‡ä»¶å¤¹ï¼Œå¹¶åœ¨å…¶ä¸­æ”¾å…¥ `SKILL.md`ã€‚
+Voracode ä¼šæœç´¢ä»¥ä¸‹ä½ç½®ï¼š
+
+- é¡¹ç›®é…ç½®ï¼š`.voracode/skills/<name>/SKILL.md`
+- å…¨å±€é…ç½®ï¼š`~/.config/voracode/skills/<name>/SKILL.md`
+- é¡¹ç›® Claude å…¼å®¹ï¼š`.claude/skills/<name>/SKILL.md`
+- å…¨å±€ Claude å…¼å®¹ï¼š`~/.claude/skills/<name>/SKILL.md`
+- é¡¹ç›®ä»£ç†å…¼å®¹ï¼š`.agents/skills/<name>/SKILL.md`
+- å…¨å±€ä»£ç†å…¼å®¹ï¼š`~/.agents/skills/<name>/SKILL.md`
+
+---
+
+## äº†è§£å‘çŽ°æœºåˆ¶
+
+å¯¹äºŽé¡¹ç›®æœ¬åœ°è·¯å¾„ï¼ŒVoracode ä¼šä»Žå½“å‰å·¥ä½œç›®å½•å‘ä¸ŠéåŽ†ï¼Œç›´åˆ°åˆ°è¾¾ git å·¥ä½œæ ‘æ ¹ç›®å½•ã€‚
+åœ¨æ­¤è¿‡ç¨‹ä¸­ï¼Œå®ƒä¼šåŠ è½½ `.voracode/` ä¸­æ‰€æœ‰åŒ¹é…çš„ `skills/*/SKILL.md`ï¼Œä»¥åŠåŒ¹é…çš„ `.claude/skills/*/SKILL.md` æˆ– `.agents/skills/*/SKILL.md`ã€‚
+
+å…¨å±€å®šä¹‰ä¹Ÿä¼šä»Ž `~/.config/voracode/skills/*/SKILL.md`ã€`~/.claude/skills/*/SKILL.md` å’Œ `~/.agents/skills/*/SKILL.md` ä¸­åŠ è½½ã€‚
+
+---
+
+## ç¼–å†™ frontmatter
+
+æ¯ä¸ª `SKILL.md` å¿…é¡»ä»¥ YAML frontmatter å¼€å¤´ã€‚
+ä»…è¯†åˆ«ä»¥ä¸‹å­—æ®µï¼š
+
+- `name`ï¼ˆå¿…å¡«ï¼‰
+- `description`ï¼ˆå¿…å¡«ï¼‰
+- `license`ï¼ˆå¯é€‰ï¼‰
+- `compatibility`ï¼ˆå¯é€‰ï¼‰
+- `metadata`ï¼ˆå¯é€‰ï¼Œå­—ç¬¦ä¸²åˆ°å­—ç¬¦ä¸²çš„æ˜ å°„ï¼‰
+
+æœªçŸ¥çš„ frontmatter å­—æ®µä¼šè¢«å¿½ç•¥ã€‚
+
+---
+
+## éªŒè¯åç§°
+
+`name` å¿…é¡»æ»¡è¶³ï¼š
+
+- é•¿åº¦ä¸º 1â€“64 ä¸ªå­—ç¬¦
+- ä»…åŒ…å«å°å†™å­—æ¯å’Œæ•°å­—ï¼Œå¯ç”¨å•ä¸ªè¿žå­—ç¬¦åˆ†éš”
+- ä¸ä»¥ `-` å¼€å¤´æˆ–ç»“å°¾
+- ä¸åŒ…å«è¿žç»­çš„ `--`
+- ä¸ŽåŒ…å« `SKILL.md` çš„ç›®å½•åç§°ä¸€è‡´
+
+ç­‰æ•ˆçš„æ­£åˆ™è¡¨è¾¾å¼ï¼š
+
+```text
+^[a-z0-9]+(-[a-z0-9]+)*$
+```
+
+---
+
+## éµå¾ªé•¿åº¦è§„åˆ™
+
+`description` å¿…é¡»ä¸º 1-1024 ä¸ªå­—ç¬¦ã€‚
+è¯·ä¿æŒæè¿°è¶³å¤Ÿå…·ä½“ï¼Œä»¥ä¾¿ä»£ç†èƒ½å¤Ÿæ­£ç¡®é€‰æ‹©ã€‚
+
+---
+
+## ä½¿ç”¨ç¤ºä¾‹
+
+åˆ›å»º `.voracode/skills/git-release/SKILL.md`ï¼Œå†…å®¹å¦‚ä¸‹ï¼š
+
+```markdown
+---
+name: git-release
+description: Create consistent releases and changelogs
+license: MIT
+compatibility: voracode
+metadata:
+  audience: maintainers
+  workflow: github
+---
+
+## What I do
+
+- Draft release notes from merged PRs
+- Propose a version bump
+- Provide a copy-pasteable `gh release create` command
+
+## When to use me
+
+Use this when you are preparing a tagged release.
+Ask clarifying questions if the target versioning scheme is unclear.
+```
+
+---
+
+## è¯†åˆ«å·¥å…·æè¿°
+
+Voracode ä¼šåœ¨ `skill` å·¥å…·æè¿°ä¸­åˆ—å‡ºå¯ç”¨æŠ€èƒ½ã€‚
+æ¯ä¸ªæ¡ç›®åŒ…å«æŠ€èƒ½åç§°å’Œæè¿°ï¼š
+
+```xml
+<available_skills>
+  <skill>
+    <name>git-release</name>
+    <description>Create consistent releases and changelogs</description>
+  </skill>
+</available_skills>
+```
+
+ä»£ç†é€šè¿‡è°ƒç”¨å·¥å…·æ¥åŠ è½½æŠ€èƒ½ï¼š
+
+```
+skill({ name: "git-release" })
+```
+
+---
+
+## é…ç½®æƒé™
+
+åœ¨ `voracode.json` ä¸­ä½¿ç”¨åŸºäºŽæ¨¡å¼çš„æƒé™æ¥æŽ§åˆ¶ä»£ç†å¯ä»¥è®¿é—®å“ªäº›æŠ€èƒ½ï¼š
+
+```json
+{
+  "permission": {
+    "skill": {
+      "*": "allow",
+      "pr-review": "allow",
+      "internal-*": "deny",
+      "experimental-*": "ask"
+    }
+  }
+}
+```
+
+| æƒé™    | è¡Œä¸º                     |
+| ------- | ------------------------ |
+| `allow` | æŠ€èƒ½ç«‹å³åŠ è½½             |
+| `deny`  | å¯¹ä»£ç†éšè—æŠ€èƒ½ï¼Œæ‹’ç»è®¿é—® |
+| `ask`   | åŠ è½½å‰æç¤ºç”¨æˆ·ç¡®è®¤       |
+
+æ¨¡å¼æ”¯æŒé€šé…ç¬¦ï¼š`internal-*` å¯åŒ¹é… `internal-docs`ã€`internal-tools` ç­‰ã€‚
+
+---
+
+## æŒ‰ä»£ç†è¦†ç›–æƒé™
+
+ä¸ºç‰¹å®šä»£ç†æŽˆäºˆä¸Žå…¨å±€é»˜è®¤å€¼ä¸åŒçš„æƒé™ã€‚
+
+**è‡ªå®šä¹‰ä»£ç†**ï¼ˆåœ¨ä»£ç† frontmatter ä¸­ï¼‰ï¼š
+
+```yaml
+---
+permission:
+  skill:
+    "documents-*": "allow"
+---
+```
+
+**å†…ç½®ä»£ç†**ï¼ˆåœ¨ `voracode.json` ä¸­ï¼‰ï¼š
+
+```json
+{
+  "agent": {
+    "plan": {
+      "permission": {
+        "skill": {
+          "internal-*": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+## ç¦ç”¨æŠ€èƒ½å·¥å…·
+
+ä¸ºä¸éœ€è¦ä½¿ç”¨æŠ€èƒ½çš„ä»£ç†å®Œå…¨ç¦ç”¨æŠ€èƒ½åŠŸèƒ½ï¼š
+
+**è‡ªå®šä¹‰ä»£ç†**ï¼š
+
+```yaml
+---
+tools:
+  skill: false
+---
+```
+
+**å†…ç½®ä»£ç†**ï¼š
+
+```json
+{
+  "agent": {
+    "plan": {
+      "tools": {
+        "skill": false
+      }
+    }
+  }
+}
+```
+
+ç¦ç”¨åŽï¼Œ`<available_skills>` éƒ¨åˆ†å°†è¢«å®Œå…¨çœç•¥ã€‚
+
+---
+
+## æŽ’æŸ¥åŠ è½½é—®é¢˜
+
+å¦‚æžœæŸä¸ªæŠ€èƒ½æ²¡æœ‰æ˜¾ç¤ºï¼š
+
+1. ç¡®è®¤ `SKILL.md` æ–‡ä»¶åå…¨éƒ¨ä¸ºå¤§å†™å­—æ¯
+2. æ£€æŸ¥ frontmatter æ˜¯å¦åŒ…å« `name` å’Œ `description`
+3. ç¡®ä¿æŠ€èƒ½åç§°åœ¨æ‰€æœ‰ä½ç½®ä¸­å”¯ä¸€
+4. æ£€æŸ¥æƒé™è®¾ç½®â€”â€”è®¾ä¸º `deny` çš„æŠ€èƒ½ä¼šå¯¹ä»£ç†éšè—

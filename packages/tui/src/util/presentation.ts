@@ -26,8 +26,8 @@ function wordmark(pad = "") {
     [...line]
       .map((char) => {
         if (char === "_") return `${bg} ${reset}`
-        if (char === "^") return `${fg}${bg}â–€${reset}`
-        if (char === "~") return `${shadow}â–€${reset}`
+        if (char === "^") return `${fg}${bg}▀${reset}`
+        if (char === "~") return `${shadow}▀${reset}`
         if (char === " ") return " "
         return `${fg}${char}${reset}`
       })

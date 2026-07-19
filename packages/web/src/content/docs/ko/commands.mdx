@@ -1,0 +1,323 @@
+---
+title: ëª…ë ¹ì–´
+description: ë°˜ë³µì ì¸ ìž‘ì—…ì„ ìœ„í•œ ì»¤ìŠ¤í…€ ëª…ë ¹ì„ ë§Œë“œì„¸ìš”.
+---
+
+ì»¤ìŠ¤í…€ ëª…ë ¹ì„ ì‚¬ìš©í•˜ë©´ TUIì—ì„œ í•´ë‹¹ ëª…ë ¹ì´ ì‹¤í–‰ë  ë•Œ ì‚¬ìš©í•  í”„ë¡¬í”„íŠ¸ë¥¼ ë¯¸ë¦¬ ì •ì˜í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```bash frame="none"
+/my-command
+```
+
+---
+
+ì»¤ìŠ¤í…€ ëª…ë ¹ì€ `/init`, `/undo`, `/redo`, `/share`, `/help` ê°™ì€ ë‚´ìž¥ ëª…ë ¹ê³¼ ë³„ë„ë¡œ ì¶”ê°€ë©ë‹ˆë‹¤. [ë” ì•Œì•„ë³´ê¸°](/docs/tui#commands).
+
+---
+
+## ëª…ë ¹ íŒŒì¼ ë§Œë“¤ê¸°
+
+ì»¤ìŠ¤í…€ ëª…ë ¹ì€ `commands/` ë””ë ‰í„°ë¦¬ì— Markdown íŒŒì¼ì„ ë§Œë“¤ì–´ ì •ì˜í•©ë‹ˆë‹¤.
+
+ì˜ˆ: `.voracode/commands/test.md`
+
+```md title=".voracode/commands/test.md"
+---
+description: Run tests with coverage
+agent: build
+model: anthropic/claude-3-5-sonnet-20241022
+---
+
+Run the full test suite with coverage report and show any failures.
+Focus on the failing tests and suggest fixes.
+```
+
+í”„ëŸ°íŠ¸ë§¤í„°(frontmatter)ì—ëŠ” ëª…ë ¹ ì†ì„±ì„ ì •ì˜í•˜ê³ , ë³¸ë¬¸ì€ í…œí”Œë¦¿ í”„ë¡¬í”„íŠ¸ê°€ ë©ë‹ˆë‹¤.
+
+ëª…ë ¹ ì´ë¦„ ì•žì— `/`ë¥¼ ë¶™ì—¬ ì‹¤í–‰í•©ë‹ˆë‹¤.
+
+```bash frame="none"
+"/test"
+```
+
+---
+
+## êµ¬ì„±
+
+ì»¤ìŠ¤í…€ ëª…ë ¹ì€ Voracode ì„¤ì •ìœ¼ë¡œ ì¶”ê°€í•˜ê±°ë‚˜, `commands/` ë””ë ‰í„°ë¦¬ì— Markdown íŒŒì¼ì„ ë§Œë“¤ì–´ ì¶”ê°€í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+---
+
+### JSON
+
+Voracode [config](/docs/config)ì˜ `command` ì˜µì…˜ì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
+
+```json title="voracode.jsonc" {4-12}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "command": {
+    // This becomes the name of the command
+    "test": {
+      // This is the prompt that will be sent to the LLM
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
+      // This is shown as the description in the TUI
+      "description": "Run tests with coverage",
+      "agent": "build",
+      "model": "anthropic/claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+
+ì´ì œ TUIì—ì„œ ë‹¤ìŒì²˜ëŸ¼ ì‹¤í–‰í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```bash frame="none"
+/test
+```
+
+---
+
+### Markdown
+
+Markdown íŒŒì¼ë¡œë„ ëª…ë ¹ì„ ì •ì˜í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì•„ëž˜ ê²½ë¡œ ì¤‘ í•˜ë‚˜ì— ë‘ë©´ ë©ë‹ˆë‹¤.
+
+- ì „ì—­: `~/.config/voracode/commands/`
+- í”„ë¡œì íŠ¸ë³„: `.voracode/commands/`
+
+```markdown title="~/.config/voracode/commands/test.md"
+---
+description: Run tests with coverage
+agent: build
+model: anthropic/claude-3-5-sonnet-20241022
+---
+
+Run the full test suite with coverage report and show any failures.
+Focus on the failing tests and suggest fixes.
+```
+
+Markdown íŒŒì¼ëª…ì´ ëª…ë ¹ ì´ë¦„ì´ ë©ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´ `test.md`ë¼ë©´ ì•„ëž˜ì²˜ëŸ¼ ì‹¤í–‰í•©ë‹ˆë‹¤.
+
+```bash frame="none"
+/test
+```
+
+---
+
+## í”„ë¡¬í”„íŠ¸ êµ¬ì„±
+
+ì»¤ìŠ¤í…€ ëª…ë ¹ í”„ë¡¬í”„íŠ¸ëŠ” ëª‡ ê°€ì§€ íŠ¹ìˆ˜ í”Œë ˆì´ìŠ¤í™€ë”(placeholder)ì™€ ë¬¸ë²•ì„ ì§€ì›í•©ë‹ˆë‹¤.
+
+---
+
+### ì¸ìˆ˜
+
+`$ARGUMENTS` í”Œë ˆì´ìŠ¤í™€ë”ë¡œ ëª…ë ¹ ì¸ìˆ˜ë¥¼ ì „ë‹¬í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```md title=".voracode/commands/component.md"
+---
+description: Create a new component
+---
+
+Create a new React component named $ARGUMENTS with TypeScript support.
+Include proper typing and basic structure.
+```
+
+ì¸ìˆ˜ë¥¼ ë„£ì–´ ì‹¤í–‰í•˜ë©´:
+
+```bash frame="none"
+/component Button
+```
+
+`$ARGUMENTS`ê°€ `Button`ìœ¼ë¡œ ì¹˜í™˜ë©ë‹ˆë‹¤.
+
+ìœ„ì¹˜ ì¸ìˆ˜ë„ ì‚¬ìš©í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+- `$1` - ì²« ë²ˆì§¸ ì¸ìˆ˜
+- `$2` - ë‘ ë²ˆì§¸ ì¸ìˆ˜
+- `$3` - ì„¸ ë²ˆì§¸ ì¸ìˆ˜
+- ì´í›„ ë™ì¼
+
+ì˜ˆì‹œ:
+
+```md title=".voracode/commands/create-file.md"
+---
+description: Create a new file with content
+---
+
+Create a file named $1 in the directory $2
+with the following content: $3
+```
+
+ì‹¤í–‰:
+
+```bash frame="none"
+/create-file config.json src "{ \"key\": \"value\" }"
+```
+
+ì¹˜í™˜ ê²°ê³¼:
+
+- `$1` -> `config.json`
+- `$2` -> `src`
+- `$3` -> `{ "key": "value" }`
+
+---
+
+### ì…¸ ì¶œë ¥
+
+_!`command`_ ë¬¸ë²•ìœ¼ë¡œ [bash ëª…ë ¹](/docs/tui#bash-commands)ì˜ ì¶œë ¥ ê²°ê³¼ë¥¼ í”„ë¡¬í”„íŠ¸ì— ì£¼ìž…í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+ì˜ˆë¥¼ ë“¤ì–´ í…ŒìŠ¤íŠ¸ ì»¤ë²„ë¦¬ì§€ ë¶„ì„ ëª…ë ¹ì„ ë§Œë“¤ë©´:
+
+```md title=".voracode/commands/analyze-coverage.md"
+---
+description: Analyze test coverage
+---
+
+Here are the current test results:
+!`npm test`
+
+Based on these results, suggest improvements to increase coverage.
+```
+
+ìµœê·¼ ë³€ê²½ ë¦¬ë·°ìš©ìœ¼ë¡œëŠ”:
+
+```md title=".voracode/commands/review-changes.md"
+---
+description: Review recent changes
+---
+
+Recent git commits:
+!`git log --oneline -10`
+
+Review these changes and suggest any improvements.
+```
+
+ëª…ë ¹ì€ í”„ë¡œì íŠ¸ ë£¨íŠ¸ ë””ë ‰í„°ë¦¬ì—ì„œ ì‹¤í–‰ë˜ë©°, ì¶œë ¥ ê²°ê³¼ëŠ” í”„ë¡¬í”„íŠ¸ ë³¸ë¬¸ì— í¬í•¨ë©ë‹ˆë‹¤.
+
+---
+
+### íŒŒì¼ ì°¸ì¡°
+
+`@` ë’¤ì— íŒŒì¼ëª…ì„ ë¶™ì—¬ ëª…ë ¹ì— íŒŒì¼ì„ í¬í•¨í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```md title=".voracode/commands/review-component.md"
+---
+description: Review component
+---
+
+Review the component in @src/components/Button.tsx.
+Check for performance issues and suggest improvements.
+```
+
+íŒŒì¼ ë‚´ìš©ì€ ìžë™ìœ¼ë¡œ í”„ë¡¬í”„íŠ¸ì— í¬í•¨ë©ë‹ˆë‹¤.
+
+---
+
+## ì˜µì…˜
+
+êµ¬ì„± ì˜µì…˜ì„ ìžì„¸ížˆ ì‚´íŽ´ë´…ë‹ˆë‹¤.
+
+---
+
+### í…œí”Œë¦¿
+
+`template` ì˜µì…˜ì€ ëª…ë ¹ ì‹¤í–‰ ì‹œ LLMì— ì „ë‹¬í•  í”„ë¡¬í”„íŠ¸ë¥¼ ì •ì˜í•©ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "command": {
+    "test": {
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes."
+    }
+  }
+}
+```
+
+ì´ ì˜µì…˜ì€ **í•„ìˆ˜**ìž…ë‹ˆë‹¤.
+
+---
+
+### ì„¤ëª…
+
+`description` ì˜µì…˜ìœ¼ë¡œ ëª…ë ¹ì˜ ì§§ì€ ì„¤ëª…ì„ ì¶”ê°€í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "command": {
+    "test": {
+      "description": "Run tests with coverage"
+    }
+  }
+}
+```
+
+ì´ ì„¤ëª…ì€ TUIì—ì„œ ëª…ë ¹ì„ ìž…ë ¥í•  ë•Œ í‘œì‹œë©ë‹ˆë‹¤.
+
+---
+
+### ì—ì´ì „íŠ¸
+
+`agent` ì„¤ì •ìœ¼ë¡œ ì´ ëª…ë ¹ì„ ì‹¤í–‰í•  [agent](/docs/agents)ë¥¼ ì§€ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+ì§€ì •í•œ ê°’ì´ [subagent](/docs/agents/#subagents)ë©´ ê¸°ë³¸ì ìœ¼ë¡œ subagent í˜¸ì¶œì´ ì‹¤í–‰ë©ë‹ˆë‹¤.
+ì´ ë™ìž‘ì„ ë„ë ¤ë©´ `subtask`ë¥¼ `false`ë¡œ ì„¤ì •í•˜ì„¸ìš”.
+
+```json title="voracode.json"
+{
+  "command": {
+    "review": {
+      "agent": "plan"
+    }
+  }
+}
+```
+
+ì´ ì˜µì…˜ì€ **ì„ íƒ**ìž…ë‹ˆë‹¤. ì§€ì •í•˜ì§€ ì•Šìœ¼ë©´ í˜„ìž¬ ì—ì´ì „íŠ¸ê°€ ê¸°ë³¸ê°’ìœ¼ë¡œ ì‚¬ìš©ë©ë‹ˆë‹¤.
+
+---
+
+### ì„œë¸ŒíƒœìŠ¤í¬
+
+`subtask` ë¶ˆë¦¬ì–¸(boolean)ì„ ì‚¬ìš©í•˜ë©´ ëª…ë ¹ì´ [subagent](/docs/agents/#subagents) í˜¸ì¶œì„ ê°•ì œë¡œ íŠ¸ë¦¬ê±°í•©ë‹ˆë‹¤.
+ì£¼ ì»¨í…ìŠ¤íŠ¸ë¥¼ ì˜¤ì—¼ì‹œí‚¤ê³  ì‹¶ì§€ ì•Šì„ ë•Œ ìœ ìš©í•˜ë©°, [agent](/docs/agents) ì„¤ì •ì˜ `mode`ê°€ `primary`ì—¬ë„ subagentë¡œ ì‹¤í–‰í•©ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "command": {
+    "analyze": {
+      "subtask": true
+    }
+  }
+}
+```
+
+ì´ ì˜µì…˜ì€ **ì„ íƒ**ìž…ë‹ˆë‹¤.
+
+---
+
+### ëª¨ë¸
+
+`model` ì„¤ì •ìœ¼ë¡œ ì´ ëª…ë ¹ì˜ ê¸°ë³¸ ëª¨ë¸ì„ ì˜¤ë²„ë¼ì´ë“œí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "command": {
+    "analyze": {
+      "model": "anthropic/claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+
+ì´ ì˜µì…˜ì€ **ì„ íƒ**ìž…ë‹ˆë‹¤.
+
+---
+
+## ë‚´ìž¥ ëª…ë ¹
+
+VoracodeëŠ” `/init`, `/undo`, `/redo`, `/share`, `/help` ë“± ì—¬ëŸ¬ ë‚´ìž¥ ëª…ë ¹ì„ ì œê³µí•©ë‹ˆë‹¤. [ë” ì•Œì•„ë³´ê¸°](/docs/tui#commands).
+
+:::note
+ì»¤ìŠ¤í…€ ëª…ë ¹ì€ ë‚´ìž¥ ëª…ë ¹ì„ ë®ì–´ì“¸ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+:::
+
+ê°™ì€ ì´ë¦„ìœ¼ë¡œ ì»¤ìŠ¤í…€ ëª…ë ¹ì„ ì •ì˜í•˜ë©´ ë‚´ìž¥ ëª…ë ¹ë³´ë‹¤ ì»¤ìŠ¤í…€ ëª…ë ¹ì´ ìš°ì„ í•©ë‹ˆë‹¤.

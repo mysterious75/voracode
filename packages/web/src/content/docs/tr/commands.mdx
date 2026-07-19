@@ -1,0 +1,323 @@
+---
+title: Komutlar
+description: Tekrarlanan gÃ¶revler iÃ§in Ã¶zel komutlar oluÅŸturulur.
+---
+
+Ã–zel komutlar, sÃ¶z konusu komut TUI'da yÃ¼rÃ¼tÃ¼ldÃ¼ÄŸÃ¼nde Ã§alÄ±ÅŸtÄ±rmak istediÄŸiniz istemi belirtmenize olanak tanÄ±r.
+
+```bash frame="none"
+/my-command
+```
+
+Ã–zel komutlar, `/init`, `/undo`, `/redo`, `/share`, `/help` gibi komutlara ek olarak sunulur. [Daha fazla bilgi](/docs/tui#commands).
+
+---
+
+## Komut dosyalarÄ± oluÅŸturma
+
+Ã–zel komutlarÄ± tanÄ±mlamak iÃ§in `commands/` dizininde iÅŸaretleme dosyalarÄ± oluÅŸturun.
+
+`.voracode/commands/test.md` oluÅŸtur:
+
+```md title=".voracode/commands/test.md"
+---
+description: Run tests with coverage
+agent: build
+model: anthropic/claude-3-5-sonnet-20241022
+---
+
+Run the full test suite with coverage report and show any failures.
+Focus on the failing tests and suggest fixes.
+```
+
+Ã–n madde komut Ã¶zelliklerini tanÄ±mlar. Ä°Ã§erik ÅŸablon haline gelir.
+
+`/` ve ardÄ±ndan komut adÄ±nÄ± yazarak komutu kullanÄ±n.
+
+```bash frame="none"
+"/test"
+```
+
+---
+
+## YapÄ±landÄ±rma
+
+voracode iÅŸlemleri aracÄ±lÄ±ÄŸÄ±yla veya `commands/` dizininde iÅŸaretleme dosyalarÄ±nÄ±n oluÅŸturulmasÄ± Ã¶zel komutlar ile yapÄ±labilir.
+
+---
+
+### JSON
+
+voracode [config](/docs/config)'deki `command` seÃ§eneÄŸini kullanÄ±n:
+
+```json title="voracode.jsonc" {4-12}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "command": {
+    // This becomes the name of the command
+    "test": {
+      // This is the prompt that will be sent to the LLM
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
+      // This is shown as the description in the TUI
+      "description": "Run tests with coverage",
+      "agent": "build",
+      "model": "anthropic/claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+
+ArtÄ±k bu komutu TUI'da Ã§alÄ±ÅŸtÄ±rabilirsiniz:
+
+```bash frame="none"
+/test
+```
+
+---
+
+### Markdown
+
+Markdown dosyalarÄ±nÄ± kullanarak komutlarÄ± da tanÄ±mlayabilirsiniz. BunlarÄ± ÅŸuraya yerleÅŸtirin:
+
+- KÃ¼resel: `~/.config/voracode/commands/`
+- Proje baÅŸÄ±na: `.voracode/commands/`
+
+```markdown title="~/.config/voracode/commands/test.md"
+---
+description: Run tests with coverage
+agent: build
+model: anthropic/claude-3-5-sonnet-20241022
+---
+
+Run the full test suite with coverage report and show any failures.
+Focus on the failing tests and suggest fixes.
+```
+
+Markdown dosyasÄ±nÄ±n adÄ± komut adÄ± olur. Ã–rneÄŸin, `test.md` ÅŸunu saÄŸlar:
+sen koÅŸuyorsun:
+
+```bash frame="none"
+/test
+```
+
+---
+
+## Ä°stem yapÄ±landÄ±rmasÄ±
+
+Ã–zel komut istemleri birÃ§ok Ã¶zel yer tutucuyu ve sÃ¶zdizimini destekler.
+
+---
+
+### ArgÃ¼manlar
+
+`$ARGUMENTS` yer tutucusunu kullanarak komutlara argÃ¼manlarÄ± iletin.
+
+```md title=".voracode/commands/component.md"
+---
+description: Create a new component
+---
+
+Create a new React component named $ARGUMENTS with TypeScript support.
+Include proper typing and basic structure.
+```
+
+Komutu baÄŸÄ±msÄ±z deÄŸiÅŸkenlerle Ã§alÄ±ÅŸtÄ±rÄ±n:
+
+```bash frame="none"
+/component Button
+```
+
+Ve `$ARGUMENTS`, `Button` ile deÄŸiÅŸtirilecektir.
+
+Konumsal parametreleri kullanarak baÄŸÄ±msÄ±z deÄŸiÅŸkenlere de eriÅŸebilirsiniz:
+
+- `$1` - Ä°lk argÃ¼man
+- `$2` - Ä°kinci argÃ¼man
+- `$3` - ÃœÃ§Ã¼ncÃ¼ argÃ¼man
+- Ve benzeri...
+
+Ã–rneÄŸin:
+
+```md title=".voracode/commands/create-file.md"
+---
+description: Create a new file with content
+---
+
+Create a file named $1 in the directory $2
+with the following content: $3
+```
+
+Komutu Ã§alÄ±ÅŸtÄ±rÄ±n:
+
+```bash frame="none"
+/create-file config.json src "{ \"key\": \"value\" }"
+```
+
+Bu ÅŸunun yerini alÄ±r:
+
+- `$1` ile `config.json`
+- `$2` ile `src`
+- `$3` ile `{ "key": "value" }`
+
+---
+
+### Shell output
+
+Ä°steminize [bash command](/docs/tui#bash-commands) Ã§Ä±ktÄ±sÄ±nÄ± enjekte etmek iÃ§in \__!`command`_ kullanÄ±n.
+
+Ã–rneÄŸin, test kapsamÄ±nÄ± analiz eden Ã¶zel bir komut oluÅŸturmak iÃ§in:
+
+```md title=".voracode/commands/analyze-coverage.md"
+---
+description: Analyze test coverage
+---
+
+Here are the current test results:
+!`npm test`
+
+Based on these results, suggest improvements to increase coverage.
+```
+
+Or to review recent changes:
+
+```md title=".voracode/commands/review-changes.md"
+---
+description: Review recent changes
+---
+
+Recent git commits:
+!`git log --oneline -10`
+
+Review these changes and suggest any improvements.
+```
+
+Komutlar projenizin kÃ¶k dizininde Ã§alÄ±ÅŸÄ±r ve Ã§Ä±ktÄ±larÄ± istemin bir parÃ§asÄ± olur.
+
+---
+
+### Dosya referanslarÄ±
+
+Komutunuza `@` ve ardÄ±ndan dosya adÄ±nÄ± kullanarak dosyalarÄ± ekleyin.
+
+```md title=".voracode/commands/review-component.md"
+---
+description: Review component
+---
+
+Review the component in @src/components/Button.tsx.
+Check for performance issues and suggest improvements.
+```
+
+Dosya iÃ§eriÄŸi otomatik olarak istemde yer alÄ±r.
+
+---
+
+## SeÃ§enekler
+
+YapÄ±landÄ±rma seÃ§eneklerine ayrÄ±ntÄ±lÄ± olarak bakalÄ±m.
+
+---
+
+### Åžablon
+
+`template` seÃ§eneÄŸi, komut yÃ¼rÃ¼tÃ¼ldÃ¼ÄŸÃ¼nde LLM'ye gÃ¶nderilecek olan istemi tanÄ±mlar.
+
+```json title="voracode.json"
+{
+  "command": {
+    "test": {
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes."
+    }
+  }
+}
+```
+
+Bu **gerekli** bir yapÄ±landÄ±rma seÃ§eneÄŸidir.
+
+---
+
+### AÃ§Ä±klama
+
+Komutun ne yaptÄ±ÄŸÄ±na iliÅŸkin kÄ±sa bir aÃ§Ä±klama saÄŸlamak iÃ§in `description` seÃ§eneÄŸini kullanÄ±n.
+
+```json title="voracode.json"
+{
+  "command": {
+    "test": {
+      "description": "Run tests with coverage"
+    }
+  }
+}
+```
+
+Bu, komutu yazdÄ±ÄŸÄ±nÄ±zda TUI iÃ§indeki aÃ§Ä±klama olarak gÃ¶sterilir.
+
+---
+
+### Ajan
+
+Ä°steÄŸe baÄŸlÄ± olarak bu komutu hangi [agent](/docs/agents)'nin yÃ¼rÃ¼tmesi gerektiÄŸini belirtmek iÃ§in `agent` yapÄ±landÄ±rmasÄ±nÄ± kullanÄ±n.
+Bu bir [subagent](/docs/agents/#subagents) ise, komut varsayÄ±lan olarak bir alt aracÄ± Ã§aÄŸrÄ±sÄ±nÄ± tetikleyecektir.
+Bu davranÄ±ÅŸÄ± devre dÄ±ÅŸÄ± bÄ±rakmak iÃ§in `subtask` Ã¶ÄŸesini `false` olarak ayarlayÄ±n.
+
+```json title="voracode.json"
+{
+  "command": {
+    "review": {
+      "agent": "plan"
+    }
+  }
+}
+```
+
+Bu **isteÄŸe baÄŸlÄ±** bir yapÄ±landÄ±rma seÃ§eneÄŸidir. BelirtilmemiÅŸse, varsayÄ±lan olarak mevcut temsilciniz kullanÄ±lÄ±r.
+
+---
+
+### Subtask
+
+Komutu bir [subagent](/docs/agents/#subagents) Ã§aÄŸrÄ±sÄ±nÄ± tetiklemeye zorlamak iÃ§in `subtask` boolean'Ä±nÄ± kullanÄ±n.
+Bu, komutun birincil baÄŸlamÄ±nÄ±zÄ± kirletmemesini ve aracÄ±yÄ± bir alt aracÄ± olarak davranmaya **zorlamasÄ±nÄ±** istiyorsanÄ±z kullanÄ±ÅŸlÄ±dÄ±r.
+`mode`, [agent](/docs/agents) yapÄ±landÄ±rmasÄ±nda `primary` olarak ayarlanmÄ±ÅŸ olsa bile.
+
+```json title="voracode.json"
+{
+  "command": {
+    "analyze": {
+      "subtask": true
+    }
+  }
+}
+```
+
+Bu **isteÄŸe baÄŸlÄ±** bir yapÄ±landÄ±rma seÃ§eneÄŸidir.
+
+---
+
+### Modeli
+
+Bu parÃ§anÄ±n varsayÄ±lan kodu geÃ§ersiz iÃ§in `model` kontrolÃ¼nÃ¼ kullanÄ±n.
+
+```json title="voracode.json"
+{
+  "command": {
+    "analyze": {
+      "model": "anthropic/claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+
+Bu **isteÄŸe baÄŸlÄ±** bir yapÄ±landÄ±rma seÃ§eneÄŸidir.
+
+---
+
+## YerleÅŸik
+
+voracode, `/init`, `/undo`, `/redo`, `/share`, `/help` gibi Ã§eÅŸitli yerleÅŸik komutlar iÃ§erir; [learn more](/docs/tui#commands).
+
+:::note
+Ã–zel komutlar yerleÅŸik komutlarÄ± geÃ§ersiz kÄ±labilir.
+:::
+
+AynÄ± adda Ã¶zel bir komut tanÄ±mlarsanÄ±z yerleÅŸik komutu geÃ§ersiz kÄ±lar.

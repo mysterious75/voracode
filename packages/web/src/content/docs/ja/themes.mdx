@@ -1,0 +1,667 @@
+---
+title: ãƒ†ãƒ¼ãƒž
+description: çµ„ã¿è¾¼ã¿ã®ãƒ†ãƒ¼ãƒžã‚’é¸æŠžã™ã‚‹ã‹ã€ç‹¬è‡ªã®ãƒ†ãƒ¼ãƒžã‚’å®šç¾©ã—ã¾ã™ã€‚
+---
+
+Voracode ã‚’ä½¿ç”¨ã™ã‚‹ã¨ã€ã„ãã¤ã‹ã®çµ„ã¿è¾¼ã¿ãƒ†ãƒ¼ãƒžã‹ã‚‰ 1 ã¤ã‚’é¸æŠžã—ãŸã‚Šã€ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®ãƒ†ãƒ¼ãƒžã«é©åˆã™ã‚‹ãƒ†ãƒ¼ãƒžã‚’ä½¿ç”¨ã—ãŸã‚Šã€ç‹¬è‡ªã®ã‚«ã‚¹ã‚¿ãƒ ãƒ†ãƒ¼ãƒžã‚’å®šç¾©ã—ãŸã‚Šã§ãã¾ã™ã€‚
+
+ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ã¯ã€Voracode ã¯ç‹¬è‡ªã® `voracode` ãƒ†ãƒ¼ãƒžã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
+
+---
+
+## ã‚¿ãƒ¼ãƒŸãƒŠãƒ«è¦ä»¶
+
+ãƒ†ãƒ¼ãƒžã‚’ãƒ•ãƒ«ã‚«ãƒ©ãƒ¼ãƒ‘ãƒ¬ãƒƒãƒˆã§æ­£ã—ãè¡¨ç¤ºã™ã‚‹ã«ã¯ã€ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ãŒ **Truecolor** (24 ãƒ“ãƒƒãƒˆã‚«ãƒ©ãƒ¼) ã‚’ã‚µãƒãƒ¼ãƒˆã—ã¦ã„ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚æœ€æ–°ã®ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®ã»ã¨ã‚“ã©ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ã“ã‚Œã‚’ã‚µãƒãƒ¼ãƒˆã—ã¦ã„ã¾ã™ãŒã€æœ‰åŠ¹ã«ã™ã‚‹å¿…è¦ãŒã‚ã‚‹å ´åˆãŒã‚ã‚Šã¾ã™ã€‚
+
+- **ã‚µãƒãƒ¼ãƒˆã‚’ç¢ºèªã—ã¦ãã ã•ã„**: `echo $COLORTERM` ã‚’å®Ÿè¡Œã—ã¾ã™ - `truecolor` ã¾ãŸã¯ `24bit` ãŒå‡ºåŠ›ã•ã‚Œã‚‹ã¯ãšã§ã™
+- **Truecolor ã‚’æœ‰åŠ¹ã«ã™ã‚‹**: ã‚·ã‚§ãƒ«ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã§ç’°å¢ƒå¤‰æ•° `COLORTERM=truecolor` ã‚’è¨­å®šã—ã¾ã™ã€‚
+- **ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®äº’æ›æ€§**: ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ã‚¿ãŒ 24 ãƒ“ãƒƒãƒˆã‚«ãƒ©ãƒ¼ã‚’ã‚µãƒãƒ¼ãƒˆã—ã¦ã„ã‚‹ã“ã¨ã‚’ç¢ºèªã—ã¦ãã ã•ã„ (iTerm2ã€Alacrittyã€Kittyã€Windows Terminalã€ãŠã‚ˆã³ GNOME Terminal ã®æœ€æ–°ãƒãƒ¼ã‚¸ãƒ§ãƒ³ãªã©ã®ã»ã¨ã‚“ã©ã®æœ€æ–°ã®ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã¯ã‚µãƒãƒ¼ãƒˆã—ã¦ã„ã¾ã™)ã€‚
+
+Truecolor ã®ã‚µãƒãƒ¼ãƒˆãŒãªã„ã¨ã€ãƒ†ãƒ¼ãƒžã®è‰²ã®ç²¾åº¦ãŒä½Žä¸‹ã—ãŸã‚Šã€æœ€ã‚‚è¿‘ã„ 256 è‰²ã®è¿‘ä¼¼å€¤ã«æˆ»ã£ãŸã‚Šã™ã‚‹å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚
+
+---
+
+## çµ„ã¿è¾¼ã¿ã®ãƒ†ãƒ¼ãƒž
+
+Voracode ã«ã¯ã„ãã¤ã‹ã®çµ„ã¿è¾¼ã¿ãƒ†ãƒ¼ãƒžãŒä»˜å±žã—ã¦ã„ã¾ã™ã€‚
+
+| Name                   | Description                                                                  |
+| ---------------------- | ---------------------------------------------------------------------------- |
+| `system`               | Adapts to your terminalâ€™s background color                                   |
+| `tokyonight`           | Based on the [Tokyonight](https://github.com/folke/tokyonight.nvim) theme    |
+| `everforest`           | Based on the [Everforest](https://github.com/sainnhe/everforest) theme       |
+| `ayu`                  | Based on the [Ayu](https://github.com/ayu-theme) dark theme                  |
+| `catppuccin`           | Based on the [Catppuccin](https://github.com/catppuccin) theme               |
+| `catppuccin-macchiato` | Based on the [Catppuccin](https://github.com/catppuccin) theme               |
+| `gruvbox`              | Based on the [Gruvbox](https://github.com/morhetz/gruvbox) theme             |
+| `kanagawa`             | Based on the [Kanagawa](https://github.com/rebelot/kanagawa.nvim) theme      |
+| `nord`                 | Based on the [Nord](https://github.com/nordtheme/nord) theme                 |
+| `matrix`               | Hacker-style green on black theme                                            |
+| `one-dark`             | Based on the [Atom One](https://github.com/Th3Whit3Wolf/one-nvim) Dark theme |
+
+ã•ã‚‰ã«ã€æ–°ã—ã„ãƒ†ãƒ¼ãƒžã‚‚å¸¸ã«è¿½åŠ ã•ã‚Œã¦ã„ã¾ã™ã€‚
+
+---
+
+## ã‚·ã‚¹ãƒ†ãƒ ãƒ†ãƒ¼ãƒž
+
+`system` ãƒ†ãƒ¼ãƒžã¯ã€ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®ã‚«ãƒ©ãƒ¼ã‚¹ã‚­ãƒ¼ãƒ ã«è‡ªå‹•çš„ã«é©å¿œã™ã‚‹ã‚ˆã†ã«è¨­è¨ˆã•ã‚Œã¦ã„ã¾ã™ã€‚å›ºå®šè‰²ã‚’ä½¿ç”¨ã™ã‚‹å¾“æ¥ã®ãƒ†ãƒ¼ãƒžã¨ã¯ç•°ãªã‚Šã€_system_ ãƒ†ãƒ¼ãƒžã¯æ¬¡ã®ã‚ˆã†ã«ãªã‚Šã¾ã™ã€‚
+
+- **ã‚°ãƒ¬ãƒ¼ã‚¹ã‚±ãƒ¼ãƒ«ã‚’ç”Ÿæˆ**: ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®èƒŒæ™¯è‰²ã«åŸºã¥ã„ã¦ã‚«ã‚¹ã‚¿ãƒ ã‚°ãƒ¬ãƒ¼ã‚¹ã‚±ãƒ¼ãƒ«ã‚’ä½œæˆã—ã€æœ€é©ãªã‚³ãƒ³ãƒˆãƒ©ã‚¹ãƒˆã‚’ç¢ºä¿ã—ã¾ã™ã€‚
+- **ANSI ã‚«ãƒ©ãƒ¼ã‚’ä½¿ç”¨**: æ§‹æ–‡ã®å¼·èª¿è¡¨ç¤ºã¨ UI è¦ç´ ã«æ¨™æº–ã® ANSI ã‚«ãƒ©ãƒ¼ (0 ï½ž 15) ã‚’åˆ©ç”¨ã—ã€ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®ã‚«ãƒ©ãƒ¼ãƒ‘ãƒ¬ãƒƒãƒˆã‚’å°Šé‡ã—ã¾ã™ã€‚
+- **ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚’ç¶­æŒ**: ãƒ†ã‚­ã‚¹ãƒˆã¨èƒŒæ™¯ã®è‰²ã« `none` ã‚’ä½¿ç”¨ã—ã¦ã€ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®ãƒã‚¤ãƒ†ã‚£ãƒ–ã®å¤–è¦³ã‚’ç¶­æŒã—ã¾ã™ã€‚
+
+ã‚·ã‚¹ãƒ†ãƒ ãƒ†ãƒ¼ãƒžã¯ã€æ¬¡ã®ã‚ˆã†ãªãƒ¦ãƒ¼ã‚¶ãƒ¼ã‚’å¯¾è±¡ã¨ã—ã¦ã„ã¾ã™ã€‚
+
+- Voracode ã‚’ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®å¤–è¦³ã¨ä¸€è‡´ã•ã›ãŸã„
+- ã‚«ã‚¹ã‚¿ãƒ ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®ã‚«ãƒ©ãƒ¼ã‚¹ã‚­ãƒ¼ãƒ ã‚’ä½¿ç”¨ã™ã‚‹
+- ã™ã¹ã¦ã®ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã«ã‚ãŸã£ã¦ä¸€è²«ã—ãŸå¤–è¦³ã‚’å¥½ã‚€
+
+---
+
+## ãƒ†ãƒ¼ãƒžã®ä½¿ç”¨
+
+ãƒ†ãƒ¼ãƒžã‚’é¸æŠžã™ã‚‹ã«ã¯ã€`/theme` ã‚³ãƒžãƒ³ãƒ‰ã§ãƒ†ãƒ¼ãƒžé¸æŠžã‚’è¡¨ç¤ºã—ã¾ã™ã€‚ã¾ãŸã¯ã€`tui.json` ã§æŒ‡å®šã™ã‚‹ã“ã¨ã‚‚ã§ãã¾ã™ã€‚
+
+```json title="tui.json" {3}
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "theme": "tokyonight"
+}
+```
+
+---
+
+## ã‚«ã‚¹ã‚¿ãƒ ãƒ†ãƒ¼ãƒž
+
+Voracode ã¯ã€ãƒ¦ãƒ¼ã‚¶ãƒ¼ãŒãƒ†ãƒ¼ãƒžã‚’ç°¡å˜ã«ä½œæˆãŠã‚ˆã³ã‚«ã‚¹ã‚¿ãƒžã‚¤ã‚ºã§ãã‚‹æŸ”è»Ÿãª JSON ãƒ™ãƒ¼ã‚¹ã®ãƒ†ãƒ¼ãƒžã‚·ã‚¹ãƒ†ãƒ ã‚’ã‚µãƒãƒ¼ãƒˆã—ã¦ã„ã¾ã™ã€‚
+
+---
+
+### å„ªå…ˆé †ä½
+
+ãƒ†ãƒ¼ãƒžã¯è¤‡æ•°ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‹ã‚‰æ¬¡ã®é †åºã§ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã€å¾Œã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå‰ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¾ã™ã€‚
+
+1. **çµ„ã¿è¾¼ã¿ãƒ†ãƒ¼ãƒž** - ã“ã‚Œã‚‰ã¯ãƒã‚¤ãƒŠãƒªã«åŸ‹ã‚è¾¼ã¾ã‚Œã¦ã„ã¾ã™
+2. **ãƒ¦ãƒ¼ã‚¶ãƒ¼è¨­å®šãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª** - `~/.config/voracode/themes/*.json` ã¾ãŸã¯ `$XDG_CONFIG_HOME/voracode/themes/*.json` ã§å®šç¾©ã•ã‚Œã¾ã™
+3. **ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ«ãƒ¼ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª** - `<project-root>/.voracode/themes/*.json` ã§å®šç¾©ã•ã‚Œã¾ã™ã€‚
+4. **ç¾åœ¨ã®ä½œæ¥­ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª** - `./.voracode/themes/*.json` ã§å®šç¾©
+
+è¤‡æ•°ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«åŒã˜åå‰ã®ãƒ†ãƒ¼ãƒžãŒå«ã¾ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€å„ªå…ˆåº¦ã®é«˜ã„ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ†ãƒ¼ãƒžãŒä½¿ç”¨ã•ã‚Œã¾ã™ã€‚
+
+---
+
+### ãƒ†ãƒ¼ãƒžã®ä½œæˆ
+
+ã‚«ã‚¹ã‚¿ãƒ ãƒ†ãƒ¼ãƒžã‚’ä½œæˆã™ã‚‹ã«ã¯ã€ãƒ†ãƒ¼ãƒžãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã® 1 ã¤ã« JSON ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã—ã¾ã™ã€‚
+
+ãƒ¦ãƒ¼ã‚¶ãƒ¼å…¨ä½“ã®ãƒ†ãƒ¼ãƒžã®å ´åˆ:
+
+```bash no-frame
+mkdir -p ~/.config/voracode/themes
+vim ~/.config/voracode/themes/my-theme.json
+```
+
+ãã—ã¦ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆå›ºæœ‰ã®ãƒ†ãƒ¼ãƒžã«ã¤ã„ã¦ã‚‚ã€‚
+
+```bash no-frame
+mkdir -p .voracode/themes
+vim .voracode/themes/my-theme.json
+```
+
+---
+
+### JSON å½¢å¼
+
+ãƒ†ãƒ¼ãƒžã¯ã€ä»¥ä¸‹ã‚’ã‚µãƒãƒ¼ãƒˆã™ã‚‹æŸ”è»Ÿãª JSON å½¢å¼ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
+
+- **16 é€²æ•°ã®è‰²**: `"#ffffff"`
+- **ANSI ã‚«ãƒ©ãƒ¼**: `3` (0-255)
+- **è‰²ã®å‚ç…§**: `"primary"` ã¾ãŸã¯ã‚«ã‚¹ã‚¿ãƒ å®šç¾©
+- **ãƒ€ãƒ¼ã‚¯/ãƒ©ã‚¤ãƒˆã®ãƒãƒªã‚¨ãƒ¼ã‚·ãƒ§ãƒ³**: `{"dark": "#000", "light": "#fff"}`
+- **è‰²ãªã—**: `"none"` - ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è‰²ã¾ãŸã¯é€æ˜Žã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
+
+---
+
+### è‰²ã®å®šç¾©
+
+`defs` ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã¯ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§ã‚ã‚Šã€ãƒ†ãƒ¼ãƒžå†…ã§å‚ç…§ã§ãã‚‹å†åˆ©ç”¨å¯èƒ½ãªè‰²ã‚’å®šç¾©ã§ãã¾ã™ã€‚
+
+---
+
+### ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ
+
+ç‰¹åˆ¥ãªå€¤ `"none"` ã‚’ä»»æ„ã®è‰²ã«ä½¿ç”¨ã—ã¦ã€ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è‰²ã‚’ç¶™æ‰¿ã§ãã¾ã™ã€‚ã“ã‚Œã¯ã€ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®é…è‰²ã¨ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹ã«èžåˆã™ã‚‹ãƒ†ãƒ¼ãƒžã‚’ä½œæˆã™ã‚‹å ´åˆã«ç‰¹ã«ä¾¿åˆ©ã§ã™ã€‚
+
+- `"text": "none"` - ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‰æ™¯è‰²ã‚’ä½¿ç”¨ã—ã¾ã™
+- `"background": "none"` - ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®èƒŒæ™¯è‰²ã‚’ä½¿ç”¨ã—ã¾ã™
+
+---
+
+### ä¾‹
+
+ã‚«ã‚¹ã‚¿ãƒ ãƒ†ãƒ¼ãƒžã®ä¾‹ã‚’æ¬¡ã«ç¤ºã—ã¾ã™ã€‚
+
+```json title="my-theme.json"
+{
+  "$schema": "https://voracode.ai/theme.json",
+  "defs": {
+    "nord0": "#2E3440",
+    "nord1": "#3B4252",
+    "nord2": "#434C5E",
+    "nord3": "#4C566A",
+    "nord4": "#D8DEE9",
+    "nord5": "#E5E9F0",
+    "nord6": "#ECEFF4",
+    "nord7": "#8FBCBB",
+    "nord8": "#88C0D0",
+    "nord9": "#81A1C1",
+    "nord10": "#5E81AC",
+    "nord11": "#BF616A",
+    "nord12": "#D08770",
+    "nord13": "#EBCB8B",
+    "nord14": "#A3BE8C",
+    "nord15": "#B48EAD"
+  },
+  "theme": {
+    "primary": {
+      "dark": "nord8",
+      "light": "nord10"
+    },
+    "secondary": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "accent": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "error": {
+      "dark": "nord11",
+      "light": "nord11"
+    },
+    "warning": {
+      "dark": "nord12",
+      "light": "nord12"
+    },
+    "success": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "info": {
+      "dark": "nord8",
+      "light": "nord10"
+    },
+    "text": {
+      "dark": "nord4",
+      "light": "nord0"
+    },
+    "textMuted": {
+      "dark": "nord3",
+      "light": "nord1"
+    },
+    "background": {
+      "dark": "nord0",
+      "light": "nord6"
+    },
+    "backgroundPanel": {
+      "dark": "nord1",
+      "light": "nord5"
+    },
+    "backgroundElement": {
+      "dark": "nord1",
+      "light": "nord4"
+    },
+    "border": {
+      "dark": "nord2",
+      "light": "nord3"
+    },
+    "borderActive": {
+      "dark": "nord3",
+      "light": "nord2"
+    },
+    "borderSubtle": {
+      "dark": "nord2",
+      "light": "nord3"
+    },
+    "diffAdded": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "diffRemoved": {
+      "dark": "nord11",
+      "light": "nord11"
+    },
+    "diffContext": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "diffHunkHeader": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "diffHighlightAdded": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "diffHighlightRemoved": {
+      "dark": "nord11",
+      "light": "nord11"
+    },
+    "diffAddedBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffRemovedBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffContextBg": {
+      "dark": "nord1",
+      "light": "nord5"
+    },
+    "diffLineNumber": {
+      "dark": "nord2",
+      "light": "nord4"
+    },
+    "diffAddedLineNumberBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffRemovedLineNumberBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "markdownText": {
+      "dark": "nord4",
+      "light": "nord0"
+    },
+    "markdownHeading": {
+      "dark": "nord8",
+      "light": "nord10"
+    },
+    "markdownLink": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "markdownLinkText": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "markdownCode": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "markdownBlockQuote": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "markdownEmph": {
+      "dark": "nord12",
+      "light": "nord12"
+    },
+    "markdownStrong": {
+      "dark": "nord13",
+      "light": "nord13"
+    },
+    "markdownHorizontalRule": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "markdownListItem": {
+      "dark": "nord8",
+      "light": "nord10"
+    },
+    "markdownListEnumeration": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "markdownImage": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "markdownImageText": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "markdownCodeBlock": {
+      "dark": "nord4",
+      "light": "nord0"
+    },
+    "syntaxComment": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "syntaxKeyword": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "syntaxFunction": {
+      "dark": "nord8",
+      "light": "nord8"
+    },
+    "syntaxVariable": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "syntaxString": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "syntaxNumber": {
+      "dark": "nord15",
+      "light": "nord15"
+    },
+    "syntaxType": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "syntaxOperator": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "syntaxPunctuation": {
+      "dark": "nord4",
+      "light": "nord0"
+    }
+  }
+}
+```
+
+---
+
+## ã‚«ã‚¹ã‚¿ãƒ ãƒ†ãƒ¼ãƒž
+
+Voracode ã¯ã€ãƒ¦ãƒ¼ã‚¶ãƒ¼ãŒãƒ†ãƒ¼ãƒžã‚’ç°¡å˜ã«ä½œæˆãŠã‚ˆã³ã‚«ã‚¹ã‚¿ãƒžã‚¤ã‚ºã§ãã‚‹æŸ”è»Ÿãª JSON ãƒ™ãƒ¼ã‚¹ã®ãƒ†ãƒ¼ãƒž ã‚·ã‚¹ãƒ†ãƒ ã‚’ã‚µãƒãƒ¼ãƒˆã—ã¦ã„ã¾ã™ã€‚
+
+---
+
+### éšŽå±¤
+
+ãƒ†ãƒ¼ãƒžã¯è¤‡æ•°ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‹ã‚‰æ¬¡ã®é †åºã§ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã€å¾Œã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå‰ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¾ã™ã€‚
+
+1. **çµ„ã¿è¾¼ã¿ãƒ†ãƒ¼ãƒž** - ã“ã‚Œã‚‰ã¯ãƒã‚¤ãƒŠãƒªã«åŸ‹ã‚è¾¼ã¾ã‚Œã¦ã„ã¾ã™
+2. **ãƒ¦ãƒ¼ã‚¶ãƒ¼è¨­å®šãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª** - `~/.config/voracode/themes/*.json` ã¾ãŸã¯ `$XDG_CONFIG_HOME/voracode/themes/*.json` ã§å®šç¾©ã•ã‚Œã¾ã™
+3. **ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ«ãƒ¼ãƒˆ ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª** - `<project-root>/.voracode/themes/*.json` ã§å®šç¾©ã•ã‚Œã¾ã™ã€‚
+4. **ç¾åœ¨ã®ä½œæ¥­ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª** - `./.voracode/themes/*.json` ã§å®šç¾©
+
+è¤‡æ•°ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«åŒã˜åå‰ã®ãƒ†ãƒ¼ãƒžãŒå«ã¾ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€å„ªå…ˆåº¦ã®é«˜ã„ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒ†ãƒ¼ãƒžãŒä½¿ç”¨ã•ã‚Œã¾ã™ã€‚
+
+---
+
+### ãƒ†ãƒ¼ãƒžã®ä½œæˆ
+
+ã‚«ã‚¹ã‚¿ãƒ  ãƒ†ãƒ¼ãƒžã‚’ä½œæˆã™ã‚‹ã«ã¯ã€ãƒ†ãƒ¼ãƒž ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã® 1 ã¤ã« JSON ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã—ã¾ã™ã€‚
+
+ãƒ¦ãƒ¼ã‚¶ãƒ¼å…¨ä½“ã®ãƒ†ãƒ¼ãƒžã®å ´åˆ:
+
+```bash no-frame
+mkdir -p ~/.config/voracode/themes
+vim ~/.config/voracode/themes/my-theme.json
+```
+
+ãã—ã¦ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆå›ºæœ‰ã®ãƒ†ãƒ¼ãƒžã«ã¤ã„ã¦ã‚‚ã€‚
+
+```bash no-frame
+mkdir -p .voracode/themes
+vim .voracode/themes/my-theme.json
+```
+
+---
+
+### JSONå½¢å¼
+
+ãƒ†ãƒ¼ãƒžã¯ã€ä»¥ä¸‹ã‚’ã‚µãƒãƒ¼ãƒˆã™ã‚‹æŸ”è»Ÿãª JSON å½¢å¼ã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
+
+- **16 é€²æ•°ã®è‰²**: `"#ffffff"`
+- **ANSI ã‚«ãƒ©ãƒ¼**: `3` (0-255)
+- **è‰²ã®å‚ç…§**: `"primary"` ã¾ãŸã¯ã‚«ã‚¹ã‚¿ãƒ å®šç¾©
+- **ãƒ€ãƒ¼ã‚¯/ãƒ©ã‚¤ãƒˆã®ãƒãƒªã‚¨ãƒ¼ã‚·ãƒ§ãƒ³**: `{"dark": "#000", "light": "#fff"}`
+- **è‰²ãªã—**: `"none"` - terminal ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è‰²ã¾ãŸã¯é€æ˜Žã‚’ä½¿ç”¨ã—ã¾ã™ã€‚
+
+---
+
+### è‰²ã®å®šç¾©
+
+`defs` ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã¯ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§ã‚ã‚Šã€ãƒ†ãƒ¼ãƒžå†…ã§å‚ç…§ã§ãã‚‹å†åˆ©ç”¨å¯èƒ½ãªè‰²ã‚’å®šç¾©ã§ãã¾ã™ã€‚
+
+---
+
+### ã‚¿ãƒ¼ãƒŸãƒŠãƒ«ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ
+
+ç‰¹åˆ¥ãªå€¤ `"none"` ã‚’ä»»æ„ã®è‰²ã«ä½¿ç”¨ã—ã¦ã€terminal ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è‰²ã‚’ç¶™æ‰¿ã§ãã¾ã™ã€‚ã“ã‚Œã¯ã€terminal ã®é…è‰²ã¨ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹ã«èžåˆã™ã‚‹ãƒ†ãƒ¼ãƒžã‚’ä½œæˆã™ã‚‹å ´åˆã«ç‰¹ã«ä¾¿åˆ©ã§ã™ã€‚
+
+- `"text": "none"` - terminal ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å‰æ™¯è‰²ã‚’ä½¿ç”¨ã—ã¾ã™
+- `"background": "none"` - terminal ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®èƒŒæ™¯è‰²ã‚’ä½¿ç”¨ã—ã¾ã™
+
+---
+
+### ä¾‹
+
+ã‚«ã‚¹ã‚¿ãƒ  ãƒ†ãƒ¼ãƒžã®ä¾‹ã‚’æ¬¡ã«ç¤ºã—ã¾ã™ã€‚
+
+```json title="my-theme.json"
+{
+  "$schema": "https://voracode.ai/theme.json",
+  "defs": {
+    "nord0": "#2E3440",
+    "nord1": "#3B4252",
+    "nord2": "#434C5E",
+    "nord3": "#4C566A",
+    "nord4": "#D8DEE9",
+    "nord5": "#E5E9F0",
+    "nord6": "#ECEFF4",
+    "nord7": "#8FBCBB",
+    "nord8": "#88C0D0",
+    "nord9": "#81A1C1",
+    "nord10": "#5E81AC",
+    "nord11": "#BF616A",
+    "nord12": "#D08770",
+    "nord13": "#EBCB8B",
+    "nord14": "#A3BE8C",
+    "nord15": "#B48EAD"
+  },
+  "theme": {
+    "primary": {
+      "dark": "nord8",
+      "light": "nord10"
+    },
+    "secondary": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "accent": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "error": {
+      "dark": "nord11",
+      "light": "nord11"
+    },
+    "warning": {
+      "dark": "nord12",
+      "light": "nord12"
+    },
+    "success": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "info": {
+      "dark": "nord8",
+      "light": "nord10"
+    },
+    "text": {
+      "dark": "nord4",
+      "light": "nord0"
+    },
+    "textMuted": {
+      "dark": "nord3",
+      "light": "nord1"
+    },
+    "background": {
+      "dark": "nord0",
+      "light": "nord6"
+    },
+    "backgroundPanel": {
+      "dark": "nord1",
+      "light": "nord5"
+    },
+    "backgroundElement": {
+      "dark": "nord1",
+      "light": "nord4"
+    },
+    "border": {
+      "dark": "nord2",
+      "light": "nord3"
+    },
+    "borderActive": {
+      "dark": "nord3",
+      "light": "nord2"
+    },
+    "borderSubtle": {
+      "dark": "nord2",
+      "light": "nord3"
+    },
+    "diffAdded": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "diffRemoved": {
+      "dark": "nord11",
+      "light": "nord11"
+    },
+    "diffContext": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "diffHunkHeader": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "diffHighlightAdded": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "diffHighlightRemoved": {
+      "dark": "nord11",
+      "light": "nord11"
+    },
+    "diffAddedBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffRemovedBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffContextBg": {
+      "dark": "nord1",
+      "light": "nord5"
+    },
+    "diffLineNumber": {
+      "dark": "nord2",
+      "light": "nord4"
+    },
+    "diffAddedLineNumberBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffRemovedLineNumberBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "markdownText": {
+      "dark": "nord4",
+      "light": "nord0"
+    },
+    "markdownHeading": {
+      "dark": "nord8",
+      "light": "nord10"
+    },
+    "markdownLink": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "markdownLinkText": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "markdownCode": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "markdownBlockQuote": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "markdownEmph": {
+      "dark": "nord12",
+      "light": "nord12"
+    },
+    "markdownStrong": {
+      "dark": "nord13",
+      "light": "nord13"
+    },
+    "markdownHorizontalRule": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "markdownListItem": {
+      "dark": "nord8",
+      "light": "nord10"
+    },
+    "markdownListEnumeration": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "markdownImage": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "markdownImageText": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "markdownCodeBlock": {
+      "dark": "nord4",
+      "light": "nord0"
+    },
+    "syntaxComment": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "syntaxKeyword": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "syntaxFunction": {
+      "dark": "nord8",
+      "light": "nord8"
+    },
+    "syntaxVariable": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "syntaxString": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "syntaxNumber": {
+      "dark": "nord15",
+      "light": "nord15"
+    },
+    "syntaxType": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "syntaxOperator": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "syntaxPunctuation": {
+      "dark": "nord4",
+      "light": "nord0"
+    }
+  }
+}
+```

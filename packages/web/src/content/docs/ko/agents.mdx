@@ -1,0 +1,754 @@
+﻿---
+title: Agents
+description: Configure and use specialized agents.
+---
+
+agentëŠ” íŠ¹ì • ìž‘ì—…ê³¼ ì›Œí¬í”Œë¡œì— ë§žê²Œ ì„¤ì •í•  ìˆ˜ ìžˆëŠ” ì „ë¬¸ AI assistantìž…ë‹ˆë‹¤. custom prompt, model, tool ì ‘ê·¼ ê¶Œí•œì„ ì¡°í•©í•´ ëª©ì ì— ë§žëŠ” agentë¥¼ ë§Œë“¤ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+:::tip
+ì½”ë“œë¥¼ ìˆ˜ì •í•˜ì§€ ì•Šê³  ë¶„ì„ê³¼ ì œì•ˆ ê²€í† ë§Œ í•˜ê³  ì‹¶ë‹¤ë©´ plan agentë¥¼ ì‚¬ìš©í•˜ì„¸ìš”.
+:::
+
+ì„¸ì…˜ ì¤‘ì— agentë¥¼ ì „í™˜í•˜ê±°ë‚˜ `@` mentionìœ¼ë¡œ í˜¸ì¶œí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+---
+
+## ìœ í˜•
+
+Voracodeì˜ agentëŠ” primary agentì™€ subagent, ë‘ ê°€ì§€ ìœ í˜•ìœ¼ë¡œ ë‚˜ë‰©ë‹ˆë‹¤.
+
+---
+
+### Primary agents
+
+primary agentëŠ” ì‚¬ìš©ìžê°€ ì§ì ‘ ìƒí˜¸ìž‘ìš©í•˜ëŠ” ë©”ì¸ assistantìž…ë‹ˆë‹¤. **Tab** í‚¤ ë˜ëŠ” ì„¤ì •í•œ `switch_agent` keybindë¡œ ìˆœí™˜ ì „í™˜í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. primary agentëŠ” ë©”ì¸ ëŒ€í™”ë¥¼ ì²˜ë¦¬í•˜ë©°, tool ì ‘ê·¼ì€ permissionìœ¼ë¡œ ì œì–´í•©ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´ BuildëŠ” ëª¨ë“  toolì´ í™œì„±í™”ë˜ì–´ ìžˆê³  Planì€ ì œí•œë˜ì–´ ìžˆìŠµë‹ˆë‹¤.
+
+:::tip
+ì„¸ì…˜ ì¤‘ **Tab** í‚¤ë¡œ primary agentë¥¼ ë¹ ë¥´ê²Œ ì „í™˜í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+:::
+
+Voracodeì—ëŠ” ê¸°ë³¸ ì œê³µ primary agentì¸ **Build**ì™€ **Plan**ì´ í¬í•¨ë˜ì–´ ìžˆìŠµë‹ˆë‹¤. ì•„ëž˜ì—ì„œ ê°ê° ì‚´íŽ´ë³´ê² ìŠµë‹ˆë‹¤.
+
+---
+
+### Subagents
+
+subagentëŠ” primary agentê°€ íŠ¹ì • ìž‘ì—…ì„ ìœ„í•´ í˜¸ì¶œí•˜ëŠ” ì „ë¬¸ assistantìž…ë‹ˆë‹¤. ë©”ì‹œì§€ì—ì„œ **@ mention**ìœ¼ë¡œ ì§ì ‘ í˜¸ì¶œí•  ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤.
+
+Voracodeì—ëŠ” ê¸°ë³¸ ì œê³µ subagentì¸ **General**, **Explore**, **Scout**ê°€ í¬í•¨ë˜ì–´ ìžˆìŠµë‹ˆë‹¤. ì•„ëž˜ì—ì„œ ì‚´íŽ´ë³´ê² ìŠµë‹ˆë‹¤.
+
+---
+
+## ê¸°ë³¸ ì œê³µ
+
+VoracodeëŠ” ê¸°ë³¸ì ìœ¼ë¡œ primary agent 2ê°œì™€ subagent 3ê°œë¥¼ ì œê³µí•©ë‹ˆë‹¤.
+
+---
+
+### Use build
+
+_Mode_: `primary`
+
+BuildëŠ” ëª¨ë“  toolì´ í™œì„±í™”ëœ **default** primary agentìž…ë‹ˆë‹¤. íŒŒì¼ ìž‘ì—…ê³¼ ì‹œìŠ¤í…œ ëª…ë ¹ì— ëŒ€í•œ ì „ì²´ ì ‘ê·¼ì´ í•„ìš”í•œ ì¼ë°˜ì ì¸ ê°œë°œ ìž‘ì—…ì— ì‚¬ìš©í•˜ëŠ” í‘œì¤€ agentìž…ë‹ˆë‹¤.
+
+---
+
+### Use plan
+
+_Mode_: `primary`
+
+Planì€ ê³„íšê³¼ ë¶„ì„ì— íŠ¹í™”ëœ ì œí•œí˜• agentìž…ë‹ˆë‹¤. ë” ë†’ì€ ì œì–´ë ¥ê³¼ ì˜ë„ì¹˜ ì•Šì€ ë³€ê²½ ë°©ì§€ë¥¼ ìœ„í•´ permission ì‹œìŠ¤í…œì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
+ê¸°ë³¸ê°’ìœ¼ë¡œ ì•„ëž˜ í•­ëª©ì€ ëª¨ë‘ `ask`ë¡œ ì„¤ì •ë©ë‹ˆë‹¤.
+
+- `file edits`: ëª¨ë“  write, patch, edit
+- `bash`: ëª¨ë“  bash ëª…ë ¹
+
+ì½”ë“œë² ì´ìŠ¤ë¥¼ ì‹¤ì œë¡œ ìˆ˜ì •í•˜ì§€ ì•Šê³  LLM ë¶„ì„, ë³€ê²½ ì œì•ˆ, ê³„íš ìˆ˜ë¦½ë§Œ ì§„í–‰í•˜ê³  ì‹¶ì„ ë•Œ ìœ ìš©í•©ë‹ˆë‹¤.
+
+---
+
+### Use general
+
+_Mode_: `subagent`
+
+ë³µìž¡í•œ ì§ˆë¬¸ì„ ì¡°ì‚¬í•˜ê³  ë‹¤ë‹¨ê³„ ìž‘ì—…ì„ ìˆ˜í–‰í•˜ê¸° ìœ„í•œ ë²”ìš© agentìž…ë‹ˆë‹¤. todoë¥¼ ì œì™¸í•œ ëª¨ë“  tool ì ‘ê·¼ì´ ê°€ëŠ¥í•˜ë¯€ë¡œ í•„ìš”í•˜ë©´ íŒŒì¼ ìˆ˜ì •ë„ í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì—¬ëŸ¬ ìž‘ì—… ë‹¨ìœ„ë¥¼ ë³‘ë ¬ë¡œ ì²˜ë¦¬í•  ë•Œ ì‚¬ìš©í•˜ì„¸ìš”.
+
+---
+
+### Use explore
+
+_Mode_: `subagent`
+
+ì½”ë“œë² ì´ìŠ¤ íƒìƒ‰ì— ìµœì í™”ëœ ë¹ ë¥¸ ì½ê¸° ì „ìš© agentìž…ë‹ˆë‹¤. íŒŒì¼ì„ ìˆ˜ì •í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. íŒ¨í„´ ê¸°ë°˜ íŒŒì¼ íƒìƒ‰, í‚¤ì›Œë“œ ê²€ìƒ‰, ì½”ë“œë² ì´ìŠ¤ ê´€ë ¨ ì§ˆì˜ ì‘ë‹µì„ ë¹ ë¥´ê²Œ ì²˜ë¦¬í•  ë•Œ ì‚¬ìš©í•˜ì„¸ìš”.
+
+---
+
+### Use Scout
+
+_Mode_: `subagent`
+
+ì™¸ë¶€ docsì™€ dependency ë¦¬ì„œì¹˜ë¥¼ ìœ„í•œ ì½ê¸° ì „ìš© agentìž…ë‹ˆë‹¤. dependency repositoryë¥¼ Voracodeì˜ ê´€ë¦¬í˜• cacheì— cloneí•˜ê±°ë‚˜, ë¼ì´ë¸ŒëŸ¬ë¦¬ ì†ŒìŠ¤ë¥¼ ì‚´íŽ´ë³´ê±°ë‚˜, workspaceë¥¼ ìˆ˜ì •í•˜ì§€ ì•Šê³  ë¡œì»¬ ì½”ë“œë¥¼ upstream êµ¬í˜„ê³¼ êµì°¨ í™•ì¸í•´ì•¼ í•  ë•Œ ì‚¬ìš©í•˜ì„¸ìš”.
+
+---
+
+### Use compaction
+
+_Mode_: `primary`
+
+ê¸´ contextë¥¼ ë” ì§§ì€ ìš”ì•½ìœ¼ë¡œ ì••ì¶•í•˜ëŠ” ìˆ¨ê²¨ì§„ ì‹œìŠ¤í…œ agentìž…ë‹ˆë‹¤. í•„ìš”í•  ë•Œ ìžë™ìœ¼ë¡œ ì‹¤í–‰ë˜ë©° UIì—ì„œ ì§ì ‘ ì„ íƒí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
+
+---
+
+### Use title
+
+_Mode_: `primary`
+
+ì§§ì€ ì„¸ì…˜ ì œëª©ì„ ìƒì„±í•˜ëŠ” ìˆ¨ê²¨ì§„ ì‹œìŠ¤í…œ agentìž…ë‹ˆë‹¤. ìžë™ìœ¼ë¡œ ì‹¤í–‰ë˜ë©° UIì—ì„œ ì§ì ‘ ì„ íƒí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
+
+---
+
+### Use summary
+
+_Mode_: `primary`
+
+ì„¸ì…˜ ìš”ì•½ì„ ìƒì„±í•˜ëŠ” ìˆ¨ê²¨ì§„ ì‹œìŠ¤í…œ agentìž…ë‹ˆë‹¤. ìžë™ìœ¼ë¡œ ì‹¤í–‰ë˜ë©° UIì—ì„œ ì§ì ‘ ì„ íƒí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
+
+---
+
+## ì‚¬ìš©ë²•
+
+1. primary agentëŠ” ì„¸ì…˜ ì¤‘ **Tab** í‚¤ë¡œ ìˆœí™˜ ì „í™˜í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì„¤ì •í•œ `switch_agent` keybindë¥¼ ì‚¬ìš©í•  ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤.
+
+2. subagent í˜¸ì¶œ ë°©ë²•:
+   - **Automatically**: primary agentê°€ ì„¤ëª…(description)ì„ ë°”íƒ•ìœ¼ë¡œ íŠ¹í™” ìž‘ì—…ì— ìžë™ í˜¸ì¶œí•©ë‹ˆë‹¤.
+   - ìˆ˜ë™ í˜¸ì¶œ: ë©”ì‹œì§€ì—ì„œ subagentë¥¼ **@ mention**í•˜ì—¬ í˜¸ì¶œí•©ë‹ˆë‹¤. ì˜ˆ:
+
+     ```txt frame="none"
+     @general help me search for this function
+     ```
+
+3. **ì„¸ì…˜ ê°„ ì´ë™**: subagentê°€ child sessionì„ ë§Œë“¤ë©´ ì•„ëž˜ í‚¤ë¡œ parent sessionê³¼ child session ì‚¬ì´ë¥¼ ì´ë™í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+   - **\<Leader>+Right** (ë˜ëŠ” ì„¤ì •í•œ `session_child_cycle` keybind): parent â†’ child1 â†’ child2 â†’ ... â†’ parent ìˆœë°©í–¥ ìˆœí™˜
+   - **\<Leader>+Left** (ë˜ëŠ” ì„¤ì •í•œ `session_child_cycle_reverse` keybind): parent â† child1 â† child2 â† ... â† parent ì—­ë°©í–¥ ìˆœí™˜
+
+   ì´ë¥¼ í†µí•´ ë©”ì¸ ëŒ€í™”ì™€ íŠ¹í™” subagent ìž‘ì—… ì‚¬ì´ë¥¼ ìžì—°ìŠ¤ëŸ½ê²Œ ì˜¤ê°ˆ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+---
+
+## êµ¬ì„±
+
+ê¸°ë³¸ ì œê³µ agentë¥¼ ì»¤ìŠ¤í„°ë§ˆì´ì¦ˆí•˜ê±°ë‚˜ configë¥¼ í†µí•´ ì§ì ‘ agentë¥¼ ë§Œë“¤ ìˆ˜ ìžˆìŠµë‹ˆë‹¤. agentëŠ” ë‘ ê°€ì§€ ë°©ì‹ìœ¼ë¡œ ì„¤ì •í•©ë‹ˆë‹¤.
+
+---
+
+### JSON
+
+`voracode.json` config íŒŒì¼ì—ì„œ agentë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "mode": "primary",
+      "model": "anthropic/claude-sonnet-4-20250514",
+      "prompt": "{file:./prompts/build.txt}",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true
+      }
+    },
+    "plan": {
+      "mode": "primary",
+      "model": "anthropic/claude-haiku-4-20250514",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": false
+      }
+    },
+    "code-reviewer": {
+      "description": "Reviews code for best practices and potential issues",
+      "mode": "subagent",
+      "model": "anthropic/claude-sonnet-4-20250514",
+      "prompt": "You are a code reviewer. Focus on security, performance, and maintainability.",
+      "tools": {
+        "write": false,
+        "edit": false
+      }
+    }
+  }
+}
+```
+
+---
+
+### Markdown
+
+Markdown íŒŒì¼ë¡œë„ agentë¥¼ ì •ì˜í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ë‹¤ìŒ ìœ„ì¹˜ì— ë‘ì„¸ìš”.
+
+- Global: `~/.config/voracode/agents/`
+- Per-project: `.voracode/agents/`
+
+```markdown title="~/.config/voracode/agents/review.md"
+---
+description: Reviews code for quality and best practices
+mode: subagent
+model: anthropic/claude-sonnet-4-20250514
+temperature: 0.1
+tools:
+  write: false
+  edit: false
+  bash: false
+---
+
+You are in code review mode. Focus on:
+
+- Code quality and best practices
+- Potential bugs and edge cases
+- Performance implications
+- Security considerations
+
+Provide constructive feedback without making direct changes.
+```
+
+Markdown íŒŒì¼ëª…ì€ agent ì´ë¦„ì´ ë©ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´ `review.md`ëŠ” `review` agentë¥¼ ë§Œë“­ë‹ˆë‹¤.
+
+---
+
+## ì˜µì…˜
+
+ê° config ì˜µì…˜ì„ ìžì„¸ížˆ ì‚´íŽ´ë³´ê² ìŠµë‹ˆë‹¤.
+
+---
+
+### Description
+
+`description` ì˜µì…˜ìœ¼ë¡œ agentì˜ ì—­í• ê³¼ ì‚¬ìš© ì‹œì ì„ ê°„ë‹¨ížˆ ì„¤ëª…í•˜ì„¸ìš”.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "description": "Reviews code for best practices and potential issues"
+    }
+  }
+}
+```
+
+ì´ ì˜µì…˜ì€ **í•„ìˆ˜** config í•­ëª©ìž…ë‹ˆë‹¤.
+
+---
+
+### Temperature
+
+`temperature` configë¡œ LLM ì‘ë‹µì˜ ë¬´ìž‘ìœ„ì„±ê³¼ ì°½ì˜ì„±ì„ ì œì–´í•©ë‹ˆë‹¤.
+
+ê°’ì´ ë‚®ì„ìˆ˜ë¡ ì‘ë‹µì´ ë” ì§‘ì¤‘ë˜ê³  ê²°ì •ì ì´ë©°, ê°’ì´ ë†’ì„ìˆ˜ë¡ ì°½ì˜ì„±ê³¼ ë‹¤ì–‘ì„±ì´ ì»¤ì§‘ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "plan": {
+      "temperature": 0.1
+    },
+    "creative": {
+      "temperature": 0.8
+    }
+  }
+}
+```
+
+Temperature ê°’ì€ ì¼ë°˜ì ìœ¼ë¡œ 0.0~1.0 ë²”ìœ„ë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+
+- **0.0-0.2**: ë§¤ìš° ì§‘ì¤‘ë˜ê³  ê²°ì •ì ì¸ ì‘ë‹µ, ì½”ë“œ ë¶„ì„/ê³„íšì— ì í•©
+- **0.3-0.5**: ì ë‹¹í•œ ì°½ì˜ì„±ì´ ì„žì¸ ê· í˜•í˜• ì‘ë‹µ, ì¼ë°˜ ê°œë°œ ìž‘ì—…ì— ì í•©
+- **0.6-1.0**: ë” ì°½ì˜ì ì´ê³  ë‹¤ì–‘í•œ ì‘ë‹µ, ë¸Œë ˆì¸ìŠ¤í† ë°/íƒìƒ‰ì— ìœ ìš©
+
+```json title="voracode.json"
+{
+  "agent": {
+    "analyze": {
+      "temperature": 0.1,
+      "prompt": "{file:./prompts/analysis.txt}"
+    },
+    "build": {
+      "temperature": 0.3
+    },
+    "brainstorm": {
+      "temperature": 0.7,
+      "prompt": "{file:./prompts/creative.txt}"
+    }
+  }
+}
+```
+
+temperatureë¥¼ ì§€ì •í•˜ì§€ ì•Šìœ¼ë©´ VoracodeëŠ” modelë³„ ê¸°ë³¸ê°’ì„ ì‚¬ìš©í•©ë‹ˆë‹¤. ì¼ë°˜ì ìœ¼ë¡œ ëŒ€ë¶€ë¶„ì˜ modelì€ 0, Qwen modelì€ 0.55ë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+
+---
+
+### Max steps
+
+agentê°€ í…ìŠ¤íŠ¸ ì‘ë‹µë§Œ í•˜ë„ë¡ ê°•ì œë˜ê¸° ì „ê¹Œì§€ ìˆ˜í–‰í•  ìˆ˜ ìžˆëŠ” agentic iterationì˜ ìµœëŒ€ íšŸìˆ˜ë¥¼ ì œì–´í•©ë‹ˆë‹¤. ë¹„ìš©ì„ ê´€ë¦¬í•˜ë ¤ëŠ” ì‚¬ìš©ìžì—ê²Œ agentic action ì œí•œì„ ì œê³µí•˜ê¸° ìœ„í•œ ì˜µì…˜ìž…ë‹ˆë‹¤.
+
+ì´ ê°’ì„ ì„¤ì •í•˜ì§€ ì•Šìœ¼ë©´ modelì´ ì¤‘ë‹¨ì„ ì„ íƒí•˜ê±°ë‚˜ ì‚¬ìš©ìžê°€ ì„¸ì…˜ì„ ì¤‘ë‹¨í•  ë•Œê¹Œì§€ agentëŠ” ê³„ì† ë°˜ë³µí•©ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "quick-thinker": {
+      "description": "Fast reasoning with limited iterations",
+      "prompt": "You are a quick thinker. Solve problems with minimal steps.",
+      "steps": 5
+    }
+  }
+}
+```
+
+ì œí•œì— ë„ë‹¬í•˜ë©´ agentëŠ” ìž‘ì—… ìš”ì•½ê³¼ ë‚¨ì€ ê¶Œìž¥ ìž‘ì—…ì„ ì‘ë‹µí•˜ë„ë¡ ì§€ì‹œí•˜ëŠ” íŠ¹ìˆ˜ ì‹œìŠ¤í…œ promptë¥¼ ë°›ìŠµë‹ˆë‹¤.
+
+:::caution
+ë ˆê±°ì‹œ `maxSteps` í•„ë“œëŠ” deprecatedìž…ë‹ˆë‹¤. ëŒ€ì‹  `steps`ë¥¼ ì‚¬ìš©í•˜ì„¸ìš”.
+:::
+
+---
+
+### Disable
+
+`true`ë¡œ ì„¤ì •í•˜ë©´ agentë¥¼ ë¹„í™œì„±í™”í•©ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "disable": true
+    }
+  }
+}
+```
+
+---
+
+### Prompt
+
+`prompt` configë¡œ í•´ë‹¹ agentì˜ custom ì‹œìŠ¤í…œ prompt íŒŒì¼ì„ ì§€ì •í•©ë‹ˆë‹¤. prompt íŒŒì¼ì—ëŠ” agent ëª©ì ì— ë§žëŠ” ì§€ì‹œì‚¬í•­ì„ ìž‘ì„±í•˜ì„¸ìš”.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "prompt": "{file:./prompts/code-review.txt}"
+    }
+  }
+}
+```
+
+ì´ ê²½ë¡œëŠ” config íŒŒì¼ ìœ„ì¹˜ ê¸°ì¤€ì˜ ìƒëŒ€ ê²½ë¡œìž…ë‹ˆë‹¤. ë”°ë¼ì„œ ì „ì—­ Voracode configì™€ í”„ë¡œì íŠ¸ë³„ config ëª¨ë‘ì—ì„œ ë™ì¼í•˜ê²Œ ë™ìž‘í•©ë‹ˆë‹¤.
+
+---
+
+### Model
+
+`model` configë¡œ í•´ë‹¹ agentì˜ modelì„ overrideí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ìž‘ì—… íŠ¹ì„±ì— ë§žì¶° modelì„ ë‹¬ë¦¬ ì“¸ ë•Œ ìœ ìš©í•©ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´ ê³„íšì—ëŠ” ë” ë¹ ë¥¸ model, êµ¬í˜„ì—ëŠ” ë” ê°•ë ¥í•œ modelì„ ì‚¬ìš©í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+:::tip
+modelì„ ì§€ì •í•˜ì§€ ì•Šìœ¼ë©´ primary agentëŠ” [ì „ì—­ìœ¼ë¡œ ì„¤ì •í•œ model](/docs/config#models)ì„ ì‚¬ìš©í•˜ê³ , subagentëŠ” í•´ë‹¹ subagentë¥¼ í˜¸ì¶œí•œ primary agentì˜ modelì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
+:::
+
+```json title="voracode.json"
+{
+  "agent": {
+    "plan": {
+      "model": "anthropic/claude-haiku-4-20250514"
+    }
+  }
+}
+```
+
+Voracode configì˜ model IDëŠ” `provider/model-id` í˜•ì‹ì„ ì‚¬ìš©í•©ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´ [Voracode Zen](/docs/zen)ì„ ì‚¬ìš©í•œë‹¤ë©´ GPT 5.1 Codexì— `voracode/gpt-5.1-codex`ë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤.
+
+---
+
+### Tools
+
+`tools` configë¡œ agentì—ì„œ ì‚¬ìš©í•  toolì„ ì œì–´í•©ë‹ˆë‹¤. ê° toolì„ `true` ë˜ëŠ” `false`ë¡œ ì„¤ì •í•´ í™œì„±í™”/ë¹„í™œì„±í™”í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json" {3-6,9-12}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "tools": {
+    "write": true,
+    "bash": true
+  },
+  "agent": {
+    "plan": {
+      "tools": {
+        "write": false,
+        "bash": false
+      }
+    }
+  }
+}
+```
+
+:::note
+agentë³„ configëŠ” ì „ì—­ configë¥¼ overrideí•©ë‹ˆë‹¤.
+:::
+
+ì™€ì¼ë“œì¹´ë“œë¥¼ ì‚¬ìš©í•˜ë©´ ì—¬ëŸ¬ toolì„ í•œ ë²ˆì— ì œì–´í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´ MCP ì„œë²„ì˜ ëª¨ë“  toolì„ ë¹„í™œì„±í™”í•˜ë ¤ë©´ ë‹¤ìŒê³¼ ê°™ì´ ì„¤ì •í•©ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "readonly": {
+      "tools": {
+        "mymcp_*": false,
+        "write": false,
+        "edit": false
+      }
+    }
+  }
+}
+```
+
+[toolì— ëŒ€í•´ ë” ì•Œì•„ë³´ê¸°](/docs/tools).
+
+---
+
+### Permissions
+
+permissionì„ ì„¤ì •í•´ agentê°€ ìˆ˜í–‰í•  ìˆ˜ ìžˆëŠ” actionì„ ì œì–´í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. í˜„ìž¬ `edit`, `bash`, `webfetch` toolì˜ permissionì€ ë‹¤ìŒ ê°’ìœ¼ë¡œ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+- `"ask"` â€” tool ì‹¤í–‰ ì „ì— ìŠ¹ì¸ ìš”ì²­
+- `"allow"` â€” ìŠ¹ì¸ ì—†ì´ ëª¨ë“  ìž‘ì—… í—ˆìš©
+- `"deny"` â€” tool ë¹„í™œì„±í™”
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "deny"
+  }
+}
+```
+
+ì´ permissionì€ agentë³„ë¡œ overrideí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json" {3-5,8-10}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "deny"
+  },
+  "agent": {
+    "build": {
+      "permission": {
+        "edit": "ask"
+      }
+    }
+  }
+}
+```
+
+Markdown agentì—ì„œë„ permissionì„ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```markdown title="~/.config/voracode/agents/review.md"
+---
+description: Code review without edits
+mode: subagent
+permission:
+  edit: deny
+  bash:
+    "*": ask
+    "git diff": allow
+    "git log*": allow
+    "grep *": allow
+  webfetch: deny
+---
+
+Only analyze code and suggest changes.
+```
+
+íŠ¹ì • bash ëª…ë ¹ì— ëŒ€í•´ì„œë„ permissionì„ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json" {7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "git push": "ask",
+          "grep *": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+ì—¬ê¸°ì—ëŠ” glob íŒ¨í„´ì„ ì‚¬ìš©í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json" {7}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "git *": "ask"
+        }
+      }
+    }
+  }
+}
+```
+
+ë˜í•œ `*` ì™€ì¼ë“œì¹´ë“œë¡œ ëª¨ë“  ëª…ë ¹ì˜ permissionì„ ì œì–´í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+ë§ˆì§€ë§‰ìœ¼ë¡œ ì¼ì¹˜í•œ ê·œì¹™ì´ ìš°ì„ í•˜ë¯€ë¡œ `*` ì™€ì¼ë“œì¹´ë“œë¥¼ ë¨¼ì € ë‘ê³ , êµ¬ì²´ì ì¸ ê·œì¹™ì„ ë’¤ì— ë‘ì„¸ìš”.
+
+```json title="voracode.json" {8}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "git status *": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+[permissionì— ëŒ€í•´ ë” ì•Œì•„ë³´ê¸°](/docs/permissions).
+
+---
+
+### Mode
+
+`mode` configë¡œ agent ëª¨ë“œë¥¼ ì œì–´í•©ë‹ˆë‹¤. `mode` ì˜µì…˜ì€ agentë¥¼ ì–´ë–¤ ë°©ì‹ìœ¼ë¡œ ì‚¬ìš©í• ì§€ ê²°ì •í•©ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "review": {
+      "mode": "subagent"
+    }
+  }
+}
+```
+
+`mode`ëŠ” `primary`, `subagent`, `all` ì¤‘ í•˜ë‚˜ë¡œ ì„¤ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì„¤ì •í•˜ì§€ ì•Šìœ¼ë©´ ê¸°ë³¸ê°’ì€ `all`ìž…ë‹ˆë‹¤.
+
+---
+
+### Hidden
+
+`hidden: true`ë¥¼ ì„¤ì •í•˜ë©´ `@` ìžë™ì™„ì„± ë©”ë‰´ì—ì„œ subagentë¥¼ ìˆ¨ê¸¸ ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ë‹¤ë¥¸ agentê°€ Task toolì„ í†µí•´ programmaticìœ¼ë¡œë§Œ í˜¸ì¶œí•´ì•¼ í•˜ëŠ” ë‚´ë¶€ subagentì— ìœ ìš©í•©ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "internal-helper": {
+      "mode": "subagent",
+      "hidden": true
+    }
+  }
+}
+```
+
+ì´ ì„¤ì •ì€ ìžë™ì™„ì„± ë©”ë‰´ì—ì„œì˜ ì‚¬ìš©ìž ê°€ì‹œì„±ì—ë§Œ ì˜í–¥ì„ ì¤ë‹ˆë‹¤. permissionì´ í—ˆìš©ë˜ë©´ hidden agentë„ ëª¨ë¸ì´ Task toolì„ í†µí•´ í˜¸ì¶œí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+:::note
+`mode: subagent` agentì—ë§Œ ì ìš©ë©ë‹ˆë‹¤.
+:::
+
+---
+
+### Task permissions
+
+`permission.task`ë¡œ Task toolì„ í†µí•´ í•´ë‹¹ agentê°€ í˜¸ì¶œí•  ìˆ˜ ìžˆëŠ” subagent ë²”ìœ„ë¥¼ ì œì–´í•©ë‹ˆë‹¤. ìœ ì—°í•œ ë§¤ì¹­ì„ ìœ„í•´ glob íŒ¨í„´ì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "orchestrator": {
+      "mode": "primary",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "orchestrator-*": "allow",
+          "code-reviewer": "ask"
+        }
+      }
+    }
+  }
+}
+```
+
+`deny`ë¡œ ì„¤ì •ë˜ë©´ í•´ë‹¹ subagentëŠ” Task tool ì„¤ëª…ì—ì„œ ì™„ì „ížˆ ì œê±°ë˜ë¯€ë¡œ ëª¨ë¸ì´ í˜¸ì¶œì„ ì‹œë„í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
+
+:::tip
+ê·œì¹™ì€ ì„ ì–¸ ìˆœì„œëŒ€ë¡œ í‰ê°€ë˜ë©°, **ë§ˆì§€ë§‰ìœ¼ë¡œ ì¼ì¹˜í•œ ê·œì¹™ì´ ìŠ¹ë¦¬í•©ë‹ˆë‹¤**. ìœ„ ì˜ˆì‹œì—ì„œ `orchestrator-planner`ëŠ” `*`(deny)ì™€ `orchestrator-*`(allow) ëª¨ë‘ì— ì¼ì¹˜í•˜ì§€ë§Œ, `orchestrator-*`ê°€ ë’¤ì— ìžˆìœ¼ë¯€ë¡œ ê²°ê³¼ëŠ” `allow`ìž…ë‹ˆë‹¤.
+:::
+
+:::tip
+ì‚¬ìš©ìžëŠ” agentì˜ task permissionì´ denyì—¬ë„ `@` ìžë™ì™„ì„± ë©”ë‰´ë¥¼ í†µí•´ ì–´ë–¤ subagentë“  ì§ì ‘ í˜¸ì¶œí•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+:::
+
+---
+
+### Color
+
+`color` ì˜µì…˜ìœ¼ë¡œ UIì—ì„œ agentì˜ ì‹œê° ìŠ¤íƒ€ì¼ì„ ì§€ì •í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤. ì¸í„°íŽ˜ì´ìŠ¤ì—ì„œ agentê°€ í‘œì‹œë˜ëŠ” ë°©ì‹ì— ì˜í–¥ì„ ì¤ë‹ˆë‹¤.
+
+ìœ íš¨í•œ hex ìƒ‰ìƒ(ì˜ˆ: `#FF5733`) ë˜ëŠ” theme ìƒ‰ìƒ(`primary`, `secondary`, `accent`, `success`, `warning`, `error`, `info`)ì„ ì‚¬ìš©í•˜ì„¸ìš”.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "creative": {
+      "color": "#ff6b6b"
+    },
+    "code-reviewer": {
+      "color": "accent"
+    }
+  }
+}
+```
+
+---
+
+### Top P
+
+`top_p` ì˜µì…˜ìœ¼ë¡œ ì‘ë‹µ ë‹¤ì–‘ì„±ì„ ì œì–´í•©ë‹ˆë‹¤. ë¬´ìž‘ìœ„ì„±ì„ ì œì–´í•˜ëŠ” Temperatureì˜ ëŒ€ì•ˆìž…ë‹ˆë‹¤.
+
+```json title="voracode.json"
+{
+  "agent": {
+    "brainstorm": {
+      "top_p": 0.9
+    }
+  }
+}
+```
+
+ê°’ ë²”ìœ„ëŠ” 0.0~1.0ìž…ë‹ˆë‹¤. ê°’ì´ ë‚®ì„ìˆ˜ë¡ ì§‘ì¤‘ë˜ê³ , ë†’ì„ìˆ˜ë¡ ë‹¤ì–‘í•´ì§‘ë‹ˆë‹¤.
+
+---
+
+### Additional
+
+agent configì— ì§€ì •í•œ ë‚˜ë¨¸ì§€ ì˜µì…˜ì€ ëª¨ë¸ ì˜µì…˜ìœ¼ë¡œ providerì— **ê·¸ëŒ€ë¡œ ì „ë‹¬(pass through)** ë©ë‹ˆë‹¤. ì´ë¥¼ í†µí•´ providerë³„ ê¸°ëŠ¥ê³¼ íŒŒë¼ë¯¸í„°ë¥¼ í™œìš©í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+ì˜ˆë¥¼ ë“¤ì–´ OpenAI reasoning modelì—ì„œëŠ” reasoning effortë¥¼ ì œì–´í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="voracode.json" {6,7}
+{
+  "agent": {
+    "deep-thinker": {
+      "description": "Agent that uses high reasoning effort for complex problems",
+      "model": "openai/gpt-5",
+      "reasoningEffort": "high",
+      "textVerbosity": "low"
+    }
+  }
+}
+```
+
+ì´ ì¶”ê°€ ì˜µì…˜ì€ model ë° providerë§ˆë‹¤ ë‹¤ë¦…ë‹ˆë‹¤. ì‚¬ìš© ê°€ëŠ¥í•œ íŒŒë¼ë¯¸í„°ëŠ” provider ë¬¸ì„œë¥¼ í™•ì¸í•˜ì„¸ìš”.
+
+:::tip
+ì‚¬ìš© ê°€ëŠ¥í•œ model ëª©ë¡ì€ `voracode models` ëª…ë ¹ìœ¼ë¡œ í™•ì¸í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+:::
+
+---
+
+## ì—ì´ì „íŠ¸ ìƒì„±
+
+ì•„ëž˜ ëª…ë ¹ìœ¼ë¡œ ìƒˆ agentë¥¼ ë§Œë“¤ ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```bash
+voracode agent create
+```
+
+ì´ ì¸í„°ëž™í‹°ë¸Œ ëª…ë ¹ì€ ë‹¤ìŒì„ ìˆ˜í–‰í•©ë‹ˆë‹¤.
+
+1. agent ì €ìž¥ ìœ„ì¹˜ë¥¼ ë¬»ìŠµë‹ˆë‹¤(ì „ì—­/í”„ë¡œì íŠ¸).
+2. agentê°€ ìˆ˜í–‰í•  ìž‘ì—…ì˜ ì„¤ëª…ì„ ë°›ìŠµë‹ˆë‹¤.
+3. ì ì ˆí•œ ì‹œìŠ¤í…œ promptì™€ ì‹ë³„ìžë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
+4. agentê°€ ì ‘ê·¼í•  toolì„ ì„ íƒí•˜ê²Œ í•©ë‹ˆë‹¤.
+5. ë§ˆì§€ë§‰ìœ¼ë¡œ agent configê°€ ë‹´ê¸´ Markdown íŒŒì¼ì„ ìƒì„±í•©ë‹ˆë‹¤.
+
+---
+
+## ì‚¬ìš© ì‚¬ë¡€
+
+ì„œë¡œ ë‹¤ë¥¸ agentì˜ ëŒ€í‘œì ì¸ ì‚¬ìš© ì‚¬ë¡€ëŠ” ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤.
+
+- **Build agent**: ëª¨ë“  toolì„ í™œì„±í™”í•œ ì „ì²´ ê°œë°œ ìž‘ì—…
+- **Plan agent**: ì½”ë“œ ë³€ê²½ ì—†ì´ ë¶„ì„ê³¼ ê³„íš ìˆ˜í–‰
+- **Review agent**: ì½ê¸° ì „ìš© ì ‘ê·¼ + ë¬¸ì„œí™” tool ê¸°ë°˜ ì½”ë“œ ë¦¬ë·°
+- **Debug agent**: bash/read tool ì¤‘ì‹¬ì˜ ì¡°ì‚¬ ìž‘ì—…
+- **Docs agent**: íŒŒì¼ ìž‘ì—…ì€ ê°€ëŠ¥í•˜ì§€ë§Œ ì‹œìŠ¤í…œ ëª…ë ¹ì€ ì—†ëŠ” ë¬¸ì„œ ìž‘ì„± ìž‘ì—…
+
+---
+
+## ì˜ˆì‹œ
+
+ì‹¤ì œë¡œ ìœ ìš©í•˜ê²Œ ì“¸ ìˆ˜ ìžˆëŠ” ì˜ˆì‹œ agentë¥¼ ì†Œê°œí•©ë‹ˆë‹¤.
+
+:::tip
+ê³µìœ í•˜ê³  ì‹¶ì€ agentê°€ ìžˆë‚˜ìš”? [PR ì œì¶œí•˜ê¸°](https://github.com/mysterious75/voracode).
+:::
+
+---
+
+### Documentation agent
+
+```markdown title="~/.config/voracode/agents/docs-writer.md"
+---
+description: Writes and maintains project documentation
+mode: subagent
+tools:
+  bash: false
+---
+
+You are a technical writer. Create clear, comprehensive documentation.
+
+Focus on:
+
+- Clear explanations
+- Proper structure
+- Code examples
+- User-friendly language
+```
+
+---
+
+### Security auditor
+
+```markdown title="~/.config/voracode/agents/security-auditor.md"
+---
+description: Performs security audits and identifies vulnerabilities
+mode: subagent
+tools:
+  write: false
+  edit: false
+---
+
+You are a security expert. Focus on identifying potential security issues.
+
+Look for:
+
+- Input validation vulnerabilities
+- Authentication and authorization flaws
+- Data exposure risks
+- Dependency vulnerabilities
+- Configuration security issues
+```

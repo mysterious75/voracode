@@ -1,0 +1,222 @@
+---
+title: "AgentfÃ¦rdigheder"
+description: "Definer gjenbrugbar atferd via SKILL.md-definisjoner"
+---
+
+Agentferdigheter lar Voracode oppdage gjenbrugbare instruksjoner fra repo- eller hjemmekatalogen din.
+Ferdigheter lastes inn pÃ¥ forespÃ¸rsel via det opprinnelige `skill`-verktÃ¸yet â€“ agenter ser tilgÃ¦ngelige ferdigheter og kan laste inn hele innholdet nÃ¥r det er nÃ¸dvendig.
+
+---
+
+## Placer filer
+
+Opret Ã©n mappe per ferdighetsnavn og tilfÃ¸j inn en `SKILL.md` i den.
+Voracode sÃ¸ker etter disse stedene:
+
+- Prosjektkonfigurasjon: `.voracode/skills/<name>/SKILL.md`
+- Global konfigurasjon: `~/.config/voracode/skills/<name>/SKILL.md`
+- Prosjekt Claude-kompatibel: `.claude/skills/<name>/SKILL.md`
+- Global Claude-kompatibel: `~/.claude/skills/<name>/SKILL.md`
+- Prosjektagent-kompatibel: `.agents/skills/<name>/SKILL.md`
+- Global agent-kompatibel: `~/.agents/skills/<name>/SKILL.md`
+
+---
+
+## ForstÃ¥ opdagelsen
+
+For prosjektlokale stier gÃ¥r Voracode opp fra din nÃ¥vÃ¦rende arbejdskatalog til den nÃ¥r git-arbeidstreet.
+Den laster alle matchende `skills/*/SKILL.md` i `.voracode/` og alle matchende `.claude/skills/*/SKILL.md` eller `.agents/skills/*/SKILL.md` underveis.
+
+Globale definisjoner lastes ogsÃ¥ inn fra `~/.config/voracode/skills/*/SKILL.md`, `~/.claude/skills/*/SKILL.md` og `~/.agents/skills/*/SKILL.md`.
+
+---
+
+## Skriv frontmatter
+
+Hver `SKILL.md` mÃ¥ starte med YAML frontmatter.
+Bare disse feltene gjenkjennes:
+
+- `name` (pÃ¥krevd)
+- `description` (pÃ¥krevd)
+- `license` (valgfritt)
+- `compatibility` (valgfritt)
+- `metadata` (valgfritt, streng-til-streng kart)
+
+Ukjente frontmatter-felter ignoreres.
+
+---
+
+## BekrÃ¦ft navn
+
+`name` mÃ¥:
+
+- BestÃ¥ av 1â€“64 tegn
+- VÃ¦r alfanumerisk med smÃ¥ bokstaver med skilletegn med enkelt bindestrek
+- Ikke begynne eller slutte med `-`
+- Ikke inneholde pÃ¥fÃ¸lgende `--`
+- Match katalognavnet som inneholder `SKILL.md`
+
+Ekvivalent regulÃ¦rt uttrykk:
+
+```text
+^[a-z0-9]+(-[a-z0-9]+)*$
+```
+
+---
+
+## FÃ¸lg lÃ¦ngdereglerne
+
+`description` mÃ¥ bestÃ¥ av 1-1024 tegn.
+Hold det spesifikt nok til at agenten kan velge riktig.
+
+---
+
+## Brug et eksempel
+
+Lag `.voracode/skills/git-release/SKILL.md` slik:
+
+```markdown
+---
+name: git-release
+description: Create consistent releases and changelogs
+license: MIT
+compatibility: voracode
+metadata:
+  audience: maintainers
+  workflow: github
+---
+
+## What I do
+
+- Draft release notes from merged PRs
+- Propose a version bump
+- Provide a copy-pasteable `gh release create` command
+
+## When to use me
+
+Use this when you are preparing a tagged release.
+Ask clarifying questions if the target versioning scheme is unclear.
+```
+
+---
+
+## Genkend vÃ¦rktÃ¸jsbeskrivelsen
+
+Voracode viser tilgÃ¦ngelige ferdigheter i `skill` verktÃ¸ybeskrivelsen.
+Hver oppfÃ¸ring inneholder ferdighetsnavnet og beskrivelsen:
+
+```xml
+<available_skills>
+  <skill>
+    <name>git-release</name>
+    <description>Create consistent releases and changelogs</description>
+  </skill>
+</available_skills>
+```
+
+Agenten laster inn en ferdighet ved at kalle verktÃ¸yet:
+
+```
+skill({ name: "git-release" })
+```
+
+---
+
+## Konfigurer tilladelser
+
+Kontroller hvilke ferdigheter agenter har tilgang til ved at bruge mÃ¸nsterbaserte tillatelser i `voracode.json`:
+
+```json
+{
+  "permission": {
+    "skill": {
+      "*": "allow",
+      "pr-review": "allow",
+      "internal-*": "deny",
+      "experimental-*": "ask"
+    }
+  }
+}
+```
+
+| Tillatelse | Atferd                                     |
+| ---------- | ------------------------------------------ |
+| `allow`    | Ferdigheter lastes umiddelbart             |
+| `deny`     | Ferdighet skjult for agent, tilgang avvist |
+| `ask`      | Bruger bedt om godkjenning fÃ¸r lasting     |
+
+MÃ¸nstre stÃ¸tter jokertegn: `internal-*` samsvarer med `internal-docs`, `internal-tools` osv.
+
+---
+
+## TilsidesÃ¦ttelse pr. agent
+
+Gi spesifikke agenter andre tillatelser enn de globale standardinnstillingene.
+
+**For egendefinerte agenter** (i agent frontmatter):
+
+```yaml
+---
+permission:
+  skill:
+    "documents-*": "allow"
+---
+```
+
+**For innebygde agenter** (i `voracode.json`):
+
+```json
+{
+  "agent": {
+    "plan": {
+      "permission": {
+        "skill": {
+          "internal-*": "allow"
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+## Deaktiver fÃ¦rdighedsvÃ¦rktÃ¸jet
+
+Deaktiver ferdigheter fullstendig for agenter som ikke bÃ¸r bruge dem:
+
+**For egendefinerte agenter**:
+
+```yaml
+---
+tools:
+  skill: false
+---
+```
+
+**For innebygde agenter**:
+
+```json
+{
+  "agent": {
+    "plan": {
+      "tools": {
+        "skill": false
+      }
+    }
+  }
+}
+```
+
+NÃ¥r den er deaktivert, blir `<available_skills>`-delen utelatt helt.
+
+---
+
+## Fejlfind indlÃ¦sning
+
+Hvis en ferdighet ikke vises:
+
+1. Kontroller at `SKILL.md` er stavet med store bokstaver
+2. Tjek at frontmatter inkluderer `name` og `description`
+3. SÃ¸rg for at ferdighetsnavnene er unike pÃ¥ alle steder
+4. Tjek tillatelser â€“ ferdigheter med `deny` er skjult for agenter

@@ -1,0 +1,323 @@
+---
+title: Kommandoer
+description: Lag egendefinerte kommandoer for repeterende oppgaver.
+---
+
+Egendefinerte kommandoer lar deg spesifisere en ledetekst du vil kjÃ¸re nÃ¥r kommandoen utfÃ¸res i TUI.
+
+```bash frame="none"
+/my-command
+```
+
+Egendefinerte kommandoer kommer i tillegg til de innebygde kommandoene som `/init`, `/undo`, `/redo`, `/share`, `/help`. [Finn ut mer](/docs/tui#commands).
+
+---
+
+## Lag kommandofiler
+
+Lag nedmerkingsfiler i `commands/`-katalogen for Ã¥ definere egendefinerte kommandoer.
+
+Opprett `.voracode/commands/test.md`:
+
+```md title=".voracode/commands/test.md"
+---
+description: Run tests with coverage
+agent: build
+model: anthropic/claude-3-5-sonnet-20241022
+---
+
+Run the full test suite with coverage report and show any failures.
+Focus on the failing tests and suggest fixes.
+```
+
+Frontmatter definerer kommandoegenskaper. Innholdet blir malen.
+
+Bruk kommandoen ved Ã¥ skrive `/` etterfulgt av kommandonavnet.
+
+```bash frame="none"
+"/test"
+```
+
+---
+
+## Konfigurasjon
+
+Du kan legge til egendefinerte kommandoer gjennom Voracode-konfigurasjonen eller ved Ã¥ lage markdown-filer i katalogen `commands/`.
+
+---
+
+### JSON
+
+Bruk alternativet `command` i Voracode [config](/docs/config):
+
+```json title="voracode.jsonc" {4-12}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "command": {
+    // This becomes the name of the command
+    "test": {
+      // This is the prompt that will be sent to the LLM
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
+      // This is shown as the description in the TUI
+      "description": "Run tests with coverage",
+      "agent": "build",
+      "model": "anthropic/claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+
+NÃ¥ kan du kjÃ¸re denne kommandoen i TUI:
+
+```bash frame="none"
+/test
+```
+
+---
+
+### Markdown
+
+Du kan ogsÃ¥ definere kommandoer ved Ã¥ bruke markdown-filer. Plasser dem i:
+
+- Globalt: `~/.config/voracode/commands/`
+- Per prosjekt: `.voracode/commands/`
+
+```markdown title="~/.config/voracode/commands/test.md"
+---
+description: Run tests with coverage
+agent: build
+model: anthropic/claude-3-5-sonnet-20241022
+---
+
+Run the full test suite with coverage report and show any failures.
+Focus on the failing tests and suggest fixes.
+```
+
+Markdown-filnavnet blir kommandonavnet. For eksempel lar `test.md`
+deg kjÃ¸re:
+
+```bash frame="none"
+/test
+```
+
+---
+
+## Ledetekstkonfigurasjon
+
+Ledetekstene for de egendefinerte kommandoene stÃ¸tter flere spesielle plassholdere og syntaks.
+
+---
+
+### Argumenter
+
+Send argumenter til kommandoer ved Ã¥ bruke plassholderen `$ARGUMENTS`.
+
+```md title=".voracode/commands/component.md"
+---
+description: Create a new component
+---
+
+Create a new React component named $ARGUMENTS with TypeScript support.
+Include proper typing and basic structure.
+```
+
+KjÃ¸r kommandoen med argumenter:
+
+```bash frame="none"
+/component Button
+```
+
+Og `$ARGUMENTS` vil bli erstattet med `Button`.
+
+Du kan ogsÃ¥ fÃ¥ tilgang til individuelle argumenter ved Ã¥ bruke posisjonelle parametere:
+
+- `$1` - FÃ¸rste argument
+- `$2` - Andre argument
+- `$3` - Tredje argument
+- Og sÃ¥ videre...
+
+For eksempel:
+
+```md title=".voracode/commands/create-file.md"
+---
+description: Create a new file with content
+---
+
+Create a file named $1 in the directory $2
+with the following content: $3
+```
+
+KjÃ¸r kommandoen:
+
+```bash frame="none"
+/create-file config.json src "{ \"key\": \"value\" }"
+```
+
+Dette erstatter:
+
+- `$1` med `config.json`
+- `$2` med `src`
+- `$3` med `{ "key": "value" }`
+
+---
+
+### Shell-utdata
+
+Bruk _!`command`_ for Ã¥ injisere [bash-kommando](/docs/tui#bash-commands)-utdata i ledeteksten.
+
+For eksempel, for Ã¥ lage en egendefinert kommando som analyserer testdekning:
+
+```md title=".voracode/commands/analyze-coverage.md"
+---
+description: Analyze test coverage
+---
+
+Here are the current test results:
+!`npm test`
+
+Based on these results, suggest improvements to increase coverage.
+```
+
+Eller for Ã¥ se gjennom nylige endringer:
+
+```md title=".voracode/commands/review-changes.md"
+---
+description: Review recent changes
+---
+
+Recent git commits:
+!`git log --oneline -10`
+
+Review these changes and suggest any improvements.
+```
+
+Kommandoer kjÃ¸res i prosjektets rotkatalog og utdataene deres blir en del av ledeteksten.
+
+---
+
+### Filreferanser
+
+Inkluder filer i kommandoen din ved Ã¥ bruke `@` etterfulgt av filnavnet.
+
+```md title=".voracode/commands/review-component.md"
+---
+description: Review component
+---
+
+Review the component in @src/components/Button.tsx.
+Check for performance issues and suggest improvements.
+```
+
+Filinnholdet blir automatisk inkludert i ledeteksten.
+
+---
+
+## Alternativer
+
+La oss se pÃ¥ konfigurasjonsalternativene i detalj.
+
+---
+
+### Mal
+
+Alternativet `template` definerer ledeteksten som vil bli sendt til LLM nÃ¥r kommandoen utfÃ¸res.
+
+```json title="voracode.json"
+{
+  "command": {
+    "test": {
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes."
+    }
+  }
+}
+```
+
+Dette er et **obligatorisk** konfigurasjonsalternativ.
+
+---
+
+### Beskrivelse
+
+Bruk alternativet `description` for Ã¥ gi en kort beskrivelse av hva kommandoen gjÃ¸r.
+
+```json title="voracode.json"
+{
+  "command": {
+    "test": {
+      "description": "Run tests with coverage"
+    }
+  }
+}
+```
+
+Dette vises som beskrivelsen i TUI nÃ¥r du skriver inn kommandoen.
+
+---
+
+### Agent
+
+Bruk `agent`-konfigurasjonen for Ã¥ spesifisere hvilken [agent](/docs/agents) som skal utfÃ¸re denne kommandoen.
+Hvis dette er en [subagent](/docs/agents/#subagents), vil kommandoen utlÃ¸se en subagent pÃ¥kalling som standard.
+For Ã¥ deaktivere denne virkemÃ¥ten, sett `subtask` til `false`.
+
+```json title="voracode.json"
+{
+  "command": {
+    "review": {
+      "agent": "plan"
+    }
+  }
+}
+```
+
+Denne kommandoen vil veilede deg gjennom Ã¥ lage en ny agent med en tilpasset systemmelding og verktÃ¸ykonfigurasjon.
+
+---
+
+### Underoppgave
+
+Bruk `subtask` for Ã¥ tvinge kommandoen til Ã¥ utlÃ¸se en [subagent](/docs/agents/#subagents) pÃ¥kalling.
+Dette er nyttig hvis du vil at kommandoen ikke skal forurense din primÃ¦re kontekst og vil **tvinge** agenten til Ã¥ fungere som en underagent,
+selv om `mode` er satt til `primary` pÃ¥ [agent](/docs/agents) konfigurasjonen.
+
+```json title="voracode.json"
+{
+  "command": {
+    "analyze": {
+      "subtask": true
+    }
+  }
+}
+```
+
+Dette er et **valgfritt** konfigurasjonsalternativ.
+
+---
+
+### Modell
+
+Bruk `model`-konfigurasjonen for Ã¥ overstyre standardmodellen for denne kommandoen.
+
+```json title="voracode.json"
+{
+  "command": {
+    "analyze": {
+      "model": "anthropic/claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+
+Dette er et **valgfritt** konfigurasjonsalternativ.
+
+---
+
+## Innebygd
+
+Voracode inkluderer flere innebygde kommandoer som `/init`, `/undo`, `/redo`, `/share`, `/help`; [finn ut mer](/docs/tui#commands).
+
+:::note
+Egendefinerte kommandoer kan overstyre innebygde kommandoer.
+:::
+
+Hvis du definerer en egendefinert kommando med samme navn, vil den overstyre den innebygde kommandoen.

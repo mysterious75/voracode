@@ -1,0 +1,47 @@
+---
+title: IDE
+description: Ekstenzija Voracode za VS Code, Cursor i druge IDE
+---
+
+Voracode se integriÅ¡e sa VS kodom, Cursor-om ili bilo kojim IDE-om koji podrÅ¾ava terminal. Samo pokrenite `voracode` u terminalu da zapoÄnete.
+
+---
+
+## KoriÅ¡tenje
+
+- **Brzo pokretanje**: Koristite `Cmd+Esc` (Mac) ili `Ctrl+Esc` (Windows/Linux) da otvorite Voracode u prikazu podijeljenog terminala ili fokusirajte postojeÄ‡u terminalsku sesiju ako je veÄ‡ pokrenuta.
+- **Nova sesija**: Koristite `Cmd+Shift+Esc` (Mac) ili `Ctrl+Shift+Esc` (Windows/Linux) da zapoÄnete novu Voracode terminalsku sesiju, Äak i ako je ona veÄ‡ otvorena. TakoÄ‘e moÅ¾ete kliknuti na dugme Voracode u korisniÄkom suÄelju.
+- **Svijest o kontekstu**: Automatski dijelite svoj trenutni odabir ili karticu s Voracode.
+- **PreÄice za referencu datoteka**: Koristite `Cmd+Option+K` (Mac) ili `Alt+Ctrl+K` (Linux/Windows) za umetanje referenci datoteka. Na primjer, `@File#L37-42`.
+
+---
+
+## Instalacija
+
+Da biste instalirali Voracode na VS Code i popularne viljuÅ¡ke kao Å¡to su Cursor, Windsurf, VSCodium:
+
+1. Otvorite VS Code
+2. Otvorite integrirani terminal
+3. Pokrenite `voracode` - ekstenzija se automatski instalira
+   Ako s druge strane Å¾elite da koristite svoj vlastiti IDE kada pokrenete `/editor` ili `/export` iz TUI-ja, morat Ä‡ete postaviti `export EDITOR="code --wait"`. [Saznajte viÅ¡e](/docs/tui/#editor-setup).
+
+---
+
+### RuÄna instalacija
+
+PotraÅ¾ite **Voracode** na Extension Marketplaceu i kliknite na **Instaliraj**.
+
+---
+
+### RjeÅ¡avanje problema
+
+Ako se ekstenzija ne uspije automatski instalirati:
+
+- Uvjerite se da koristite `voracode` u integriranom terminalu.
+- Potvrdite da je CLI za vaÅ¡ IDE instaliran:
+  - Za VS kod: `code` naredbu
+  - Za Cursor: `cursor` naredba
+  - Za Windsurf: `windsurf` komanda
+  - Za VSCodium: `codium` komanda
+  - Ako ne, pokrenite `Cmd+Shift+P` (Mac) ili `Ctrl+Shift+P` (Windows/Linux) i potraÅ¾ite "Shell Command: Install 'code' command in PATH" (ili ekvivalent za vaÅ¡ IDE)
+- Osigurajte da VS Code ima dozvolu za instaliranje ekstenzija

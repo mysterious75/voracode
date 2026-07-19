@@ -1,0 +1,426 @@
+---
+title: TUI
+description: Brug af Voracode-terminalbrugergrÃ¦nsefladen.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
+Voracode giver en interaktiv terminalgrÃ¦nseflade eller TUI til at arbejde med dine projekter med en LLM.
+
+At kÃ¸re Voracode starter TUI for den nuvÃ¦rende mappe.
+
+```bash
+voracode
+```
+
+Eller du kan starte den for en bestemt arbejdsmappe.
+
+```bash
+voracode /path/to/project
+```
+
+NÃ¥r du er i TUI, kan du spÃ¸rge den med en besked.
+
+```text
+Give me a quick summary of the codebase.
+```
+
+---
+
+## Filreferencer
+
+Du kan referere til filer i dine beskeder med `@`. Det laver en fuzzy filsÃ¸gning i den nuvÃ¦rende arbejdsmappe.
+
+:::tip
+Du kan ogsÃ¥ bruge `@` til at referere til filer i dine beskeder.
+:::
+
+```text "@packages/functions/src/api/index.ts"
+How is auth handled in @packages/functions/src/api/index.ts?
+```
+
+Indholdet i filen tilfÃ¸jes automatisk til samtalen.
+
+---
+
+## Bash-kommandoer
+
+Start en besked med `!` for at kÃ¸re en shell-kommando.
+
+```bash frame="none"
+!ls -la
+```
+
+Outputtet fra kommandoen tilfÃ¸jes til samtalen som et vÃ¦rktÃ¸jsresultat.
+
+---
+
+## Kommandoer
+
+NÃ¥r du bruger Voracode TUI, kan du skrive `/` efterfulgt af et kommandonavn for hurtigt at udfÃ¸re handlinger. For eksempel:
+
+```bash frame="none"
+/help
+```
+
+De fleste kommandoer har ogsÃ¥ genvejstaster som bruger `ctrl+x` som Leader-tast, hvor `ctrl+x` er standard Leader-tast. [LÃ¦s mere](/docs/keybinds).
+
+Her er alle tilgÃ¦ngelige skrÃ¥stregskommandoer:
+
+---
+
+### connect
+
+TilfÃ¸j en udbyder til Voracode. Lader dig vÃ¦lge fra tilgÃ¦ngelige udbydere og tilfÃ¸je deres API-nÃ¸gler.
+
+```bash frame="none"
+/connect
+```
+
+---
+
+### compact
+
+Komprimer nuvÃ¦rende session. _Alias_: `/summarize`
+
+```bash frame="none"
+/compact
+```
+
+**Genvejstast:** `ctrl+x c`
+
+---
+
+### details
+
+Skift visning af vÃ¦rktÃ¸jsudfÃ¸relsesdetaljer.
+
+```bash frame="none"
+/details
+```
+
+**Genvejstast:** `ctrl+x d`
+
+---
+
+### editor
+
+Ã…bn eksternt redigeringsprogram for at skrive beskeder. Bruger redigeringsprogrammet i miljÃ¸variablen `EDITOR`. [LÃ¦s mere](#editor-setup).
+
+```bash frame="none"
+/editor
+```
+
+**Genvejstast:** `ctrl+x e`
+
+---
+
+### exit
+
+Afslut Voracode. _Aliaser_: `/quit`, `/q`
+
+```bash frame="none"
+/exit
+```
+
+**Genvejstast:** `ctrl+x q`
+
+---
+
+### export
+
+Eksporter nuvÃ¦rende samtale til Markdown og Ã¥bn i standardredigeringsprogrammet. Bruger redigeringsprogrammet i miljÃ¸variablen `EDITOR`. [LÃ¦s mere](#editor-setup).
+
+```bash frame="none"
+/export
+```
+
+**Genvejstast:** `ctrl+x x`
+
+---
+
+### help
+
+Vis hjÃ¦lpedialogen.
+
+```bash frame="none"
+/help
+```
+
+**Genvejstast:** `ctrl+x h`
+
+---
+
+### init
+
+Opret eller opdater `AGENTS.md`-fil. [LÃ¦s mere](/docs/rules).
+
+```bash frame="none"
+/init
+```
+
+**Genvejstast:** `ctrl+x i`
+
+---
+
+### models
+
+Liste over tilgÃ¦ngelige modeller.
+
+```bash frame="none"
+/models
+```
+
+**Genvejstast:** `ctrl+x m`
+
+---
+
+### new
+
+Start en ny session. _Alias_: `/clear`
+
+```bash frame="none"
+/new
+```
+
+**Genvejstast:** `ctrl+x n`
+
+---
+
+### redo
+
+Gentag en tidligere fortrudt besked. Kun tilgÃ¦ngelig efter brug af `/undo`.
+
+:::tip
+Eventuelle filÃ¦ndringer vil ogsÃ¥ blive genoprettet.
+:::
+
+Internt bruger dette Git til at administrere filÃ¦ndringerne. SÃ¥ dit projekt **skal vÃ¦re et Git-depot**.
+
+```bash frame="none"
+/redo
+```
+
+**Genvejstast:** `ctrl+x r`
+
+---
+
+### sessions
+
+List og skift mellem sessioner. _Aliaser_: `/resume`, `/continue`
+
+```bash frame="none"
+/sessions
+```
+
+**Genvejstast:** `ctrl+x l`
+
+---
+
+### share
+
+Del nuvÃ¦rende session. [LÃ¦s mere](/docs/share).
+
+```bash frame="none"
+/share
+```
+
+**Genvejstast:** `ctrl+x s`
+
+---
+
+### themes
+
+Liste over tilgÃ¦ngelige temaer.
+
+```bash frame="none"
+/theme
+```
+
+**Genvejstast:** `ctrl+x t`
+
+---
+
+### thinking
+
+Skift synligheden af tÃ¦nke-/rÃ¦sonneringsblokke i samtalen. NÃ¥r den er aktiveret, kan du se modellens rÃ¦sonneringsproces for modeller, som understÃ¸tter udvidet tÃ¦nkning.
+
+:::note
+Denne kommando kontrollerer bare om tÃ¦nkeblokke **vises** - den aktiverer eller deaktiverer ikke modellens rÃ¦sonneringsmuligheder. For at skifte mellem faktiske rÃ¦sonneringsmuligheder, brug `ctrl+t` for at bladre gennem modelvarianter.
+:::
+
+```bash frame="none"
+/thinking
+```
+
+---
+
+### undo
+
+Fortryd sidste besked i samtalen. Fjerner den sidste brugerbesked, alle efterfÃ¸lgende svar og eventuelle filÃ¦ndringer.
+
+:::tip
+Eventuelle filÃ¦ndringer vil ogsÃ¥ blive nulstillet.
+:::
+
+Internt bruger dette Git til at administrere filÃ¦ndringerne. SÃ¥ dit projekt **skal vÃ¦re et Git-depot**.
+
+```bash frame="none"
+/undo
+```
+
+**Genvejstast:** `ctrl+x u`
+
+---
+
+### unshare
+
+OphÃ¦v deling af nuvÃ¦rende session. [LÃ¦s mere](/docs/share#un-sharing).
+
+```bash frame="none"
+/unshare
+```
+
+---
+
+## OpsÃ¦tning af editor
+
+BÃ¥de kommandoerne `/editor` og `/export` bruger editoren som er specificeret i miljÃ¸variablen `EDITOR`.
+
+<Tabs>
+  <TabItem label="Linux/macOS">
+    ```bash
+    # Example for nano or vim
+    export EDITOR=nano
+    export EDITOR=vim
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    export EDITOR="code --wait"
+    ```
+
+    For at gÃ¸re det permanent, tilfÃ¸j dette til din shellprofil;
+    `~/.bashrc`, `~/.zshrc` osv.
+
+  </TabItem>
+
+  <TabItem label="Windows (CMD)">
+    ```bash
+    set EDITOR=notepad
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    set EDITOR=code --wait
+    ```
+
+    For at gÃ¸re det permanent, brug **Systemegenskaber** > **MiljÃ¸variabler**.
+
+  </TabItem>
+
+  <TabItem label="Windows (PowerShell)">
+    ```powershell
+    $env:EDITOR = "notepad"
+
+    # For GUI editors, VS Code, Cursor, VSCodium, Windsurf, Zed, etc.
+    # include --wait
+    $env:EDITOR = "code --wait"
+    ```
+
+    For at gÃ¸re det permanent, tilfÃ¸j dette til din PowerShell-profil.
+
+  </TabItem>
+</Tabs>
+
+PopulÃ¦re redigeringsalternativer inkluderer:
+
+- `code` - Visual Studio Code
+- `cursor` - Cursor
+- `windsurf` - Windsurf
+- `nvim` - Neovim-editor
+- `vim` - Vim editor
+- `nano` - Nano-editor
+- `notepad` - Windows Notesblok
+- `subl` - Sublime Text
+
+:::note
+Nogle editorer som VS Code skal startes med flaget `--wait`.
+:::
+
+Nogle editorer krÃ¦ver kommandolinjeargumenter for at kÃ¸re i blokeringstilstand. `--wait`-flaget gÃ¸r at redigeringsprocessen blokeres indtil den lukkes.
+
+---
+
+## Konfigurer
+
+Du kan tilpasse TUI-adfÃ¦rd gennem `tui.json` (eller `tui.jsonc`).
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "theme": "voracode",
+  "leader_timeout": 2000,
+  "keybinds": {
+    "leader": "ctrl+x",
+    "command_list": "ctrl+p"
+  },
+  "scroll_speed": 3,
+  "scroll_acceleration": {
+    "enabled": false
+  },
+  "diff_style": "auto",
+  "mouse": true,
+  "attention": {
+    "enabled": true,
+    "notifications": true,
+    "sound": true,
+    "volume": 0.4,
+    "sound_pack": "voracode.default",
+    "sounds": {
+      "error": "./sounds/error.mp3"
+    }
+  }
+}
+```
+
+Dette er adskilt fra `voracode.json`, som konfigurerer server-/kÃ¸rselstidsadfÃ¦rd.
+
+`keybinds` flettes sammen med de indbyggede standarder, sÃ¥ du behÃ¸ver kun at konfigurere de genveje, du vil Ã¦ndre.
+
+### Indstillinger
+
+- `theme` - Indstiller dit brugergrÃ¦nsefladetema. [LÃ¦s mere](/docs/themes).
+- `keybinds` - Tilpasser tastaturgenveje. [LÃ¦s mere](/docs/keybinds).
+- `leader_timeout` - Styrer hvor lÃ¦nge Voracode venter efter leader key. Standard er `2000`.
+- `scroll_acceleration.enabled` - Aktiver rulleacceleration i macOS-stil for jÃ¦vn, naturlig rulning. NÃ¥r aktiveret, Ã¸ger rullehastigheden med hurtige rullebevÃ¦gelser og forbliver prÃ¦cis for langsommere bevÃ¦gelser. **Denne indstilling har forrang over `scroll_speed` og tilsidesÃ¦tter den, nÃ¥r den er aktiveret.**
+- `scroll_speed` - Styrer hvor hurtigt TUI ruller, nÃ¥r du bruger rullekommandoer (minimum: `0.001`, understÃ¸tter decimalvÃ¦rdier). Standard er `3`. **BemÃ¦rk: Dette ignoreres hvis `scroll_acceleration.enabled` er sat til `true`.**
+- `diff_style` - Styrer diff-gengivelse. `"auto"` tilpasser sig terminalbredde, `"stacked"` viser altid et enkeltkolonne-layout.
+- `mouse` - Aktiverer eller deaktiverer musefangst i TUI (standard: `true`). NÃ¥r den er deaktiveret, bevares terminalens oprindelige musemarkering og rulning.
+- `attention` - Konfigurerer skrivebordsnotifikationer og lyde for TUI. Deaktiveret som standard.
+
+Brug `VORACODE_TUI_CONFIG` til at indlÃ¦se en brugerdefineret TUI-konfigurationssti.
+
+### Attention
+
+Attention lader TUI give dig besked, nÃ¥r Voracode venter pÃ¥ et svar, krÃ¦ver godkendelse af en tilladelse, rapporterer en sessionsfejl eller har afsluttet en session. AktivÃ©r det med `attention.enabled`; indbyggede hÃ¦ndelser afspiller en lyd, nÃ¥r de sker. Skrivebordsnotifikationer sendes kun, nÃ¥r terminalvinduet ikke er i fokus, og bruges ikke til subagent-hÃ¦ndelser.
+
+- `enabled` - Aktiverer alle notifikationer og lyde for Attention. Standard er `false`.
+- `notifications` - NÃ¥r Attention er aktiveret, lader dette TUI sende skrivebordsnotifikationer via terminalen. Standard er `true`.
+- `sound` - NÃ¥r Attention er aktiveret, tillader dette advarselslyde. Standard er `true`.
+- `volume` - Standard lydstyrke for advarselslyde fra `0` til `1`. Standard er `0.4`.
+- `sound_pack` - Sound pack-ID der skal bruges. Standard er `voracode.default`.
+- `sounds` - Angiver brugerdefinerede lydfiler for `default`, `question`, `permission`, `error`, `done` eller `subagent_done`. Stier kan vÃ¦re absolutte, `file://` URL'er eller relative til `tui.json`.
+
+---
+
+## Tilpasning
+
+Du kan tilpasse forskellige aspekter af TUI-visningen ved at bruge kommandopaletten (`ctrl+x h` eller `/help`). Disse indstillinger gemmes ved genstart.
+
+---
+
+#### Visning af brugernavn
+
+Skift om dit brugernavn vises i chat-beskeder. FÃ¥ adgang til dette gennem:
+
+- Kommandopalet: SÃ¸g efter "brugernavn" eller "skjul brugernavn"
+- Indstillingen gemmes automatisk og vil blive husket over TUI-sessioner

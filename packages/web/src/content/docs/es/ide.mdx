@@ -1,0 +1,48 @@
+---
+title: IDE
+description: La extensiÃ³n Voracode para VS Code, Cursor y otros IDE
+---
+
+Voracode se integra con VS Code, Cursor o cualquier IDE que admita un terminal. Simplemente ejecute `voracode` en la terminal para comenzar.
+
+---
+
+## Uso
+
+- **Inicio rÃ¡pido**: use `Cmd+Esc` (Mac) o `Ctrl+Esc` (Windows/Linux) para abrir Voracode en una vista de terminal dividida, o enfoque una sesiÃ³n de terminal existente si ya se estÃ¡ ejecutando una.
+- **Nueva sesiÃ³n**: use `Cmd+Shift+Esc` (Mac) o `Ctrl+Shift+Esc` (Windows/Linux) para iniciar una nueva sesiÃ³n de terminal Voracode, incluso si ya hay una abierta. TambiÃ©n puede hacer clic en el botÃ³n Voracode en la interfaz de usuario.
+- **Conciencia del contexto**: comparte automÃ¡ticamente tu selecciÃ³n o pestaÃ±a actual con Voracode.
+- **Atajos de referencia de archivos**: utilice `Cmd+Option+K` (Mac) o `Alt+Ctrl+K` (Linux/Windows) para insertar referencias de archivos. Por ejemplo, `@File#L37-42`.
+
+---
+
+## InstalaciÃ³n
+
+Para instalar Voracode en VS Code y bifurcaciones populares como Cursor, Windsurf, VSCodium:
+
+1. Abra VS Code
+2. Abra el terminal integrado
+3. Ejecute `voracode`: la extensiÃ³n se instala automÃ¡ticamente
+
+Si, por otro lado, desea utilizar su propio IDE cuando ejecuta `/editor` o `/export` desde TUI, deberÃ¡ configurar `export EDITOR="code --wait"`. [MÃ¡s informaciÃ³n](/docs/tui/#editor-setup).
+
+---
+
+### InstalaciÃ³n manual
+
+Busque **Voracode** en Extension Marketplace y haga clic en **Instalar**.
+
+---
+
+### SoluciÃ³n de problemas
+
+Si la extensiÃ³n no se instala automÃ¡ticamente:
+
+- AsegÃºrese de estar ejecutando `voracode` en el terminal integrado.
+- Confirme que el CLI para su IDE estÃ© instalado:
+  - Para VS Code: comando `code`
+  - Para cursor: comando `cursor`
+  - Para Windsurf: comando `windsurf`
+  - Para VSCodium: comando `codium`
+  - Si no, ejecute `Cmd+Shift+P` (Mac) o `Ctrl+Shift+P` (Windows/Linux) y busque "Shell Command: Install 'code' command in PATH" (o el equivalente para su IDE)
+- AsegÃºrese de que VS Code tenga permiso para instalar extensiones.

@@ -37,10 +37,10 @@ function Mcp(props: { api: TuiPluginApi }) {
         <text fg={theme().text}>
           <Switch>
             <Match when={err()}>
-              <span style={{ fg: theme().error }}>âŠ™ </span>
+              <span style={{ fg: theme().error }}>⊙ </span>
             </Match>
             <Match when={true}>
-              <span style={{ fg: count() > 0 ? theme().success : theme().textMuted }}>âŠ™ </span>
+              <span style={{ fg: count() > 0 ? theme().success : theme().textMuted }}>⊙ </span>
             </Match>
           </Switch>
           {count()} MCP

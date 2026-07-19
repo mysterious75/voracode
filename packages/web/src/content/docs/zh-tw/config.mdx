@@ -1,0 +1,687 @@
+---
+title: è¨­å®š
+description: ä½¿ç”¨ Voracode JSON è¨­å®šã€‚
+---
+
+æ‚¨å¯ä»¥ä½¿ç”¨ JSON è¨­å®šæª”ä¾†è¨­å®š Voracodeã€‚
+
+---
+
+## æ ¼å¼
+
+Voracode æ”¯æ´ **JSON** å’Œ **JSONC**ï¼ˆå¸¶è¨»è§£çš„ JSONï¼‰æ ¼å¼ã€‚
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "model": "anthropic/claude-sonnet-4-5",
+  "autoupdate": true,
+  "server": {
+    "port": 4096,
+  },
+}
+```
+
+---
+
+## ä½ç½®
+
+æ‚¨å¯ä»¥å°‡è¨­å®šæ”¾ç½®åœ¨ä¸åŒçš„ä½ç½®ï¼Œå®ƒå€‘å…·æœ‰ä¸åŒçš„å„ªå…ˆé †åºã€‚
+
+:::note
+è¨­å®šæª”æ˜¯**åˆä½µåœ¨ä¸€èµ·**çš„ï¼Œè€Œä¸æ˜¯æ›¿æ›ã€‚
+:::
+
+è¨­å®šæª”æ˜¯åˆä½µåœ¨ä¸€èµ·çš„ï¼Œè€Œä¸æ˜¯è¢«æ›¿æ›ã€‚ä¾†è‡ªä»¥ä¸‹è¨­å®šä½ç½®çš„è¨­å®šæœƒè¢«åˆä½µã€‚å¾Œé¢çš„è¨­å®šåƒ…åœ¨éµè¡çªæ™‚è¦†å¯«å‰é¢çš„è¨­å®šã€‚æ‰€æœ‰è¨­å®šä¸­çš„éžè¡çªè¨­å®šéƒ½æœƒè¢«ä¿ç•™ã€‚
+
+ä¾‹å¦‚ï¼Œå¦‚æžœæ‚¨çš„å…¨åŸŸè¨­å®šè¨­å®šäº† `autoupdate: true`ï¼Œè€Œæ‚¨çš„å°ˆæ¡ˆè¨­å®šè¨­å®šäº† `model: "anthropic/claude-sonnet-4-5"`ï¼Œå‰‡æœ€çµ‚è¨­å®šå°‡åŒ…å«é€™å…©å€‹è¨­å®šã€‚
+
+---
+
+### å„ªå…ˆé †åº
+
+è¨­å®šä¾†æºæŒ‰ä»¥ä¸‹é †åºè¼‰å…¥ï¼ˆå¾Œé¢çš„ä¾†æºè¦†å¯«å‰é¢çš„ä¾†æºï¼‰ï¼š
+
+1. **é ç«¯è¨­å®š**ï¼ˆä¾†è‡ª `.well-known/voracode`ï¼‰- çµ„ç¹”é è¨­å€¼
+2. **å…¨åŸŸè¨­å®š**ï¼ˆ`~/.config/voracode/voracode.json`ï¼‰- ä½¿ç”¨è€…åå¥½
+3. **è‡ªè¨‚è¨­å®š**ï¼ˆ`VORACODE_CONFIG` ç’°å¢ƒè®Šæ•¸ï¼‰- è‡ªè¨‚è¦†å¯«
+4. **å°ˆæ¡ˆè¨­å®š**ï¼ˆå°ˆæ¡ˆä¸­çš„ `voracode.json`ï¼‰- å°ˆæ¡ˆç‰¹å®šè¨­å®š
+5. **`.voracode` ç›®éŒ„** - ä»£ç†ã€æŒ‡ä»¤ã€å¤–æŽ›ç¨‹å¼
+6. **å…§åµŒè¨­å®š**ï¼ˆ`VORACODE_CONFIG_CONTENT` ç’°å¢ƒè®Šæ•¸ï¼‰- åŸ·è¡Œæ™‚è¦†å¯«
+
+é€™æ„å‘³è‘—å°ˆæ¡ˆè¨­å®šå¯ä»¥è¦†å¯«å…¨åŸŸé è¨­å€¼ï¼Œå…¨åŸŸè¨­å®šå¯ä»¥è¦†å¯«é ç«¯çµ„ç¹”é è¨­å€¼ã€‚
+
+:::note
+`.voracode` å’Œ `~/.config/voracode` ç›®éŒ„çš„å­ç›®éŒ„ä½¿ç”¨**è¤‡æ•¸åç¨±**ï¼š`agents/`ã€`commands/`ã€`modes/`ã€`plugins/`ã€`skills/`ã€`tools/` å’Œ `themes/`ã€‚ç‚ºäº†å‘å¾Œç›¸å®¹ï¼Œä¹Ÿæ”¯æ´å–®æ•¸åç¨±ï¼ˆä¾‹å¦‚ `agent/`ï¼‰ã€‚
+:::
+
+---
+
+### é ç«¯
+
+çµ„ç¹”å¯ä»¥é€éŽ `.well-known/voracode` ç«¯é»žæä¾›é è¨­è¨­å®šã€‚ç•¶æ‚¨ä½¿ç”¨æ”¯æ´è©²åŠŸèƒ½çš„ä¾›æ‡‰å•†é€²è¡Œèº«åˆ†é©—è­‰æ™‚ï¼Œæœƒè‡ªå‹•æ“·å–æ­¤è¨­å®šã€‚
+
+é ç«¯è¨­å®šæœ€å…ˆè¼‰å…¥ï¼Œä½œç‚ºåŸºç¤Žå±¤ã€‚æ‰€æœ‰å…¶ä»–è¨­å®šä¾†æºï¼ˆå…¨åŸŸã€å°ˆæ¡ˆï¼‰éƒ½å¯ä»¥è¦†å¯«é€™äº›é è¨­å€¼ã€‚
+
+ä¾‹å¦‚ï¼Œå¦‚æžœæ‚¨çš„çµ„ç¹”æä¾›äº†é è¨­åœç”¨çš„ MCP ä¼ºæœå™¨ï¼š
+
+```json title="Remote config from .well-known/voracode"
+{
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://jira.example.com/mcp",
+      "enabled": false
+    }
+  }
+}
+```
+
+æ‚¨å¯ä»¥åœ¨æœ¬åœ°è¨­å®šä¸­å•Ÿç”¨ç‰¹å®šä¼ºæœå™¨ï¼š
+
+```json title="voracode.json"
+{
+  "mcp": {
+    "jira": {
+      "type": "remote",
+      "url": "https://jira.example.com/mcp",
+      "enabled": true
+    }
+  }
+}
+```
+
+---
+
+### å…¨åŸŸ
+
+å°‡å…¨åŸŸ Voracode è¨­å®šæ”¾åœ¨ `~/.config/voracode/voracode.json` ä¸­ã€‚ä½¿ç”¨å…¨åŸŸè¨­å®šä¾†è¨­å®šä½¿ç”¨è€…å±¤ç´šçš„åå¥½ï¼Œä¾‹å¦‚ä¸»é¡Œã€ä¾›æ‡‰å•†æˆ–å¿«æ·éµã€‚
+
+å…¨åŸŸè¨­å®šè¦†å¯«é ç«¯çµ„ç¹”é è¨­å€¼ã€‚
+
+---
+
+### å°ˆæ¡ˆå±¤ç´š
+
+åœ¨å°ˆæ¡ˆæ ¹ç›®éŒ„ä¸­æ–°å¢ž `voracode.json`ã€‚å°ˆæ¡ˆè¨­å®šåœ¨æ¨™æº–è¨­å®šæª”ä¸­å…·æœ‰æœ€é«˜å„ªå…ˆç´šâ€”â€”å®ƒæœƒè¦†å¯«å…¨åŸŸè¨­å®šå’Œé ç«¯è¨­å®šã€‚
+
+:::tip
+å°‡å°ˆæ¡ˆç‰¹å®šè¨­å®šæ”¾åœ¨å°ˆæ¡ˆçš„æ ¹ç›®éŒ„ä¸­ã€‚
+:::
+
+ç•¶ Voracode å•Ÿå‹•æ™‚ï¼Œå®ƒæœƒåœ¨ç•¶å‰ç›®éŒ„ä¸­å°‹æ‰¾è¨­å®šæª”ï¼Œæˆ–å‘ä¸Šéæ­·åˆ°æœ€è¿‘çš„ Git ç›®éŒ„ã€‚
+
+è©²è¨­å®šæª”ä¹Ÿå¯ä»¥å®‰å…¨åœ°æäº¤åˆ° Git ä¸­ï¼Œä¸¦ä½¿ç”¨èˆ‡å…¨åŸŸè¨­å®šç›¸åŒçš„ Schemaã€‚
+
+---
+
+### è‡ªè¨‚è·¯å¾‘
+
+ä½¿ç”¨ `VORACODE_CONFIG` ç’°å¢ƒè®Šæ•¸æŒ‡å®šè‡ªè¨‚è¨­å®šæª”è·¯å¾‘ã€‚
+
+```bash
+export VORACODE_CONFIG=/path/to/my/custom-config.json
+voracode run "Hello world"
+```
+
+è‡ªè¨‚è¨­å®šåœ¨å„ªå…ˆé †åºä¸­ä½æ–¼å…¨åŸŸè¨­å®šå’Œå°ˆæ¡ˆè¨­å®šä¹‹é–“è¼‰å…¥ã€‚
+
+---
+
+### è‡ªè¨‚ç›®éŒ„
+
+ä½¿ç”¨ `VORACODE_CONFIG_DIR` ç’°å¢ƒè®Šæ•¸æŒ‡å®šè‡ªè¨‚è¨­å®šç›®éŒ„ã€‚è©²ç›®éŒ„æœƒåƒæ¨™æº– `.voracode` ç›®éŒ„ä¸€æ¨£è¢«æœå°‹ä»£ç†ã€æŒ‡ä»¤ã€æ¨¡å¼å’Œå¤–æŽ›ç¨‹å¼ï¼Œä¸¦ä¸”æ‡‰éµå¾ªç›¸åŒçš„çµæ§‹ã€‚
+
+```bash
+export VORACODE_CONFIG_DIR=/path/to/my/config-directory
+voracode run "Hello world"
+```
+
+è‡ªè¨‚ç›®éŒ„åœ¨å…¨åŸŸè¨­å®šå’Œ `.voracode` ç›®éŒ„ä¹‹å¾Œè¼‰å…¥ï¼Œå› æ­¤**å¯ä»¥è¦†å¯«**å®ƒå€‘çš„è¨­å®šã€‚
+
+---
+
+## Schema
+
+è¨­å®šæª”å…·æœ‰åœ¨ [**`voracode.ai/config.json`**](https://voracode.ai/config.json) ä¸­å®šç¾©çš„ Schemaã€‚
+
+æ‚¨çš„ç·¨è¼¯å™¨æ‡‰è©²èƒ½å¤ åŸºæ–¼è©² Schema é€²è¡Œé©—è­‰å’Œè‡ªå‹•è£œå…¨ã€‚
+
+---
+
+### TUI
+
+æ‚¨å¯ä»¥é€éŽ `tui` é¸é …è¨­å®š TUI ç›¸é—œè¨­å®šã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "tui": {
+    "scroll_speed": 3,
+    "scroll_acceleration": {
+      "enabled": true
+    },
+    "diff_style": "auto"
+  }
+}
+```
+
+å¯ç”¨é¸é …ï¼š
+
+- `scroll_acceleration.enabled` - å•Ÿç”¨ macOS é¢¨æ ¼çš„æ²å‹•åŠ é€Ÿã€‚**å„ªå…ˆæ–¼ `scroll_speed`ã€‚**
+- `scroll_speed` - è‡ªè¨‚æ²å‹•é€Ÿåº¦å€çŽ‡ï¼ˆé è¨­å€¼ï¼š`3`ï¼Œæœ€å°å€¼ï¼š`1`ï¼‰ã€‚å¦‚æžœ `scroll_acceleration.enabled` ç‚º `true`ï¼Œå‰‡å¿½ç•¥æ­¤é¸é …ã€‚
+- `diff_style` - æŽ§åˆ¶å·®ç•°å‘ˆç¾æ–¹å¼ã€‚`"auto"` æ ¹æ“šçµ‚ç«¯æ©Ÿå¯¬åº¦è‡ªé©æ‡‰ï¼Œ`"stacked"` å§‹çµ‚é¡¯ç¤ºå–®åˆ—ã€‚
+
+ä½¿ç”¨ `VORACODE_TUI_CONFIG` æŒ‡å‘è‡ªè¨‚ TUI è¨­å®šæª”ã€‚
+
+`voracode.json` ä¸­çš„èˆŠç‰ˆ `theme`ã€`keybinds` å’Œ `tui` éµå·²è¢«æ£„ç”¨ï¼Œä¸¦å°‡åœ¨å¯èƒ½çš„æƒ…æ³ä¸‹è‡ªå‹•é·ç§»ã€‚
+
+[åœ¨æ­¤äº†è§£æ›´å¤šé—œæ–¼ TUI çš„è³‡è¨Š](/docs/tui)ã€‚
+
+---
+
+### ä¼ºæœå™¨
+
+æ‚¨å¯ä»¥é€éŽ `server` é¸é …ç‚º `voracode serve` å’Œ `voracode web` æŒ‡ä»¤è¨­å®šä¼ºæœå™¨è¨­å®šã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "mdnsDomain": "myproject.local",
+    "cors": ["http://localhost:5173"]
+  }
+}
+```
+
+å¯ç”¨é¸é …ï¼š
+
+- `port` - ç›£è½é€£æŽ¥åŸ ã€‚
+- `hostname` - ç›£è½ä¸»æ©Ÿåç¨±ã€‚ç•¶ `mdns` å•Ÿç”¨ä¸”æœªè¨­å®šä¸»æ©Ÿåç¨±æ™‚ï¼Œé è¨­ç‚º `0.0.0.0`ã€‚
+- `mdns` - å•Ÿç”¨ mDNS æœå‹™æŽ¢ç´¢ã€‚é€™å…è¨±ç¶²è·¯ä¸Šçš„å…¶ä»–è£ç½®ç™¼ç¾æ‚¨çš„ Voracode ä¼ºæœå™¨ã€‚
+- `mdnsDomain` - mDNS æœå‹™çš„è‡ªè¨‚ç¶²åŸŸåç¨±ã€‚é è¨­ç‚º `voracode.local`ã€‚é©ç”¨æ–¼åœ¨åŒä¸€ç¶²è·¯ä¸ŠåŸ·è¡Œå¤šå€‹å¯¦ä¾‹çš„æƒ…å¢ƒã€‚
+- `cors` - å¾žåŸºæ–¼ç€è¦½å™¨çš„ç”¨æˆ¶ç«¯ä½¿ç”¨ HTTP ä¼ºæœå™¨æ™‚å…è¨± CORS çš„é¡å¤–ä¾†æºã€‚å€¼å¿…é ˆæ˜¯å®Œæ•´çš„ä¾†æºï¼ˆé€šè¨Šå”å®š + ä¸»æ©Ÿ + å¯é¸é€£æŽ¥åŸ ï¼‰ï¼Œä¾‹å¦‚ `https://app.example.com`ã€‚
+
+[åœ¨æ­¤äº†è§£æ›´å¤šé—œæ–¼ä¼ºæœå™¨çš„è³‡è¨Š](/docs/server)ã€‚
+
+---
+
+### å·¥å…·
+
+æ‚¨å¯ä»¥é€éŽ `tools` é¸é …ç®¡ç† LLM å¯ä»¥ä½¿ç”¨çš„å·¥å…·ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "tools": {
+    "write": false,
+    "bash": false
+  }
+}
+```
+
+[åœ¨æ­¤äº†è§£æ›´å¤šé—œæ–¼å·¥å…·çš„è³‡è¨Š](/docs/tools)ã€‚
+
+---
+
+### æ¨¡åž‹
+
+æ‚¨å¯ä»¥é€éŽ `provider`ã€`model` å’Œ `small_model` é¸é …åœ¨ Voracode è¨­å®šä¸­è¨­å®šè¦ä½¿ç”¨çš„ä¾›æ‡‰å•†å’Œæ¨¡åž‹ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {},
+  "model": "anthropic/claude-sonnet-4-5",
+  "small_model": "anthropic/claude-haiku-4-5"
+}
+```
+
+`small_model` é¸é …ç‚ºæ¨™é¡Œç”Ÿæˆç­‰è¼•é‡ç´šä»»å‹™è¨­å®šå–®ç¨çš„æ¨¡åž‹ã€‚é è¨­æƒ…æ³ä¸‹ï¼Œå¦‚æžœæ‚¨çš„ä¾›æ‡‰å•†æœ‰æ›´ä¾¿å®œçš„æ¨¡åž‹å¯ç”¨ï¼ŒVoracode æœƒå˜—è©¦ä½¿ç”¨è©²æ¨¡åž‹ï¼Œå¦å‰‡æœƒå›žé€€åˆ°æ‚¨çš„ä¸»æ¨¡åž‹ã€‚
+
+ä¾›æ‡‰å•†é¸é …å¯ä»¥åŒ…æ‹¬ `timeout` å’Œ `setCacheKey`ï¼š
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "anthropic": {
+      "options": {
+        "timeout": 600000,
+        "setCacheKey": true
+      }
+    }
+  }
+}
+```
+
+- `timeout` - è«‹æ±‚é€¾æ™‚æ™‚é–“ï¼Œå–®ä½ç‚ºæ¯«ç§’ï¼ˆé è¨­å€¼ï¼š300000ï¼‰ã€‚è¨­å®šç‚º `false` å¯åœç”¨é€¾æ™‚ã€‚
+- `setCacheKey` - ç¢ºä¿å§‹çµ‚ç‚ºæŒ‡å®šä¾›æ‡‰å•†è¨­å®šå¿«å–é‡‘é‘°ã€‚
+
+æ‚¨é‚„å¯ä»¥è¨­å®š[æœ¬åœ°æ¨¡åž‹](/docs/models#local)ã€‚[äº†è§£æ›´å¤š](/docs/models)ã€‚
+
+---
+
+#### ä¾›æ‡‰å•†ç‰¹å®šé¸é …
+
+ä¸€äº›ä¾›æ‡‰å•†æ”¯æ´é™¤é€šç”¨ `timeout` å’Œ `apiKey` è¨­å®šä¹‹å¤–çš„é¡å¤–è¨­å®šé¸é …ã€‚
+
+##### Amazon Bedrock
+
+Amazon Bedrock æ”¯æ´ AWS ç‰¹å®šè¨­å®šï¼š
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "amazon-bedrock": {
+      "options": {
+        "region": "us-east-1",
+        "profile": "my-aws-profile",
+        "endpoint": "https://bedrock-runtime.us-east-1.vpce-xxxxx.amazonaws.com"
+      }
+    }
+  }
+}
+```
+
+- `region` - Bedrock çš„ AWS å€åŸŸï¼ˆé è¨­ç‚º `AWS_REGION` ç’°å¢ƒè®Šæ•¸æˆ– `us-east-1`ï¼‰
+- `profile` - ä¾†è‡ª `~/.aws/credentials` çš„ AWS å‘½åè¨­å®šæª”ï¼ˆé è¨­ç‚º `AWS_PROFILE` ç’°å¢ƒè®Šæ•¸ï¼‰
+- `endpoint` - VPC ç«¯é»žçš„è‡ªè¨‚ç«¯é»ž URLã€‚é€™æ˜¯é€šç”¨ `baseURL` é¸é …ä½¿ç”¨ AWS ç‰¹å®šè¡“èªžçš„åˆ¥åã€‚å¦‚æžœå…©è€…éƒ½æŒ‡å®šï¼Œ`endpoint` å„ªå…ˆã€‚
+
+:::note
+Bearer Tokenï¼ˆ`AWS_BEARER_TOKEN_BEDROCK` æˆ– `/connect`ï¼‰å„ªå…ˆæ–¼åŸºæ–¼è¨­å®šæª”çš„èº«åˆ†é©—è­‰ã€‚è©³æƒ…è«‹åƒè¦‹[èªè­‰å„ªå…ˆç´š](/docs/providers#authentication-precedence)ã€‚
+:::
+
+[äº†è§£æ›´å¤šé—œæ–¼ Amazon Bedrock è¨­å®šçš„è³‡è¨Š](/docs/providers#amazon-bedrock)ã€‚
+
+---
+
+### ä¸»é¡Œ
+
+åœ¨ `tui.json` ä¸­è¨­å®šæ‚¨çš„ UI ä¸»é¡Œã€‚
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "theme": "tokyonight"
+}
+```
+
+[åœ¨æ­¤äº†è§£æ›´å¤š](/docs/themes)ã€‚
+
+---
+
+### ä»£ç†
+
+æ‚¨å¯ä»¥é€éŽ `agent` é¸é …ç‚ºç‰¹å®šä»»å‹™è¨­å®šå°ˆç”¨ä»£ç†ã€‚
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "agent": {
+    "code-reviewer": {
+      "description": "Reviews code for best practices and potential issues",
+      "model": "anthropic/claude-sonnet-4-5",
+      "prompt": "You are a code reviewer. Focus on security, performance, and maintainability.",
+      "tools": {
+        // Disable file modification tools for review-only agent
+        "write": false,
+        "edit": false,
+      },
+    },
+  },
+}
+```
+
+æ‚¨é‚„å¯ä»¥ä½¿ç”¨ `~/.config/voracode/agents/` æˆ– `.voracode/agents/` ä¸­çš„ Markdown æª”æ¡ˆå®šç¾©ä»£ç†ã€‚[åœ¨æ­¤äº†è§£æ›´å¤š](/docs/agents)ã€‚
+
+---
+
+### é è¨­ä»£ç†
+
+æ‚¨å¯ä»¥ä½¿ç”¨ `default_agent` é¸é …è¨­å®šé è¨­ä»£ç†ã€‚ç•¶æœªæ˜Žç¢ºæŒ‡å®šä»£ç†æ™‚ï¼Œå°‡ä½¿ç”¨è©²é è¨­ä»£ç†ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "default_agent": "plan"
+}
+```
+
+é è¨­ä»£ç†å¿…é ˆæ˜¯ä¸»ä»£ç†ï¼ˆä¸èƒ½æ˜¯å­ä»£ç†ï¼‰ã€‚å¯ä»¥æ˜¯å…§å»ºä»£ç†ï¼ˆå¦‚ `"build"` æˆ– `"plan"`ï¼‰ï¼Œä¹Ÿå¯ä»¥æ˜¯æ‚¨å®šç¾©çš„[è‡ªè¨‚ä»£ç†](/docs/agents)ã€‚å¦‚æžœæŒ‡å®šçš„ä»£ç†ä¸å­˜åœ¨æˆ–æ˜¯å­ä»£ç†ï¼ŒVoracode å°‡å›žé€€åˆ° `"build"` ä¸¦ç™¼å‡ºè­¦å‘Šã€‚
+
+æ­¤è¨­å®šé©ç”¨æ–¼æ‰€æœ‰ä»‹é¢ï¼šTUIã€CLIï¼ˆ`voracode run`ï¼‰ã€æ¡Œé¢æ‡‰ç”¨ç¨‹å¼å’Œ GitHub Actionã€‚
+
+---
+
+### åˆ†äº«
+
+æ‚¨å¯ä»¥é€éŽ `share` é¸é …è¨­å®š[åˆ†äº«](/docs/share)åŠŸèƒ½ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "manual"
+}
+```
+
+è©²é¸é …æŽ¥å—ï¼š
+
+- `"manual"` - å…è¨±é€éŽæŒ‡ä»¤æ‰‹å‹•åˆ†äº«ï¼ˆé è¨­ï¼‰
+- `"auto"` - è‡ªå‹•åˆ†äº«æ–°å·¥ä½œéšŽæ®µ
+- `"disabled"` - å®Œå…¨åœç”¨åˆ†äº«
+
+é è¨­æƒ…æ³ä¸‹ï¼Œåˆ†äº«è¨­å®šç‚ºæ‰‹å‹•æ¨¡å¼ï¼Œæ‚¨éœ€è¦ä½¿ç”¨ `/share` æŒ‡ä»¤æ˜Žç¢ºåˆ†äº«å·¥ä½œéšŽæ®µã€‚
+
+---
+
+### æŒ‡ä»¤
+
+æ‚¨å¯ä»¥é€éŽ `command` é¸é …ç‚ºé‡è¤‡ä»»å‹™è¨­å®šè‡ªè¨‚æŒ‡ä»¤ã€‚
+
+```jsonc title="voracode.jsonc"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "command": {
+    "test": {
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
+      "description": "Run tests with coverage",
+      "agent": "build",
+      "model": "anthropic/claude-haiku-4-5",
+    },
+    "component": {
+      "template": "Create a new React component named $ARGUMENTS with TypeScript support.\nInclude proper typing and basic structure.",
+      "description": "Create a new component",
+    },
+  },
+}
+```
+
+æ‚¨é‚„å¯ä»¥ä½¿ç”¨ `~/.config/voracode/commands/` æˆ– `.voracode/commands/` ä¸­çš„ Markdown æª”æ¡ˆå®šç¾©æŒ‡ä»¤ã€‚[åœ¨æ­¤äº†è§£æ›´å¤š](/docs/commands)ã€‚
+
+---
+
+### å¿«æ·éµ
+
+åœ¨ `tui.json` ä¸­è‡ªè¨‚å¿«æ·éµã€‚
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "keybinds": {}
+}
+```
+
+[åœ¨æ­¤äº†è§£æ›´å¤š](/docs/keybinds)ã€‚
+
+---
+
+### è‡ªå‹•æ›´æ–°
+
+Voracode å•Ÿå‹•æ™‚æœƒè‡ªå‹•ä¸‹è¼‰æ–°ç‰ˆæœ¬ã€‚æ‚¨å¯ä»¥ä½¿ç”¨ `autoupdate` é¸é …åœç”¨æ­¤åŠŸèƒ½ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "autoupdate": false
+}
+```
+
+å¦‚æžœæ‚¨ä¸æƒ³è‡ªå‹•æ›´æ–°ä½†å¸Œæœ›åœ¨æ–°ç‰ˆæœ¬å¯ç”¨æ™‚æ”¶åˆ°é€šçŸ¥ï¼Œå¯å°‡ `autoupdate` è¨­å®šç‚º `"notify"`ã€‚
+è«‹æ³¨æ„ï¼Œæ­¤åŠŸèƒ½åƒ…åœ¨æœªé€éŽ Homebrew ç­‰å¥—ä»¶ç®¡ç†å™¨å®‰è£æ™‚æœ‰æ•ˆã€‚
+
+---
+
+### æ ¼å¼åŒ–å™¨
+
+æ‚¨å¯ä»¥é€éŽ `formatter` é¸é …è¨­å®šç¨‹å¼ç¢¼æ ¼å¼åŒ–å™¨ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "formatter": {
+    "prettier": {
+      "disabled": true
+    },
+    "custom-prettier": {
+      "command": ["npx", "prettier", "--write", "$FILE"],
+      "environment": {
+        "NODE_ENV": "development"
+      },
+      "extensions": [".js", ".ts", ".jsx", ".tsx"]
+    }
+  }
+}
+```
+
+[åœ¨æ­¤äº†è§£æ›´å¤šé—œæ–¼æ ¼å¼åŒ–å™¨çš„è³‡è¨Š](/docs/formatters)ã€‚
+
+---
+
+### æ¬Šé™
+
+é è¨­æƒ…æ³ä¸‹ï¼ŒVoracode **å…è¨±æ‰€æœ‰æ“ä½œ**ï¼Œç„¡éœ€æ˜Žç¢ºæ‰¹å‡†ã€‚æ‚¨å¯ä»¥ä½¿ç”¨ `permission` é¸é …è®Šæ›´æ­¤è¡Œç‚ºã€‚
+
+ä¾‹å¦‚ï¼Œè¦è®“ `edit` å’Œ `bash` å·¥å…·éœ€è¦ä½¿ç”¨è€…ç¢ºèªï¼š
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "ask",
+    "bash": "ask"
+  }
+}
+```
+
+[åœ¨æ­¤äº†è§£æ›´å¤šé—œæ–¼æ¬Šé™çš„è³‡è¨Š](/docs/permissions)ã€‚
+
+---
+
+### å£“ç¸®
+
+æ‚¨å¯ä»¥é€éŽ `compaction` é¸é …æŽ§åˆ¶ä¸Šä¸‹æ–‡å£“ç¸®è¡Œç‚ºã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "compaction": {
+    "auto": true,
+    "prune": false,
+    "reserved": 10000
+  }
+}
+```
+
+- `auto` - ç•¶ä¸Šä¸‹æ–‡å·²æ»¿æ™‚è‡ªå‹•å£“ç¸®å·¥ä½œéšŽæ®µï¼ˆé è¨­å€¼ï¼š`true`ï¼‰ã€‚
+- `prune` - åˆªé™¤èˆŠçš„å·¥å…·è¼¸å‡ºä»¥ç¯€çœ Tokenï¼ˆé è¨­å€¼ï¼š`false`ï¼‰ã€‚
+- `reserved` - å£“ç¸®æ™‚çš„ Token ç·©è¡å€ã€‚ä¿ç•™è¶³å¤ çš„çª—å£ä»¥é¿å…å£“ç¸®éŽç¨‹ä¸­æº¢å‡ºã€‚
+
+---
+
+### æª”æ¡ˆç›£çœ‹å™¨
+
+æ‚¨å¯ä»¥é€éŽ `watcher` é¸é …è¨­å®šæª”æ¡ˆç›£çœ‹å™¨çš„å¿½ç•¥æ¨¡å¼ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "watcher": {
+    "ignore": ["node_modules/**", "dist/**", ".git/**"]
+  }
+}
+```
+
+æ¨¡å¼éµå¾ª glob èªžæ³•ã€‚ä½¿ç”¨æ­¤é¸é …å¯ä»¥å¾žæª”æ¡ˆç›£çœ‹ä¸­æŽ’é™¤é »ç¹è®Šå‹•çš„ç›®éŒ„ã€‚
+
+---
+
+### MCP ä¼ºæœå™¨
+
+æ‚¨å¯ä»¥é€éŽ `mcp` é¸é …è¨­å®šè¦ä½¿ç”¨çš„ MCP ä¼ºæœå™¨ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "mcp": {}
+}
+```
+
+[åœ¨æ­¤äº†è§£æ›´å¤š](/docs/mcp-servers)ã€‚
+
+---
+
+### å¤–æŽ›ç¨‹å¼
+
+[å¤–æŽ›ç¨‹å¼](/docs/plugins)é€éŽè‡ªè¨‚å·¥å…·ã€æŽ›é‰¤å’Œæ•´åˆä¾†æ“´å±• Voracodeã€‚
+
+å°‡å¤–æŽ›ç¨‹å¼æª”æ¡ˆæ”¾ç½®åœ¨ `.voracode/plugins/` æˆ– `~/.config/voracode/plugins/` ä¸­ã€‚æ‚¨é‚„å¯ä»¥é€éŽ `plugin` é¸é …å¾ž npm è¼‰å…¥å¤–æŽ›ç¨‹å¼ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "plugin": ["voracode-helicone-session", "@my-org/custom-plugin"]
+}
+```
+
+[åœ¨æ­¤äº†è§£æ›´å¤š](/docs/plugins)ã€‚
+
+---
+
+### æŒ‡ç¤º
+
+æ‚¨å¯ä»¥é€éŽ `instructions` é¸é …ç‚ºæ‰€ä½¿ç”¨çš„æ¨¡åž‹è¨­å®šæŒ‡ç¤ºã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
+}
+```
+
+è©²é¸é …æŽ¥å—æŒ‡ç¤ºæª”æ¡ˆè·¯å¾‘å’Œ glob æ¨¡å¼çš„é™£åˆ—ã€‚[åœ¨æ­¤äº†è§£æ›´å¤šé—œæ–¼è¦å‰‡çš„è³‡è¨Š](/docs/rules)ã€‚
+
+---
+
+### åœç”¨ä¾›æ‡‰å•†
+
+æ‚¨å¯ä»¥é€éŽ `disabled_providers` é¸é …åœç”¨è‡ªå‹•è¼‰å…¥çš„ä¾›æ‡‰å•†ã€‚ç•¶æ‚¨å¸Œæœ›é˜»æ­¢æŸäº›ä¾›æ‡‰å•†è¢«è¼‰å…¥ï¼ˆå³ä½¿å…¶æ†‘è­‰å¯ç”¨ï¼‰æ™‚ï¼Œæ­¤é¸é …éžå¸¸æœ‰ç”¨ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "disabled_providers": ["openai", "gemini"]
+}
+```
+
+:::note
+`disabled_providers` å„ªå…ˆæ–¼ `enabled_providers`ã€‚
+:::
+
+`disabled_providers` é¸é …æŽ¥å—ä¾›æ‡‰å•† ID çš„é™£åˆ—ã€‚ç•¶æŸå€‹ä¾›æ‡‰å•†è¢«åœç”¨æ™‚ï¼š
+
+- å³ä½¿è¨­å®šäº†ç’°å¢ƒè®Šæ•¸ï¼Œä¹Ÿä¸æœƒè¢«è¼‰å…¥ã€‚
+- å³ä½¿é€éŽ `/connect` æŒ‡ä»¤è¨­å®šäº† API é‡‘é‘°ï¼Œä¹Ÿä¸æœƒè¢«è¼‰å…¥ã€‚
+- è©²ä¾›æ‡‰å•†çš„æ¨¡åž‹ä¸æœƒå‡ºç¾åœ¨æ¨¡åž‹é¸æ“‡åˆ—è¡¨ä¸­ã€‚
+
+---
+
+### å•Ÿç”¨ä¾›æ‡‰å•†
+
+æ‚¨å¯ä»¥é€éŽ `enabled_providers` é¸é …æŒ‡å®šå…è¨±ä½¿ç”¨çš„ä¾›æ‡‰å•†ç™½åå–®ã€‚è¨­å®šå¾Œï¼Œåƒ…å•Ÿç”¨æŒ‡å®šçš„ä¾›æ‡‰å•†ï¼Œæ‰€æœ‰å…¶ä»–ä¾›æ‡‰å•†å°‡è¢«å¿½ç•¥ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "enabled_providers": ["anthropic", "openai"]
+}
+```
+
+ç•¶æ‚¨å¸Œæœ›é™åˆ¶ Voracode åƒ…ä½¿ç”¨ç‰¹å®šä¾›æ‡‰å•†ï¼Œè€Œä¸æ˜¯é€ä¸€åœç”¨å…¶ä»–ä¾›æ‡‰å•†æ™‚ï¼Œæ­¤é¸é …éžå¸¸æœ‰ç”¨ã€‚
+
+:::note
+`disabled_providers` å„ªå…ˆæ–¼ `enabled_providers`ã€‚
+:::
+
+å¦‚æžœæŸå€‹ä¾›æ‡‰å•†åŒæ™‚å‡ºç¾åœ¨ `enabled_providers` å’Œ `disabled_providers` ä¸­ï¼Œç‚ºäº†å‘å¾Œç›¸å®¹ï¼Œ`disabled_providers` å„ªå…ˆã€‚
+
+---
+
+### å¯¦é©—æ€§åŠŸèƒ½
+
+`experimental` éµåŒ…å«æ­£åœ¨ç©æ¥µé–‹ç™¼ä¸­çš„é¸é …ã€‚
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "experimental": {}
+}
+```
+
+:::caution
+å¯¦é©—æ€§é¸é …ä¸ç©©å®šã€‚å®ƒå€‘å¯èƒ½æœƒåœ¨ä¸å¦è¡Œé€šçŸ¥çš„æƒ…æ³ä¸‹è¢«è®Šæ›´æˆ–ç§»é™¤ã€‚
+:::
+
+---
+
+## è®Šæ•¸
+
+æ‚¨å¯ä»¥åœ¨è¨­å®šæª”ä¸­ä½¿ç”¨è®Šæ•¸æ›¿æ›ä¾†åƒç…§ç’°å¢ƒè®Šæ•¸å’Œæª”æ¡ˆå…§å®¹ã€‚
+
+---
+
+### ç’°å¢ƒè®Šæ•¸
+
+ä½¿ç”¨ `{env:VARIABLE_NAME}` ä¾†æ›¿æ›ç’°å¢ƒè®Šæ•¸ï¼š
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "model": "{env:VORACODE_MODEL}",
+  "provider": {
+    "anthropic": {
+      "models": {},
+      "options": {
+        "apiKey": "{env:ANTHROPIC_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+å¦‚æžœç’°å¢ƒè®Šæ•¸æœªè¨­å®šï¼Œå®ƒå°‡è¢«æ›¿æ›ç‚ºç©ºå­—ä¸²ã€‚
+
+---
+
+### æª”æ¡ˆ
+
+ä½¿ç”¨ `{file:path/to/file}` ä¾†æ›¿æ›æª”æ¡ˆå…§å®¹ï¼š
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "instructions": ["./custom-instructions.md"],
+  "provider": {
+    "openai": {
+      "options": {
+        "apiKey": "{file:~/.secrets/openai-key}"
+      }
+    }
+  }
+}
+```
+
+æª”æ¡ˆè·¯å¾‘å¯ä»¥æ˜¯ï¼š
+
+- ç›¸å°æ–¼è¨­å®šæª”æ‰€åœ¨ç›®éŒ„çš„è·¯å¾‘
+- ä»¥ `/` æˆ– `~` é–‹é ­çš„çµ•å°è·¯å¾‘
+
+é€™äº›åŠŸèƒ½é©ç”¨æ–¼ï¼š
+
+- å°‡ API é‡‘é‘°ç­‰æ•æ„Ÿè³‡æ–™ä¿å­˜åœ¨å–®ç¨çš„æª”æ¡ˆä¸­ã€‚
+- å¼•å…¥å¤§åž‹æŒ‡ç¤ºæª”æ¡ˆè€Œä¸æœƒä½¿è¨­å®šè®Šå¾—é›œäº‚ã€‚
+- åœ¨å¤šå€‹è¨­å®šæª”ä¹‹é–“å…±äº«é€šç”¨è¨­å®šç‰‡æ®µã€‚

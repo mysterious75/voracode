@@ -1,0 +1,128 @@
+---
+title: Partager
+description: Partagez vos conversations Voracode.
+---
+
+La fonctionnalitÃ© de partage de Voracode vous permet de crÃ©er des liens publics vers vos conversations Voracode, afin que vous puissiez collaborer avec vos coÃ©quipiers ou obtenir de l'aide d'autres personnes.
+
+:::note
+Les conversations partagÃ©es sont accessibles publiquement Ã  toute personne disposant du lien.
+:::
+
+---
+
+## Comment Ã§a marche
+
+Lorsque vous partagez une conversation, VoracodeÂ :
+
+1. CrÃ©e un URL public unique pour votre session
+2. Synchronise l'historique de vos conversations avec nos serveurs
+3. Rend la conversation accessible via le lien partageable â€” `opncd.ai/s/<share-id>`
+
+---
+
+## Partage
+
+Voracode prend en charge trois modes de partage qui contrÃ´lent la maniÃ¨re dont les conversations sont partagÃ©esÂ :
+
+---
+
+### Manuel (par dÃ©faut)
+
+Par dÃ©faut, Voracode utilise le mode de partage manuel. Les sessions ne sont pas partagÃ©es automatiquement, mais vous pouvez les partager manuellement Ã  l'aide de la commande `/share`Â :
+
+```
+/share
+```
+
+Cela gÃ©nÃ©rera un URL unique qui sera copiÃ© dans votre presse-papiers.
+
+Pour dÃ©finir explicitement le mode manuel dans votre [fichier de configuration](/docs/config)Â :
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "manual"
+}
+```
+
+---
+
+### Partage automatique
+
+Vous pouvez activer le partage automatique pour toutes les nouvelles conversations en dÃ©finissant l'option `share` sur `"auto"` dans votre [fichier de configuration](/docs/config)Â :
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "auto"
+}
+```
+
+Avec le partage automatique activÃ©, chaque nouvelle conversation sera automatiquement partagÃ©e et un lien sera gÃ©nÃ©rÃ©.
+
+---
+
+### DÃ©sactivÃ©
+
+Vous pouvez dÃ©sactiver entiÃ¨rement le partage en dÃ©finissant l'option `share` sur `"disabled"` dans votre [fichier de configuration](/docs/config)Â :
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "share": "disabled"
+}
+```
+
+Pour appliquer cela au sein de votre Ã©quipe pour un projet donnÃ©, ajoutez-le au `voracode.json` dans votre projet et enregistrez-vous dans Git.
+
+---
+
+## Annuler le partage
+
+Pour arrÃªter de partager une conversation et la supprimer de l'accÃ¨s publicÂ :
+
+```
+/unshare
+```
+
+Cela supprimera le lien de partage et supprimera les donnÃ©es liÃ©es Ã  la conversation.
+
+---
+
+## ConfidentialitÃ©
+
+Il y a quelques points Ã  garder Ã  lâ€™esprit lorsque vous partagez une conversation.
+
+---
+
+### Conservation des donnÃ©es
+
+Les conversations partagÃ©es restent accessibles jusqu'Ã  ce que vous les annuliez explicitement. Ce
+comprendÂ :
+
+- Historique complet des conversations
+- Tous les messages et rÃ©ponses
+- MÃ©tadonnÃ©es de session
+
+---
+
+### Recommandations
+
+- Partagez uniquement les conversations qui ne contiennent pas d'informations sensibles.
+- Examinez le contenu de la conversation avant de la partager.
+- Annulez le partage des conversations une fois la collaboration terminÃ©e.
+- Ã‰vitez de partager des conversations avec du code propriÃ©taire ou des donnÃ©es confidentielles.
+- Pour les projets sensibles, dÃ©sactivez complÃ¨tement le partage.
+
+---
+
+## Pour les entreprises
+
+Pour les dÃ©ploiements en entreprise, la fonctionnalitÃ© de partage peut ÃªtreÂ :
+
+- **DÃ©sactivÃ©** entiÃ¨rement pour des raisons de conformitÃ© en matiÃ¨re de sÃ©curitÃ©
+- **RÃ©servÃ©** aux utilisateurs authentifiÃ©s via SSO uniquement
+- **Auto-hÃ©bergÃ©** sur votre propre infrastructure
+
+[En savoir plus](/docs/enterprise) sur l'utilisation de voracode dans votre organisation.

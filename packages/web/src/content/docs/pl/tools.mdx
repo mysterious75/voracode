@@ -1,0 +1,341 @@
+---
+title: NarzÄ™dzia
+description: ZarzÄ…dzaj narzÄ™dziami, z ktÃ³rych moÅ¼e korzystaÄ‡ LLM.
+---
+
+NarzÄ™dzia umoÅ¼liwiajÄ… LLM wykonywanie dziaÅ‚aÅ„ w bazie kodu. Voracode posiada zestaw wbudowanych narzÄ™dzi, ale moÅ¼esz go rozszerzyÄ‡ o [narzÄ™dzia niestandardowe](/docs/custom-tools) lub [serwery MCP](/docs/mcp-servers).
+
+DomyÅ›lnie wszystkie narzÄ™dzia sÄ… **wÅ‚Ä…czone** i nie wymagajÄ… zatwierdzenia przed uruchomieniem. MoÅ¼esz kontrolowaÄ‡ zachowanie narzÄ™dzi poprzez [uprawnienia](/docs/permissions).
+
+---
+
+## Konfiguracja
+
+UÅ¼yj pola `permission` do kontrolowania zachowania narzÄ™dzia. Dla kaÅ¼dego narzÄ™dzia moÅ¼esz zezwoliÄ‡ (`allow`), odmÃ³wiÄ‡ (`deny`) lub wymagaÄ‡ zatwierdzenia (`ask`).
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "deny",
+    "bash": "ask",
+    "webfetch": "allow"
+  }
+}
+```
+
+MoÅ¼esz takÅ¼e uÅ¼ywaÄ‡ symboli wieloznacznych do kontrolowania wielu narzÄ™dzi jednoczeÅ›nie. Na przykÅ‚ad, aby wymagaÄ‡ zatwierdzenia dla wszystkich narzÄ™dzi z serwera MCP:
+
+```json title="voracode.json"
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "mymcp_*": "ask"
+  }
+}
+```
+
+[Dowiedz siÄ™ wiÄ™cej](/docs/permissions) o konfigurowaniu uprawnieÅ„.
+
+---
+
+## Wbudowane narzÄ™dzia
+
+Oto wszystkie wbudowane narzÄ™dzia dostÄ™pne w Voracode.
+
+---
+
+### bash
+
+Wykonuj polecenia powÅ‚oki (shell) w Å›rodowisku projektu.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "bash": "allow"
+  }
+}
+```
+
+To narzÄ™dzie umoÅ¼liwia LLM uruchamianie poleceÅ„ terminalowych, takich jak `npm install`, `git status` lub dowolne inne polecenie powÅ‚oki.
+
+---
+
+### edit
+
+Modyfikuj istniejÄ…ce pliki poprzez precyzyjne zastÄ™powanie tekstu.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "allow"
+  }
+}
+```
+
+To narzÄ™dzie umoÅ¼liwia precyzyjnÄ… edycjÄ™ plikÃ³w poprzez zastÄ…pienie dokÅ‚adnych dopasowaÅ„ tekstu. Jest to gÅ‚Ã³wny sposÃ³b, w jaki LLM modyfikuje kod.
+
+---
+
+### write
+
+TwÃ³rz nowe pliki lub nadpisuj istniejÄ…ce.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "allow"
+  }
+}
+```
+
+UÅ¼yj tego, aby umoÅ¼liwiÄ‡ LLM tworzenie nowych plikÃ³w. ZastÄ…pi istniejÄ…ce pliki, jeÅ›li juÅ¼ istniejÄ….
+
+:::note
+NarzÄ™dzie `write` jest kontrolowane przez uprawnienie `edit`, ktÃ³re obejmuje wszystkie modyfikacje plikÃ³w (`edit`, `write`, `patch`).
+:::
+
+---
+
+### read
+
+Odczytaj zawartoÅ›Ä‡ pliku z bazy kodu.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "read": "allow"
+  }
+}
+```
+
+NarzÄ™dzie to odczytuje pliki i zwraca ich zawartoÅ›Ä‡. ObsÅ‚uguje czytanie okreÅ›lonych zakresÃ³w linii w przypadku duÅ¼ych plikÃ³w.
+
+---
+
+### grep
+
+Przeszukuj zawartoÅ›Ä‡ plikÃ³w za pomocÄ… wyraÅ¼eÅ„ regularnych.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "grep": "allow"
+  }
+}
+```
+
+Szybkie wyszukiwanie treÅ›ci w caÅ‚ej bazie kodu. ObsÅ‚uguje peÅ‚nÄ… skÅ‚adniÄ™ wyraÅ¼eÅ„ regularnych i filtrowanie wzorcÃ³w plikÃ³w.
+
+---
+
+### glob
+
+Znajduj pliki na podstawie wzorcÃ³w.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "glob": "allow"
+  }
+}
+```
+
+Szukaj plikÃ³w przy uÅ¼yciu wzorcÃ³w glob, takich jak `**/*.js` lub `src/**/*.ts`. Zwraca pasujÄ…ce Å›cieÅ¼ki plikÃ³w posortowane wedÅ‚ug czasu modyfikacji.
+
+---
+
+### LSP (eksperymentalne)
+
+Interakcja ze skonfigurowanymi serwerami LSP w celu uzyskania funkcji analizy kodu, takich jak definicje, referencje, podpowiedzi (hover) i hierarchia wywoÅ‚aÅ„.
+
+:::note
+To narzÄ™dzie jest dostÄ™pne tylko wtedy, gdy `VORACODE_EXPERIMENTAL_LSP_TOOL=true` (lub `VORACODE_EXPERIMENTAL=true`).
+:::
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "lsp": "allow"
+  }
+}
+```
+
+ObsÅ‚ugiwane operacje obejmujÄ… `goToDefinition`, `findReferences`, `hover`, `documentSymbol`, `workspaceSymbol`, `goToImplementation`, `prepareCallHierarchy`, `incomingCalls` i `outgoingCalls`.
+
+Aby skonfigurowaÄ‡, ktÃ³re serwery LSP sÄ… dostÄ™pne dla Twojego projektu, zobacz [Serwery LSP](/docs/lsp).
+
+---
+
+### patch
+
+Stosuj Å‚atki (patches) do plikÃ³w.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "edit": "allow"
+  }
+}
+```
+
+To narzÄ™dzie stosuje pliki rÃ³Å¼nicowe (diffs) do bazy kodu. Przydatne do stosowania zmian z rÃ³Å¼nych ÅºrÃ³deÅ‚.
+
+:::note
+NarzÄ™dzie `patch` jest kontrolowane przez uprawnienie `edit`, ktÃ³re obejmuje wszystkie modyfikacje plikÃ³w (`edit`, `write`, `patch`).
+:::
+
+---
+
+### skill
+
+ZaÅ‚aduj [umiejÄ™tnoÅ›Ä‡](/docs/skills) (plik `SKILL.md`) i zwrÃ³Ä‡ jej treÅ›Ä‡ w rozmowie.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "skill": "allow"
+  }
+}
+```
+
+---
+
+### todowrite
+
+ZarzÄ…dzaj listami zadaÅ„ (todo) podczas sesji kodowania.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "todowrite": "allow"
+  }
+}
+```
+
+Tworzy i aktualizuje listy zadaÅ„ w celu Å›ledzenia postÄ™pu podczas zÅ‚oÅ¼onych operacji. LLM wykorzystuje to do organizowania zadaÅ„ wieloetapowych.
+
+:::note
+To narzÄ™dzie jest domyÅ›lnie wyÅ‚Ä…czone dla subagentÃ³w, ale moÅ¼na je wÅ‚Ä…czyÄ‡ rÄ™cznie. [Dowiedz siÄ™ wiÄ™cej](/docs/agents/#permissions)
+:::
+
+---
+
+### webfetch
+
+Pobieraj treÅ›ci z sieci.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "webfetch": "allow"
+  }
+}
+```
+
+UmoÅ¼liwia LLM pobieranie i odczytywanie stron internetowych. Przydatne do wyszukiwania dokumentacji lub zasobÃ³w online.
+
+---
+
+### websearch
+
+Wyszukaj informacje w Internecie.
+
+:::note
+To narzÄ™dzie jest dostÄ™pne tylko w przypadku korzystania z dostawcy Voracode lub gdy zmienna Å›rodowiskowa `VORACODE_ENABLE_EXA` jest ustawiona na dowolnÄ… wartoÅ›Ä‡ prawdziwÄ… (np. `true` lub `1`).
+
+Aby wÅ‚Ä…czyÄ‡ przy uruchamianiu Voracode:
+
+```bash
+VORACODE_ENABLE_EXA=1 voracode
+```
+
+:::
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "websearch": "allow"
+  }
+}
+```
+
+Przeszukuje Internet za pomocÄ… Exa AI, aby znaleÅºÄ‡ odpowiednie informacje. Przydatne do badania tematÃ³w, znajdowania bieÅ¼Ä…cych wydarzeÅ„ lub zbierania informacji wykraczajÄ…cych poza zbiÃ³r danych treningowych.
+
+Nie jest wymagany Å¼aden klucz API â€” narzÄ™dzie Å‚Ä…czy siÄ™ bezpoÅ›rednio z usÅ‚ugÄ… MCP hostowanÄ… przez Exa AI bez uwierzytelniania.
+
+:::tip
+UÅ¼yj `websearch`, gdy chcesz znaleÅºÄ‡ informacje (odkrywanie), i `webfetch`, gdy musisz pobraÄ‡ treÅ›Ä‡ z okreÅ›lonego adresu URL (pobieranie).
+:::
+
+---
+
+### question
+
+Zadawaj pytania uÅ¼ytkownikowi podczas wykonywania.
+
+```json title="voracode.json" {4}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "permission": {
+    "question": "allow"
+  }
+}
+```
+
+To narzÄ™dzie umoÅ¼liwia LLM zadawanie pytaÅ„ uÅ¼ytkownikowi podczas wykonywania zadania. Jest to przydatne do:
+
+- Zbierania preferencji i wymagaÅ„ uÅ¼ytkownika
+- Doprecyzowania niejednoznacznych instrukcji
+- Podejmowania decyzji dotyczÄ…cych implementacji
+- Proponowania moÅ¼liwych kierunkÃ³w dziaÅ‚ania
+
+KaÅ¼de pytanie zawiera nagÅ‚Ã³wek, tekst pytania i listÄ™ opcji. UÅ¼ytkownicy mogÄ… wybieraÄ‡ spoÅ›rÃ³d dostÄ™pnych opcji lub wpisaÄ‡ niestandardowÄ… odpowiedÅº. JeÅ›li pytaÅ„ jest wiele, uÅ¼ytkownicy mogÄ… nawigowaÄ‡ miÄ™dzy nimi przed przesÅ‚aniem wszystkich odpowiedzi.
+
+---
+
+## NarzÄ™dzia niestandardowe
+
+Niestandardowe narzÄ™dzia pozwalajÄ… zdefiniowaÄ‡ wÅ‚asne funkcje, ktÃ³re LLM moÅ¼e wywoÅ‚aÄ‡. SÄ… one zdefiniowane w pliku konfiguracyjnym i mogÄ… wykonywaÄ‡ dowolny kod.
+
+[WiÄ™cej informacji](/docs/custom-tools) o tworzeniu narzÄ™dzi niestandardowych.
+
+---
+
+## Serwery MCP
+
+Serwery MCP (Model Context Protocol) umoÅ¼liwiajÄ… integracjÄ™ zewnÄ™trznych narzÄ™dzi i usÅ‚ug. Obejmuje to dostÄ™p do baz danych, integracje API i usÅ‚ugi stron trzecich.
+
+[Dowiedz siÄ™ wiÄ™cej](/docs/mcp-servers) o konfigurowaniu serwerÃ³w MCP.
+
+---
+
+## SzczegÃ³Å‚y techniczne
+
+WewnÄ™trznie narzÄ™dzia takie jak `grep` i `glob` uÅ¼ywajÄ… [ripgrep](https://github.com/BurntSushi/ripgrep). DomyÅ›lnie ripgrep respektuje wzorce `.gitignore`, co oznacza, Å¼e pliki i katalogi wymienione w Twoim `.gitignore` zostanÄ… wykluczone z wyszukiwaÅ„ i list.
+
+---
+
+### Ignorowanie plikÃ³w
+
+Aby uwzglÄ™dniÄ‡ pliki, ktÃ³re normalnie byÅ‚yby ignorowane, utwÃ³rz plik `.ignore` w katalogu gÅ‚Ã³wnym projektu. Ten plik moÅ¼e jawnie zezwalaÄ‡ na okreÅ›lone Å›cieÅ¼ki.
+
+```text title=".ignore"
+!node_modules/
+!dist/
+!build/
+```
+
+Na przykÅ‚ad ten plik `.ignore` pozwala ripgrepowi przeszukiwaÄ‡ katalogi `node_modules/`, `dist/` i `build/`, nawet jeÅ›li sÄ… one wymienione w `.gitignore`.

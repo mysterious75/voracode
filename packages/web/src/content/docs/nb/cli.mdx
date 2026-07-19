@@ -1,0 +1,617 @@
+---
+title: CLI
+description: Voracode CLI-alternativer og kommandoer.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
+Voracode CLI starter som standard [TUI](/docs/tui) nÃ¥r den kjÃ¸res uten noen argumenter.
+
+```bash
+voracode
+```
+
+Men den godtar ogsÃ¥ kommandoer som dokumentert pÃ¥ denne siden. Dette lar deg samhandle med Voracode programmatisk.
+
+```bash
+voracode run "Explain how closures work in JavaScript"
+```
+
+---
+
+### tui
+
+Start Voracode-terminalbrukergrensesnittet.
+
+```bash
+voracode [project]
+```
+
+#### Flagg
+
+| Flagg                                    | Kort | Beskrivelse                                                              |
+| ---------------------------------------- | ---- | ------------------------------------------------------------------------ |
+| <nobr><code>{"--continue"}</code></nobr> | `-c` | Fortsett siste Ã¸kt                                                       |
+| <nobr><code>{"--session"}</code></nobr>  | `-s` | Ã˜kt ID for Ã¥ fortsette                                                   |
+| <nobr><code>{"--fork"}</code></nobr>     |      | Forgren Ã¸kten ved fortsettelse (bruk med `--continue` eller `--session`) |
+| <nobr><code>{"--prompt"}</code></nobr>   |      | Ledetekst som skal brukes                                                |
+| <nobr><code>{"--model"}</code></nobr>    | `-m` | Modell Ã¥ bruke i form av leverandÃ¸r/modell                               |
+| <nobr><code>{"--agent"}</code></nobr>    |      | Agent som skal brukes                                                    |
+| <nobr><code>{"--port"}</code></nobr>     |      | Port Ã¥ lytte pÃ¥                                                          |
+| <nobr><code>{"--hostname"}</code></nobr> |      | Vertsnavn Ã¥ lytte pÃ¥                                                     |
+
+---
+
+## Kommandoer
+
+Voracode CLI har ogsÃ¥ fÃ¸lgende kommandoer.
+
+---
+
+### agent
+
+Administrer agenter for Voracode.
+
+```bash
+voracode agent [command]
+```
+
+---
+
+### attach
+
+Koble en terminal til en allerede kjÃ¸rende Voracode-backend-server startet via `serve` eller `web` kommandoer.
+
+```bash
+voracode attach [url]
+```
+
+Dette gjÃ¸r det mulig Ã¥ bruke TUI med en ekstern Voracode-backend. For eksempel:
+
+```bash
+# Start the backend server for web/mobile access
+voracode web --port 4096 --hostname 0.0.0.0
+
+# In another terminal, attach the TUI to the running backend
+voracode attach http://10.20.30.40:4096
+```
+
+#### Flagg
+
+| Flagg                                    | Kort | Beskrivelse                                                                                        |
+| ---------------------------------------- | ---- | -------------------------------------------------------------------------------------------------- |
+| <nobr><code>{"--dir"}</code></nobr>      |      | Arbeidskatalog for Ã¥ starte TUI i                                                                  |
+| <nobr><code>{"--continue"}</code></nobr> | `-c` | Fortsett siste Ã¸kt                                                                                 |
+| <nobr><code>{"--session"}</code></nobr>  | `-s` | Ã˜kt ID for Ã¥ fortsette                                                                             |
+| <nobr><code>{"--fork"}</code></nobr>     |      | Forgren Ã¸kten ved fortsettelse (bruk med `--continue` eller `--session`)                           |
+| <nobr><code>{"--password"}</code></nobr> | `-p` | Passord for grunnleggende autentisering (standard: `VORACODE_SERVER_PASSWORD`)                     |
+| <nobr><code>{"--username"}</code></nobr> | `-u` | Brukernavn for grunnleggende autentisering (standard: `VORACODE_SERVER_USERNAME` eller `voracode`) |
+
+---
+
+#### create
+
+Opprett en ny agent med tilpasset konfigurasjon.
+
+```bash
+voracode agent create
+```
+
+Denne kommandoen vil veilede deg gjennom Ã¥ lage en ny agent med en tilpasset systemmelding og verktÃ¸ykonfigurasjon.
+
+---
+
+#### list
+
+List opp alle tilgjengelige agenter.
+
+```bash
+voracode agent list
+```
+
+---
+
+### auth
+
+Kommando for administrasjon av pÃ¥loggingsinformasjon og innlogging for leverandÃ¸rer.
+
+```bash
+voracode auth [command]
+```
+
+---
+
+#### login
+
+Voracode drives av leverandÃ¸rlisten pÃ¥ [Models.dev](https://models.dev), sÃ¥ du kan bruke `voracode auth login` til Ã¥ konfigurere API-nÃ¸kler for enhver leverandÃ¸r du vil bruke. Dette er lagret i `~/.local/share/voracode/auth.json`.
+
+```bash
+voracode auth login
+```
+
+NÃ¥r Voracode starter opp, laster den leverandÃ¸rene fra filen med pÃ¥loggingsinformasjon. Og hvis det er noen nÃ¸kler definert i miljÃ¸ene dine eller en `.env`-fil i prosjektet ditt.
+
+---
+
+#### list
+
+Viser alle de autentiserte leverandÃ¸rene som er lagret i filen med pÃ¥loggingsinformasjon.
+
+```bash
+voracode auth list
+```
+
+Eller bruk kortversjonen.
+
+```bash
+voracode auth ls
+```
+
+---
+
+#### logout
+
+Logger deg ut av en leverandÃ¸r ved Ã¥ fjerne den fra filen med pÃ¥loggingsinformasjon.
+
+```bash
+voracode auth logout
+```
+
+---
+
+### github
+
+Administrer GitHub-agenten for depotautomatisering.
+
+```bash
+voracode github [command]
+```
+
+---
+
+#### install
+
+Installer GitHub-agenten i depotet ditt.
+
+```bash
+voracode github install
+```
+
+Dette setter opp den nÃ¸dvendige GitHub Actions-arbeidsflyten og veileder deg gjennom konfigurasjonsprosessen. [Finn ut mer](/docs/github).
+
+---
+
+#### run
+
+KjÃ¸r GitHub-agenten. Dette brukes vanligvis i GitHub Actions.
+
+```bash
+voracode github run
+```
+
+##### Flagg
+
+| Flagg                                 | Beskrivelse                                  |
+| ------------------------------------- | -------------------------------------------- |
+| <nobr><code>{"--event"}</code></nobr> | GitHub mock-hendelse agenten skal kjÃ¸res for |
+| <nobr><code>{"--token"}</code></nobr> | GitHub personlig tilgangsnÃ¸kkel              |
+
+---
+
+### mcp
+
+Administrer Model Context Protocol-servere.
+
+```bash
+voracode mcp [command]
+```
+
+---
+
+#### add
+
+Legg til en MCP-server til konfigurasjonen.
+
+```bash
+voracode mcp add
+```
+
+Denne kommandoen vil veilede deg gjennom Ã¥ legge til enten en lokal eller ekstern MCP-server.
+
+---
+
+#### list
+
+Liste alle konfigurerte MCP-servere og deres tilkoblingsstatus.
+
+```bash
+voracode mcp list
+```
+
+Eller bruk den korte versjonen.
+
+```bash
+voracode mcp ls
+```
+
+---
+
+#### auth
+
+Autentiser med en OAuth-aktivert MCP-server.
+
+```bash
+voracode mcp auth [name]
+```
+
+Hvis du ikke oppgir et servernavn, blir du bedt om Ã¥ velge blant tilgjengelige OAuth-kompatible servere.
+
+Du kan ogsÃ¥ liste opp OAuth-kompatible servere og deres autentiseringsstatus.
+
+```bash
+voracode mcp auth list
+```
+
+Eller bruk den korte versjonen.
+
+```bash
+voracode mcp auth ls
+```
+
+---
+
+#### logout
+
+Fjern OAuth-pÃ¥loggingsinformasjon for en MCP-server.
+
+```bash
+voracode mcp logout [name]
+```
+
+---
+
+#### debug
+
+FeilsÃ¸k OAuth-tilkoblingsproblemer for en MCP-server.
+
+```bash
+voracode mcp debug <name>
+```
+
+---
+
+### models
+
+List opp alle tilgjengelige modeller fra konfigurerte leverandÃ¸rer.
+
+```bash
+voracode models [provider]
+```
+
+Denne kommandoen viser alle modeller som er tilgjengelige pÃ¥ tvers av dine konfigurerte leverandÃ¸rer i formatet `provider/model`.
+
+Dette er nyttig for Ã¥ finne ut det eksakte modellnavnet som skal brukes i [din konfigurasjon](/docs/config/).
+
+Du kan eventuelt sende en leverandÃ¸r ID for Ã¥ filtrere modeller etter den leverandÃ¸ren.
+
+```bash
+voracode models anthropic
+```
+
+#### Flagg
+
+| Flagg                                   | Beskrivelse                                                         |
+| --------------------------------------- | ------------------------------------------------------------------- |
+| <nobr><code>{"--refresh"}</code></nobr> | Oppdater modellbufferen fra models.dev                              |
+| <nobr><code>{"--verbose"}</code></nobr> | Bruk mer detaljert modellutdata (inkluderer metadata som kostnader) |
+
+Bruk `--refresh`-flagget for Ã¥ oppdatere den bufrede modelllisten. Dette er nyttig nÃ¥r nye modeller er lagt til en leverandÃ¸r og du vil se dem i Voracode.
+
+```bash
+voracode models --refresh
+```
+
+---
+
+### run
+
+KjÃ¸r Voracode i ikke-interaktiv modus ved Ã¥ sende en melding direkte.
+
+```bash
+voracode run [message..]
+```
+
+Dette er nyttig for skripting, automatisering eller nÃ¥r du vil ha et raskt svar uten Ã¥ starte hele TUI. For eksempel.
+
+```bash "voracode run"
+voracode run Explain the use of context in Go
+```
+
+Du kan ogsÃ¥ koble til en kjÃ¸rende `voracode serve`-forekomst for Ã¥ unngÃ¥ MCP-serveres kaldstarttid ved hver kjÃ¸ring:
+
+```bash
+# Start a headless server in one terminal
+voracode serve
+
+# In another terminal, run commands that attach to it
+voracode run --attach http://localhost:4096 "Explain async/await in JavaScript"
+```
+
+#### Flagg
+
+| Flagg                                    | Kort | Beskrivelse                                                                                        |
+| ---------------------------------------- | ---- | -------------------------------------------------------------------------------------------------- |
+| <nobr><code>{"--command"}</code></nobr>  |      | Kommandoen for Ã¥ kjÃ¸re, bruk melding for args                                                      |
+| <nobr><code>{"--continue"}</code></nobr> | `-c` | Fortsett siste Ã¸kt                                                                                 |
+| <nobr><code>{"--session"}</code></nobr>  | `-s` | Ã˜kt ID for Ã¥ fortsette                                                                             |
+| <nobr><code>{"--fork"}</code></nobr>     |      | Forgren Ã¸kten ved fortsettelse (bruk med `--continue` eller `--session`)                           |
+| <nobr><code>{"--share"}</code></nobr>    |      | Del Ã¸kten                                                                                          |
+| <nobr><code>{"--model"}</code></nobr>    | `-m` | Modell Ã¥ bruke i form av leverandÃ¸r/modell                                                         |
+| <nobr><code>{"--agent"}</code></nobr>    |      | Agent Ã¥ bruke                                                                                      |
+| <nobr><code>{"--file"}</code></nobr>     | `-f` | Fil(er) som skal legges ved meldingen                                                              |
+| <nobr><code>{"--format"}</code></nobr>   |      | Format: standard (formatert) eller json (rÃ¥ JSON hendelser)                                        |
+| <nobr><code>{"--title"}</code></nobr>    |      | Tittel for Ã¸kten (bruker avkortet ledetekst hvis ingen verdi er oppgitt)                           |
+| <nobr><code>{"--attach"}</code></nobr>   |      | Koble til en kjÃ¸rende Voracode-server (f.eks. http://localhost:4096)                               |
+| <nobr><code>{"--password"}</code></nobr> | `-p` | Passord for grunnleggende autentisering (standard: `VORACODE_SERVER_PASSWORD`)                     |
+| <nobr><code>{"--username"}</code></nobr> | `-u` | Brukernavn for grunnleggende autentisering (standard: `VORACODE_SERVER_USERNAME` eller `voracode`) |
+| <nobr><code>{"--dir"}</code></nobr>      |      | Katalog Ã¥ kjÃ¸re i, eller sti pÃ¥ fjernserveren ved tilkobling                                       |
+| <nobr><code>{"--variant"}</code></nobr>  |      | Modellvariant (leverandÃ¸rspesifikk resonneringsinnsats)                                            |
+| <nobr><code>{"--thinking"}</code></nobr> |      | Vis tenkeblokker                                                                                   |
+| <nobr><code>{"--port"}</code></nobr>     |      | Port for den lokale serveren (standard til tilfeldig port)                                         |
+
+---
+
+### serve
+
+Start en headless Voracode-server for API-tilgang. Sjekk ut [server-dokumentene](/docs/server) for hele HTTP-grensesnittet.
+
+```bash
+voracode serve
+```
+
+Dette starter en HTTP-server som gir API tilgang til Voracode-funksjonalitet uten TUI-grensesnittet. Sett `VORACODE_SERVER_PASSWORD` for Ã¥ aktivere HTTP grunnleggende autentisering (brukernavn er standard til `voracode`).
+
+#### Flagg
+
+| Flagg                                    | Beskrivelse                                        |
+| ---------------------------------------- | -------------------------------------------------- |
+| <nobr><code>{"--port"}</code></nobr>     | Port Ã¥ lytte pÃ¥                                    |
+| <nobr><code>{"--hostname"}</code></nobr> | Vertsnavn Ã¥ lytte pÃ¥                               |
+| <nobr><code>{"--mdns"}</code></nobr>     | Aktiver mDNS-oppdagelse                            |
+| <nobr><code>{"--cors"}</code></nobr>     | Ytterligere nettleseropprinnelse som tillater CORS |
+
+---
+
+### session
+
+Administrer Voracode-Ã¸kter.
+
+```bash
+voracode session [command]
+```
+
+---
+
+#### list
+
+List opp alle Voracode-Ã¸kter.
+
+```bash
+voracode session list
+```
+
+##### Flagg
+
+| Flagg                                     | Kort | Beskrivelse                              |
+| ----------------------------------------- | ---- | ---------------------------------------- |
+| <nobr><code>{"--max-count"}</code></nobr> | `-n` | Begrens til N siste Ã¸kter                |
+| <nobr><code>{"--format"}</code></nobr>    |      | Utdataformat: tabell eller json (tabell) |
+
+---
+
+### stats
+
+Vis tokenbruk og kostnadsstatistikk for Voracode-Ã¸ktene dine.
+
+```bash
+voracode stats
+```
+
+#### Flagg
+
+| Flagg                                   | Beskrivelse                                                                      |
+| --------------------------------------- | -------------------------------------------------------------------------------- |
+| <nobr><code>{"--days"}</code></nobr>    | Vis statistikk for de siste N dagene (hele tiden)                                |
+| <nobr><code>{"--tools"}</code></nobr>   | Antall verktÃ¸y som skal vises (alle)                                             |
+| <nobr><code>{"--models"}</code></nobr>  | Vis oversikt over modellbruk (skjult som standard). Gi et tall for Ã¥ vise topp N |
+| <nobr><code>{"--project"}</code></nobr> | Filtrer etter prosjekt (alle prosjekter, tom streng: gjeldende prosjekt)         |
+
+---
+
+### export
+
+Eksporter Ã¸ktdata som JSON.
+
+```bash
+voracode export [sessionID]
+```
+
+Hvis du ikke gir en Ã¸kt ID, blir du bedt om Ã¥ velge fra tilgjengelige Ã¸kter.
+
+---
+
+### import
+
+Importer Ã¸ktdata fra en JSON-fil eller en Voracode share-URL.
+
+```bash
+voracode import <file>
+```
+
+Du kan importere fra en lokal fil eller en Voracode share-URL.
+
+```bash
+voracode import session.json
+voracode import https://opncd.ai/s/abc123
+```
+
+---
+
+### web
+
+Start en headless Voracode-server med et webgrensesnitt.
+
+```bash
+voracode web
+```
+
+Dette starter en HTTP-server og Ã¥pner en nettleser for Ã¥ fÃ¥ tilgang til Voracode via et nettgrensesnitt. Sett `VORACODE_SERVER_PASSWORD` for Ã¥ aktivere HTTP grunnleggende autentisering (brukernavn er standard til `voracode`).
+
+#### Flagg
+
+| Flagg                                    | Beskrivelse                                        |
+| ---------------------------------------- | -------------------------------------------------- |
+| <nobr><code>{"--port"}</code></nobr>     | Port Ã¥ lytte pÃ¥                                    |
+| <nobr><code>{"--hostname"}</code></nobr> | Vertsnavn Ã¥ lytte pÃ¥                               |
+| <nobr><code>{"--mdns"}</code></nobr>     | Aktiver mDNS-oppdagelse                            |
+| <nobr><code>{"--cors"}</code></nobr>     | Ytterligere nettleseropprinnelse som tillater CORS |
+
+---
+
+### acp
+
+Start en ACP (Agent Client Protocol) server.
+
+```bash
+voracode acp
+```
+
+Denne kommandoen starter en ACP-server som kommuniserer via stdin/stdout ved Ã¥ bruke nd-JSON.
+
+#### Flagg
+
+| Flagg                                    | Beskrivelse          |
+| ---------------------------------------- | -------------------- |
+| <nobr><code>{"--cwd"}</code></nobr>      | Arbeidskatalog       |
+| <nobr><code>{"--port"}</code></nobr>     | Port Ã¥ lytte pÃ¥      |
+| <nobr><code>{"--hostname"}</code></nobr> | Vertsnavn Ã¥ lytte pÃ¥ |
+
+---
+
+### uninstall
+
+Avinstaller Voracode og fjern alle relaterte filer.
+
+```bash
+voracode uninstall
+```
+
+#### Flagg
+
+| Flagg                                       | Kort | Beskrivelse                                   |
+| ------------------------------------------- | ---- | --------------------------------------------- |
+| <nobr><code>{"--keep-config"}</code></nobr> | `-c` | Behold konfigurasjonsfiler                    |
+| <nobr><code>{"--keep-data"}</code></nobr>   | `-d` | Behold Ã¸ktdata og Ã¸yeblikksbilder             |
+| <nobr><code>{"--dry-run"}</code></nobr>     |      | Vis hva som ville blitt fjernet uten Ã¥ fjerne |
+| <nobr><code>{"--force"}</code></nobr>       | `-f` | Hopp over bekreftelsesforespÃ¸rsler            |
+
+---
+
+### upgrade
+
+Oppdaterer Voracode til siste versjon eller en spesifikk versjon.
+
+```bash
+voracode upgrade [target]
+```
+
+For Ã¥ oppgradere til siste versjon.
+
+```bash
+voracode upgrade
+```
+
+For Ã¥ oppgradere til en bestemt versjon.
+
+```bash
+voracode upgrade v0.1.48
+```
+
+#### Flagg
+
+| Flagg                                  | Kort | Beskrivelse                                                    |
+| -------------------------------------- | ---- | -------------------------------------------------------------- |
+| <nobr><code>{"--method"}</code></nobr> | `-m` | Installasjonsmetoden som ble brukt: curl, npm, pnpm, bun, brew |
+
+---
+
+## Globale flagg
+
+Voracode CLI bruker fÃ¸lgende globale flagg.
+
+| Flagg                                      | Kort | Beskrivelse                         |
+| ------------------------------------------ | ---- | ----------------------------------- |
+| <nobr><code>{"--help"}</code></nobr>       | `-h` | Vis hjelp                           |
+| <nobr><code>{"--version"}</code></nobr>    | `-v` | Skriv ut versjonsnummer             |
+| <nobr><code>{"--print-logs"}</code></nobr> |      | Skriv ut logger til stderr          |
+| <nobr><code>{"--log-level"}</code></nobr>  |      | LoggnivÃ¥ (DEBUG, INFO, WARN, ERROR) |
+
+---
+
+## MiljÃ¸variabler
+
+Voracode kan konfigureres ved hjelp av miljÃ¸variabler.
+
+| Variabel                              | Type   | Beskrivelse                                                           |
+| ------------------------------------- | ------ | --------------------------------------------------------------------- |
+| `VORACODE_AUTO_SHARE`                 | boolsk | Del Ã¸kter automatisk                                                  |
+| `VORACODE_GIT_BASH_PATH`              | streng | Bane til Git Bash-kjÃ¸rbar pÃ¥ Windows                                  |
+| `VORACODE_CONFIG`                     | streng | Bane til konfigurasjonsfil                                            |
+| `VORACODE_TUI_CONFIG`                 | streng | Bane til TUI-konfigurasjonsfil                                        |
+| `VORACODE_CONFIG_DIR`                 | streng | Bane til konfigurasjonskatalog                                        |
+| `VORACODE_CONFIG_CONTENT`             | streng | Innebygd json-konfigurasjonsinnhold                                   |
+| `VORACODE_DISABLE_AUTOUPDATE`         | boolsk | Deaktiver automatiske oppdateringskontroller                          |
+| `VORACODE_DISABLE_PRUNE`              | boolsk | Deaktiver beskjÃ¦ring av gamle data                                    |
+| `VORACODE_DISABLE_TERMINAL_TITLE`     | boolsk | Deaktiver automatiske terminaltitteloppdateringer                     |
+| `VORACODE_PERMISSION`                 | streng | Innebygd json-tillatelseskonfigurasjon                                |
+| `VORACODE_DISABLE_DEFAULT_PLUGINS`    | boolsk | Deaktiver standard plugins                                            |
+| `VORACODE_DISABLE_LSP_DOWNLOAD`       | boolsk | Deaktiver automatiske LSP servernedlastinger                          |
+| `VORACODE_ENABLE_EXPERIMENTAL_MODELS` | boolsk | Aktiver eksperimentelle modeller                                      |
+| `VORACODE_DISABLE_AUTOCOMPACT`        | boolsk | Deaktiver automatisk kontekstkomprimering                             |
+| `VORACODE_DISABLE_CLAUDE_CODE`        | boolsk | Deaktiver lesing fra `.claude` (spÃ¸rsmÃ¥l + ferdigheter)               |
+| `VORACODE_DISABLE_CLAUDE_CODE_PROMPT` | boolsk | Deaktiver lesing `~/.claude/CLAUDE.md`                                |
+| `VORACODE_DISABLE_CLAUDE_CODE_SKILLS` | boolsk | Deaktiver innlasting av `.claude/skills`                              |
+| `VORACODE_DISABLE_MODELS_FETCH`       | boolsk | Deaktiver henting av modeller fra eksterne kilder                     |
+| `VORACODE_FAKE_VCS`                   | streng | Falsk VCS-leverandÃ¸r for testformÃ¥l                                   |
+| `VORACODE_CLIENT`                     | streng | Klientidentifikator (standard til `cli`)                              |
+| `VORACODE_ENABLE_EXA`                 | boolsk | Aktiver Exa-nettsÃ¸keverktÃ¸y                                           |
+| `VORACODE_SERVER_PASSWORD`            | streng | Aktiver grunnleggende autentisering for `serve`/`web`                 |
+| `VORACODE_SERVER_USERNAME`            | streng | Overstyr grunnleggende autentiseringsbrukernavn (standard `voracode`) |
+| `VORACODE_MODELS_URL`                 | streng | Egendefinert URL for henting av modellkonfigurasjon                   |
+
+---
+
+### Eksperimentelt
+
+Disse miljÃ¸variablene muliggjÃ¸r eksperimentelle funksjoner som kan endres eller fjernes.
+
+| Variabel                                        | Type   | Beskrivelse                                           |
+| ----------------------------------------------- | ------ | ----------------------------------------------------- |
+| `VORACODE_EXPERIMENTAL`                         | boolsk | Aktiver eksperimentelle funksjoner under samleflagget |
+| `VORACODE_EXPERIMENTAL_ICON_DISCOVERY`          | boolsk | Aktiver ikonoppdagelse                                |
+| `VORACODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT`  | boolsk | Deaktiver kopi ved valg i TUI                         |
+| `VORACODE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS` | tall   | Standard tidsavbrudd for bash-kommandoer i ms         |
+| `VORACODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX`        | tall   | Maks Output Tokens for LLM-svar                       |
+| `VORACODE_EXPERIMENTAL_FILEWATCHER`             | boolsk | Aktiver filovervÃ¥ker for hele dir                     |
+| `VORACODE_EXPERIMENTAL_OXFMT`                   | boolsk | Aktiver oxfmt formatter                               |
+| `VORACODE_EXPERIMENTAL_LSP_TOOL`                | boolsk | Aktiver eksperimentelt LSP-verktÃ¸y                    |
+| `VORACODE_EXPERIMENTAL_DISABLE_FILEWATCHER`     | boolsk | Deaktiver filovervÃ¥king                               |
+| `VORACODE_EXPERIMENTAL_EXA`                     | boolsk | Aktiver eksperimentelle Exa-funksjoner                |
+| `VORACODE_EXPERIMENTAL_LSP_TY`                  | boolsk | Aktiver TY LSP for python-filer                       |
+| `VORACODE_EXPERIMENTAL_PLAN_MODE`               | boolsk | Aktiver planmodus                                     |
+| `VORACODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS`    | boolsk | Aktiver bakgrunnsoppgaver for subagenter              |
+| `VORACODE_EXPERIMENTAL_EVENT_SYSTEM`            | boolsk | Aktiver eksperimentelt hendelsessystem                |
+| `VORACODE_EXPERIMENTAL_NATIVE_LLM`              | boolsk | Aktiver innebygd LLM-forespÃ¸rselsvei                  |
+| `VORACODE_EXPERIMENTAL_PARALLEL`                | boolsk | Aktiver parallell kjÃ¸ring av websÃ¸k                   |
+| `VORACODE_EXPERIMENTAL_SCOUT`                   | boolsk | Aktiver Scout-subagent                                |
+| `VORACODE_EXPERIMENTAL_WORKSPACES`              | boolsk | Aktiver arbeidsomrÃ¥de-stÃ¸tte                          |

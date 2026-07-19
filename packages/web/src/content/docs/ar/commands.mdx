@@ -1,0 +1,322 @@
+---
+title: Ø§Ù„Ø£ÙˆØ§Ù…Ø±
+description: Ø£Ù†Ø´Ø¦ Ø£ÙˆØ§Ù…Ø± Ù…Ø®ØµØµØ© Ù„Ù„Ù…Ù‡Ø§Ù… Ø§Ù„Ù…ØªÙƒØ±Ø±Ø©.
+---
+
+ØªØªÙŠØ­ Ù„Ùƒ Ø§Ù„Ø£ÙˆØ§Ù…Ø± Ø§Ù„Ù…Ø®ØµØµØ© ØªØ­Ø¯ÙŠØ¯ Ù…ÙØ·Ø§Ù„Ø¨Ø© (prompt) ØªØ±ÙŠØ¯ ØªØ´ØºÙŠÙ„Ù‡Ø§ Ø¹Ù†Ø¯ ØªÙ†ÙÙŠØ° Ø°Ù„Ùƒ Ø§Ù„Ø£Ù…Ø± ÙÙŠ ÙˆØ§Ø¬Ù‡Ø© TUI.
+
+```bash frame="none"
+/my-command
+```
+
+ØªÙØ¹Ø¯Ù‘ Ø§Ù„Ø£ÙˆØ§Ù…Ø± Ø§Ù„Ù…Ø®ØµØµØ© Ø¥Ø¶Ø§ÙØ©Ù‹ Ø¥Ù„Ù‰ Ø§Ù„Ø£ÙˆØ§Ù…Ø± Ø§Ù„Ù…Ø¶Ù…Ù†Ø© Ù…Ø«Ù„ `/init` Ùˆ`/undo` Ùˆ`/redo` Ùˆ`/share` Ùˆ`/help`. [Ø§Ø¹Ø±Ù Ø§Ù„Ù…Ø²ÙŠØ¯](/docs/tui#commands).
+
+---
+
+## Ø¥Ù†Ø´Ø§Ø¡ Ù…Ù„ÙØ§Øª Ø§Ù„Ø£ÙˆØ§Ù…Ø±
+
+Ø£Ù†Ø´Ø¦ Ù…Ù„ÙØ§Øª Markdown Ø¯Ø§Ø®Ù„ Ø§Ù„Ø¯Ù„ÙŠÙ„ `commands/` Ù„ØªØ¹Ø±ÙŠÙ Ø£ÙˆØ§Ù…Ø± Ù…Ø®ØµØµØ©.
+
+Ø£Ù†Ø´Ø¦ Ø§Ù„Ù…Ù„Ù `.voracode/commands/test.md`:
+
+```md title=".voracode/commands/test.md"
+---
+description: Run tests with coverage
+agent: build
+model: anthropic/claude-3-5-sonnet-20241022
+---
+
+Run the full test suite with coverage report and show any failures.
+Focus on the failing tests and suggest fixes.
+```
+
+ØªÙØ¹Ø±Ù‘ÙÙ ØªØ±ÙˆÙŠØ³Ø© Frontmatter Ø®ØµØ§Ø¦Øµ Ø§Ù„Ø£Ù…Ø±ØŒ Ø¨ÙŠÙ†Ù…Ø§ ÙŠØµØ¨Ø­ Ø§Ù„Ù…Ø­ØªÙˆÙ‰ Ù‡Ùˆ Ø§Ù„Ù‚Ø§Ù„Ø¨.
+
+Ø§Ø³ØªØ®Ø¯Ù… Ø§Ù„Ø£Ù…Ø± Ø¨ÙƒØªØ§Ø¨Ø© `/` Ø«Ù… Ø§Ø³Ù… Ø§Ù„Ø£Ù…Ø±.
+
+```bash frame="none"
+"/test"
+```
+
+---
+
+## Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯
+
+ÙŠÙ…ÙƒÙ†Ùƒ Ø¥Ø¶Ø§ÙØ© Ø£ÙˆØ§Ù…Ø± Ù…Ø®ØµØµØ© Ø¹Ø¨Ø± Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Voracode Ø£Ùˆ Ø¨Ø¥Ù†Ø´Ø§Ø¡ Ù…Ù„ÙØ§Øª Markdown Ø¯Ø§Ø®Ù„ Ø§Ù„Ø¯Ù„ÙŠÙ„ `commands/`.
+
+---
+
+### JSON
+
+Ø§Ø³ØªØ®Ø¯Ù… Ø®ÙŠØ§Ø± `command` ÙÙŠ [config](/docs/config) Ø§Ù„Ø®Ø§Øµ Ø¨Ù€ Voracode:
+
+```json title="voracode.jsonc" {4-12}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "command": {
+    // ÙŠØµØ¨Ø­ Ù‡Ø°Ø§ Ø§Ø³Ù… Ø§Ù„Ø£Ù…Ø±
+    "test": {
+      // Ù‡Ø°Ù‡ Ù‡ÙŠ Ø§Ù„Ù…Ø·Ø§Ù„Ø¨Ø© Ø§Ù„ØªÙŠ Ø³ØªÙØ±Ø³Ù„ Ø¥Ù„Ù‰ LLM
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
+      // ÙŠØ¸Ù‡Ø± Ù‡Ø°Ø§ ÙƒÙˆØµÙ ÙÙŠ TUI
+      "description": "Run tests with coverage",
+      "agent": "build",
+      "model": "anthropic/claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+
+ÙŠÙ…ÙƒÙ†Ùƒ Ø§Ù„Ø¢Ù† ØªØ´ØºÙŠÙ„ Ù‡Ø°Ø§ Ø§Ù„Ø£Ù…Ø± ÙÙŠ ÙˆØ§Ø¬Ù‡Ø© TUI:
+
+```bash frame="none"
+/test
+```
+
+---
+
+### Markdown
+
+ÙŠÙ…ÙƒÙ†Ùƒ Ø£ÙŠØ¶Ù‹Ø§ ØªØ¹Ø±ÙŠÙ Ø§Ù„Ø£ÙˆØ§Ù…Ø± Ø¨Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù…Ù„ÙØ§Øª Markdown. Ø¶Ø¹Ù‡Ø§ ÙÙŠ:
+
+- Ø¹Ù„Ù‰ Ù…Ø³ØªÙˆÙ‰ Ø§Ù„Ù†Ø¸Ø§Ù…: `~/.config/voracode/commands/`
+- Ù„ÙƒÙ„ Ù…Ø´Ø±ÙˆØ¹: `.voracode/commands/`
+
+```markdown title="~/.config/voracode/commands/test.md"
+---
+description: Run tests with coverage
+agent: build
+model: anthropic/claude-3-5-sonnet-20241022
+---
+
+Run the full test suite with coverage report and show any failures.
+Focus on the failing tests and suggest fixes.
+```
+
+ÙŠØµØ¨Ø­ Ø§Ø³Ù… Ù…Ù„Ù Markdown Ù‡Ùˆ Ø§Ø³Ù… Ø§Ù„Ø£Ù…Ø±. Ø¹Ù„Ù‰ Ø³Ø¨ÙŠÙ„ Ø§Ù„Ù…Ø«Ø§Ù„ØŒ ÙŠØªÙŠØ­ Ù„Ùƒ `test.md` ØªØ´ØºÙŠÙ„:
+
+```bash frame="none"
+/test
+```
+
+---
+
+## Ø¥Ø¹Ø¯Ø§Ø¯ Ø§Ù„Ù…ÙØ·Ø§Ù„Ø¨Ø©
+
+ØªØ¯Ø¹Ù… Ù…ÙØ·Ø§Ù„Ø¨Ø§Øª Ø§Ù„Ø£ÙˆØ§Ù…Ø± Ø§Ù„Ù…Ø®ØµØµØ© Ø¹Ø¯Ø© Ø¹Ù†Ø§ØµØ± Ù†Ø§Ø¦Ø¨Ø© (placeholders) ÙˆØ¨Ù†Ù‰ Ø®Ø§ØµØ©.
+
+---
+
+### Ø§Ù„ÙˆØ³Ø§Ø¦Ø·
+
+Ù…Ø±Ù‘ÙØ± ÙˆØ³Ø§Ø¦Ø· Ø¥Ù„Ù‰ Ø§Ù„Ø£ÙˆØ§Ù…Ø± Ø¨Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ø¹Ù†ØµØ± Ø§Ù„Ù†Ø§Ø¦Ø¨ `$ARGUMENTS`.
+
+```md title=".voracode/commands/component.md"
+---
+description: Create a new component
+---
+
+Create a new React component named $ARGUMENTS with TypeScript support.
+Include proper typing and basic structure.
+```
+
+Ø´ØºÙ‘ÙÙ„ Ø§Ù„Ø£Ù…Ø± Ù…Ø¹ ÙˆØ³Ø§Ø¦Ø·:
+
+```bash frame="none"
+/component Button
+```
+
+ÙˆØ³ÙŠÙØ³ØªØ¨Ø¯Ù„ `$ARGUMENTS` Ø¨Ø§Ù„Ù‚ÙŠÙ…Ø© `Button`.
+
+ÙŠÙ…ÙƒÙ†Ùƒ Ø£ÙŠØ¶Ù‹Ø§ Ø§Ù„ÙˆØµÙˆÙ„ Ø¥Ù„Ù‰ ÙƒÙ„ ÙˆØ³ÙŠØ· Ø¹Ù„Ù‰ Ø­Ø¯Ø© Ø¨Ø§Ø³ØªØ®Ø¯Ø§Ù… Ø§Ù„Ù…Ø¹Ø§Ù…Ù„Ø§Øª Ø§Ù„Ù…ÙˆØ¶Ø¹ÙŠØ©:
+
+- `$1` - Ø§Ù„ÙˆØ³ÙŠØ· Ø§Ù„Ø£ÙˆÙ„
+- `$2` - Ø§Ù„ÙˆØ³ÙŠØ· Ø§Ù„Ø«Ø§Ù†ÙŠ
+- `$3` - Ø§Ù„ÙˆØ³ÙŠØ· Ø§Ù„Ø«Ø§Ù„Ø«
+- ÙˆÙ‡ÙƒØ°Ø§...
+
+Ø¹Ù„Ù‰ Ø³Ø¨ÙŠÙ„ Ø§Ù„Ù…Ø«Ø§Ù„:
+
+```md title=".voracode/commands/create-file.md"
+---
+description: Create a new file with content
+---
+
+Create a file named $1 in the directory $2
+with the following content: $3
+```
+
+Ø´ØºÙ‘ÙÙ„ Ø§Ù„Ø£Ù…Ø±:
+
+```bash frame="none"
+/create-file config.json src "{ \"key\": \"value\" }"
+```
+
+Ø³ÙŠØ¤Ø¯ÙŠ Ø°Ù„Ùƒ Ø¥Ù„Ù‰ Ø§Ø³ØªØ¨Ø¯Ø§Ù„:
+
+- `$1` Ø¨Ù€ `config.json`
+- `$2` Ø¨Ù€ `src`
+- `$3` Ø¨Ù€ `{ "key": "value" }`
+
+---
+
+### Ø®Ø±Ø¬ shell
+
+Ø§Ø³ØªØ®Ø¯Ù… _!`command`_ Ù„Ø­Ù‚Ù† Ø®Ø±Ø¬ [Ø£Ù…Ø± bash](/docs/tui#bash-commands) Ø¯Ø§Ø®Ù„ Ù…ÙØ·Ø§Ù„Ø¨ØªÙƒ.
+
+Ø¹Ù„Ù‰ Ø³Ø¨ÙŠÙ„ Ø§Ù„Ù…Ø«Ø§Ù„ØŒ Ù„Ø¥Ù†Ø´Ø§Ø¡ Ø£Ù…Ø± Ù…Ø®ØµØµ ÙŠÙØ­Ù„Ù„ ØªØºØ·ÙŠØ© Ø§Ù„Ø§Ø®ØªØ¨Ø§Ø±Ø§Øª:
+
+```md title=".voracode/commands/analyze-coverage.md"
+---
+description: Analyze test coverage
+---
+
+Here are the current test results:
+!`npm test`
+
+Based on these results, suggest improvements to increase coverage.
+```
+
+Ø£Ùˆ Ù„Ù…Ø±Ø§Ø¬Ø¹Ø© Ø§Ù„ØªØºÙŠÙŠØ±Ø§Øª Ø§Ù„Ø£Ø®ÙŠØ±Ø©:
+
+```md title=".voracode/commands/review-changes.md"
+---
+description: Review recent changes
+---
+
+Recent git commits:
+!`git log --oneline -10`
+
+Review these changes and suggest any improvements.
+```
+
+ØªÙØ´ØºÙ‘ÙŽÙ„ Ø§Ù„Ø£ÙˆØ§Ù…Ø± ÙÙŠ Ø¯Ù„ÙŠÙ„ Ø¬Ø°Ø± Ù…Ø´Ø±ÙˆØ¹Ùƒ ÙˆÙŠØµØ¨Ø­ Ø®Ø±Ø¬Ù‡Ø§ Ø¬Ø²Ø¡Ù‹Ø§ Ù…Ù† Ø§Ù„Ù…ÙØ·Ø§Ù„Ø¨Ø©.
+
+---
+
+### Ù…Ø±Ø§Ø¬Ø¹ Ø§Ù„Ù…Ù„ÙØ§Øª
+
+Ø¶Ù…Ù‘ÙÙ† Ø§Ù„Ù…Ù„ÙØ§Øª ÙÙŠ Ø£Ù…Ø±Ùƒ Ø¨Ø§Ø³ØªØ®Ø¯Ø§Ù… `@` Ø«Ù… Ø§Ø³Ù… Ø§Ù„Ù…Ù„Ù.
+
+```md title=".voracode/commands/review-component.md"
+---
+description: Review component
+---
+
+Review the component in @src/components/Button.tsx.
+Check for performance issues and suggest improvements.
+```
+
+ÙŠÙØ¯Ø±Ø¬ Ù…Ø­ØªÙˆÙ‰ Ø§Ù„Ù…Ù„Ù ÙÙŠ Ø§Ù„Ù…ÙØ·Ø§Ù„Ø¨Ø© ØªÙ„Ù‚Ø§Ø¦ÙŠÙ‹Ø§.
+
+---
+
+## Ø§Ù„Ø®ÙŠØ§Ø±Ø§Øª
+
+Ù„Ù†Ù„Ù‚Ù Ù†Ø¸Ø±Ø©Ù‹ Ø¹Ù„Ù‰ Ø®ÙŠØ§Ø±Ø§Øª Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯ Ø¨Ø§Ù„ØªÙØµÙŠÙ„.
+
+---
+
+### Ø§Ù„Ù‚Ø§Ù„Ø¨ (`template`)
+
+ÙŠÙØ¹Ø±Ù‘ÙÙ Ø®ÙŠØ§Ø± `template` Ø§Ù„Ù…ÙØ·Ø§Ù„Ø¨Ø© Ø§Ù„ØªÙŠ Ø³ØªÙØ±Ø³Ù„ Ø¥Ù„Ù‰ Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ù„ØºØ© (LLM) Ø¹Ù†Ø¯ ØªÙ†ÙÙŠØ° Ø§Ù„Ø£Ù…Ø±.
+
+```json title="voracode.json"
+{
+  "command": {
+    "test": {
+      "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes."
+    }
+  }
+}
+```
+
+Ù‡Ø°Ø§ Ø®ÙŠØ§Ø± Ø¥Ø¹Ø¯Ø§Ø¯ **Ø¥Ù„Ø²Ø§Ù…ÙŠ**.
+
+---
+
+### Ø§Ù„ÙˆØµÙ (`description`)
+
+Ø§Ø³ØªØ®Ø¯Ù… Ø®ÙŠØ§Ø± `description` Ù„ØªÙ‚Ø¯ÙŠÙ… ÙˆØµÙ Ù…ÙˆØ¬Ø² Ù„Ù…Ø§ ÙŠÙØ¹Ù„Ù‡ Ø§Ù„Ø£Ù…Ø±.
+
+```json title="voracode.json"
+{
+  "command": {
+    "test": {
+      "description": "Run tests with coverage"
+    }
+  }
+}
+```
+
+ÙŠØ¸Ù‡Ø± Ù‡Ø°Ø§ Ø§Ù„ÙˆØµÙ ÙÙŠ ÙˆØ§Ø¬Ù‡Ø© TUI Ø¹Ù†Ø¯ ÙƒØªØ§Ø¨Ø© Ø§Ù„Ø£Ù…Ø±.
+
+---
+
+### Ø§Ù„ÙˆÙƒÙŠÙ„ (`agent`)
+
+Ø§Ø³ØªØ®Ø¯Ù… Ø¥Ø¹Ø¯Ø§Ø¯ `agent` Ù„ØªØ­Ø¯ÙŠØ¯ Ø£ÙŠ [agent](/docs/agents) ÙŠÙ†Ø¨ØºÙŠ Ø£Ù† ÙŠÙ†ÙÙ‘Ø° Ù‡Ø°Ø§ Ø§Ù„Ø£Ù…Ø± (Ø§Ø®ØªÙŠØ§Ø±ÙŠÙ‹Ø§).
+Ø¥Ø°Ø§ ÙƒØ§Ù† Ù‡Ø°Ø§ [subagent](/docs/agents/#subagents)ØŒ ÙØ³ÙŠØ¤Ø¯ÙŠ Ø§Ù„Ø£Ù…Ø± Ø§ÙØªØ±Ø§Ø¶ÙŠÙ‹Ø§ Ø¥Ù„Ù‰ ØªØ´ØºÙŠÙ„ Ø§Ø³ØªØ¯Ø¹Ø§Ø¡ subagent.
+Ù„Ø¥ÙŠÙ‚Ø§Ù Ù‡Ø°Ø§ Ø§Ù„Ø³Ù„ÙˆÙƒØŒ Ø¹ÙŠÙ‘ÙÙ† `subtask` Ø¥Ù„Ù‰ `false`.
+
+```json title="voracode.json"
+{
+  "command": {
+    "review": {
+      "agent": "plan"
+    }
+  }
+}
+```
+
+Ù‡Ø°Ø§ Ø®ÙŠØ§Ø± Ø¥Ø¹Ø¯Ø§Ø¯ **Ø§Ø®ØªÙŠØ§Ø±ÙŠ**. Ø¥Ù† Ù„Ù… ØªÙØ­Ø¯Ø¯Ù‡ØŒ ÙØ³ÙŠÙØ³ØªØ®Ø¯Ù… agent Ø§Ù„Ø­Ø§Ù„ÙŠ Ø§ÙØªØ±Ø§Ø¶ÙŠÙ‹Ø§.
+
+---
+
+### Ù…Ù‡Ù…Ø© ÙØ±Ø¹ÙŠØ© (`subtask`)
+
+Ø§Ø³ØªØ®Ø¯Ù… Ø§Ù„Ù‚ÙŠÙ…Ø© Ø§Ù„Ù…Ù†Ø·Ù‚ÙŠØ© `subtask` Ù„ÙØ±Ø¶ Ø£Ù† ÙŠÙØ´ØºÙ‘ÙÙ„ Ø§Ù„Ø£Ù…Ø± Ø§Ø³ØªØ¯Ø¹Ø§Ø¡ [subagent](/docs/agents/#subagents).
+ÙŠÙÙŠØ¯ Ù‡Ø°Ø§ Ø¥Ø°Ø§ Ø£Ø±Ø¯Øª Ø£Ù„Ø§ ÙŠÙ„ÙˆÙ‘Ø« Ø§Ù„Ø£Ù…Ø± Ø§Ù„Ø³ÙŠØ§Ù‚ Ø§Ù„Ø£Ø³Ø§Ø³ÙŠ Ù„Ø¯ÙŠÙƒØŒ Ø¥Ø° Ø³ÙŠÙØ¬Ø¨Ø± (**force**) Ø§Ù„Ù€ agent Ø¹Ù„Ù‰ Ø§Ù„Ø¹Ù…Ù„ ÙƒÙ€ subagentØŒ
+Ø­ØªÙ‰ Ù„Ùˆ ÙƒØ§Ù† `mode` Ù…Ø¶Ø¨ÙˆØ·Ù‹Ø§ Ø¹Ù„Ù‰ `primary` ÙÙŠ Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª [agent](/docs/agents).
+
+```json title="voracode.json"
+{
+  "command": {
+    "analyze": {
+      "subtask": true
+    }
+  }
+}
+```
+
+Ù‡Ø°Ø§ Ø®ÙŠØ§Ø± Ø¥Ø¹Ø¯Ø§Ø¯ **Ø§Ø®ØªÙŠØ§Ø±ÙŠ**.
+
+---
+
+### Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ (`model`)
+
+Ø§Ø³ØªØ®Ø¯Ù… Ø¥Ø¹Ø¯Ø§Ø¯ `model` Ù„ØªØ¬Ø§ÙˆØ² Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø§ÙØªØ±Ø§Ø¶ÙŠ Ù„Ù‡Ø°Ø§ Ø§Ù„Ø£Ù…Ø±.
+
+```json title="voracode.json"
+{
+  "command": {
+    "analyze": {
+      "model": "anthropic/claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+
+Ù‡Ø°Ø§ Ø®ÙŠØ§Ø± Ø¥Ø¹Ø¯Ø§Ø¯ **Ø§Ø®ØªÙŠØ§Ø±ÙŠ**.
+
+---
+
+## Ø§Ù„Ø£ÙˆØ§Ù…Ø± Ø§Ù„Ù…Ø¶Ù…Ù†Ø©
+
+ÙŠØªØ¶Ù…Ù† voracode Ø¹Ø¯Ø© Ø£ÙˆØ§Ù…Ø± Ù…Ø¶Ù…Ù†Ø© Ù…Ø«Ù„ `/init` Ùˆ`/undo` Ùˆ`/redo` Ùˆ`/share` Ùˆ`/help`Ø› [Ø§Ø¹Ø±Ù Ø§Ù„Ù…Ø²ÙŠØ¯](/docs/tui#commands).
+
+:::note
+ÙŠÙ…ÙƒÙ† Ù„Ù„Ø£ÙˆØ§Ù…Ø± Ø§Ù„Ù…Ø®ØµØµØ© ØªØ¬Ø§ÙˆØ² Ø§Ù„Ø£ÙˆØ§Ù…Ø± Ø§Ù„Ù…Ø¶Ù…Ù†Ø©.
+:::
+
+Ø¥Ø°Ø§ Ø¹Ø±Ù‘ÙØª Ø£Ù…Ø±Ù‹Ø§ Ù…Ø®ØµØµÙ‹Ø§ Ø¨Ø§Ù„Ø§Ø³Ù… Ù†ÙØ³Ù‡ØŒ ÙØ³ÙŠØ³ØªØ¨Ø¯Ù„ Ø§Ù„Ø£Ù…Ø± Ø§Ù„Ù…Ø¶Ù…Ù†.

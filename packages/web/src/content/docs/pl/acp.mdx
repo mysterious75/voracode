@@ -1,0 +1,158 @@
+---
+title: ACP
+description: UÅ¼ywanie Voracode z protokoÅ‚em Agent Client Protocol (ACP).
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
+Voracode obsÅ‚uguje [Agent Client Protocol](https://agentclientprotocol.com) (ACP), ktÃ³ry umoÅ¼liwia korzystanie z Voracode bezpoÅ›rednio w edytorach i Å›rodowiskach IDE.
+
+:::tip
+ListÄ™ edytorÃ³w i narzÄ™dzi obsÅ‚ugujÄ…cych ACP znajdziesz w [raporcie postÄ™pu ACP](https://zed.dev/blog/acp-progress-report#available-now).
+:::
+
+ACP to otwarty standard, ktÃ³ry ujednolica komunikacjÄ™ miÄ™dzy edytorami kodu a agentami kodujÄ…cymi AI.
+
+---
+
+## Konfiguracja
+
+Aby uÅ¼ywaÄ‡ Voracode przez ACP, skonfiguruj swÃ³j edytor tak, aby uruchamiaÅ‚ polecenie `voracode acp`.
+
+Uruchamia to Voracode jako podproces zgodny z ACP, ktÃ³ry komunikuje siÄ™ z edytorem za pomocÄ… JSON-RPC przez stdio.
+
+PoniÅ¼ej znajdujÄ… siÄ™ przykÅ‚ady dla edytorÃ³w obsÅ‚ugujÄ…cych ACP.
+
+---
+
+### Zed
+
+Dodaj do konfiguracji [Zed](https://zed.dev) (`~/.config/zed/settings.json`):
+
+```json title="~/.config/zed/settings.json"
+{
+  "agent_servers": {
+    "Voracode": {
+      "command": "voracode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+Aby uÅ¼yÄ‡, wybierz `agent: new thread` w **Palecie poleceÅ„** (Command Palette).
+
+MoÅ¼esz takÅ¼e przypisaÄ‡ skrÃ³t klawiszowy, edytujÄ…c `keymap.json`:
+
+```json title="keymap.json"
+[
+  {
+    "bindings": {
+      "cmd-alt-o": [
+        "agent::NewExternalAgentThread",
+        {
+          "agent": {
+            "custom": {
+              "name": "Voracode",
+              "command": {
+                "command": "voracode",
+                "args": ["acp"]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+]
+```
+
+---
+
+### JetBrains IDE
+
+Dodaj do swojego [JetBrains IDE](https://www.jetbrains.com/) plik `acp.json` zgodnie z [dokumentacjÄ…](https://www.jetbrains.com/help/ai-assistant/acp.html):
+
+```json title="acp.json"
+{
+  "agent_servers": {
+    "Voracode": {
+      "command": "/absolute/path/bin/voracode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+NastÄ™pnie wybierz â€žVoracodeâ€ w selektorze agentÃ³w AI Chat.
+
+---
+
+### Avante.nvim
+
+Dodaj do konfiguracji [Avante.nvim](https://github.com/yetone/avante.nvim):
+
+```lua
+{
+  acp_providers = {
+    ["voracode"] = {
+      command = "voracode",
+      args = { "acp" }
+    }
+  }
+}
+```
+
+JeÅ›li potrzebujesz przekazaÄ‡ klucz API:
+
+```lua {6-8}
+{
+  acp_providers = {
+    ["voracode"] = {
+      command = "voracode",
+      args = { "acp" },
+      env = {
+        VORACODE_API_KEY = os.getenv("VORACODE_API_KEY")
+      }
+    }
+  }
+}
+```
+
+---
+
+### CodeCompanion.nvim
+
+Aby uÅ¼ywaÄ‡ Voracode jako agenta ACP w [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim), dodaj nastÄ™pujÄ…cÄ… konfiguracjÄ™ do Neovim:
+
+```lua
+require("codecompanion").setup({
+  interactions = {
+    chat = {
+      adapter = {
+        name = "voracode",
+        model = "claude-sonnet-4",
+      },
+    },
+  },
+})
+```
+
+Ta konfiguracja sprawia, Å¼e CodeCompanion uÅ¼ywa Voracode jako agenta ACP do czatu.
+
+JeÅ›li wymagany jest `VORACODE_API_KEY`, zapoznaj siÄ™ z sekcjÄ… [Konfigurowanie adapterÃ³w: Zmienne Å›rodowiskowe](https://codecompanion.olimorris.dev/getting-started#setting-an-api-key) w dokumentacji CodeCompanion.nvim, aby uzyskaÄ‡ szczegÃ³Å‚owe informacje.
+
+## Wsparcie
+
+Voracode dziaÅ‚a przez ACP tak samo, jak w terminalu. ObsÅ‚ugiwane sÄ… wszystkie gÅ‚Ã³wne funkcje:
+
+:::note
+NiektÃ³re polecenia z ukoÅ›nikiem, takie jak `/undo` i `/redo`, nie sÄ… obecnie obsÅ‚ugiwane przez ACP.
+:::
+
+- NarzÄ™dzia wbudowane (operacje na plikach, terminal itp.)
+- Niestandardowe narzÄ™dzia i polecenia z ukoÅ›nikiem
+- Serwery MCP zdefiniowane w konfiguracji Voracode
+- Zasady projektu z `AGENTS.md`
+- Niestandardowe formatery i lintery
+- Agenci systemowi i uprawnienia

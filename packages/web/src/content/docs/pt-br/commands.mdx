@@ -1,0 +1,322 @@
+---
+title: Comandos
+description: Crie comandos personalizados para tarefas repetitivas.
+---
+
+Comandos personalizados permitem que vocÃª especifique um prompt que deseja executar quando esse comando for executado no TUI.
+
+```bash frame="none"
+/my-command
+```
+
+Comandos personalizados sÃ£o adicionais aos comandos integrados como `/init`, `/undo`, `/redo`, `/share`, `/help`. [Saiba mais](/docs/tui#commands).
+
+---
+
+## Criando arquivos de comando
+
+Crie arquivos markdown no diretÃ³rio `commands/` para definir comandos personalizados.
+
+Crie `.voracode/commands/test.md`:
+
+```md title=".voracode/commands/test.md"
+---
+description: Execute testes com cobertura
+agent: build
+model: anthropic/claude-3-5-sonnet-20241022
+---
+
+Execute a suÃ­te de testes completa com relatÃ³rio de cobertura e mostre quaisquer falhas.
+Concentre-se nos testes com falha e sugira correÃ§Ãµes.
+```
+
+O frontmatter define as propriedades do comando. O conteÃºdo se torna o template.
+
+Use o comando digitando `/` seguido pelo nome do comando.
+
+```bash frame="none"
+"/test"
+```
+
+---
+
+## ConfiguraÃ§Ã£o
+
+VocÃª pode adicionar comandos personalizados atravÃ©s da configuraÃ§Ã£o do voracode ou criando arquivos markdown no diretÃ³rio `commands/`.
+
+---
+
+### JSON
+
+Use a opÃ§Ã£o `command` na sua [configuraÃ§Ã£o](/docs/config) do voracode:
+
+```json title="voracode.jsonc" {4-12}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "command": {
+    // Isso se torna o nome do comando
+    "test": {
+      // Este Ã© o prompt que serÃ¡ enviado ao LLM
+      "template": "Execute a suÃ­te de testes completa com relatÃ³rio de cobertura e mostre quaisquer falhas.\nConcentre-se nos testes com falha e sugira correÃ§Ãµes.",
+      // Isso Ã© exibido como a descriÃ§Ã£o no TUI
+      "description": "Execute testes com cobertura",
+      "agent": "build",
+      "model": "anthropic/claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+
+Agora vocÃª pode executar este comando no TUI:
+
+```bash frame="none"
+/test
+```
+
+---
+
+### Markdown
+
+VocÃª tambÃ©m pode definir comandos usando arquivos markdown. Coloque-os em:
+
+- Global: `~/.config/voracode/commands/`
+- Por projeto: `.voracode/commands/`
+
+```markdown title="~/.config/voracode/commands/test.md"
+---
+description: Execute testes com cobertura
+agent: build
+model: anthropic/claude-3-5-sonnet-20241022
+---
+
+Execute a suÃ­te de testes completa com relatÃ³rio de cobertura e mostre quaisquer falhas.
+Concentre-se nos testes com falha e sugira correÃ§Ãµes.
+```
+
+O nome do arquivo markdown se torna o nome do comando. Por exemplo, `test.md` permite que vocÃª execute:
+
+```bash frame="none"
+/test
+```
+
+---
+
+## ConfiguraÃ§Ã£o do prompt
+
+Os prompts para os comandos personalizados suportam vÃ¡rios espaÃ§os reservados e sintaxes especiais.
+
+---
+
+### Argumentos
+
+Passe argumentos para os comandos usando o espaÃ§o reservado `$ARGUMENTS`.
+
+```md title=".voracode/commands/component.md"
+---
+description: Crie um novo componente
+---
+
+Crie um novo componente React chamado $ARGUMENTS com suporte a TypeScript.
+Inclua tipagem adequada e estrutura bÃ¡sica.
+```
+
+Execute o comando com argumentos:
+
+```bash frame="none"
+/component Button
+```
+
+E `$ARGUMENTS` serÃ¡ substituÃ­do por `Button`.
+
+VocÃª tambÃ©m pode acessar argumentos individuais usando parÃ¢metros posicionais:
+
+- `$1` - Primeiro argumento
+- `$2` - Segundo argumento
+- `$3` - Terceiro argumento
+- E assim por diante...
+
+Por exemplo:
+
+```md title=".voracode/commands/create-file.md"
+---
+description: Crie um novo arquivo com conteÃºdo
+---
+
+Crie um arquivo chamado $1 no diretÃ³rio $2
+com o seguinte conteÃºdo: $3
+```
+
+Execute o comando:
+
+```bash frame="none"
+/create-file config.json src "{ \"key\": \"value\" }"
+```
+
+Isso substitui:
+
+- `$1` por `config.json`
+- `$2` por `src`
+- `$3` por `{ "key": "value" }`
+
+---
+
+### SaÃ­da do shell
+
+Use _!`command`_ para injetar a saÃ­da do [comando bash](/docs/tui#bash-commands) no seu prompt.
+
+Por exemplo, para criar um comando personalizado que analisa a cobertura de testes:
+
+```md title=".voracode/commands/analyze-coverage.md"
+---
+description: Analise cobertura de testes
+---
+
+Aqui estÃ£o os resultados atuais dos testes:
+!`npm test`
+
+Com base nesses resultados, sugira melhorias para aumentar a cobertura.
+```
+
+Ou para revisar alteraÃ§Ãµes recentes:
+
+```md title=".voracode/commands/review-changes.md"
+---
+description: Revise alteraÃ§Ãµes recentes
+---
+
+Commits recentes do git:
+!`git log --oneline -10`
+
+Revise essas alteraÃ§Ãµes e sugira quaisquer melhorias.
+```
+
+Os comandos sÃ£o executados no diretÃ³rio raiz do seu projeto e sua saÃ­da se torna parte do prompt.
+
+---
+
+### ReferÃªncias de arquivo
+
+Inclua arquivos no seu comando usando `@` seguido pelo nome do arquivo.
+
+```md title=".voracode/commands/review-component.md"
+---
+description: Revise componente
+---
+
+Revise o componente em @src/components/Button.tsx.
+Verifique problemas de desempenho e sugira melhorias.
+```
+
+O conteÃºdo do arquivo Ã© incluÃ­do automaticamente no prompt.
+
+---
+
+## OpÃ§Ãµes
+
+Vamos analisar as opÃ§Ãµes de configuraÃ§Ã£o em detalhes.
+
+---
+
+### Template
+
+A opÃ§Ã£o `template` define o prompt que serÃ¡ enviado ao LLM quando o comando for executado.
+
+```json title="voracode.json"
+{
+  "command": {
+    "test": {
+      "template": "Execute a suÃ­te de testes completa com relatÃ³rio de cobertura e mostre quaisquer falhas.\nConcentre-se nos testes com falha e sugira correÃ§Ãµes."
+    }
+  }
+}
+```
+
+Esta Ã© uma opÃ§Ã£o de configuraÃ§Ã£o **obrigatÃ³ria**.
+
+---
+
+### DescriÃ§Ã£o
+
+Use a opÃ§Ã£o `description` para fornecer uma breve descriÃ§Ã£o do que o comando faz.
+
+```json title="voracode.json"
+{
+  "command": {
+    "test": {
+      "description": "Execute testes com cobertura"
+    }
+  }
+}
+```
+
+Isso Ã© exibido como a descriÃ§Ã£o no TUI quando vocÃª digita o comando.
+
+---
+
+### Agente
+
+Use a configuraÃ§Ã£o `agent` para especificar opcionalmente qual [agente](/docs/agents) deve executar este comando.
+Se este for um [subagente](/docs/agents/#subagents), o comando acionarÃ¡ uma invocaÃ§Ã£o de subagente por padrÃ£o.
+Para desativar esse comportamento, defina `subtask` como `false`.
+
+```json title="voracode.json"
+{
+  "command": {
+    "review": {
+      "agent": "plan"
+    }
+  }
+}
+```
+
+Esta Ã© uma opÃ§Ã£o de configuraÃ§Ã£o **opcional**. Se nÃ£o especificado, o padrÃ£o Ã© o seu agente atual.
+
+---
+
+### Subtarefa
+
+Use o booleano `subtask` para forÃ§ar o comando a acionar uma invocaÃ§Ã£o de [subagente](/docs/agents/#subagents).
+Isso Ã© Ãºtil se vocÃª quiser que o comando nÃ£o polua seu contexto principal e **forÃ§arÃ¡** o agente a agir como um subagente,
+mesmo que `mode` esteja definido como `primary` na configuraÃ§Ã£o do [agente](/docs/agents).
+
+```json title="voracode.json"
+{
+  "command": {
+    "analyze": {
+      "subtask": true
+    }
+  }
+}
+```
+
+Esta Ã© uma opÃ§Ã£o de configuraÃ§Ã£o **opcional**.
+
+---
+
+### Modelo
+
+Use a configuraÃ§Ã£o `model` para substituir o modelo padrÃ£o para este comando.
+
+```json title="voracode.json"
+{
+  "command": {
+    "analyze": {
+      "model": "anthropic/claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+
+Esta Ã© uma opÃ§Ã£o de configuraÃ§Ã£o **opcional**.
+
+---
+
+## Integrados
+
+voracode inclui vÃ¡rios comandos integrados como `/init`, `/undo`, `/redo`, `/share`, `/help`; [saiba mais](/docs/tui#commands).
+
+:::note
+Comandos personalizados podem substituir comandos integrados.
+:::
+
+Se vocÃª definir um comando personalizado com o mesmo nome, ele substituirÃ¡ o comando integrado.

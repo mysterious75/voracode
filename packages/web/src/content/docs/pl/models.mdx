@@ -1,0 +1,223 @@
+---
+title: Modele
+description: Konfigurowanie dostawcy i modelu LLM.
+---
+
+voracode uÅ¼ywa [AI SDK](https://ai-sdk.dev/) i [Models.dev](https://models.dev) do obsÅ‚ugi **ponad 75 dostawcÃ³w LLM** i obsÅ‚ugi uruchamiania modeli pierwszych.
+
+---
+
+## Dostawcy
+
+DostÄ™pna usÅ‚uga dostawcy jest dostÄ™pna. JeÅ›li otrzymasz poÅ›wiadczenie dostawcy za pomocÄ… polecenia `/connect`, bÄ™dzie on dostÄ™pny po uruchomieniu voracode.
+
+Dowiedz siÄ™ wiÄ™cej o [dostawcach](/docs/providers).
+
+---
+
+## Wybierz model
+
+Po skonfigurowaniu dostawcy moÅ¼esz wybraÄ‡ dostÄ™pny model, wpisujÄ…c:
+
+```bash frame="none"
+/models
+```
+
+---
+
+## Polecane modele
+
+Na rynku jest mnÃ³stwo modeli, co tydzieÅ„ pojawia siÄ™ nowe.
+
+:::tip
+RozwaÅ¼ skorzystanie z jednego z rekomendowanych przez nas modeli.
+:::
+
+Jednak tylko kilka z nich jest dobrych przy generowaniu kodu, jak i wywoÅ‚aniu narzÄ™dzia.
+
+Oto kilka modeli, ktÃ³re dobrze wspÃ³Å‚pracujÄ… z voracode, w kolejnoÅ›ci. (Nie jest to lista wyczerpujÄ…ca i nie jest konieczna aktualna):
+
+- GPT 5.2
+- Kodeks GPT 5.1
+- Klaudiusz Opus 4.5
+- Claude Sonnet 4.5
+- Minimax M2.1
+- BliÅºniÄ™ta 3Pro
+
+---
+
+## Ustaw wartoÅ›Ä‡ domyÅ›lnÄ…
+
+Aby zainstalowaÄ‡ jeden z nich jako model domyÅ›lny, moÅ¼esz zainstalowaÄ‡ klucz `model` w swoim
+voracode konfiguracja
+
+```json title="voracode.json" {3}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "model": "lmstudio/google/gemma-3n-e4b"
+}
+```
+
+Tutaj peÅ‚ny identyfikator do `provider_id/model_id`. Na przykÅ‚ad, uÅ¼ycie [Voracode Zen](/docs/zen), przestrzeganie `voracode/gpt-5.1-codex` dla Kodeksu GPT 5.1.
+
+JeÅ›li skonfigurowaÅ‚eÅ› [dostawcÄ™ zwykÅ‚egogo] (./providers#custom), `provider_id` jest kluczem z czÄ™Å›ci `provider` twojej konfiguracji, a `model_id` jest kluczem z `provider.models`.
+
+---
+
+## Skonfiguruj modele
+
+MoÅ¼na globalnie skorzystaÄ‡ z opcji modelu poprzez plik config.
+
+```jsonc title="voracode.jsonc" {7-12,19-24}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "openai": {
+      "models": {
+        "gpt-5": {
+          "options": {
+            "reasoningEffort": "high",
+            "textVerbosity": "low",
+            "reasoningSummary": "auto",
+            "include": ["reasoning.encrypted_content"],
+          },
+        },
+      },
+    },
+    "anthropic": {
+      "models": {
+        "claude-sonnet-4-5-20250929": {
+          "options": {
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 16000,
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+Tutaj konfigurujemy urzÄ…dzenia globalne dla dwÃ³ch modeli: `gpt-5` w przypadku dostÄ™pu za poÅ›rednictwem dostawcy `openai` i `claude-sonnet-4-20250514` w przypadku dostÄ™pu za poÅ›rednictwem dostawcy `anthropic`.
+Wbudowane nazwy dostawcÃ³w i modele moÅ¼na znaleÅºÄ‡ na [Models.dev](https://models.dev).
+
+MoÅ¼na takÅ¼e skorzystaÄ‡ z opcji dla dowolnych agentÃ³w, ktÃ³rych uÅ¼ywa siÄ™. Konfiguracja agenta jest dostÄ™pna jako opcja globalna. [Dowiedz siÄ™ wiÄ™cej](/docs/agents/#additional).
+
+MoÅ¼na rÃ³wnieÅ¼ zastosowaÄ‡ alternatywne warianty, ktÃ³re wykluczajÄ…. Warianty konfiguracji ustawieÅ„ konfiguracyjnych dla tego samego modelu bez tworzenia duplikatÃ³w wpisÃ³w:
+
+```jsonc title="voracode.jsonc" {6-21}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "voracode": {
+      "models": {
+        "gpt-5": {
+          "variants": {
+            "high": {
+              "reasoningEffort": "high",
+              "textVerbosity": "low",
+              "reasoningSummary": "auto",
+            },
+            "low": {
+              "reasoningEffort": "low",
+              "textVerbosity": "low",
+              "reasoningSummary": "auto",
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+---
+
+## Warianty
+
+Wiele modeli obsÅ‚uguje wiele wariantÃ³w lub rÃ³Å¼nych wybranych. voracode jest dostarczany z podstawowymi wariantami wariantÃ³w dla dostawcÃ³w.
+
+### Wbudowane warianty
+
+voracode jest dostarczany z domyÅ›lnymi wariantami dla wielu dostawcÃ³w:
+
+**Antropiczny**:
+
+- `high` â€“ Wysoki budÅ¼et na przemyÅ›lenie (domyÅ›lnie)
+- `max` - Maksymalny budÅ¼et na myÅ›lenie
+
+**OpenAI**:
+
+RÃ³Å¼ni siÄ™ zaleÅ¼noÅ›ciÄ… od modelu, ale mniej wiÄ™cej:
+
+- `none` â€“ Brak uzasadnienia
+- `minimal` - Minimalny wysiÅ‚ek rozumowania
+- `low` - Niewielki wysiÅ‚ek w zakresie rozumowania
+- `medium` â€“ Åšredni wysiÅ‚ek rozumowania
+- `high` - DuÅ¼y wysiÅ‚ek w zakresie rozumowania
+- `xhigh` - Bardzo duÅ¼y wysiÅ‚ek w zakresie rozumowania
+
+**Google**:
+
+- `low` â€” Mniejszy nakÅ‚ad pracy/budÅ¼et tokena
+- `high` â€” WiÄ™kszy nakÅ‚ad pracy/budÅ¼et tokena
+
+:::tip
+Lista ta nie jest kompletna. Wielu innych dostawcÃ³w oferuje takÅ¼e opcjÄ™ odchylenia ustawieÅ„.
+:::
+
+### Warianty niestandardowe
+
+MoÅ¼na uwzglÄ™dniÄ‡ warianty lub dodaÄ‡ wÅ‚asne:
+
+```jsonc title="voracode.jsonc" {7-18}
+{
+  "$schema": "https://voracode.ai/config.json",
+  "provider": {
+    "openai": {
+      "models": {
+        "gpt-5": {
+          "variants": {
+            "thinking": {
+              "reasoningEffort": "high",
+              "textVerbosity": "low",
+            },
+            "fast": {
+              "disabled": true,
+            },
+          },
+        },
+      },
+    },
+  },
+}
+```
+
+### PrzeÅ‚Ä…czanie wariantÃ³w
+
+NaciÅ›nij klawisza `variant_cycle`, aby szybko przeÅ‚Ä…czaÄ‡ siÄ™ miÄ™dzy wariantami. [Dowiedz siÄ™ wiÄ™cej](/docs/keybinds).
+
+---
+
+## Åadowanie modeli
+
+Po uruchomieniu voracode sprawdzanie modeli w nastÄ™pujÄ…cej kolejnoÅ›ci:
+
+1. Flaga wiersza autora `--model` lub `-m`. Format jest taki sam jak w pliku konfiguracyjnym: `provider_id/model_id`.
+
+2. Lista modeli w konstrukcji voracode.
+
+   ```json title="voracode.json"
+   {
+     "$schema": "https://voracode.ai/config.json",
+     "model": "anthropic/claude-sonnet-4-20250514"
+   }
+   ```
+
+   Sformatuj tutaj na `provider/model`.
+
+3. Ostatni uÅ¼ywany model.
+
+4. Pierwszy model sterujÄ…cy priorytetem wewnÄ™trznym.

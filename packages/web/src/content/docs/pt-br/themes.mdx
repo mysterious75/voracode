@@ -1,0 +1,369 @@
+---
+title: Temas
+description: Selecione um tema embutido ou defina o seu prÃ³prio.
+---
+
+Com o voracode, vocÃª pode selecionar um dos vÃ¡rios temas embutidos, usar um tema que se adapta ao tema do seu terminal ou definir seu prÃ³prio tema personalizado.
+
+Por padrÃ£o, o voracode usa nosso prÃ³prio tema `voracode`.
+
+---
+
+## Requisitos do terminal
+
+Para que os temas sejam exibidos corretamente com sua paleta de cores completa, seu terminal deve suportar **truecolor** (cor de 24 bits). A maioria dos terminais modernos suporta isso por padrÃ£o, mas vocÃª pode precisar habilitar:
+
+- **Verificar suporte**: Execute `echo $COLORTERM` - deve retornar `truecolor` ou `24bit`
+- **Habilitar truecolor**: Defina a variÃ¡vel de ambiente `COLORTERM=truecolor` no seu perfil de shell
+- **Compatibilidade do terminal**: Certifique-se de que seu emulador de terminal suporta cores de 24 bits (a maioria dos terminais modernos, como iTerm2, Alacritty, Kitty, Windows Terminal e versÃµes recentes do GNOME Terminal, suportam)
+
+Sem suporte a truecolor, os temas podem aparecer com precisÃ£o de cor reduzida ou voltar para a aproximaÃ§Ã£o de 256 cores mais prÃ³xima.
+
+---
+
+## Temas embutidos
+
+O voracode vem com vÃ¡rios temas embutidos.
+
+| Nome                   | DescriÃ§Ã£o                                                                   |
+| ---------------------- | --------------------------------------------------------------------------- |
+| `system`               | Adapta-se Ã  cor de fundo do seu terminal                                    |
+| `tokyonight`           | Baseado no tema [Tokyonight](https://github.com/folke/tokyonight.nvim)      |
+| `everforest`           | Baseado no tema [Everforest](https://github.com/sainnhe/everforest)         |
+| `ayu`                  | Baseado no tema escuro [Ayu](https://github.com/ayu-theme)                  |
+| `catppuccin`           | Baseado no tema [Catppuccin](https://github.com/catppuccin)                 |
+| `catppuccin-macchiato` | Baseado no tema [Catppuccin](https://github.com/catppuccin)                 |
+| `gruvbox`              | Baseado no tema [Gruvbox](https://github.com/morhetz/gruvbox)               |
+| `kanagawa`             | Baseado no tema [Kanagawa](https://github.com/rebelot/kanagawa.nvim)        |
+| `nord`                 | Baseado no tema [Nord](https://github.com/nordtheme/nord)                   |
+| `matrix`               | Tema verde estilo hacker sobre fundo preto                                  |
+| `one-dark`             | Baseado no tema escuro [Atom One](https://github.com/Th3Whit3Wolf/one-nvim) |
+
+E mais, estamos constantemente adicionando novos temas.
+
+---
+
+## Tema do sistema
+
+O tema `system` Ã© projetado para se adaptar automaticamente ao esquema de cores do seu terminal. Ao contrÃ¡rio dos temas tradicionais que usam cores fixas, o tema _system_:
+
+- **Gera escala de cinza**: Cria uma escala de cinza personalizada com base na cor de fundo do seu terminal, garantindo contraste ideal.
+- **Usa cores ANSI**: Aproveita as cores ANSI padrÃ£o (0-15) para destaque de sintaxe e elementos da interface, que respeitam a paleta de cores do seu terminal.
+- **Preserva padrÃµes do terminal**: Usa `none` para cores de texto e fundo para manter a aparÃªncia nativa do seu terminal.
+
+O tema do sistema Ã© para usuÃ¡rios que:
+
+- Querem que o voracode corresponda Ã  aparÃªncia do seu terminal
+- Usam esquemas de cores de terminal personalizados
+- Preferem uma aparÃªncia consistente em todos os aplicativos de terminal
+
+---
+
+## Usando um tema
+
+VocÃª pode selecionar um tema chamando a seleÃ§Ã£o de tema com o comando `/theme`. Ou vocÃª pode especificÃ¡-lo em `tui.json`.
+
+```json title="tui.json" {3}
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "theme": "tokyonight"
+}
+```
+
+---
+
+## Temas personalizados
+
+O voracode suporta um sistema de temas flexÃ­vel baseado em JSON que permite aos usuÃ¡rios criar e personalizar temas facilmente.
+
+---
+
+### Hierarquia
+
+Os temas sÃ£o carregados de vÃ¡rios diretÃ³rios na seguinte ordem, onde diretÃ³rios posteriores substituem os anteriores:
+
+1. **Temas embutidos** - Estes estÃ£o incorporados no binÃ¡rio
+2. **DiretÃ³rio de configuraÃ§Ã£o do usuÃ¡rio** - Definido em `~/.config/voracode/themes/*.json` ou `$XDG_CONFIG_HOME/voracode/themes/*.json`
+3. **DiretÃ³rio raiz do projeto** - Definido em `<project-root>/.voracode/themes/*.json`
+4. **DiretÃ³rio de trabalho atual** - Definido em `./.voracode/themes/*.json`
+
+Se vÃ¡rios diretÃ³rios contiverem um tema com o mesmo nome, o tema do diretÃ³rio com maior prioridade serÃ¡ usado.
+
+---
+
+### Criando um tema
+
+Para criar um tema personalizado, crie um arquivo JSON em um dos diretÃ³rios de tema.
+
+Para temas de usuÃ¡rio:
+
+```bash no-frame
+mkdir -p ~/.config/voracode/themes
+vim ~/.config/voracode/themes/my-theme.json
+```
+
+E para temas especÃ­ficos do projeto.
+
+```bash no-frame
+mkdir -p .voracode/themes
+vim .voracode/themes/my-theme.json
+```
+
+---
+
+### Formato JSON
+
+Os temas usam um formato JSON flexÃ­vel com suporte para:
+
+- **Cores Hex**: `"#ffffff"`
+- **Cores ANSI**: `3` (0-255)
+- **ReferÃªncias de cor**: `"primary"` ou definiÃ§Ãµes personalizadas
+- **Variantes escuras/claras**: `{"dark": "#000", "light": "#fff"}`
+- **Sem cor**: `"none"` - Usa a cor padrÃ£o do terminal ou transparente
+
+---
+
+### DefiniÃ§Ãµes de cor
+
+A seÃ§Ã£o `defs` Ã© opcional e permite que vocÃª defina cores reutilizÃ¡veis que podem ser referenciadas no tema.
+
+---
+
+### PadrÃµes do terminal
+
+O valor especial `"none"` pode ser usado para qualquer cor para herdar a cor padrÃ£o do terminal. Isso Ã© particularmente Ãºtil para criar temas que se misturam perfeitamente com o esquema de cores do seu terminal:
+
+- `"text": "none"` - Usa a cor de primeiro plano padrÃ£o do terminal
+- `"background": "none"` - Usa a cor de fundo padrÃ£o do terminal
+
+---
+
+### Exemplo
+
+Aqui estÃ¡ um exemplo de um tema personalizado:
+
+```json title="my-theme.json"
+{
+  "$schema": "https://voracode.ai/theme.json",
+  "defs": {
+    "nord0": "#2E3440",
+    "nord1": "#3B4252",
+    "nord2": "#434C5E",
+    "nord3": "#4C566A",
+    "nord4": "#D8DEE9",
+    "nord5": "#E5E9F0",
+    "nord6": "#ECEFF4",
+    "nord7": "#8FBCBB",
+    "nord8": "#88C0D0",
+    "nord9": "#81A1C1",
+    "nord10": "#5E81AC",
+    "nord11": "#BF616A",
+    "nord12": "#D08770",
+    "nord13": "#EBCB8B",
+    "nord14": "#A3BE8C",
+    "nord15": "#B48EAD"
+  },
+  "theme": {
+    "primary": {
+      "dark": "nord8",
+      "light": "nord10"
+    },
+    "secondary": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "accent": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "error": {
+      "dark": "nord11",
+      "light": "nord11"
+    },
+    "warning": {
+      "dark": "nord12",
+      "light": "nord12"
+    },
+    "success": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "info": {
+      "dark": "nord8",
+      "light": "nord10"
+    },
+    "text": {
+      "dark": "nord4",
+      "light": "nord0"
+    },
+    "textMuted": {
+      "dark": "nord3",
+      "light": "nord1"
+    },
+    "background": {
+      "dark": "nord0",
+      "light": "nord6"
+    },
+    "backgroundPanel": {
+      "dark": "nord1",
+      "light": "nord5"
+    },
+    "backgroundElement": {
+      "dark": "nord1",
+      "light": "nord4"
+    },
+    "border": {
+      "dark": "nord2",
+      "light": "nord3"
+    },
+    "borderActive": {
+      "dark": "nord3",
+      "light": "nord2"
+    },
+    "borderSubtle": {
+      "dark": "nord2",
+      "light": "nord3"
+    },
+    "diffAdded": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "diffRemoved": {
+      "dark": "nord11",
+      "light": "nord11"
+    },
+    "diffContext": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "diffHunkHeader": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "diffHighlightAdded": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "diffHighlightRemoved": {
+      "dark": "nord11",
+      "light": "nord11"
+    },
+    "diffAddedBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffRemovedBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffContextBg": {
+      "dark": "nord1",
+      "light": "nord5"
+    },
+    "diffLineNumber": {
+      "dark": "nord2",
+      "light": "nord4"
+    },
+    "diffAddedLineNumberBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "diffRemovedLineNumberBg": {
+      "dark": "#3B4252",
+      "light": "#E5E9F0"
+    },
+    "markdownText": {
+      "dark": "nord4",
+      "light": "nord0"
+    },
+    "markdownHeading": {
+      "dark": "nord8",
+      "light": "nord10"
+    },
+    "markdownLink": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "markdownLinkText": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "markdownCode": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "markdownBlockQuote": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "markdownEmph": {
+      "dark": "nord12",
+      "light": "nord12"
+    },
+    "markdownStrong": {
+      "dark": "nord13",
+      "light": "nord13"
+    },
+    "markdownHorizontalRule": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "markdownListItem": {
+      "dark": "nord8",
+      "light": "nord10"
+    },
+    "markdownListEnumeration": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "markdownImage": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "markdownImageText": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "markdownCodeBlock": {
+      "dark": "nord4",
+      "light": "nord0"
+    },
+    "syntaxComment": {
+      "dark": "nord3",
+      "light": "nord3"
+    },
+    "syntaxKeyword": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "syntaxFunction": {
+      "dark": "nord8",
+      "light": "nord8"
+    },
+    "syntaxVariable": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "syntaxString": {
+      "dark": "nord14",
+      "light": "nord14"
+    },
+    "syntaxNumber": {
+      "dark": "nord15",
+      "light": "nord15"
+    },
+    "syntaxType": {
+      "dark": "nord7",
+      "light": "nord7"
+    },
+    "syntaxOperator": {
+      "dark": "nord9",
+      "light": "nord9"
+    },
+    "syntaxPunctuation": {
+      "dark": "nord4",
+      "light": "nord0"
+    }
+  }
+}
+```

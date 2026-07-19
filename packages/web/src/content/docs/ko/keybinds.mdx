@@ -1,0 +1,194 @@
+---
+title: í‚¤ë°”ì¸ë“œ
+description: í‚¤ë°”ì¸ë“œë¥¼ ì»¤ìŠ¤í„°ë§ˆì´ì¦ˆí•˜ì„¸ìš”.
+---
+
+Voracodeì—ëŠ” `tui.json`ì„ í†µí•´ ì»¤ìŠ¤í„°ë§ˆì´ì¦ˆí•  ìˆ˜ ìžˆëŠ” í‚¤ë°”ì¸ë“œ ëª©ë¡ì´ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "keybinds": {
+    "leader": "ctrl+x",
+    "app_exit": "ctrl+c,ctrl+d,<leader>q",
+    "editor_open": "<leader>e",
+    "theme_list": "<leader>t",
+    "sidebar_toggle": "<leader>b",
+    "scrollbar_toggle": "none",
+    "username_toggle": "none",
+    "status_view": "<leader>s",
+    "tool_details": "none",
+    "session_export": "<leader>x",
+    "session_new": "<leader>n",
+    "session_list": "<leader>l",
+    "session_timeline": "<leader>g",
+    "session_fork": "none",
+    "session_rename": "none",
+    "session_share": "none",
+    "session_unshare": "none",
+    "session_interrupt": "escape",
+    "session_compact": "<leader>c",
+    "session_child_first": "<leader>down",
+    "session_child_cycle": "<leader>right",
+    "session_child_cycle_reverse": "<leader>left",
+    "session_parent": "<leader>up",
+    "messages_page_up": "pageup,ctrl+alt+b",
+    "messages_page_down": "pagedown,ctrl+alt+f",
+    "messages_line_up": "ctrl+alt+y",
+    "messages_line_down": "ctrl+alt+e",
+    "messages_half_page_up": "ctrl+alt+u",
+    "messages_half_page_down": "ctrl+alt+d",
+    "messages_first": "ctrl+g,home",
+    "messages_last": "ctrl+alt+g,end",
+    "messages_next": "none",
+    "messages_previous": "none",
+    "messages_copy": "<leader>y",
+    "messages_undo": "<leader>u",
+    "messages_redo": "<leader>r",
+    "messages_last_user": "none",
+    "messages_toggle_conceal": "<leader>h",
+    "model_list": "<leader>m",
+    "model_cycle_recent": "f2",
+    "model_cycle_recent_reverse": "shift+f2",
+    "model_cycle_favorite": "none",
+    "model_cycle_favorite_reverse": "none",
+    "variant_cycle": "ctrl+t",
+    "variant_list": "none",
+    "command_list": "ctrl+p",
+    "agent_list": "<leader>a",
+    "agent_cycle": "tab",
+    "agent_cycle_reverse": "shift+tab",
+    "input_clear": "ctrl+c",
+    "input_paste": "ctrl+v",
+    "input_submit": "return",
+    "input_newline": "shift+return,ctrl+return,alt+return,ctrl+j",
+    "input_move_left": "left,ctrl+b",
+    "input_move_right": "right,ctrl+f",
+    "input_move_up": "up",
+    "input_move_down": "down",
+    "input_select_left": "shift+left",
+    "input_select_right": "shift+right",
+    "input_select_up": "shift+up",
+    "input_select_down": "shift+down",
+    "input_line_home": "ctrl+a",
+    "input_line_end": "ctrl+e",
+    "input_select_line_home": "ctrl+shift+a",
+    "input_select_line_end": "ctrl+shift+e",
+    "input_visual_line_home": "alt+a",
+    "input_visual_line_end": "alt+e",
+    "input_select_visual_line_home": "alt+shift+a",
+    "input_select_visual_line_end": "alt+shift+e",
+    "input_buffer_home": "home",
+    "input_buffer_end": "end",
+    "input_select_buffer_home": "shift+home",
+    "input_select_buffer_end": "shift+end",
+    "input_delete_line": "ctrl+shift+d",
+    "input_delete_to_line_end": "ctrl+k",
+    "input_delete_to_line_start": "ctrl+u",
+    "input_backspace": "backspace,shift+backspace",
+    "input_delete": "ctrl+d,delete,shift+delete",
+    "input_undo": "ctrl+-,super+z",
+    "input_redo": "ctrl+.,super+shift+z",
+    "input_word_forward": "alt+f,alt+right,ctrl+right",
+    "input_word_backward": "alt+b,alt+left,ctrl+left",
+    "input_select_word_forward": "alt+shift+f,alt+shift+right",
+    "input_select_word_backward": "alt+shift+b,alt+shift+left",
+    "input_delete_word_forward": "alt+d,alt+delete,ctrl+delete",
+    "input_delete_word_backward": "ctrl+w,ctrl+backspace,alt+backspace",
+    "history_previous": "up",
+    "history_next": "down",
+    "terminal_suspend": "ctrl+z",
+    "terminal_title_toggle": "none",
+    "tips_toggle": "<leader>h",
+    "display_thinking": "none"
+  }
+}
+```
+
+---
+
+## ë¦¬ë” í‚¤
+
+VoracodeëŠ” ëŒ€ë¶€ë¶„ì˜ keybindsì— `leader` í‚¤ë¥¼ ì‚¬ìš©í•©ë‹ˆë‹¤. ì´ë ‡ê²Œ í•˜ë©´ terminalì—ì„œ ì¶©ëŒì„ í”¼í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+ê¸°ë³¸ê°’ìœ¼ë¡œ `ctrl+x`ê°€ ë¦¬ë” í‚¤ì´ë©°, ëŒ€ë¶€ë¶„ì˜ ìž‘ì—…ì€ ë¨¼ì € ë¦¬ë” í‚¤ë¥¼ ëˆ„ë¥¸ ë’¤ ë‹¨ì¶•í‚¤ë¥¼ ëˆ„ë¦…ë‹ˆë‹¤. ì˜ˆë¥¼ ë“¤ì–´ ìƒˆ ì„¸ì…˜ì„ ì‹œìž‘í•˜ë ¤ë©´ ë¨¼ì € `ctrl+x`ë¥¼ ëˆ„ë¥´ê³  `n`ì„ ëˆ„ë¦…ë‹ˆë‹¤.
+
+keybindsì— ë¦¬ë” í‚¤ë¥¼ ê¼­ ì‚¬ìš©í•  í•„ìš”ëŠ” ì—†ì§€ë§Œ, ì‚¬ìš©í•˜ëŠ” ê²ƒì„ ê¶Œìž¥í•©ë‹ˆë‹¤.
+
+---
+
+## í‚¤ë°”ì¸ë“œ ë¹„í™œì„±í™”
+
+`tui.json`ì— í•´ë‹¹ í‚¤ë¥¼ ê°’ `"none"`ìœ¼ë¡œ ì¶”ê°€í•˜ë©´ í‚¤ë°”ì¸ë“œë¥¼ ë¹„í™œì„±í™”í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+
+```json title="tui.json"
+{
+  "$schema": "https://voracode.ai/tui.json",
+  "keybinds": {
+    "session_compact": "none"
+  }
+}
+```
+
+---
+
+## ë°ìŠ¤í¬íƒ‘ í”„ë¡¬í”„íŠ¸ ë‹¨ì¶•í‚¤
+
+Voracode ë°ìŠ¤í¬í†± ì•±ì˜ í”„ë¡¬í”„íŠ¸ ìž…ë ¥ì€ í…ìŠ¤íŠ¸ íŽ¸ì§‘ì„ ìœ„í•œ ì¼ë°˜ì ì¸ Readline/Emacs-style ë‹¨ì¶•í‚¤ë¥¼ ì§€ì›í•©ë‹ˆë‹¤. ì´ ë‹¨ì¶•í‚¤ëŠ” ë‚´ìž¥ë˜ì–´ ìžˆìœ¼ë©° í˜„ìž¬ `voracode.json`ìœ¼ë¡œëŠ” ì„¤ì •í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
+
+| ë‹¨ì¶•í‚¤   | ë™ìž‘                              |
+| -------- | --------------------------------- |
+| `ctrl+a` | í˜„ìž¬ ì¤„ ì‹œìž‘ìœ¼ë¡œ ì´ë™             |
+| `ctrl+e` | í˜„ìž¬ ì¤„ ëìœ¼ë¡œ ì´ë™               |
+| `ctrl+b` | ì»¤ì„œë¥¼ ë¬¸ìž í•˜ë‚˜ ë’¤ë¡œ ì´ë™        |
+| `ctrl+f` | ì»¤ì„œë¥¼ ë¬¸ìž í•˜ë‚˜ ì•žìœ¼ë¡œ ì´ë™      |
+| `alt+b`  | ì»¤ì„œë¥¼ ë‹¨ì–´ í•˜ë‚˜ ë’¤ë¡œ ì´ë™        |
+| `alt+f`  | ì»¤ì„œë¥¼ ë‹¨ì–´ í•˜ë‚˜ ì•žìœ¼ë¡œ ì´ë™      |
+| `ctrl+d` | ì»¤ì„œ ì•„ëž˜ ë¬¸ìž ì‚­ì œ               |
+| `ctrl+k` | ì¤„ ëê¹Œì§€ ì‚­ì œ                    |
+| `ctrl+u` | ì¤„ ì‹œìž‘ê¹Œì§€ ì‚­ì œ                  |
+| `ctrl+w` | ì´ì „ ë‹¨ì–´ ì‚­ì œ                    |
+| `alt+d`  | ë‹¤ìŒ ë‹¨ì–´ ì‚­ì œ                    |
+| `ctrl+t` | ë¬¸ìž ìˆœì„œ ë°”ê¾¸ê¸°                  |
+| `ctrl+g` | íŒì˜¤ë²„ ì·¨ì†Œ / ì‹¤í–‰ ì¤‘ì¸ ì‘ë‹µ ì¤‘ë‹¨ |
+
+---
+
+## Shift+Enter
+
+ì¼ë¶€ terminalì€ ê¸°ë³¸ì ìœ¼ë¡œ Enterì™€ modifier í‚¤ ì¡°í•©ì„ ì „ì†¡í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. `Shift+Enter`ë¥¼ ì´ìŠ¤ì¼€ì´í”„ ì‹œí€€ìŠ¤ë¡œ ì „ì†¡í•˜ë„ë¡ terminalì„ ì„¤ì •í•´ì•¼ í•  ìˆ˜ë„ ìžˆìŠµë‹ˆë‹¤.
+
+### Windows Terminal
+
+ë‹¤ìŒ ê²½ë¡œì˜ `settings.json`ì„ ì—¬ì„¸ìš”:
+
+```
+%LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
+```
+
+ë£¨íŠ¸ ë ˆë²¨ `actions` ë°°ì—´ì— ë‹¤ìŒì„ ì¶”ê°€í•˜ì„¸ìš”:
+
+```json
+"actions": [
+  {
+    "command": {
+      "action": "sendInput",
+      "input": "\u001b[13;2u"
+    },
+    "id": "User.sendInput.ShiftEnterCustom"
+  }
+]
+```
+
+ë£¨íŠ¸ ë ˆë²¨ `keybindings` ë°°ì—´ì— ë‹¤ìŒì„ ì¶”ê°€í•˜ì„¸ìš”:
+
+```json
+"keybindings": [
+  {
+    "keys": "shift+enter",
+    "id": "User.sendInput.ShiftEnterCustom"
+  }
+]
+```
+
+íŒŒì¼ì„ ì €ìž¥í•œ ë’¤ Windows Terminalì„ ë‹¤ì‹œ ì‹œìž‘í•˜ê±°ë‚˜ ìƒˆ íƒ­ì„ ì—¬ì„¸ìš”.
