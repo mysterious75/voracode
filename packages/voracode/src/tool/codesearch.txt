@@ -1,0 +1,8 @@
+- Semantic code search tool that finds relevant code by meaning, not just keywords
+- Indexes code files in the project and ranks results by relevance
+- Supports natural language queries (e.g. "how does authentication work", "find error handling patterns")
+- Returns file paths, line numbers, and code snippets with relevance scores
+- Use this tool when you need to understand code structure or find implementation patterns
+- Best for: finding functions, classes, patterns, understanding codebase architecture
+- For exact text/regex search, use the grep tool instead
+- Results are ranked by semantic similarity to the query

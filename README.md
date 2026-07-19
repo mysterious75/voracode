@@ -8,19 +8,38 @@
  ╚████╔╝ ╚██████╔╝██║  ██║██║  ██║ ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
   ╚═══╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝                            
 
-        The AI Operating System for Developers
-        One CLI. Any LLM. Unlimited Workflows.
-
 </pre>
 
 <p align="center">
+  <strong>The AI Operating System for Developers</strong><br>
+  One CLI. Any LLM. Unlimited Workflows.
+</p>
+
+<p align="center">
+  <a href="https://github.com/mysterious75/voracode/releases"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/mysterious75/voracode?style=flat-square&color=7c3aed" /></a>
   <a href="https://www.npmjs.com/package/voracode"><img alt="NPM Version" src="https://img.shields.io/npm/v/voracode?style=flat-square&color=7c3aed" /></a>
   <a href="https://www.npmjs.com/package/voracode"><img alt="Downloads" src="https://img.shields.io/npm/dm/voracode?style=flat-square&color=7c3aed" /></a>
   <a href="https://github.com/mysterious75/voracode/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/github/license/mysterious75/voracode?style=flat-square&color=7c3aed" /></a>
   <a href="https://discord.gg/voracode"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&color=7c3aed" /></a>
   <a href="https://github.com/mysterious75/voracode"><img alt="Stars" src="https://img.shields.io/github/stars/mysterious75/voracode?style=flat-square&color=7c3aed" /></a>
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.7-blue?style=flat-square" />
 </p>
+
+<p align="center">
+  <a href="https://voracode.voraprotocol.com">Website</a> · 
+  <a href="https://github.com/mysterious75/voracode/releases">Download</a> · 
+  <a href="https://discord.gg/voracode">Discord</a> · 
+  <a href="https://x.com/voracode">X/Twitter</a>
+</p>
+
+---
+
+## Desktop App
+
+<p align="center">
+  <img src="docs/assets/desktop-preview.png" alt="Voracode Desktop App" width="800" />
+</p>
+
+> Voracode runs natively on Windows, macOS, and Linux. Download the standalone installer or build from source.
 
 ---
 
@@ -40,59 +59,54 @@ voracode  # That's it. You're in.
 
 ## Features
 
-```
-✅ 75+ AI Providers         ✅ MCP Protocol Support
-✅ Local Models (Ollama)    ✅ Agent Mode
-✅ Multi-File Editing       ✅ Shell Execution  
-✅ Session Memory           ✅ Planning Agent
-✅ Research Agent           ✅ Desktop App
-✅ LSP Integration          ✅ Git-Aware Context
-✅ Custom Prompts           ✅ Session History
-```
-
----
-
-## Architecture
-
-```
-                         ┌─────────────────┐
-                         │   Voracode CLI   │
-                         └────────┬────────┘
-                                  │
-          ┌───────────────────────┼───────────────────────┐
-          │                       │                       │
-          ▼                       ▼                       ▼
-   ┌─────────────┐        ┌─────────────┐        ┌─────────────┐
-   │   Providers  │        │   Agents    │        │    Tools    │
-   └──────┬──────┘        └──────┬──────┘        └──────┬──────┘
-          │                       │                       │
-    ┌─────┴─────┐           ┌─────┴─────┐           ┌─────┴─────┐
-    │           │           │           │           │           │
-    ▼           ▼           ▼           ▼           ▼           ▼
-┌───────┐ ┌───────┐   ┌───────┐ ┌───────┐   ┌───────┐ ┌───────┐
-│Claude │ │  GPT  │   │ Build │ │ Plan  │   │  Edit │ │ Bash  │
-│  GPT  │ │Gemini │   │ Agent │ │ Agent │   │ Files │ │  Run  │
-│Ollama │ │DeepS. │   │       │ │       │   │       │ │       │
-└───────┘ └───────┘   └───────┘ └───────┘   └───────┘ └───────┘
-```
+| Category | Features |
+|----------|----------|
+| **Providers** | 75+ AI providers — OpenAI, Anthropic, Google, DeepSeek, xAI, Ollama, and more |
+| **Models** | GPT-4.1, Claude Opus 4.8, Gemini 2.5 Pro, DeepSeek V4, Llama 4, and 100+ models |
+| **Context** | 1M+ token context window — entire codebase understanding |
+| **Agents** | Build, Plan, and General agents with autonomous tool execution |
+| **Tools** | File editing, terminal, web search, codesearch, MCP servers |
+| **Interface** | TUI (terminal), Web UI, Desktop App — same experience everywhere |
+| **Sessions** | Persistent sessions, timeline, history, and context management |
+| **MCP** | Full Model Context Protocol support — connect any MCP server |
+| **LSP** | Language Server Protocol integration for code intelligence |
+| **Git** | Git-aware context, branch management, commit history |
+| **BYOK** | Bring Your Own Key — use your own API keys, no vendor lock-in |
+| **Open Source** | MIT licensed — inspect, modify, and contribute |
 
 ---
 
 ## Comparison
 
-| Feature | Voracode | Claude Code | Gemini CLI | Cursor |
-|---------|----------|-------------|------------|--------|
-| **Multi-Provider** | ✅ | ❌ | ❌ | ❌ |
-| **Local Models** | ✅ | ❌ | ✅ | ❌ |
-| **MCP Support** | ✅ | ✅ | ❌ | ❌ |
-| **Desktop App** | ✅ | ❌ | ❌ | ✅ |
-| **Open Source** | ✅ | ❌ | ✅ | ❌ |
-| **Terminal Native** | ✅ | ✅ | ✅ | ❌ |
-| **Free Tier** | ✅ | ❌ | ✅ | ❌ |
+| Feature | Voracode | Claude Code | Cursor | Windsurf | GitHub Copilot |
+|---------|:--------:|:-----------:|:------:|:--------:|:--------------:|
+| Multi-Provider | ✅ | ❌ | Partial | Partial | ❌ |
+| Local Models | ✅ | ❌ | ❌ | ❌ | ❌ |
+| 1M Context | ✅ | ✅ | ❌ | ❌ | ❌ |
+| Desktop App | ✅ | ❌ | ✅ | ✅ | ❌ |
+| TUI (Terminal) | ✅ | ✅ | ❌ | ❌ | ❌ |
+| Web UI | ✅ | ❌ | ❌ | ❌ | ❌ |
+| MCP Protocol | ✅ | ✅ | ❌ | ❌ | ❌ |
+| Open Source | ✅ | ❌ | ❌ | ❌ | ❌ |
+| BYOK | ✅ | ❌ | ✅ | ✅ | ❌ |
+| Free Tier | ✅ | ❌ | ❌ | ❌ | Limited |
 
 ---
 
 ## Installation
+
+### Desktop App
+
+Download the latest release for your platform:
+
+| Platform | Download |
+|----------|----------|
+| **Windows** | [`.exe` Installer](https://github.com/mysterious75/voracode/releases/latest) |
+| **macOS (Apple Silicon)** | [`.dmg` (arm64)](https://github.com/mysterious75/voracode/releases/latest) |
+| **macOS (Intel)** | [`.dmg` (x64)](https://github.com/mysterious75/voracode/releases/latest) |
+| **Linux** | [`.deb`](https://github.com/mysterious75/voracode/releases/latest) · [`.AppImage`](https://github.com/mysterious75/voracode/releases/latest) |
+
+### CLI
 
 ```bash
 # npm
@@ -104,15 +118,12 @@ pnpm i -g voracode@latest
 # bun
 bun i -g voracode@latest
 
-# yarn
-yarn global add voracode@latest
-
-# npx (no install)
+# npx (no install required)
 npx voracode@latest
 ```
 
 <details>
-<summary><strong>Platform-specific</strong></summary>
+<summary><strong>Other Package Managers</strong></summary>
 
 ```bash
 # macOS / Linux (Homebrew)
@@ -123,9 +134,6 @@ scoop install voracode
 
 # Windows (Chocolatey)
 choco install voracode
-
-# Arch Linux
-sudo pacman -S voracode
 ```
 
 </details>
@@ -135,17 +143,20 @@ sudo pacman -S voracode
 ## Quick Start
 
 ```bash
-# 1. Start Voracode
+# 1. Start Voracode in any project directory
+cd your-project
 voracode
 
-# 2. Chat with your code
-> What does this function do?
+# 2. Configure your API key (first time only)
+# Settings → Providers → Add your API key
 
-# 3. Let it build
+# 3. Start coding with AI
+> Explain the architecture of this project
 > Add error handling to the API endpoints
+> Refactor the database layer
 
 # 4. Switch agents with Tab
-#    Build → Plan → General
+#    Build (full access) → Plan (read-only) → General (subagent)
 ```
 
 ---
@@ -159,27 +170,59 @@ voracode -p "explain this"  # Non-interactive prompt
 voracode serve              # Start headless API server
 voracode serve --port 8080  # Custom port
 voracode web                # Start server + web UI
-voracode doctor             # Diagnose issues
+voracode doctor             # Diagnose configuration issues
 voracode update             # Update to latest version
 ```
 
 ---
 
-## Agents
+## Supported Providers
 
-Press `Tab` to switch between agents:
+Voracode supports **75+ AI providers** out of the box. Bring your own API key — no vendor lock-in.
 
-| Agent | Use Case | Permissions |
-|-------|----------|-------------|
-| **build** | Full development, file editing, commands | Full access |
-| **plan** | Analysis, exploration, read-only tasks | Read-only |
-| **general** | Complex searches, multi-step tasks | Subagent |
+| Provider | Models | Free Tier |
+|----------|--------|-----------|
+| **OpenAI** | GPT-4.1, GPT-4o, o3, o4-mini | $5 credits |
+| **Anthropic** | Claude Opus 4.8, Sonnet 4, Haiku | — |
+| **Google** | Gemini 2.5 Pro, Flash, Gemma | Generous free |
+| **DeepSeek** | V4 Flash, R1, V3 | Very cheap |
+| **xAI** | Grok 3, Grok 3 Mini | Free credits |
+| **Moonshot** | Kimi K3, Moonshot v1 | Free tier |
+| **Zhipu** | GLM-4, GLM-4-Flash | Free tier |
+| **Ollama** | Llama 4, Mistral, Qwen, Phi-4 | Free (local) |
+| **+ 65 more** | See full list | — |
+
+---
+
+## Architecture
+
+```
+                          ┌─────────────────┐
+                          │   Voracode CLI   │
+                          └────────┬────────┘
+                                   │
+           ┌───────────────────────┼───────────────────────┐
+           │                       │                       │
+           ▼                       ▼                       ▼
+    ┌─────────────┐        ┌─────────────┐        ┌─────────────┐
+    │   Providers  │        │   Agents    │        │    Tools    │
+    └──────┬──────┘        └──────┬──────┘        └──────┬──────┘
+           │                       │                       │
+     ┌─────┴─────┐           ┌─────┴─────┐           ┌─────┴─────┐
+     │           │           │           │           │           │
+     ▼           ▼           ▼           ▼           ▼           ▼
+ ┌───────┐ ┌───────┐   ┌───────┐ ┌───────┐   ┌───────┐ ┌───────┐
+ │Claude │ │  GPT  │   │ Build │ │ Plan  │   │  Edit │ │ Bash  │
+ │Gemini │ │DeepS. │   │ Agent │ │ Agent │   │ Files │ │  Run  │
+ │Ollama │ │ ...   │   │       │ │       │   │Search │ │ MCP   │
+ └───────┘ └───────┘   └───────┘ └───────┘   └───────┘ └───────┘
+```
 
 ---
 
 ## MCP Integration
 
-Connect any MCP server:
+Connect any MCP server to extend Voracode's capabilities:
 
 ```json
 {
@@ -189,6 +232,13 @@ Connect any MCP server:
       "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
       "environment": {
         "GITHUB_TOKEN": "your-token"
+      }
+    },
+    "postgres": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-postgres"],
+      "environment": {
+        "DATABASE_URL": "postgresql://localhost/mydb"
       }
     }
   }
@@ -215,45 +265,27 @@ Connect any MCP server:
 
 ## Roadmap
 
-```
-✅ CLI Interface
-✅ Multi-Provider Support
-✅ Agent System
-✅ MCP Integration
-✅ Session Management
-✅ Desktop App
-
-🚧 Cloud Sync
-🚧 Team Workspaces
-🚧 Plugin System
-🚧 Voice Input
-🚧 Mobile Companion
-🚧 AI Memory Persistence
-```
-
----
-
-## Desktop App
-
-Download from [releases](https://github.com/mysterious75/voracode/releases) or build from source:
-
-```bash
-git clone https://github.com/mysterious75/voracode.git
-cd voracode
-bun install
-bun run --cwd packages/desktop dev
-```
-
-| Platform | Download |
-|----------|----------|
-| macOS (Apple Silicon) | `voracode-mac-arm64.dmg` |
-| macOS (Intel) | `voracode-mac-x64.dmg` |
-| Windows | `voracode-windows-x64.exe` |
-| Linux | `.deb`, `.rpm`, or `.AppImage` |
+| Status | Feature |
+|:------:|---------|
+| ✅ | CLI Interface (TUI + Web + Desktop) |
+| ✅ | 75+ AI Provider Support |
+| ✅ | Autonomous Agent System |
+| ✅ | MCP Protocol Integration |
+| ✅ | Session Management & History |
+| ✅ | Desktop App (Windows, macOS, Linux) |
+| ✅ | Codesearch (BM25 Semantic Search) |
+| 🚧 | Cloud Sync & Backup |
+| 🚧 | Team Workspaces & Collaboration |
+| 🚧 | Plugin Marketplace |
+| 🚧 | Voice Input |
+| 🚧 | Mobile Companion App |
+| 🚧 | AI Memory & Learning |
 
 ---
 
 ## Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ```bash
 git clone https://github.com/mysterious75/voracode.git
@@ -261,8 +293,6 @@ cd voracode
 bun install
 bun dev
 ```
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ---
 
@@ -273,7 +303,12 @@ MIT © [mysterious75](https://github.com/mysterious75)
 ---
 
 <p align="center">
+  Built with ❤️ by the Voracode community
+</p>
+
+<p align="center">
   <a href="https://github.com/mysterious75/voracode">GitHub</a> · 
   <a href="https://discord.gg/voracode">Discord</a> · 
-  <a href="https://x.com/voracode">X/Twitter</a>
+  <a href="https://x.com/voracode">X/Twitter</a> ·
+  <a href="https://voracode.voraprotocol.com">Website</a>
 </p>
