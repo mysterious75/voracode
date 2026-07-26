@@ -17,7 +17,7 @@
 [![Discord](https://img.shields.io/discord/1391832426048651334?style=for-the-badge&color=7c3aed)](https://discord.gg/voracode)
 [![Stars](https://img.shields.io/github/stars/mysterious75/voracode?style=for-the-badge&color=7c3aed)](https://github.com/mysterious75/voracode)
 
-[Website](https://voracode.voraprotocol.com) · [Download](https://github.com/mysterious75/voracode/releases) · [Discord](https://discord.gg/voracode) · [X/Twitter](https://x.com/voracode)
+[Website](https://github.com/mysterious75/voracode) · [Download](https://github.com/mysterious75/voracode/releases) · [Discord](https://discord.gg/voracode) · [X/Twitter](https://twitter.com/voracode)
 
 </div>
 
@@ -304,7 +304,7 @@ Connect any MCP server to extend Voracode's capabilities:
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/mysterious75/voracode/master/packages/voracode/src/config/schema.json",
+  "$schema": "./packages/voracode/src/config/schema.json",
   "provider": {
     "anthropic": {
       "apiKey": "***"
@@ -362,6 +362,5 @@ MIT © [mysterious75](https://github.com/mysterious75)
 <p align="center">
   <a href="https://github.com/mysterious75/voracode">GitHub</a> · 
   <a href="https://discord.gg/voracode">Discord</a> · 
-  <a href="https://x.com/voracode">X/Twitter</a> ·
-  <a href="https://voracode.voraprotocol.com">Website</a>
+  <a href="https://twitter.com/voracode">X/Twitter</a>
 </p>
