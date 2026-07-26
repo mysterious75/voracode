@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
 
 <a href="https://github.com/mysterious75/voracode">
   <img src="docs/assets/voracode-banner.png" alt="voracode" width="600" />
@@ -37,6 +37,14 @@
 
 ---
 
+## Acknowledgments
+
+Voracode is built on top of the excellent [opencode](https://github.com/opencode-ai/opencode) project by the opencode team. We forked their solid TypeScript/Bun foundation and are building unique features on top of it — including **Evolve** (self-learning AI that adapts to your coding style), enhanced security, and multi-modal capabilities.
+
+Full credit to the [opencode-ai](https://github.com/opencode-ai) team for the original architecture.
+
+---
+
 ## Why Voracode?
 
 Most AI coding tools lock you into one provider. Claude Code only works with Claude. Gemini CLI only works with Gemini.
@@ -66,7 +74,52 @@ voracode  # That's it. You're in.
 | **LSP** | Language Server Protocol integration for code intelligence |
 | **Git** | Git-aware context, branch management, commit history |
 | **BYOK** | Bring Your Own Key — use your own API keys, no vendor lock-in |
+| **Evolve** | Self-learning AI — adapts to your coding style over time |
 | **Open Source** | MIT licensed — inspect, modify, and contribute |
+
+---
+
+## Evolve — Self-Learning AI
+
+Voracode's **Evolve** engine is the first open-source self-learning AI coding system. It learns from every interaction and gets better at coding in YOUR project.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    EVOLVE ENGINE                             │
+│                                                              │
+│  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐ │
+│  │  OBSERVE  │──▶│ DISTILL  │──▶│  STORE   │──▶│  APPLY   │ │
+│  │          │   │          │   │          │   │          │ │
+│  │ Signals  │   │ Lessons  │   │ Memory   │   │ Context  │ │
+│  │ from     │   │ from     │   │ files    │   │ injection│ │
+│  │ usage    │   │ signals  │   │ + skills │   │ at start │ │
+│  └──────────┘   └──────────┘   └──────────┘   └──────────┘ │
+│       │                                              │      │
+│       └──────────────────────────────────────────────┘      │
+│                    FEEDBACK LOOP                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**What it learns:**
+- Your coding conventions (naming, imports, formatting, testing)
+- Your debugging patterns (what worked, what didn't)
+- Your preferences (style, frameworks, error handling)
+- Successful solutions (stored as reusable skills)
+
+**How it works:**
+1. **Memory** — Persists lessons across sessions as markdown files
+2. **Conventions** — Auto-detects project coding style
+3. **Feedback** — Learns from corrections, approvals, and git history
+4. **Reflection** — Thinks about what worked/failed after each task
+5. **Skills** — Stores successful solutions for reuse
+6. **Adaptive Context** — Loads the right amount of context per query
+
+```bash
+voracode evolve status           # See what Evolve has learned
+voracode evolve memory list      # View stored memories
+voracode evolve conventions      # See detected project conventions
+voracode evolve skills list      # View saved skills
+```
 
 ---
 
@@ -81,6 +134,7 @@ voracode  # That's it. You're in.
 | TUI (Terminal) | ✅ | ✅ | ❌ | ❌ | ❌ |
 | Web UI | ✅ | ❌ | ❌ | ❌ | ❌ |
 | MCP Protocol | ✅ | ✅ | ❌ | ❌ | ❌ |
+| Self-Learning | ✅ | Partial | ❌ | Partial | ❌ |
 | Open Source | ✅ | ❌ | ❌ | ❌ | ❌ |
 | BYOK | ✅ | ❌ | ✅ | ✅ | ❌ |
 | Free Tier | ✅ | ❌ | ❌ | ❌ | Limited |
@@ -166,6 +220,11 @@ voracode serve --port 8080  # Custom port
 voracode web                # Start server + web UI
 voracode doctor             # Diagnose configuration issues
 voracode update             # Update to latest version
+
+# Evolve — Self-learning system
+voracode evolve status      # See what Evolve has learned
+voracode evolve memory list # View stored memories
+voracode evolve skills list # View saved skills
 ```
 
 ---
@@ -248,7 +307,7 @@ Connect any MCP server to extend Voracode's capabilities:
   "$schema": "https://raw.githubusercontent.com/mysterious75/voracode/master/packages/voracode/src/config/schema.json",
   "provider": {
     "anthropic": {
-      "apiKey": "sk-ant-..."
+      "apiKey": "***"
     }
   },
   "theme": "purple"
@@ -268,12 +327,12 @@ Connect any MCP server to extend Voracode's capabilities:
 | ✅ | Session Management & History |
 | ✅ | Desktop App (Windows, macOS, Linux) |
 | ✅ | Codesearch (BM25 Semantic Search) |
+| ✅ | **Evolve** — Self-learning AI engine |
 | 🚧 | Cloud Sync & Backup |
 | 🚧 | Team Workspaces & Collaboration |
 | 🚧 | Plugin Marketplace |
 | 🚧 | Voice Input |
 | 🚧 | Mobile Companion App |
-| 🚧 | AI Memory & Learning |
 
 ---
 
