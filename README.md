@@ -65,7 +65,7 @@ voracode  # That's it. You're in.
 |----------|----------|
 | **Providers** | 75+ AI providers — OpenAI, Anthropic, Google, DeepSeek, xAI, Ollama, and more |
 | **Models** | GPT-4.1, Claude Opus 4.8, Gemini 2.5 Pro, DeepSeek V4, Llama 4, and 100+ models |
-| **Context** | 1M+ token context window — entire codebase understanding |
+| **Context** | Supports models with 1M+ token context windows |
 | **Agents** | Build, Plan, and General agents with autonomous tool execution |
 | **Tools** | File editing, terminal, web search, codesearch, MCP servers |
 | **Interface** | TUI (terminal), Web UI, Desktop App — same experience everywhere |
@@ -133,7 +133,7 @@ voracode evolve skills list      # View saved skills
 | Desktop App | ✅ | ❌ | ✅ | ✅ | ❌ |
 | TUI (Terminal) | ✅ | ✅ | ❌ | ❌ | ❌ |
 | Web UI | ✅ | ❌ | ❌ | ❌ | ❌ |
-| MCP Protocol | ✅ | ✅ | ❌ | ❌ | ❌ |
+| MCP Protocol | ✅ | ✅ | ❌ | Partial | ❌ |
 | Self-Learning | ✅ | Partial | ❌ | Partial | ❌ |
 | Open Source | ✅ | ❌ | ❌ | ❌ | ❌ |
 | BYOK | ✅ | ❌ | ✅ | ✅ | ❌ |
@@ -304,7 +304,7 @@ Connect any MCP server to extend Voracode's capabilities:
 
 ```json
 {
-  "$schema": "./packages/voracode/src/config/schema.json",
+  "$schema": "./packages/core/schema.json",
   "provider": {
     "anthropic": {
       "apiKey": "***"
