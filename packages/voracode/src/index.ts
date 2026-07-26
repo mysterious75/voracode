@@ -30,6 +30,7 @@ import { errorMessage } from "./util/error"
 import { PluginCommand } from "./cli/cmd/plug"
 import { HealCommand } from "./cli/cmd/heal"
 import { ImproveCommand } from "./cli/cmd/improve"
+import { EvolveCommand } from "./cli/cmd/evolve"
 import { Heap } from "./cli/heap"
 
 const args = hideBin(process.argv)
@@ -105,6 +106,7 @@ const cli = yargs(args)
   .command(DbCommand)
   .command(HealCommand)
   .command(ImproveCommand)
+  .command(EvolveCommand)
   .fail((msg, err) => {
     if (
       msg?.startsWith("Unknown argument") ||

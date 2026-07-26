@@ -1261,11 +1261,16 @@ const layer = Layer.effect(
               sys.mcp(agent, session.permission),
               MessageV2.toModelMessagesEffect(msgs, model),
             ])
+            // Evolve: inject learned context
+            const { evolveSessionStart } = await import("@/evolve/session-hook")
+            const evolveContext = await evolveSessionStart(ctx.directory, lastUserText).catch(() => [] as string[])
+
             const system = [
               ...env,
               ...instructions,
               ...(mcpInstructions ? [mcpInstructions] : []),
               ...(skills ? [skills] : []),
+              ...evolveContext,
             ]
             const format = lastUser.format ?? { type: "text" as const }
             if (format.type === "json_schema") system.push(STRUCTURED_OUTPUT_SYSTEM_PROMPT)
